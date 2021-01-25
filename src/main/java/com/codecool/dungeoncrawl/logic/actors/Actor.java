@@ -1,11 +1,13 @@
 package com.codecool.dungeoncrawl.logic.actors;
 
 import com.codecool.dungeoncrawl.logic.Cell;
+import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.Drawable;
 
 public abstract class Actor implements Drawable {
     private Cell cell;
     private int health = 10;
+    private int attackPower = 1;
 
     public Actor(Cell cell) {
         this.cell = cell;
@@ -13,10 +15,35 @@ public abstract class Actor implements Drawable {
     }
 
     public void move(int dx, int dy) {
-        Cell nextCell = cell.getNeighbor(dx, dy);
-        cell.setActor(null);
-        nextCell.setActor(this);
-        cell = nextCell;
+
+        Cell nextCell = cell.getNeighbor(dx, dy); // eredeti
+
+
+        if (nextCell == null) {
+            return;
+        }
+        if (nextCell.getActor() != null) {
+            nextCell.getActor().health = nextCell.getActor().health - attackPower;
+            this.health = this.health - nextCell.getActor().getAttackPower();
+
+
+            if (nextCell.getActor().health < 1) {
+                nextCell.setActor(null);
+                Sounds.playSound("Damage3");
+            } else {
+                Sounds.playSound("Sword1");
+            }
+        }
+        if (nextCell.getType() == CellType.FLOOR && nextCell.getActor() == null) {
+            Sounds.playSound("Move5b");
+
+            // eredeti
+            cell.setActor(null);
+            nextCell.setActor(this);
+            cell = nextCell;
+            // eredeti
+
+        }
     }
 
     public int getHealth() {
@@ -33,5 +60,13 @@ public abstract class Actor implements Drawable {
 
     public int getY() {
         return cell.getY();
+    }
+
+    public int getAttackPower() {
+        return attackPower;
+    }
+
+    public void setAttackPower(int newAttackPower) {
+        this.attackPower = newAttackPower;
     }
 }
