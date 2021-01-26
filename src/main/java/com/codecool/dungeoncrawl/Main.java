@@ -24,6 +24,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -48,8 +49,12 @@ public class Main extends Application {
         ui.setPrefWidth(200);
         ui.setPadding(new Insets(10));
 
-        ui.add(new Label("Health: "), 0, 0);
-        ui.add(healthLabel, 1, 0);
+        HBox lifeStatus = new HBox();
+        lifeStatus.getChildren().addAll(new Label("Health: "), healthLabel);
+
+//        ui.add(new Label("Health: "), 1, 0);
+//        ui.add(healthLabel, 2, 0);
+        ui.add(lifeStatus, 0, 0);
 
         ObservableList<String> inventory = FXCollections.observableArrayList();
         inventory.add("weapon");
@@ -66,7 +71,7 @@ public class Main extends Application {
         trialInventory.setFocusTraversable(false);
 
 
-
+ 
 
         BorderPane borderPane = new BorderPane();
 
