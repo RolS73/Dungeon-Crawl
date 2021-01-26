@@ -6,6 +6,7 @@ public class Weapon extends Item {
 
     public Weapon(Cell cell) {
         super(cell);
+        setName("SkeletonCrusher");
     }
 
     @Override

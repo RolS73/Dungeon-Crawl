@@ -3,17 +3,32 @@ package com.codecool.dungeoncrawl;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
+import com.codecool.dungeoncrawl.logic.actors.items.Item;
+import com.codecool.dungeoncrawl.logic.actors.items.Key;
+import com.codecool.dungeoncrawl.logic.actors.items.Life;
+import com.codecool.dungeoncrawl.logic.actors.items.Weapon;
 import javafx.application.Application;
+import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+
+import java.sql.Array;
+import java.util.Arrays;
 
 public class Main extends Application {
     GameMap map = MapLoader.loadMap();
@@ -35,6 +50,23 @@ public class Main extends Application {
 
         ui.add(new Label("Health: "), 0, 0);
         ui.add(healthLabel, 1, 0);
+
+        ObservableList<String> inventory = FXCollections.observableArrayList();
+        inventory.add("weapon");
+        inventory.add("key");
+        TableView<String> trialInventory = new TableView<>(inventory);
+        TableColumn<String, String> itemnames = new TableColumn<>("Inventory");
+
+        itemnames.setCellValueFactory(items -> new ReadOnlyStringWrapper(items.getValue()));
+        trialInventory.getColumns().add(itemnames);
+        trialInventory.setMaxWidth(75);
+        trialInventory.setMaxHeight(200);
+        trialInventory.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        ui.add(trialInventory, 0, 1);
+        trialInventory.setFocusTraversable(false);
+
+
+
 
         BorderPane borderPane = new BorderPane();
 
@@ -73,6 +105,9 @@ public class Main extends Application {
                 refresh();
                 break;
         }
+        if (map.getPlayer().getCell().getItem() != null) {
+            System.out.println(map.getPlayer().getCell().getItem().getClass().getSimpleName());
+        }
     }
 
     private void refresh() {
@@ -81,10 +116,12 @@ public class Main extends Application {
         for (int x = 0; x < map.getWidth(); x++) {
             for (int y = 0; y < map.getHeight(); y++) {
                 Cell cell = map.getCell(x, y);
+                Tiles.drawTile(context, cell, x, y);
+                if (cell.getItem() != null) {
+                    Tiles.drawTile(context, cell.getItem(), x, y);
+                }
                 if (cell.getActor() != null) {
                     Tiles.drawTile(context, cell.getActor(), x, y);
-                } else {
-                    Tiles.drawTile(context, cell, x, y);
                 }
             }
         }

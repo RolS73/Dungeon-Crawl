@@ -6,6 +6,7 @@ public class Life extends Item {
 
     public Life(Cell cell) {
         super(cell);
+        this.setName("LIFE!!!");
     }
 
     @Override
