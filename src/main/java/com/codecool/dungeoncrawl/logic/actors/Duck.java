@@ -3,24 +3,22 @@ package com.codecool.dungeoncrawl.logic.actors;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 
-public class Skeleton extends Actor {
-    public Skeleton(Cell cell) {
+public class Duck extends Actor{
+
+    public Duck(Cell cell) {
         super(cell);
-        this.setAttackPower(2);
-        this.setHealth(7);
+        this.setAttackPower(1);
+        this.setHealth(2);
     }
 
     @Override
     public String getTileName() {
-        return "skeleton";
+        return "duck";
     }
 
     @Override
     public void monsterMove(int x, int y) {
-        //Math.Random
-        //if random>05
-        //random<0.75
-        //x*-1
+
         Cell nextCell = super.getCell().getNeighbor(x, y);
 
         if (nextCell == null) {

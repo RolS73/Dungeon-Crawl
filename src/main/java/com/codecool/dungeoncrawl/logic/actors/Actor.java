@@ -54,12 +54,22 @@ public abstract class Actor implements Drawable {
 
     }
 
+    public void monsterMove(int x, int y){}
+
     public int getHealth() {
         return health;
     }
 
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
     public Cell getCell() {
         return cell;
+    }
+
+    public void setCell(Cell cell) {
+        this.cell = cell;
     }
 
     public int getX() {
