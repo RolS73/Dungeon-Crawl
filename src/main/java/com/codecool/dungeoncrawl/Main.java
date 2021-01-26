@@ -1,8 +1,10 @@
 package com.codecool.dungeoncrawl;
 
 import com.codecool.dungeoncrawl.logic.Cell;
+import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
+import com.codecool.dungeoncrawl.logic.actors.items.*;
 import javafx.application.Application;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
@@ -67,7 +69,7 @@ public class Main extends Application {
         inventoryTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         ui.add(inventoryTable, 0, 2);
         inventoryTable.setFocusTraversable(false);
-        
+
         pickUpButton.setDisable(true);
         pickUpButton.setOnAction(pickUp -> {
             if (map.getPlayer().getCell().getItem() instanceof Weapon) {
@@ -130,20 +132,43 @@ public class Main extends Application {
                 break;
             case RIGHT:
             case D:
-                map.getPlayer().move(1,0);
+                map.getPlayer().move(1, 0);
                 refresh();
                 break;
             case SPACE:
 //                map.getPlayer().move(0,0);
                 refresh();
                 break;
+            case E:
+                if (map.getPlayer().getCell().getItem() instanceof Weapon) {
+                    map.getPlayer().setAttackPower(9);
+                    inventory.add("Bone Chopper");
+                    map.getPlayer().getCell().setItem(null);
+                } else if (map.getPlayer().getCell().getItem() instanceof Life) {
+                    map.getPlayer().setHealth(10);
+                    map.getPlayer().getCell().setItem(null);
+                } else if (map.getPlayer().getCell().getItem() instanceof Key) {
+                    inventory.add("Key of Wisdom");
+                    map.getPlayer().getCell().setItem(null);
+                } else if (inventory.contains("Key of Wisdom") && map.getPlayer().getCell().getNeighbor(1, 0).getItem() instanceof LockedDoor) {
+                    map.getPlayer().getCell().getNeighbor(1, 0).setType(CellType.FLOOR);
+                    map.getPlayer().getCell().getNeighbor(1, 0).setItem(new OpenedDoor(map.getPlayer().getCell().getNeighbor(1, 0)));
+                    inventory.remove("Key of Wisdom");
+                }
+                refresh();
+                break;
         }
-        if (map.getPlayer().getCell().getItem() != null) {
-            pickUpButton.setDisable(false);
-            dontPickUp.setDisable(false);
-        }else {
+        if (map.getPlayer().getCell().getItem() instanceof OpenedDoor) {
             pickUpButton.setDisable(true);
             dontPickUp.setDisable(true);
+        } else {
+            if (map.getPlayer().getCell().getItem() != null) {
+                pickUpButton.setDisable(false);
+                dontPickUp.setDisable(false);
+            } else {
+                pickUpButton.setDisable(true);
+                dontPickUp.setDisable(true);
+            }
         }
     }
 
