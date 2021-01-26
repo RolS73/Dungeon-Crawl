@@ -8,6 +8,9 @@ import java.util.List;
 public class AiMovement {
     
     private GameMap map;
+    private int x;
+    private int y;
+    private int count;
 
     public AiMovement(GameMap map) {
         this.map = map;
@@ -25,13 +28,28 @@ public class AiMovement {
                     }
                 }
             } else if (map.monsters.get(i) instanceof Skeleton) {
-                map.monsters.get(i).move(0, 1);
+                setRandom();
+                map.monsters.get(i).move(x, y);
                 if(map.monsters.get(i).getHealth()<1){
                     map.monsters.remove(i);
                     i--;
                 }
             } else if (map.monsters.get(i) instanceof Duck) {
                 map.monsters.get(i).move(getPlayerXDifference(map.monsters.get(i)), getPlayerYDifference(map.monsters.get(i)));
+                if(map.monsters.get(i).getHealth()<1){
+                    map.monsters.remove(i);
+                    i--;
+                }
+            } else if (map.monsters.get(i) instanceof TheThing){
+                if(count==3){
+                    count = 0;
+                    int[] teleportCoordinates = coordinateGenerator();
+                    x = teleportCoordinates[0]; y = teleportCoordinates[1];
+                }else{
+                    setRandom();
+                    count++;
+                }
+                map.monsters.get(i).monsterMove(x,y);
                 if(map.monsters.get(i).getHealth()<1){
                     map.monsters.remove(i);
                     i--;
@@ -65,6 +83,24 @@ public class AiMovement {
             return 1;
         }
         return 0;
+    }
+
+    private void setRandom(){
+        double random = Math.random()*10;
+        if(random<2.5){
+            this.x = 1; this.y = 0;
+        } else if(random>=2.5 && random<5){
+            this.x = 0; this.y = 1;
+        }else if(random>=5 && random<7.5){
+            this.x = -1; this.y = 0;
+        } else if(random>=7.5){
+            this.x = 0; this.y = -1;
+        }
+    }
+
+    private int[] coordinateGenerator(){
+        int[] lolz = new int[]{10, 8};
+        return lolz;
     }
 
     
