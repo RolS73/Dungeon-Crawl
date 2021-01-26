@@ -17,6 +17,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -32,6 +33,9 @@ import java.sql.Array;
 import java.util.Arrays;
 
 public class Main extends Application {
+
+    public static ObservableList<String> inventory = FXCollections.observableArrayList();
+
     GameMap map = MapLoader.loadMap();
     Canvas canvas = new Canvas(
             map.getWidth() * Tiles.TILE_WIDTH,
@@ -56,22 +60,21 @@ public class Main extends Application {
 //        ui.add(healthLabel, 2, 0);
         ui.add(lifeStatus, 0, 0);
 
-        ObservableList<String> inventory = FXCollections.observableArrayList();
-        inventory.add("weapon");
-        inventory.add("key");
-        TableView<String> trialInventory = new TableView<>(inventory);
+//        ObservableList<String> inventory = FXCollections.observableArrayList(map.getPlayer().getPlayersInventory());
+//        inventory.add("weapon");
+//        inventory.add("key");
+        TableView<String> inventoryTable = new TableView<>(inventory);
         TableColumn<String, String> itemnames = new TableColumn<>("Inventory");
 
         itemnames.setCellValueFactory(items -> new ReadOnlyStringWrapper(items.getValue()));
-        trialInventory.getColumns().add(itemnames);
-        trialInventory.setMaxWidth(75);
-        trialInventory.setMaxHeight(200);
-        trialInventory.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        ui.add(trialInventory, 0, 1);
-        trialInventory.setFocusTraversable(false);
+        inventoryTable.getColumns().add(itemnames);
+        inventoryTable.setMaxWidth(75);
+        inventoryTable.setMaxHeight(150);
+        inventoryTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        ui.add(inventoryTable, 0, 2);
+        inventoryTable.setFocusTraversable(false);
 
 
- 
 
         BorderPane borderPane = new BorderPane();
 
@@ -111,7 +114,23 @@ public class Main extends Application {
                 break;
         }
         if (map.getPlayer().getCell().getItem() != null) {
-            System.out.println(map.getPlayer().getCell().getItem().getClass().getSimpleName());
+            if (map.getPlayer().getCell().getItem() instanceof Weapon) {
+                map.getPlayer().setAttackPower(9);
+                map.getPlayer().getPlayersInventory().add("Bone Chopper");
+                inventory.add("Bone Chopper");
+                map.getPlayer().getCell().setItem(null);
+                refresh();
+            } else if (map.getPlayer().getCell().getItem() instanceof Life) {
+                map.getPlayer().setHealth(10);
+                map.getPlayer().getCell().setItem(null);
+                refresh();
+            } else if (map.getPlayer().getCell().getItem() instanceof Key) {
+                map.getPlayer().getPlayersInventory().add("Key of Knowledge");
+                inventory.add("Key of Knowledge");
+                map.getPlayer().getCell().setItem(null);
+                refresh();
+            }
+//            System.out.println(map.getPlayer().getCell().getItem().getClass().getSimpleName());
         }
     }
 
