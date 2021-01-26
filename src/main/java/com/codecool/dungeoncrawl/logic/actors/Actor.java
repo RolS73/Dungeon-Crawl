@@ -34,6 +34,13 @@ public abstract class Actor implements Drawable {
                 Sounds.playSound("Sword1");
             }
         }
+
+        /*if (nextCell.getType() == CellType.WALL && nextCell.getActor().getTileName().equals("lockedDoor")) {
+
+            Sounds.playSound("Move5b");
+
+        }*/
+
         if (nextCell.getType() == CellType.FLOOR && nextCell.getActor() == null) {
             Sounds.playSound("Move5b");
 
@@ -44,6 +51,7 @@ public abstract class Actor implements Drawable {
             // eredeti
 
         }
+
     }
 
     public int getHealth() {
