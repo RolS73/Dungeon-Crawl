@@ -3,14 +3,8 @@ package com.codecool.dungeoncrawl;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
-import com.codecool.dungeoncrawl.logic.actors.items.Item;
-import com.codecool.dungeoncrawl.logic.actors.items.Key;
-import com.codecool.dungeoncrawl.logic.actors.items.Life;
-import com.codecool.dungeoncrawl.logic.actors.items.Weapon;
 import javafx.application.Application;
 import javafx.beans.property.ReadOnlyStringWrapper;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -20,15 +14,11 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-
-import java.sql.Array;
-import java.util.Arrays;
 
 public class Main extends Application {
     GameMap map = MapLoader.loadMap();
@@ -85,18 +75,22 @@ public class Main extends Application {
     private void onKeyPressed(KeyEvent keyEvent) {
         switch (keyEvent.getCode()) {
             case UP:
+            case W:
                 map.getPlayer().move(0, -1);
                 refresh();
                 break;
             case DOWN:
+            case S:
                 map.getPlayer().move(0, 1);
                 refresh();
                 break;
             case LEFT:
+            case A:
                 map.getPlayer().move(-1, 0);
                 refresh();
                 break;
             case RIGHT:
+            case D:
                 map.getPlayer().move(1,0);
                 refresh();
                 break;
