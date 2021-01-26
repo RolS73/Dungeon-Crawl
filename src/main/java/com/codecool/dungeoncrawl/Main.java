@@ -44,6 +44,7 @@ public class Main extends Application {
     Label healthLabel = new Label();
 
     Button pickUpButton = new Button("Pick up!");
+    Button dontPickUp = new Button("Leave it..");
 
 
     public static void main(String[] args) {
@@ -63,15 +64,12 @@ public class Main extends Application {
 //        ui.add(healthLabel, 2, 0);
         ui.add(lifeStatus, 0, 0);
 
-//        ObservableList<String> inventory = FXCollections.observableArrayList(map.getPlayer().getPlayersInventory());
-//        inventory.add("weapon");
-//        inventory.add("key");
         TableView<String> inventoryTable = new TableView<>(inventory);
         TableColumn<String, String> itemnames = new TableColumn<>("Inventory");
 
         itemnames.setCellValueFactory(items -> new ReadOnlyStringWrapper(items.getValue()));
         inventoryTable.getColumns().add(itemnames);
-        inventoryTable.setMaxWidth(75);
+        inventoryTable.setMaxWidth(100);
         inventoryTable.setMaxHeight(150);
         inventoryTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         ui.add(inventoryTable, 0, 2);
@@ -82,23 +80,25 @@ public class Main extends Application {
         pickUpButton.setOnAction(pickUp -> {
             if (map.getPlayer().getCell().getItem() instanceof Weapon) {
                 map.getPlayer().setAttackPower(9);
-                map.getPlayer().getPlayersInventory().add("Bone Chopper");
                 inventory.add("Bone Chopper");
                 map.getPlayer().getCell().setItem(null);
-                refresh();
-                pickUpButton.setDisable(true);
             } else if (map.getPlayer().getCell().getItem() instanceof Life) {
                 map.getPlayer().setHealth(10);
                 map.getPlayer().getCell().setItem(null);
-                refresh();
-                pickUpButton.setDisable(true);
             } else if (map.getPlayer().getCell().getItem() instanceof Key) {
-                map.getPlayer().getPlayersInventory().add("Key of Knowledge");
-                inventory.add("Key of Knowledge");
+                inventory.add("Key of Wisdom");
                 map.getPlayer().getCell().setItem(null);
-                refresh();
-                pickUpButton.setDisable(true);
             }
+            refresh();
+            pickUpButton.setDisable(true);
+            dontPickUp.setDisable(true);
+        });
+
+        ui.add(dontPickUp, 1,1);
+        dontPickUp.setDisable(true);
+        dontPickUp.setOnAction(leave -> {
+            pickUpButton.setDisable(true);
+            dontPickUp.setDisable(true);
         });
 
         BorderPane borderPane = new BorderPane();
@@ -134,31 +134,16 @@ public class Main extends Application {
                 refresh();
                 break;
             case SPACE:
-                map.getPlayer().move(0,0);
+//                map.getPlayer().move(0,0);
                 refresh();
                 break;
         }
         if (map.getPlayer().getCell().getItem() != null) {
             pickUpButton.setDisable(false);
-//            if (map.getPlayer().getCell().getItem() instanceof Weapon) {
-//                map.getPlayer().setAttackPower(9);
-//                map.getPlayer().getPlayersInventory().add("Bone Chopper");
-//                inventory.add("Bone Chopper");
-//                map.getPlayer().getCell().setItem(null);
-//                refresh();
-//            } else if (map.getPlayer().getCell().getItem() instanceof Life) {
-//                map.getPlayer().setHealth(10);
-//                map.getPlayer().getCell().setItem(null);
-//                refresh();
-//            } else if (map.getPlayer().getCell().getItem() instanceof Key) {
-//                map.getPlayer().getPlayersInventory().add("Key of Knowledge");
-//                inventory.add("Key of Knowledge");
-//                map.getPlayer().getCell().setItem(null);
-//                refresh();
-//            }
-//            System.out.println(map.getPlayer().getCell().getItem().getClass().getSimpleName());
+            dontPickUp.setDisable(false);
         }else {
             pickUpButton.setDisable(true);
+            dontPickUp.setDisable(true);
         }
     }
 
