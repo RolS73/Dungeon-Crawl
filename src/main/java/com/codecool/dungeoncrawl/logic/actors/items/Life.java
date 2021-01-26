@@ -10,6 +10,6 @@ public class Life extends Item {
 
     @Override
     public String getTileName() {
-        return null;
+        return "life";
     }
 }
