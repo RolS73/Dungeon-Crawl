@@ -43,6 +43,9 @@ public class Main extends Application {
     GraphicsContext context = canvas.getGraphicsContext2D();
     Label healthLabel = new Label();
 
+    Button pickUpButton = new Button("Pick up!");
+
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -74,7 +77,29 @@ public class Main extends Application {
         ui.add(inventoryTable, 0, 2);
         inventoryTable.setFocusTraversable(false);
 
-
+        ui.add(pickUpButton, 0, 1);
+        pickUpButton.setDisable(true);
+        pickUpButton.setOnAction(pickUp -> {
+            if (map.getPlayer().getCell().getItem() instanceof Weapon) {
+                map.getPlayer().setAttackPower(9);
+                map.getPlayer().getPlayersInventory().add("Bone Chopper");
+                inventory.add("Bone Chopper");
+                map.getPlayer().getCell().setItem(null);
+                refresh();
+                pickUpButton.setDisable(true);
+            } else if (map.getPlayer().getCell().getItem() instanceof Life) {
+                map.getPlayer().setHealth(10);
+                map.getPlayer().getCell().setItem(null);
+                refresh();
+                pickUpButton.setDisable(true);
+            } else if (map.getPlayer().getCell().getItem() instanceof Key) {
+                map.getPlayer().getPlayersInventory().add("Key of Knowledge");
+                inventory.add("Key of Knowledge");
+                map.getPlayer().getCell().setItem(null);
+                refresh();
+                pickUpButton.setDisable(true);
+            }
+        });
 
         BorderPane borderPane = new BorderPane();
 
@@ -114,23 +139,26 @@ public class Main extends Application {
                 break;
         }
         if (map.getPlayer().getCell().getItem() != null) {
-            if (map.getPlayer().getCell().getItem() instanceof Weapon) {
-                map.getPlayer().setAttackPower(9);
-                map.getPlayer().getPlayersInventory().add("Bone Chopper");
-                inventory.add("Bone Chopper");
-                map.getPlayer().getCell().setItem(null);
-                refresh();
-            } else if (map.getPlayer().getCell().getItem() instanceof Life) {
-                map.getPlayer().setHealth(10);
-                map.getPlayer().getCell().setItem(null);
-                refresh();
-            } else if (map.getPlayer().getCell().getItem() instanceof Key) {
-                map.getPlayer().getPlayersInventory().add("Key of Knowledge");
-                inventory.add("Key of Knowledge");
-                map.getPlayer().getCell().setItem(null);
-                refresh();
-            }
+            pickUpButton.setDisable(false);
+//            if (map.getPlayer().getCell().getItem() instanceof Weapon) {
+//                map.getPlayer().setAttackPower(9);
+//                map.getPlayer().getPlayersInventory().add("Bone Chopper");
+//                inventory.add("Bone Chopper");
+//                map.getPlayer().getCell().setItem(null);
+//                refresh();
+//            } else if (map.getPlayer().getCell().getItem() instanceof Life) {
+//                map.getPlayer().setHealth(10);
+//                map.getPlayer().getCell().setItem(null);
+//                refresh();
+//            } else if (map.getPlayer().getCell().getItem() instanceof Key) {
+//                map.getPlayer().getPlayersInventory().add("Key of Knowledge");
+//                inventory.add("Key of Knowledge");
+//                map.getPlayer().getCell().setItem(null);
+//                refresh();
+//            }
 //            System.out.println(map.getPlayer().getCell().getItem().getClass().getSimpleName());
+        }else {
+            pickUpButton.setDisable(true);
         }
     }
 
