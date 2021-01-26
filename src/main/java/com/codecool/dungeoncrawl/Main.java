@@ -11,22 +11,31 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class Main extends Application {
+
+    public static ObservableList<String> inventory = FXCollections.observableArrayList();
+
     GameMap map = MapLoader.loadMap();
     Canvas canvas = new Canvas(
             map.getWidth() * Tiles.TILE_WIDTH,
             map.getHeight() * Tiles.TILE_WIDTH);
     GraphicsContext context = canvas.getGraphicsContext2D();
     Label healthLabel = new Label();
+
+    Button pickUpButton = new Button("Pick up!");
+    Button dontPickUp = new Button("Leave it..");
+
 
     public static void main(String[] args) {
         launch(args);
@@ -38,25 +47,55 @@ public class Main extends Application {
         ui.setPrefWidth(200);
         ui.setPadding(new Insets(10));
 
-        ui.add(new Label("Health: "), 0, 0);
-        ui.add(healthLabel, 1, 0);
+        HBox lifeStatus = new HBox();
+        lifeStatus.getChildren().addAll(new Label("Health: "), healthLabel);
 
-        ObservableList<String> inventory = FXCollections.observableArrayList();
-        inventory.add("weapon");
-        inventory.add("key");
-        TableView<String> trialInventory = new TableView<>(inventory);
+//        ui.add(new Label("Health: "), 1, 0);
+//        ui.add(healthLabel, 2, 0);
+        ui.setHgap(10);
+        ui.setVgap(10);
+        ui.setPadding(new Insets(10, 10, 10, 10));
+        ui.add(lifeStatus, 0, 0);
+
+        TableView<String> inventoryTable = new TableView<>(inventory);
         TableColumn<String, String> itemnames = new TableColumn<>("Inventory");
 
         itemnames.setCellValueFactory(items -> new ReadOnlyStringWrapper(items.getValue()));
-        trialInventory.getColumns().add(itemnames);
-        trialInventory.setMaxWidth(75);
-        trialInventory.setMaxHeight(200);
-        trialInventory.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        ui.add(trialInventory, 0, 1);
-        trialInventory.setFocusTraversable(false);
+        inventoryTable.getColumns().add(itemnames);
+        inventoryTable.setMaxWidth(100);
+        inventoryTable.setMaxHeight(150);
+        inventoryTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        ui.add(inventoryTable, 0, 2);
+        inventoryTable.setFocusTraversable(false);
+        
+        pickUpButton.setDisable(true);
+        pickUpButton.setOnAction(pickUp -> {
+            if (map.getPlayer().getCell().getItem() instanceof Weapon) {
+                map.getPlayer().setAttackPower(9);
+                inventory.add("Bone Chopper");
+                map.getPlayer().getCell().setItem(null);
+            } else if (map.getPlayer().getCell().getItem() instanceof Life) {
+                map.getPlayer().setHealth(10);
+                map.getPlayer().getCell().setItem(null);
+            } else if (map.getPlayer().getCell().getItem() instanceof Key) {
+                inventory.add("Key of Wisdom");
+                map.getPlayer().getCell().setItem(null);
+            }
+            refresh();
+            pickUpButton.setDisable(true);
+            dontPickUp.setDisable(true);
+        });
 
+        dontPickUp.setDisable(true);
+        dontPickUp.setOnAction(leave -> {
+            pickUpButton.setDisable(true);
+            dontPickUp.setDisable(true);
+        });
 
-
+        HBox lootButtons = new HBox();
+        lootButtons.setSpacing(10);
+        lootButtons.getChildren().addAll(pickUpButton, dontPickUp);
+        ui.add(lootButtons, 0, 1);
 
         BorderPane borderPane = new BorderPane();
 
@@ -95,12 +134,16 @@ public class Main extends Application {
                 refresh();
                 break;
             case SPACE:
-                map.getPlayer().move(0,0);
+//                map.getPlayer().move(0,0);
                 refresh();
                 break;
         }
         if (map.getPlayer().getCell().getItem() != null) {
-            System.out.println(map.getPlayer().getCell().getItem().getClass().getSimpleName());
+            pickUpButton.setDisable(false);
+            dontPickUp.setDisable(false);
+        }else {
+            pickUpButton.setDisable(true);
+            dontPickUp.setDisable(true);
         }
     }
 
