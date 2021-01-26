@@ -11,7 +11,7 @@ public class GameMap {
     private int height;
     private Cell[][] cells;
 
-    private Player player;
+    Player player;
     List<Actor> monsters = new ArrayList<>();
 
     public GameMap(int width, int height, CellType defaultCellType) {

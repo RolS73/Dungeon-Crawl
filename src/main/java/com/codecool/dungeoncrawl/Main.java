@@ -23,7 +23,7 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
     GameMap map = MapLoader.loadMap();
-    AiMovement AImov = new AiMovement(map.getPlayer(),map.getMonsters());
+    AiMovement AImov = new AiMovement(map);
     Canvas canvas = new Canvas(
             map.getWidth() * Tiles.TILE_WIDTH,
             map.getHeight() * Tiles.TILE_WIDTH);
