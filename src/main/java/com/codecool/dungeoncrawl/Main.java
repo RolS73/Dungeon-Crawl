@@ -62,6 +62,9 @@ public class Main extends Application {
 
 //        ui.add(new Label("Health: "), 1, 0);
 //        ui.add(healthLabel, 2, 0);
+        ui.setHgap(10);
+        ui.setVgap(10);
+        ui.setPadding(new Insets(10, 10, 10, 10));
         ui.add(lifeStatus, 0, 0);
 
         TableView<String> inventoryTable = new TableView<>(inventory);
@@ -74,8 +77,7 @@ public class Main extends Application {
         inventoryTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         ui.add(inventoryTable, 0, 2);
         inventoryTable.setFocusTraversable(false);
-
-        ui.add(pickUpButton, 0, 1);
+        
         pickUpButton.setDisable(true);
         pickUpButton.setOnAction(pickUp -> {
             if (map.getPlayer().getCell().getItem() instanceof Weapon) {
@@ -94,12 +96,16 @@ public class Main extends Application {
             dontPickUp.setDisable(true);
         });
 
-        ui.add(dontPickUp, 1,1);
         dontPickUp.setDisable(true);
         dontPickUp.setOnAction(leave -> {
             pickUpButton.setDisable(true);
             dontPickUp.setDisable(true);
         });
+
+        HBox lootButtons = new HBox();
+        lootButtons.setSpacing(10);
+        lootButtons.getChildren().addAll(pickUpButton, dontPickUp);
+        ui.add(lootButtons, 0, 1);
 
         BorderPane borderPane = new BorderPane();
 
