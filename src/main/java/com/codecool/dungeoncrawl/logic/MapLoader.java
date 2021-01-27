@@ -65,7 +65,7 @@ public class MapLoader {
                             break;
                         case 'b':
                             cell.setType(CellType.WALL);
-                            map.interactables.add(new Barrel(cell));
+                            map.interactables.add(new Barrel(cell, "barrel"));
                             break;
                         case 'd':
                             cell.setType(CellType.FLOOR);

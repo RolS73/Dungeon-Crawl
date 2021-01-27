@@ -5,8 +5,8 @@ import com.codecool.dungeoncrawl.logic.Cell;
 public class Barrel extends Item implements InteractiveObject {
     private String name;
 
-    public Barrel(Cell cell) {
-        super(cell);
+    public Barrel(Cell cell, String name) {
+        super(cell, name);
         setAttackPower(0);
     }
 
@@ -26,7 +26,7 @@ public class Barrel extends Item implements InteractiveObject {
     @Override
     public void interact() {
         if (isThisObjectInteractive()) {
-            this.getCell().setItem(new LootTable().getItemFromTable(this.getCell()));
+            this.getCell().setItem(new Life(this.getCell()));
         }
     }
 

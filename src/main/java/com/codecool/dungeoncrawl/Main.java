@@ -21,13 +21,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-import java.util.stream.Stream;
-
 public class Main extends Application {
 
 
     public static ObservableList<Item> Inventory = FXCollections.observableArrayList();
-    public static ObservableList<Integer> commonItems = Stream.of(1,10).collect()
 
 
     GameMap map = MapLoader.loadMap();
@@ -161,19 +158,6 @@ public class Main extends Application {
                 } else if (map.getPlayer().getCell().getItem() != null){
                     Item item = (Item) map.getPlayer().getCell().getItem();
                     pickUpItem(item);
-
-
-                if (map.getPlayer().getCell().getItem() instanceof Weapon) {
-                    map.getPlayer().raiseAttackPower(5);
-                    inventory.add("Bone Chopper");
-                    map.getPlayer().getCell().setItem(null);
-                } else if (map.getPlayer().getCell().getItem() instanceof Life) {
-                    map.getPlayer().raiseMaxHealth(5);
-                    map.getPlayer().setHealth(map.getPlayer().getMaxHealth());
-                    map.getPlayer().getCell().setItem(null);
-                } else if (map.getPlayer().getCell().getItem() instanceof Key) {
-                    inventory.add("Key of Wisdom");
-                    map.getPlayer().getCell().setItem(null);
 
                 } else if (isInteractableObjectAroundPlayer()) {
                     int[] interactableDirection = getInteractableDirection();

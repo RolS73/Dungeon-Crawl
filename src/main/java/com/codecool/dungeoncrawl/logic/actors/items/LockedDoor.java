@@ -19,14 +19,14 @@ public class LockedDoor extends Item implements InteractiveObject {
 
         @Override
         public boolean isThisObjectInteractive(){
-            return Main.inventory.contains("Key of Wisdom");
+            return Main.Inventory.contains("Key of Wisdom");
         }
 
         @Override
         public void interact() {
             if (isThisObjectInteractive()) {
                 this.getCell().setItem(new OpenedDoor(getCell()));
-                Main.inventory.remove("Key of Wisdom");
+                Main.Inventory.remove("Key of Wisdom");
             }
         }
 
