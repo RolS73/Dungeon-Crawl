@@ -27,7 +27,7 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-    public static ObservableList<String> inventory = FXCollections.observableArrayList();
+    public static ObservableList<Item> Inventory = FXCollections.observableArrayList();
 
     GameMap map = MapLoader.loadMap();
     AiMovement AI = new AiMovement(map);
@@ -55,17 +55,15 @@ public class Main extends Application {
         HBox lifeStatus = new HBox();
         lifeStatus.getChildren().addAll(new Label("Health: "), healthLabel, new Label("  Attackpw: "), attackPwLabel);
 
-//        ui.add(new Label("Health: "), 1, 0);
-//        ui.add(healthLabel, 2, 0);
         ui.setHgap(10);
         ui.setVgap(10);
         ui.setPadding(new Insets(10, 10, 10, 10));
         ui.add(lifeStatus, 0, 0);
 
-        TableView<String> inventoryTable = new TableView<>(inventory);
-        TableColumn<String, String> itemnames = new TableColumn<>("Inventory");
+        TableView<Item> inventoryTable = new TableView<>(Inventory);
+        TableColumn<Item, String> itemnames = new TableColumn<>("Inventory");
 
-        itemnames.setCellValueFactory(items -> new ReadOnlyStringWrapper(items.getValue()));
+        itemnames.setCellValueFactory(items -> new ReadOnlyStringWrapper(items.getValue().getName()));
         inventoryTable.getColumns().add(itemnames);
         inventoryTable.setMaxWidth(100);
         inventoryTable.setMaxHeight(150);
@@ -75,18 +73,8 @@ public class Main extends Application {
 
         pickUpButton.setDisable(true);
         pickUpButton.setOnAction(pickUp -> {
-            if (map.getPlayer().getCell().getItem() instanceof Weapon) {
-                map.getPlayer().setAttackPower(9);
-                inventory.add("Bone Chopper");
-                map.getPlayer().getCell().setItem(null);
-            } else if (map.getPlayer().getCell().getItem() instanceof Life) {
-                map.getPlayer().raiseMaxHealth(5);
-                map.getPlayer().setHealth(map.getPlayer().getMaxHealth());
-                map.getPlayer().getCell().setItem(null);
-            } else if (map.getPlayer().getCell().getItem() instanceof Key) {
-                inventory.add("Key of Wisdom");
-                map.getPlayer().getCell().setItem(null);
-            }
+            Item item = (Item) map.getPlayer().getCell().getItem();
+            pickUpItem(item);
             refresh();
             pickUpButton.setDisable(true);
             dontPickUp.setDisable(true);
@@ -117,6 +105,21 @@ public class Main extends Application {
         primaryStage.show();
     }
 
+    private void pickUpItem(Item item) {
+        if (item instanceof Weapon) {
+            map.getPlayer().raiseAttackPower(((Weapon) item).getAttackpowerIncrease());
+            Inventory.add(item);
+            map.getPlayer().getCell().setItem(null);
+        } else if (item instanceof Life) {
+            map.getPlayer().raiseMaxHealth(5);
+            map.getPlayer().setHealth(map.getPlayer().getMaxHealth());
+            map.getPlayer().getCell().setItem(null);
+        } else if (item instanceof Key) {
+            Inventory.add(item);
+            map.getPlayer().getCell().setItem(null);
+        }
+    }
+
     private void onKeyPressed(KeyEvent keyEvent) {
         switch (keyEvent.getCode()) {
             case UP:
@@ -144,25 +147,19 @@ public class Main extends Application {
                 refresh();
                 break;
             case SPACE:
-//                map.getPlayer().move(0,0);
+                AI.monsterMover();
                 refresh();
                 break;
             case E:
-                if (map.getPlayer().getCell().getItem() instanceof Weapon) {
-                    map.getPlayer().raiseAttackPower(5);
-                    inventory.add("Bone Chopper");
-                    map.getPlayer().getCell().setItem(null);
-                } else if (map.getPlayer().getCell().getItem() instanceof Life) {
-                    map.getPlayer().raiseMaxHealth(5);
-                    map.getPlayer().setHealth(map.getPlayer().getMaxHealth());
-                    map.getPlayer().getCell().setItem(null);
-                } else if (map.getPlayer().getCell().getItem() instanceof Key) {
-                    inventory.add("Key of Wisdom");
-                    map.getPlayer().getCell().setItem(null);
-                } else if (inventory.contains("Key of Wisdom") && map.getPlayer().getCell().getNeighbor(1, 0).getItem() instanceof LockedDoor) {
+                if (isItemInInventory("Key of Wisdom") && map.getPlayer().getCell().getNeighbor(1, 0)
+                        .getItem() instanceof LockedDoor){
                     map.getPlayer().getCell().getNeighbor(1, 0).setType(CellType.FLOOR);
-                    map.getPlayer().getCell().getNeighbor(1, 0).setItem(new OpenedDoor(map.getPlayer().getCell().getNeighbor(1, 0)));
-                    inventory.remove("Key of Wisdom");
+                    map.getPlayer().getCell().getNeighbor(1, 0).setItem(new OpenedDoor(map.getPlayer().getCell()
+                            .getNeighbor(1, 0)));
+                    Inventory.removeIf(item -> item.getName().equals("Key of Wisdom"));
+                } else if (map.getPlayer().getCell().getItem() != null){
+                    Item item = (Item) map.getPlayer().getCell().getItem();
+                    pickUpItem(item);
                 }
                 refresh();
                 break;
@@ -179,6 +176,15 @@ public class Main extends Application {
                 dontPickUp.setDisable(true);
             }
         }
+    }
+
+    private boolean isItemInInventory(String itemName) {
+        for (Item item : Inventory) {
+            if (item.getName().equals(itemName)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void refresh() {

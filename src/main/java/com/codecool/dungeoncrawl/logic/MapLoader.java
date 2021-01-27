@@ -53,7 +53,7 @@ public class MapLoader {
                             break;
                         case 'w':
                             cell.setType(CellType.FLOOR);
-                            new Weapon(cell);
+                            new Weapon(cell, "Skelie Choppa", 5);
                             break;
                         case 'D':
                             cell.setType(CellType.WALL);

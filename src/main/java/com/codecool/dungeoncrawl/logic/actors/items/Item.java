@@ -7,8 +7,9 @@ public abstract class Item extends Actor {
 
     private String name;
 
-    public Item(Cell cell) {
+    public Item(Cell cell, String name) {
         super(cell);
+        this.name = name;
         setAttackPower(0);
     }
 
