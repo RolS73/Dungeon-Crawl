@@ -1,10 +1,6 @@
 package com.codecool.dungeoncrawl;
 
-import com.codecool.dungeoncrawl.logic.AiMovement;
-import com.codecool.dungeoncrawl.logic.Cell;
-import com.codecool.dungeoncrawl.logic.CellType;
-import com.codecool.dungeoncrawl.logic.GameMap;
-import com.codecool.dungeoncrawl.logic.MapLoader;
+import com.codecool.dungeoncrawl.logic.*;
 import com.codecool.dungeoncrawl.logic.actors.items.*;
 import javafx.application.Application;
 import javafx.beans.property.ReadOnlyStringWrapper;
@@ -155,9 +151,10 @@ public class Main extends Application {
                 } else if (map.getPlayer().getCell().getItem() instanceof Key) {
                     inventory.add("Key of Wisdom");
                     map.getPlayer().getCell().setItem(null);
-                } else if (inventory.contains("Key of Wisdom") && map.getPlayer().getCell().getNeighbor(1, 0).getItem() instanceof LockedDoor) {
-                    map.getPlayer().getCell().getNeighbor(1, 0).setType(CellType.FLOOR);
-                    map.getPlayer().getCell().getNeighbor(1, 0).setItem(new OpenedDoor(map.getPlayer().getCell().getNeighbor(1, 0)));
+                } else if (inventory.contains("Key of Wisdom") && isInteractableObjectAroundPlayer()) {
+                    int[] interactableDirection = getInteractableDirection();
+                    map.getPlayer().getCell().getNeighbor(interactableDirection[0],interactableDirection[1]).setType(CellType.FLOOR);
+                    map.getPlayer().getCell().getNeighbor(interactableDirection[0],interactableDirection[1]).setItem(new OpenedDoor(map.getPlayer().getCell().getNeighbor(interactableDirection[0], interactableDirection[1])));
                     inventory.remove("Key of Wisdom");
                 }
                 refresh();
@@ -201,4 +198,28 @@ public class Main extends Application {
         healthLabel.setText("" + map.getPlayer().getHealth());
         AI.monsterMover();
     }
+
+    private boolean isInteractableObjectAroundPlayer() {
+        if (map.getPlayer().getCell().getNeighbor(1, 0).getItem() instanceof InteractableObject ||
+                map.getPlayer().getCell().getNeighbor(-1, 0).getItem() instanceof InteractableObject ||
+                map.getPlayer().getCell().getNeighbor(0, 1).getItem() instanceof InteractableObject ||
+                map.getPlayer().getCell().getNeighbor(0, -1).getItem() instanceof InteractableObject) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private int[] getInteractableDirection() {
+        if (map.getPlayer().getCell().getNeighbor(1, 0).getItem() instanceof InteractableObject) {
+            return new int[]{1,0};
+        } else if (map.getPlayer().getCell().getNeighbor(-1, 0).getItem() instanceof InteractableObject) {
+            return new int[]{-1,0};
+        } else if (map.getPlayer().getCell().getNeighbor(0, 1).getItem() instanceof InteractableObject) {
+            return new int[]{0,1};
+        } else {
+            return new int[]{0,-1};
+        }
+    }
+
 }
