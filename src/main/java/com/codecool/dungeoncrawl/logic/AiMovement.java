@@ -36,6 +36,7 @@ public class AiMovement {
 //                    map.monsters.remove(i);
 //                    i--;
 //                }
+
             } else if (map.monsters.get(i) instanceof Duck) {
                 map.monsters.get(i).monsterMove(getPlayerXDifference(map.monsters.get(i)), getPlayerYDifference(map.monsters.get(i)));
 //                if(map.monsters.get(i).getHealth()<1){
