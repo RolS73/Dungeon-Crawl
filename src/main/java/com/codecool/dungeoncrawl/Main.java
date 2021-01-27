@@ -21,9 +21,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.util.stream.Stream;
+
 public class Main extends Application {
 
     public static ObservableList<String> inventory = FXCollections.observableArrayList();
+    public static ObservableList<Integer> commonItems = Stream.of(1,10).collect()
 
     GameMap map = MapLoader.loadMap();
     AiMovement AI = new AiMovement(map);
@@ -151,11 +154,21 @@ public class Main extends Application {
                 } else if (map.getPlayer().getCell().getItem() instanceof Key) {
                     inventory.add("Key of Wisdom");
                     map.getPlayer().getCell().setItem(null);
-                } else if (inventory.contains("Key of Wisdom") && isInteractableObjectAroundPlayer()) {
+
+                } else if (isInteractableObjectAroundPlayer()) {
                     int[] interactableDirection = getInteractableDirection();
-                    map.getPlayer().getCell().getNeighbor(interactableDirection[0],interactableDirection[1]).setType(CellType.FLOOR);
-                    map.getPlayer().getCell().getNeighbor(interactableDirection[0],interactableDirection[1]).setItem(new OpenedDoor(map.getPlayer().getCell().getNeighbor(interactableDirection[0], interactableDirection[1])));
-                    inventory.remove("Key of Wisdom");
+                    int interactablesIndex = 0;
+                    while (map.getInteractables().iterator().hasNext()) {
+                        if (map.getInteractables().get(interactablesIndex).isThisObjectInteractive()) {
+                            map.getInteractables().get(interactablesIndex).interact();
+                            if (map.getInteractables().get(interactablesIndex).isMoveOnPossibleAfterInteraction()) {
+                                map.getPlayer().getCell().getNeighbor(interactableDirection[0],interactableDirection[1]).setType(CellType.FLOOR);
+                            }
+                            refresh();
+                            return;
+                        }
+                        interactablesIndex++;
+                    }
                 }
                 refresh();
                 break;
@@ -200,10 +213,10 @@ public class Main extends Application {
     }
 
     private boolean isInteractableObjectAroundPlayer() {
-        if (map.getPlayer().getCell().getNeighbor(1, 0).getItem() instanceof InteractableObject ||
-                map.getPlayer().getCell().getNeighbor(-1, 0).getItem() instanceof InteractableObject ||
-                map.getPlayer().getCell().getNeighbor(0, 1).getItem() instanceof InteractableObject ||
-                map.getPlayer().getCell().getNeighbor(0, -1).getItem() instanceof InteractableObject) {
+        if (map.getPlayer().getCell().getNeighbor(1, 0).getItem() instanceof InteractiveObject ||
+                map.getPlayer().getCell().getNeighbor(-1, 0).getItem() instanceof InteractiveObject ||
+                map.getPlayer().getCell().getNeighbor(0, 1).getItem() instanceof InteractiveObject ||
+                map.getPlayer().getCell().getNeighbor(0, -1).getItem() instanceof InteractiveObject) {
             return true;
         } else {
             return false;
@@ -211,14 +224,14 @@ public class Main extends Application {
     }
 
     private int[] getInteractableDirection() {
-        if (map.getPlayer().getCell().getNeighbor(1, 0).getItem() instanceof InteractableObject) {
-            return new int[]{1,0};
-        } else if (map.getPlayer().getCell().getNeighbor(-1, 0).getItem() instanceof InteractableObject) {
-            return new int[]{-1,0};
-        } else if (map.getPlayer().getCell().getNeighbor(0, 1).getItem() instanceof InteractableObject) {
-            return new int[]{0,1};
+        if (map.getPlayer().getCell().getNeighbor(1, 0).getItem() instanceof InteractiveObject) {
+            return new int[]{1, 0};
+        } else if (map.getPlayer().getCell().getNeighbor(-1, 0).getItem() instanceof InteractiveObject) {
+            return new int[]{-1, 0};
+        } else if (map.getPlayer().getCell().getNeighbor(0, 1).getItem() instanceof InteractiveObject) {
+            return new int[]{0, 1};
         } else {
-            return new int[]{0,-1};
+            return new int[]{0, -1};
         }
     }
 
