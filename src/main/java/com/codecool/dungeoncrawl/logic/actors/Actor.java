@@ -35,12 +35,6 @@ public abstract class Actor implements Drawable {
             }
         }
 
-        /*if (nextCell.getType() == CellType.WALL && nextCell.getActor().getTileName().equals("lockedDoor")) {
-
-            Sounds.playSound("Move5b");
-
-        }*/
-
         if (nextCell.getType() == CellType.FLOOR && nextCell.getActor() == null) {
             Sounds.playSound("Move5b");
 
@@ -80,5 +74,9 @@ public abstract class Actor implements Drawable {
 
     public void setAttackPower(int newAttackPower) {
         this.attackPower = newAttackPower;
+    }
+
+    public void raiseAttackPower(int attackPowerGrowth) {
+        this.attackPower = this.attackPower + attackPowerGrowth;
     }
 }

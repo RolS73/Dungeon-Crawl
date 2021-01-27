@@ -77,7 +77,8 @@ public class Main extends Application {
                 inventory.add("Bone Chopper");
                 map.getPlayer().getCell().setItem(null);
             } else if (map.getPlayer().getCell().getItem() instanceof Life) {
-                map.getPlayer().setHealth(10);
+                map.getPlayer().raiseMaxHealth(5);
+                map.getPlayer().setHealth(map.getPlayer().getMaxHealth());
                 map.getPlayer().getCell().setItem(null);
             } else if (map.getPlayer().getCell().getItem() instanceof Key) {
                 inventory.add("Key of Wisdom");
@@ -141,11 +142,12 @@ public class Main extends Application {
                 break;
             case E:
                 if (map.getPlayer().getCell().getItem() instanceof Weapon) {
-                    map.getPlayer().setAttackPower(9);
+                    map.getPlayer().raiseAttackPower(5);
                     inventory.add("Bone Chopper");
                     map.getPlayer().getCell().setItem(null);
                 } else if (map.getPlayer().getCell().getItem() instanceof Life) {
-                    map.getPlayer().setHealth(10);
+                    map.getPlayer().raiseMaxHealth(5);
+                    map.getPlayer().setHealth(map.getPlayer().getMaxHealth());
                     map.getPlayer().getCell().setItem(null);
                 } else if (map.getPlayer().getCell().getItem() instanceof Key) {
                     inventory.add("Key of Wisdom");
@@ -184,6 +186,12 @@ public class Main extends Application {
                 }
                 if (cell.getActor() != null) {
                     Tiles.drawTile(context, cell.getActor(), x, y);
+                }
+                if (!(map.getPlayer().getTileName().equals("playerArmored2")) && map.getPlayer().getMaxHealth() > 10) {
+                    map.getPlayer().setTileName("playerArmored1");
+                }
+                if (map.getPlayer().getMaxHealth() >= 20) {
+                    map.getPlayer().setTileName("playerArmored2");
                 }
             }
         }

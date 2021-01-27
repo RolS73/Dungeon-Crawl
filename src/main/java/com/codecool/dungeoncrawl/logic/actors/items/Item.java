@@ -17,6 +17,6 @@ public abstract class Item extends Actor {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 }
