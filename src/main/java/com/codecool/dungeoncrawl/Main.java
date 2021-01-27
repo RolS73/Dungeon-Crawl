@@ -121,21 +121,25 @@ public class Main extends Application {
             case UP:
             case W:
                 map.getPlayer().move(0, -1);
+                AI.monsterMover();
                 refresh();
                 break;
             case DOWN:
             case S:
                 map.getPlayer().move(0, 1);
+                AI.monsterMover();
                 refresh();
                 break;
             case LEFT:
             case A:
                 map.getPlayer().move(-1, 0);
+                AI.monsterMover();
                 refresh();
                 break;
             case RIGHT:
             case D:
                 map.getPlayer().move(1, 0);
+                AI.monsterMover();
                 refresh();
                 break;
             case SPACE:
@@ -198,6 +202,5 @@ public class Main extends Application {
             }
         }
         healthLabel.setText("" + map.getPlayer().getHealth());
-        AI.monsterMover();
     }
 }
