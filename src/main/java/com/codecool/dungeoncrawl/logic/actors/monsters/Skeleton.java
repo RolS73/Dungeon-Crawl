@@ -1,11 +1,12 @@
-package com.codecool.dungeoncrawl.logic.actors;
+package com.codecool.dungeoncrawl.logic.actors.monsters;
 
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
+import com.codecool.dungeoncrawl.logic.actors.Actor;
+import com.codecool.dungeoncrawl.logic.actors.Player;
 
-public class Skeleton extends Actor {
+public class Skeleton extends Monster {
 
-    private int wasAttacked = 0;
 
 
     public Skeleton(Cell cell) {
@@ -26,7 +27,6 @@ public class Skeleton extends Actor {
         if (nextCell.getType() == CellType.FLOOR) {
             if (nextCell.getActor() instanceof Player) {
                 nextCell.getActor().setHealth(nextCell.getActor().getHealth() - this.getAttackPower());
-                this.setHealth(this.getHealth() - nextCell.getActor().getAttackPower());
                 if (this.getHealth() < 1) {
                     this.getCell().setActor(null);
                 }
@@ -38,18 +38,5 @@ public class Skeleton extends Actor {
             }
 
         }
-
-//    private void setRandom(int x, int y){
-//        double random = Math.random()*10;
-//        if(random<2.5){
-//            this.x = 1; this.y = y;
-//        } else if(random>=2.5 && random<5){
-//            this.x = y; this.y = 1;
-//        }else if(random>=5 && random<7.5){
-//            this.x = -1; this.y = y;
-//        } else if(random>=7.5){
-//            this.x = y; this.y = -1;
-//        }
-//    }
     }
 }

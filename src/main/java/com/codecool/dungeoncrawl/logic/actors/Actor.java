@@ -48,8 +48,6 @@ public abstract class Actor implements Drawable {
 
     }
 
-    public void monsterMove(int x, int y){}
-
     public int getHealth() {
         return health;
     }

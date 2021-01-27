@@ -1,9 +1,10 @@
 package com.codecool.dungeoncrawl.logic;
 
 import com.codecool.dungeoncrawl.logic.actors.*;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.codecool.dungeoncrawl.logic.actors.monsters.Duck;
+import com.codecool.dungeoncrawl.logic.actors.monsters.Guardian;
+import com.codecool.dungeoncrawl.logic.actors.monsters.Skeleton;
+import com.codecool.dungeoncrawl.logic.actors.monsters.TheThing;
 
 public class AiMovement {
     
@@ -19,14 +20,15 @@ public class AiMovement {
     public void monsterMover() {
 
         for (int i = 0; i < map.monsters.size(); i++) {
-            if (isPlayerNearby(map.monsters.get(i))) {
-                if (map.monsters.get(i) instanceof Guardian){} else {
+            if(map.monsters.get(i).getHealth()<1){
+                map.monsters.remove(i);
+                i--;
+            } else if (isPlayerNearby(map.monsters.get(i))) {
                     map.monsters.get(i).monsterMove(getPlayerXDifference(map.monsters.get(i)), getPlayerYDifference(map.monsters.get(i)));
                     if(map.monsters.get(i).getHealth()<1){
                         map.monsters.remove(i);
                         i--;
                     }
-                }
             } else if (map.monsters.get(i) instanceof Skeleton) {
                 setRandom();
                 map.monsters.get(i).monsterMove(x, y);

@@ -1,47 +1,40 @@
-package com.codecool.dungeoncrawl.logic.actors;
+package com.codecool.dungeoncrawl.logic.actors.monsters;
 
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
+import com.codecool.dungeoncrawl.logic.actors.Actor;
+import com.codecool.dungeoncrawl.logic.actors.Player;
 
-public class TheThing  extends Actor{
+public class Duck extends Monster {
 
-    private int count;
-
-    public TheThing(Cell cell) {
+    public Duck(Cell cell) {
         super(cell);
+        this.setAttackPower(1);
+        this.setHealth(2);
     }
 
     @Override
     public String getTileName() {
-        return "thething";
+        return "duck";
     }
 
     @Override
     public void monsterMove(int x, int y) {
-
         Cell nextCell = this.getCell().getNeighbor(x, y);
 
         if(nextCell.getType() == CellType.FLOOR){
             if(nextCell.getActor() instanceof Player){
                 nextCell.getActor().setHealth(nextCell.getActor().getHealth()- this.getAttackPower());
-                this.setHealth(this.getHealth()-nextCell.getActor().getAttackPower());
                 if(this.getHealth()<1){
                     this.getCell().setActor(null);
-
                 }
-                return;
             } else if (nextCell.getActor()!=null){
-                return;
+            } else {
+                nextCell.setActor(this);
+                this.getCell().setActor(null);
+                this.setCell(nextCell);
             }
-            nextCell.setActor(this);
-            this.getCell().setActor(null);
-            this.setCell(nextCell);
+
         }
-
     }
-
-//    private int[] coordinateGenerator(){
-//        int[] lolz = new int[]{5, 6};
-//        return lolz;
-//    }
 }
