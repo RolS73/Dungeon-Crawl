@@ -25,23 +25,25 @@ public class AiMovement {
                 i--;
             } else if (isPlayerNearby(map.monsters.get(i))) {
                     map.monsters.get(i).monsterMove(getPlayerXDifference(map.monsters.get(i)), getPlayerYDifference(map.monsters.get(i)));
-                    if(map.monsters.get(i).getHealth()<1){
-                        map.monsters.remove(i);
-                        i--;
-                    }
+//                    if(map.monsters.get(i).getHealth()<1){
+//                        map.monsters.remove(i);
+//                        i--;
+//                    }
             } else if (map.monsters.get(i) instanceof Skeleton) {
                 setRandom();
                 map.monsters.get(i).monsterMove(x, y);
-                if(map.monsters.get(i).getHealth()<1){
-                    map.monsters.remove(i);
-                    i--;
-                }
+//                if(map.monsters.get(i).getHealth()<1){
+//                    map.monsters.remove(i);
+//                    i--;
+//                }
             } else if (map.monsters.get(i) instanceof Duck) {
-                map.monsters.get(i).move(getPlayerXDifference(map.monsters.get(i)), getPlayerYDifference(map.monsters.get(i)));
-                if(map.monsters.get(i).getHealth()<1){
-                    map.monsters.remove(i);
-                    i--;
-                }
+                map.monsters.get(i).monsterMove(getPlayerXDifference(map.monsters.get(i)), getPlayerYDifference(map.monsters.get(i)));
+//                if(map.monsters.get(i).getHealth()<1){
+//                    map.monsters.remove(i);
+//                    i--;
+//                }
+            } else if(map.monsters.get(i) instanceof Guardian){
+                map.monsters.get(i).monsterMove(1,0);
             } else if (map.monsters.get(i) instanceof TheThing){
                 if(count==3){
                     count = 0;
@@ -52,10 +54,10 @@ public class AiMovement {
                     count++;
                 }
                 map.monsters.get(i).monsterMove(x,y);
-                if(map.monsters.get(i).getHealth()<1){
-                    map.monsters.remove(i);
-                    i--;
-                }
+//                if(map.monsters.get(i).getHealth()<1){
+//                    map.monsters.remove(i);
+//                    i--;
+//                }
             }
         }
     }
