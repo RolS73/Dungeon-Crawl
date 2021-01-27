@@ -52,13 +52,8 @@ public class MapLoader {
                             new Weapon(cell);
                             break;
                         case 'D':
-                            if (true) {
-                                cell.setType(CellType.WALL);
-                                new LockedDoor(cell);
-                            } else {
-                                cell.setType(CellType.FLOOR);
-                                new OpenedDoor(cell);
-                            }
+                            cell.setType(CellType.WALL);
+                            new LockedDoor(cell);
                             break;
                         case 'f':
                             cell.setType(CellType.FIRESTAND);
