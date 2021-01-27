@@ -23,7 +23,7 @@ public class Duck extends Actor{
         if(nextCell.getType() == CellType.FLOOR){
             if(nextCell.getActor() instanceof Player){
                 nextCell.getActor().setHealth(nextCell.getActor().getHealth()- this.getAttackPower());
-                this.setHealth(this.getHealth()-nextCell.getActor().getAttackPower());
+//                this.setHealth(this.getHealth()-nextCell.getActor().getAttackPower());
                 if(this.getHealth()<1){
                     this.getCell().setActor(null);
                 }

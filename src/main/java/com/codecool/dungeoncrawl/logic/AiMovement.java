@@ -29,7 +29,7 @@ public class AiMovement {
                 }
             } else if (map.monsters.get(i) instanceof Skeleton) {
                 setRandom();
-                map.monsters.get(i).move(x, y);
+                map.monsters.get(i).monsterMove(x, y);
                 if(map.monsters.get(i).getHealth()<1){
                     map.monsters.remove(i);
                     i--;

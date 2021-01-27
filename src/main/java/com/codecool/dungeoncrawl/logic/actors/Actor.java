@@ -24,7 +24,7 @@ public abstract class Actor implements Drawable {
         }
         if (nextCell.getActor() != null) {
             nextCell.getActor().health = nextCell.getActor().health - attackPower;
-            this.health = this.health - nextCell.getActor().getAttackPower();
+//            this.health = this.health - nextCell.getActor().getAttackPower();
 
 
             if (nextCell.getActor().health < 1) {
