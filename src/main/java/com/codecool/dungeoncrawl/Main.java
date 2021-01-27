@@ -202,6 +202,7 @@ public class Main extends Application {
                 }
             }
         }
+        attackPwLabel.setText("" + map.getPlayer().getAttackPower());
         healthLabel.setText("" + map.getPlayer().getHealth());
     }
 }
