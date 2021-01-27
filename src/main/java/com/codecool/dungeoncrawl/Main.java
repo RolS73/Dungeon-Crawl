@@ -1,10 +1,6 @@
 package com.codecool.dungeoncrawl;
 
-import com.codecool.dungeoncrawl.logic.AiMovement;
-import com.codecool.dungeoncrawl.logic.Cell;
-import com.codecool.dungeoncrawl.logic.CellType;
-import com.codecool.dungeoncrawl.logic.GameMap;
-import com.codecool.dungeoncrawl.logic.MapLoader;
+import com.codecool.dungeoncrawl.logic.*;
 import com.codecool.dungeoncrawl.logic.actors.items.*;
 import javafx.application.Application;
 import javafx.beans.property.ReadOnlyStringWrapper;
@@ -25,9 +21,14 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.util.stream.Stream;
+
 public class Main extends Application {
 
+
     public static ObservableList<Item> Inventory = FXCollections.observableArrayList();
+    public static ObservableList<Integer> commonItems = Stream.of(1,10).collect()
+
 
     GameMap map = MapLoader.loadMap();
     AiMovement AI = new AiMovement(map);
@@ -160,6 +161,34 @@ public class Main extends Application {
                 } else if (map.getPlayer().getCell().getItem() != null){
                     Item item = (Item) map.getPlayer().getCell().getItem();
                     pickUpItem(item);
+
+
+                if (map.getPlayer().getCell().getItem() instanceof Weapon) {
+                    map.getPlayer().raiseAttackPower(5);
+                    inventory.add("Bone Chopper");
+                    map.getPlayer().getCell().setItem(null);
+                } else if (map.getPlayer().getCell().getItem() instanceof Life) {
+                    map.getPlayer().raiseMaxHealth(5);
+                    map.getPlayer().setHealth(map.getPlayer().getMaxHealth());
+                    map.getPlayer().getCell().setItem(null);
+                } else if (map.getPlayer().getCell().getItem() instanceof Key) {
+                    inventory.add("Key of Wisdom");
+                    map.getPlayer().getCell().setItem(null);
+
+                } else if (isInteractableObjectAroundPlayer()) {
+                    int[] interactableDirection = getInteractableDirection();
+                    int interactablesIndex = 0;
+                    while (map.getInteractables().iterator().hasNext()) {
+                        if (map.getInteractables().get(interactablesIndex).isThisObjectInteractive()) {
+                            map.getInteractables().get(interactablesIndex).interact();
+                            if (map.getInteractables().get(interactablesIndex).isMoveOnPossibleAfterInteraction()) {
+                                map.getPlayer().getCell().getNeighbor(interactableDirection[0],interactableDirection[1]).setType(CellType.FLOOR);
+                            }
+                            refresh();
+                            return;
+                        }
+                        interactablesIndex++;
+                    }
                 }
                 refresh();
                 break;
@@ -211,4 +240,28 @@ public class Main extends Application {
         attackPwLabel.setText("" + map.getPlayer().getAttackPower());
         healthLabel.setText("" + map.getPlayer().getHealth());
     }
+
+    private boolean isInteractableObjectAroundPlayer() {
+        if (map.getPlayer().getCell().getNeighbor(1, 0).getItem() instanceof InteractiveObject ||
+                map.getPlayer().getCell().getNeighbor(-1, 0).getItem() instanceof InteractiveObject ||
+                map.getPlayer().getCell().getNeighbor(0, 1).getItem() instanceof InteractiveObject ||
+                map.getPlayer().getCell().getNeighbor(0, -1).getItem() instanceof InteractiveObject) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private int[] getInteractableDirection() {
+        if (map.getPlayer().getCell().getNeighbor(1, 0).getItem() instanceof InteractiveObject) {
+            return new int[]{1, 0};
+        } else if (map.getPlayer().getCell().getNeighbor(-1, 0).getItem() instanceof InteractiveObject) {
+            return new int[]{-1, 0};
+        } else if (map.getPlayer().getCell().getNeighbor(0, 1).getItem() instanceof InteractiveObject) {
+            return new int[]{0, 1};
+        } else {
+            return new int[]{0, -1};
+        }
+    }
+
 }

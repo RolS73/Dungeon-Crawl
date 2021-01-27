@@ -16,6 +16,7 @@ public class MapLoader {
         Scanner scanner = new Scanner(is);
         int width = scanner.nextInt();
         int height = scanner.nextInt();
+        int doorCount = 1;
 
         scanner.nextLine(); // empty line
 
@@ -57,10 +58,14 @@ public class MapLoader {
                             break;
                         case 'D':
                             cell.setType(CellType.WALL);
-                            new LockedDoor(cell);
+                            map.interactables.add(new LockedDoor(cell));
                             break;
                         case 'f':
                             cell.setType(CellType.FIRESTAND);
+                            break;
+                        case 'b':
+                            cell.setType(CellType.WALL);
+                            map.interactables.add(new Barrel(cell));
                             break;
                         case 'd':
                             cell.setType(CellType.FLOOR);
