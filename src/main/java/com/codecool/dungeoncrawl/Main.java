@@ -36,6 +36,7 @@ public class Main extends Application {
             map.getHeight() * Tiles.TILE_WIDTH);
     GraphicsContext context = canvas.getGraphicsContext2D();
     Label healthLabel = new Label();
+    Label attackPwLabel = new Label();
 
     Button pickUpButton = new Button("Pick up!");
     Button dontPickUp = new Button("Leave it..");
@@ -53,7 +54,7 @@ public class Main extends Application {
         ui.setPadding(new Insets(10));
 
         HBox lifeStatus = new HBox();
-        lifeStatus.getChildren().addAll(new Label("Health: "), healthLabel);
+        lifeStatus.getChildren().addAll(new Label("Health: "), healthLabel, new Label("  Attackpw: "), attackPwLabel);
 
 //        ui.add(new Label("Health: "), 1, 0);
 //        ui.add(healthLabel, 2, 0);
@@ -199,6 +200,7 @@ public class Main extends Application {
             }
         }
         healthLabel.setText("" + map.getPlayer().getHealth());
+        attackPwLabel.setText(String.valueOf(map.getPlayer().getAttackPower()));
         AI.monsterMover();
     }
 }
