@@ -26,10 +26,10 @@ public class Guardian extends Actor{
             this.setHealth(this.getHealth() - nextCell.getActor().getAttackPower());
 
         } else if (nextCell.getType() == CellType.FLOOR && nextCell.getActor() == null) {
-
-            super.getCell().setActor(null);
-            nextCell.setActor(this);
-            super.setCell(nextCell);
+//
+//            super.getCell().setActor(null);
+//            nextCell.setActor(this);
+//            super.setCell(nextCell);
 
         }
     }

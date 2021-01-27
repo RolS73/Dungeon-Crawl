@@ -59,8 +59,7 @@ public class AiMovement {
     }
 
     private boolean isPlayerNearby(Actor monster){
-        if(Math.abs(monster.getX()- map.player.getX())==1 ||
-                Math.abs(monster.getY()- map.player.getY())==1){
+        if(Math.abs(monster.getX()- map.player.getX())+Math.abs(monster.getY()- map.player.getY())==1){
             return true;
         }
 //        else if (Math.abs(monster.getX()- map.player.getX())+Math.abs(monster.getY()- map.player.getY())==2){
@@ -103,8 +102,8 @@ public class AiMovement {
     }
 
     private int[] coordinateGenerator(){
-        int[] lolz = new int[]{10, 8};
-        return lolz;
+        int[] coords = new int[]{10, 8};
+        return coords;
     }
 
     

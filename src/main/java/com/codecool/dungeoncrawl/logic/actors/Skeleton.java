@@ -5,6 +5,8 @@ import com.codecool.dungeoncrawl.logic.CellType;
 
 public class Skeleton extends Actor {
 
+    private int wasAttacked = 0;
+
 
     public Skeleton(Cell cell) {
         super(cell);
@@ -21,24 +23,21 @@ public class Skeleton extends Actor {
     public void monsterMove(int x, int y) {
         Cell nextCell = this.getCell().getNeighbor(x, y);
 
-        if(nextCell.getType() == CellType.FLOOR){
-            if(nextCell.getActor() instanceof Player){
-                nextCell.getActor().setHealth(nextCell.getActor().getHealth()- this.getAttackPower());
-//                this.setHealth(this.getHealth()-nextCell.getActor().getAttackPower());
-                if(this.getHealth()<1){
+        if (nextCell.getType() == CellType.FLOOR) {
+            if (nextCell.getActor() instanceof Player) {
+                nextCell.getActor().setHealth(nextCell.getActor().getHealth() - this.getAttackPower());
+                this.setHealth(this.getHealth() - nextCell.getActor().getAttackPower());
+                if (this.getHealth() < 1) {
                     this.getCell().setActor(null);
-
                 }
-                return;
-            } else if (nextCell.getActor()!=null){
-                return;
+            } else if (nextCell.getActor() != null) {
+            } else {
+                nextCell.setActor(this);
+                this.getCell().setActor(null);
+                this.setCell(nextCell);
             }
-            nextCell.setActor(this);
-            this.getCell().setActor(null);
-            this.setCell(nextCell);
-        }
 
-    }
+        }
 
 //    private void setRandom(int x, int y){
 //        double random = Math.random()*10;
@@ -52,4 +51,5 @@ public class Skeleton extends Actor {
 //            this.x = y; this.y = -1;
 //        }
 //    }
+    }
 }
