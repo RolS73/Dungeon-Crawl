@@ -48,6 +48,8 @@ public abstract class Actor implements Drawable {
 
     }
 
+    public void monsterMove(int x, int y){}
+
     public int getHealth() {
         return health;
     }
@@ -58,6 +60,10 @@ public abstract class Actor implements Drawable {
 
     public Cell getCell() {
         return cell;
+    }
+
+    public void setCell(Cell cell) {
+        this.cell = cell;
     }
 
     public int getX() {

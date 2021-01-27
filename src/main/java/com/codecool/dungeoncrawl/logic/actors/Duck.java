@@ -3,18 +3,17 @@ package com.codecool.dungeoncrawl.logic.actors;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 
-public class Skeleton extends Actor {
+public class Duck extends Actor{
 
-
-    public Skeleton(Cell cell) {
+    public Duck(Cell cell) {
         super(cell);
-        this.setAttackPower(2);
-        this.setHealth(7);
+        this.setAttackPower(1);
+        this.setHealth(2);
     }
 
     @Override
     public String getTileName() {
-        return "skeleton";
+        return "duck";
     }
 
     @Override
@@ -27,7 +26,6 @@ public class Skeleton extends Actor {
                 this.setHealth(this.getHealth()-nextCell.getActor().getAttackPower());
                 if(this.getHealth()<1){
                     this.getCell().setActor(null);
-
                 }
                 return;
             } else if (nextCell.getActor()!=null){
@@ -37,19 +35,5 @@ public class Skeleton extends Actor {
             this.getCell().setActor(null);
             this.setCell(nextCell);
         }
-
     }
-
-//    private void setRandom(int x, int y){
-//        double random = Math.random()*10;
-//        if(random<2.5){
-//            this.x = 1; this.y = y;
-//        } else if(random>=2.5 && random<5){
-//            this.x = y; this.y = 1;
-//        }else if(random>=5 && random<7.5){
-//            this.x = -1; this.y = y;
-//        } else if(random>=7.5){
-//            this.x = y; this.y = -1;
-//        }
-//    }
 }
