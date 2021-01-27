@@ -2,6 +2,10 @@ package com.codecool.dungeoncrawl.logic;
 
 import com.codecool.dungeoncrawl.logic.actors.*;
 import com.codecool.dungeoncrawl.logic.actors.items.*;
+import com.codecool.dungeoncrawl.logic.actors.monsters.Duck;
+import com.codecool.dungeoncrawl.logic.actors.monsters.Guardian;
+import com.codecool.dungeoncrawl.logic.actors.monsters.Skeleton;
+import com.codecool.dungeoncrawl.logic.actors.monsters.TheThing;
 
 import java.io.InputStream;
 import java.util.Scanner;

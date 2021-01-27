@@ -48,7 +48,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        AI.monsterMover();
         GridPane ui = new GridPane();
         ui.setPrefWidth(200);
         ui.setPadding(new Insets(10));
@@ -123,21 +122,25 @@ public class Main extends Application {
             case UP:
             case W:
                 map.getPlayer().move(0, -1);
+                AI.monsterMover();
                 refresh();
                 break;
             case DOWN:
             case S:
                 map.getPlayer().move(0, 1);
+                AI.monsterMover();
                 refresh();
                 break;
             case LEFT:
             case A:
                 map.getPlayer().move(-1, 0);
+                AI.monsterMover();
                 refresh();
                 break;
             case RIGHT:
             case D:
                 map.getPlayer().move(1, 0);
+                AI.monsterMover();
                 refresh();
                 break;
             case SPACE:
@@ -200,7 +203,5 @@ public class Main extends Application {
             }
         }
         healthLabel.setText("" + map.getPlayer().getHealth());
-        attackPwLabel.setText(String.valueOf(map.getPlayer().getAttackPower()));
-        AI.monsterMover();
     }
 }

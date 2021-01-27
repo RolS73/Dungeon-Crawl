@@ -9,7 +9,6 @@ public class Player extends Actor {
 
     public Player(Cell cell) {
         super(cell);
-
         this.setAttackPower(4); // ez új
         this.setHealth(maxHealth);
     }
