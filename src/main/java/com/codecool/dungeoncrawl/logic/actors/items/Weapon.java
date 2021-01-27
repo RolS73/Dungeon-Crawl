@@ -4,13 +4,23 @@ import com.codecool.dungeoncrawl.logic.Cell;
 
 public class Weapon extends Item {
 
-    public Weapon(Cell cell) {
-        super(cell);
-        setName("SkeletonCrusher");
+    private int attackpowerIncrease;
+
+    public Weapon(Cell cell, String name, int attackpowerIncrease) {
+        super(cell, name);
+        this.attackpowerIncrease = attackpowerIncrease;
     }
 
     @Override
     public String getTileName() {
         return "weapon";
+    }
+
+    public int getAttackpowerIncrease() {
+        return attackpowerIncrease;
+    }
+
+    public void setAttackpowerIncrease(int attackpowerIncrease) {
+        this.attackpowerIncrease = attackpowerIncrease;
     }
 }

@@ -54,9 +54,7 @@ public class Main extends Application {
 
         HBox lifeStatus = new HBox();
         lifeStatus.getChildren().addAll(new Label("Health: "), healthLabel, new Label("  Attackpw: "), attackPwLabel);
-
-//        ui.add(new Label("Health: "), 1, 0);
-//        ui.add(healthLabel, 2, 0);
+        
         ui.setHgap(10);
         ui.setVgap(10);
         ui.setPadding(new Insets(10, 10, 10, 10));
@@ -75,18 +73,8 @@ public class Main extends Application {
 
         pickUpButton.setDisable(true);
         pickUpButton.setOnAction(pickUp -> {
-            if (map.getPlayer().getCell().getItem() instanceof Weapon) {
-                map.getPlayer().setAttackPower(9);
-                inventory.add("Bone Chopper");
-                map.getPlayer().getCell().setItem(null);
-            } else if (map.getPlayer().getCell().getItem() instanceof Life) {
-                map.getPlayer().raiseMaxHealth(5);
-                map.getPlayer().setHealth(map.getPlayer().getMaxHealth());
-                map.getPlayer().getCell().setItem(null);
-            } else if (map.getPlayer().getCell().getItem() instanceof Key) {
-                inventory.add("Key of Wisdom");
-                map.getPlayer().getCell().setItem(null);
-            }
+            Item item = (Item) map.getPlayer().getCell().getItem();
+            pickUpItem(item);
             refresh();
             pickUpButton.setDisable(true);
             dontPickUp.setDisable(true);
@@ -115,6 +103,21 @@ public class Main extends Application {
 
         primaryStage.setTitle("Dungeon Crawl");
         primaryStage.show();
+    }
+
+    private void pickUpItem(Item item) {
+        if (item instanceof Weapon) {
+            map.getPlayer().raiseAttackPower(((Weapon) item).getAttackpowerIncrease());
+            inventory.add(item.getName());
+            map.getPlayer().getCell().setItem(null);
+        } else if (item instanceof Life) {
+            map.getPlayer().raiseMaxHealth(5);
+            map.getPlayer().setHealth(map.getPlayer().getMaxHealth());
+            map.getPlayer().getCell().setItem(null);
+        } else if (item instanceof Key) {
+            inventory.add(item.getName());
+            map.getPlayer().getCell().setItem(null);
+        }
     }
 
     private void onKeyPressed(KeyEvent keyEvent) {
@@ -148,21 +151,14 @@ public class Main extends Application {
                 refresh();
                 break;
             case E:
-                if (map.getPlayer().getCell().getItem() instanceof Weapon) {
-                    map.getPlayer().raiseAttackPower(5);
-                    inventory.add("Bone Chopper");
-                    map.getPlayer().getCell().setItem(null);
-                } else if (map.getPlayer().getCell().getItem() instanceof Life) {
-                    map.getPlayer().raiseMaxHealth(5);
-                    map.getPlayer().setHealth(map.getPlayer().getMaxHealth());
-                    map.getPlayer().getCell().setItem(null);
-                } else if (map.getPlayer().getCell().getItem() instanceof Key) {
-                    inventory.add("Key of Wisdom");
-                    map.getPlayer().getCell().setItem(null);
-                } else if (inventory.contains("Key of Wisdom") && map.getPlayer().getCell().getNeighbor(1, 0).getItem() instanceof LockedDoor) {
+                if (inventory.contains("Key of Wisdom") && map.getPlayer().getCell().getNeighbor(1, 0)
+                        .getItem() instanceof LockedDoor){
                     map.getPlayer().getCell().getNeighbor(1, 0).setType(CellType.FLOOR);
                     map.getPlayer().getCell().getNeighbor(1, 0).setItem(new OpenedDoor(map.getPlayer().getCell().getNeighbor(1, 0)));
                     inventory.remove("Key of Wisdom");
+                } else if (map.getPlayer().getCell().getItem() != null){
+                    Item item = (Item) map.getPlayer().getCell().getItem();
+                    pickUpItem(item);
                 }
                 refresh();
                 break;

@@ -5,8 +5,7 @@ import com.codecool.dungeoncrawl.logic.Cell;
 public class LockedDoor extends Item {
 
         public LockedDoor(Cell cell) {
-            super(cell);
-            this.setName("Door to Doom");
+            super(cell, "Door to Doom");
         }
 
         @Override
