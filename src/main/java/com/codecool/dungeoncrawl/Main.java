@@ -32,8 +32,8 @@ public class Main extends Application {
     GameMap map = MapLoader.loadMap();
     AiMovement AI = new AiMovement(map);
     Canvas canvas = new Canvas(
-            map.getWidth() * Tiles.TILE_WIDTH,
-            map.getHeight() * Tiles.TILE_WIDTH);
+            21 * Tiles.TILE_WIDTH,
+            21 * Tiles.TILE_WIDTH);
     GraphicsContext context = canvas.getGraphicsContext2D();
     Label healthLabel = new Label();
     Label attackPwLabel = new Label();
@@ -226,15 +226,21 @@ public class Main extends Application {
     private void refresh() {
         context.setFill(Color.BLACK);
         context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
+        int dx = Math.min(0, 11-map.getPlayer().getX());
+        int dy = Math.min(0, 11-map.getPlayer().getY());
+        dx = Math.max(21-map.getWidth(), dx);
+        dy = Math.max(21-map.getHeight(), dy);
+
         for (int x = 0; x < map.getWidth(); x++) {
             for (int y = 0; y < map.getHeight(); y++) {
                 Cell cell = map.getCell(x, y);
-                Tiles.drawTile(context, cell, x, y);
+                Tiles.drawTile(context, cell, x+dx,y+dy);
                 if (cell.getItem() != null) {
-                    Tiles.drawTile(context, cell.getItem(), x, y);
+                    Tiles.drawTile(context, cell.getItem(), x+dx, y+dy);
                 }
                 if (cell.getActor() != null) {
-                    Tiles.drawTile(context, cell.getActor(), x, y);
+                    Tiles.drawTile(context, cell.getActor(), x+dx, y+dy);
                 }
                 if (!(map.getPlayer().getTileName().equals("playerArmored2")) && map.getPlayer().getMaxHealth() > 10) {
                     map.getPlayer().setTileName("playerArmored1");
