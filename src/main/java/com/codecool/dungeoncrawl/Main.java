@@ -1,10 +1,6 @@
 package com.codecool.dungeoncrawl;
 
-import com.codecool.dungeoncrawl.logic.AiMovement;
-import com.codecool.dungeoncrawl.logic.Cell;
-import com.codecool.dungeoncrawl.logic.CellType;
-import com.codecool.dungeoncrawl.logic.GameMap;
-import com.codecool.dungeoncrawl.logic.MapLoader;
+import com.codecool.dungeoncrawl.logic.*;
 import com.codecool.dungeoncrawl.logic.actors.items.*;
 import javafx.application.Application;
 import javafx.beans.property.ReadOnlyStringWrapper;
@@ -27,7 +23,9 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
+
     public static ObservableList<Item> Inventory = FXCollections.observableArrayList();
+
 
     GameMap map = MapLoader.loadMap();
     AiMovement AI = new AiMovement(map);
@@ -150,15 +148,24 @@ public class Main extends Application {
                 refresh();
                 break;
             case E:
-                if (isItemInInventory("Key of Wisdom") && map.getPlayer().getCell().getNeighbor(1, 0)
-                        .getItem() instanceof LockedDoor){
-                    map.getPlayer().getCell().getNeighbor(1, 0).setType(CellType.FLOOR);
-                    map.getPlayer().getCell().getNeighbor(1, 0).setItem(new OpenedDoor(map.getPlayer().getCell()
-                            .getNeighbor(1, 0)));
-                    Inventory.removeIf(item -> item.getName().equals("Key of Wisdom"));
-                } else if (map.getPlayer().getCell().getItem() != null){
+                if (map.getPlayer().getCell().getItem() != null) {
                     Item item = (Item) map.getPlayer().getCell().getItem();
                     pickUpItem(item);
+
+                } else if (isThereAnInteractiveObjectAroundThePlayer()) {
+                    int[] interactableDirection = getTheInteractiveEntityDirection();
+                    int interactablesArrayCurrentIndex = 0;
+                    Cell currentlyFocusedCell = map.getPlayer().getCell().getNeighbor(interactableDirection[0], interactableDirection[1]);
+                    while (map.getInteractablesArray().size() > interactablesArrayCurrentIndex) {
+                        if (map.getInteractablesArray().get(interactablesArrayCurrentIndex).isThisObjectInteractive() &&
+                                map.getInteractablesArray().get(interactablesArrayCurrentIndex).isThisInteractiveObjectCurrentlyBeingFocusedOn(currentlyFocusedCell)) {
+                            map.getInteractablesArray().get(interactablesArrayCurrentIndex).interact();
+                            refresh();
+                            return;
+                        } else {
+                            interactablesArrayCurrentIndex++;
+                        }
+                    }
                 }
                 refresh();
                 break;
@@ -210,4 +217,28 @@ public class Main extends Application {
         attackPwLabel.setText("" + map.getPlayer().getAttackPower());
         healthLabel.setText("" + map.getPlayer().getHealth());
     }
+
+    private boolean isThereAnInteractiveObjectAroundThePlayer() {
+        if (map.getPlayer().getCell().getNeighbor(1, 0).getItem() instanceof InteractiveObject ||
+                map.getPlayer().getCell().getNeighbor(-1, 0).getItem() instanceof InteractiveObject ||
+                map.getPlayer().getCell().getNeighbor(0, 1).getItem() instanceof InteractiveObject ||
+                map.getPlayer().getCell().getNeighbor(0, -1).getItem() instanceof InteractiveObject) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private int[] getTheInteractiveEntityDirection() {
+        if (map.getPlayer().getCell().getNeighbor(1, 0).getItem() instanceof InteractiveObject) {
+            return new int[]{1, 0};
+        } else if (map.getPlayer().getCell().getNeighbor(-1, 0).getItem() instanceof InteractiveObject) {
+            return new int[]{-1, 0};
+        } else if (map.getPlayer().getCell().getNeighbor(0, 1).getItem() instanceof InteractiveObject) {
+            return new int[]{0, 1};
+        } else {
+            return new int[]{0, -1};
+        }
+    }
+
 }

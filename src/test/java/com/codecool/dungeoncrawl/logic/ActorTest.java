@@ -22,7 +22,7 @@ class ActorTest {
 
     @Test
     void cannotMoveIntoWall() {
-        gameMap.getCell(2, 1).setType(CellType.WALL);
+        gameMap.getCell(2, 1).setCellType(CellType.WALL);
         Player player = new Player(gameMap.getCell(1, 1));
         player.move(1, 0);
 
