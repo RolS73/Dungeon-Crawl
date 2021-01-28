@@ -40,8 +40,7 @@ public class Main extends Application {
 
     Button pickUpButton = new Button("Pick up!");
     Button dontPickUp = new Button("Leave it..");
-
-
+    
     public static void main(String[] args) {
         launch(args);
     }
