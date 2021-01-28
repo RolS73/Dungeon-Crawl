@@ -13,6 +13,11 @@ public abstract class Item extends Actor {
         setAttackPower(0);
     }
 
+    public Item(String name) {
+        this.name = name;
+        setAttackPower(0);
+    }
+
     public void setName(String name) {
         this.name = name;
     }

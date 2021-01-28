@@ -11,6 +11,11 @@ public class Weapon extends Item {
         this.attackpowerIncrease = attackpowerIncrease;
     }
 
+    public Weapon(String name, int attackpowerIncrease) {
+        super(name);
+        this.attackpowerIncrease = attackpowerIncrease;
+    }
+
     @Override
     public String getTileName() {
         return "weapon";

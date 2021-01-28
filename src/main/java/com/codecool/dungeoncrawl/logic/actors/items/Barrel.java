@@ -27,7 +27,7 @@ public class Barrel extends Item implements InteractiveObject {
     @Override
     public void interact() {
         if (isThisObjectInteractive()) {
-            this.getCell().setItem(new Life(this.getCell()));
+            this.getCell().setItem(new LootTable().getItemFromTable());
             this.getCell().setCellType(CellType.FLOOR);
         }
     }

@@ -38,8 +38,7 @@ public class Main extends Application {
 
     Button pickUpButton = new Button("Pick up!");
     Button dontPickUp = new Button("Leave it..");
-
-
+    
     public static void main(String[] args) {
         launch(args);
     }
@@ -63,7 +62,7 @@ public class Main extends Application {
 
         itemnames.setCellValueFactory(items -> new ReadOnlyStringWrapper(items.getValue().getName()));
         inventoryTable.getColumns().add(itemnames);
-        inventoryTable.setMaxWidth(100);
+        inventoryTable.setMaxWidth(130);
         inventoryTable.setMaxHeight(150);
         inventoryTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         ui.add(inventoryTable, 0, 2);
