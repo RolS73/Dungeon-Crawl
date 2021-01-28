@@ -39,8 +39,7 @@ public class Main extends Application {
     Label attackPwLabel = new Label();
 
     Button pickUpButton = new Button("Pick up!");
-    Button dontPickUp = new Button("Leave it..");
-    
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -76,18 +75,13 @@ public class Main extends Application {
             pickUpItem(item);
             refresh();
             pickUpButton.setDisable(true);
-            dontPickUp.setDisable(true);
         });
-
-        dontPickUp.setDisable(true);
-        dontPickUp.setOnAction(leave -> {
-            pickUpButton.setDisable(true);
-            dontPickUp.setDisable(true);
-        });
-
         HBox lootButtons = new HBox();
         lootButtons.setSpacing(10);
-        lootButtons.getChildren().addAll(pickUpButton, dontPickUp);
+        pickUpButton.setFocusTraversable(false);
+        pickUpButton.setPrefWidth(130);
+
+        lootButtons.getChildren().addAll(pickUpButton);
         ui.add(lootButtons, 0, 1);
 
         BorderPane borderPane = new BorderPane();
@@ -180,7 +174,6 @@ public class Main extends Application {
                 if (map.getPlayer().getCell().getItem() != null) {
                     Item item = (Item) map.getPlayer().getCell().getItem();
                     pickUpItem(item);
-                    //BUG!! Doesn't work if current weapon is stronger! (Pick up button still works, as intended)
 
                 } else if (isThereAnInteractiveObjectAroundThePlayer()) {
                     int[] interactableDirection = getTheInteractiveEntityDirection();
@@ -202,14 +195,11 @@ public class Main extends Application {
         }
         if (map.getPlayer().getCell().getItem() instanceof OpenedDoor) {
             pickUpButton.setDisable(true);
-            dontPickUp.setDisable(true);
         } else {
             if (map.getPlayer().getCell().getItem() != null) {
                 pickUpButton.setDisable(false);
-                dontPickUp.setDisable(false);
             } else {
                 pickUpButton.setDisable(true);
-                dontPickUp.setDisable(true);
             }
         }
     }
