@@ -62,7 +62,7 @@ public class Main extends Application {
 
         itemnames.setCellValueFactory(items -> new ReadOnlyStringWrapper(items.getValue().getName()));
         inventoryTable.getColumns().add(itemnames);
-        inventoryTable.setMaxWidth(100);
+        inventoryTable.setMaxWidth(130);
         inventoryTable.setMaxHeight(150);
         inventoryTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         ui.add(inventoryTable, 0, 2);
