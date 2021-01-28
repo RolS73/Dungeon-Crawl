@@ -41,10 +41,10 @@ public class LootTable {
         legendaryLoot.add(new Weapon("Lance of the Gods", 20));
         legendaryLoot.add(new Weapon("Flail of Endless Elemental Winds", 15));
 
-        legendaryLoot.get(0).setTileName("weapon");
-        legendaryLoot.get(1).setTileName("weapon");
-        legendaryLoot.get(2).setTileName("weapon");
-        legendaryLoot.get(3).setTileName("weapon");
+        legendaryLoot.get(0).setTileName("sword3");
+        legendaryLoot.get(1).setTileName("staff3");
+        legendaryLoot.get(2).setTileName("axe3");
+        legendaryLoot.get(3).setTileName("hammer3");
     }
 
 
