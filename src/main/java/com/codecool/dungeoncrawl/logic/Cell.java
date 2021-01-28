@@ -17,11 +17,11 @@ public class Cell implements Drawable {
         this.type = type;
     }
 
-    public CellType getType() {
+    public CellType getCellType() {
         return type;
     }
 
-    public void setType(CellType type) {
+    public void setCellType(CellType type) {
         this.type = type;
     }
 

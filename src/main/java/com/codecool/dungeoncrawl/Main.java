@@ -149,29 +149,23 @@ public class Main extends Application {
                 refresh();
                 break;
             case E:
-                if (isItemInInventory("Key of Wisdom") && map.getPlayer().getCell().getNeighbor(1, 0)
-                        .getItem() instanceof LockedDoor){
-                    map.getPlayer().getCell().getNeighbor(1, 0).setType(CellType.FLOOR);
-                    map.getPlayer().getCell().getNeighbor(1, 0).setItem(new OpenedDoor(map.getPlayer().getCell()
-                            .getNeighbor(1, 0)));
-                    Inventory.removeIf(item -> item.getName().equals("Key of Wisdom"));
-                } else if (map.getPlayer().getCell().getItem() != null){
+                if (map.getPlayer().getCell().getItem() != null) {
                     Item item = (Item) map.getPlayer().getCell().getItem();
                     pickUpItem(item);
 
-                } else if (isInteractableObjectAroundPlayer()) {
-                    int[] interactableDirection = getInteractableDirection();
-                    int interactablesIndex = 0;
-                    while (map.getInteractables().iterator().hasNext()) {
-                        if (map.getInteractables().get(interactablesIndex).isThisObjectInteractive()) {
-                            map.getInteractables().get(interactablesIndex).interact();
-                            if (map.getInteractables().get(interactablesIndex).isMoveOnPossibleAfterInteraction()) {
-                                map.getPlayer().getCell().getNeighbor(interactableDirection[0],interactableDirection[1]).setType(CellType.FLOOR);
-                            }
+                } else if (isThereAnInteractiveObjectAroundThePlayer()) {
+                    int[] interactableDirection = getTheInteractiveEntityDirection();
+                    int interactablesArrayCurrentIndex = 0;
+                    Cell currentlyFocusedCell = map.getPlayer().getCell().getNeighbor(interactableDirection[0], interactableDirection[1]);
+                    while (map.getInteractablesArray().size() > interactablesArrayCurrentIndex) {
+                        if (map.getInteractablesArray().get(interactablesArrayCurrentIndex).isThisObjectInteractive() &&
+                                map.getInteractablesArray().get(interactablesArrayCurrentIndex).isThisInteractiveObjectCurrentlyBeingFocusedOn(currentlyFocusedCell)) {
+                            map.getInteractablesArray().get(interactablesArrayCurrentIndex).interact();
                             refresh();
                             return;
+                        } else {
+                            interactablesArrayCurrentIndex++;
                         }
-                        interactablesIndex++;
                     }
                 }
                 refresh();
@@ -225,7 +219,7 @@ public class Main extends Application {
         healthLabel.setText("" + map.getPlayer().getHealth());
     }
 
-    private boolean isInteractableObjectAroundPlayer() {
+    private boolean isThereAnInteractiveObjectAroundThePlayer() {
         if (map.getPlayer().getCell().getNeighbor(1, 0).getItem() instanceof InteractiveObject ||
                 map.getPlayer().getCell().getNeighbor(-1, 0).getItem() instanceof InteractiveObject ||
                 map.getPlayer().getCell().getNeighbor(0, 1).getItem() instanceof InteractiveObject ||
@@ -236,7 +230,7 @@ public class Main extends Application {
         }
     }
 
-    private int[] getInteractableDirection() {
+    private int[] getTheInteractiveEntityDirection() {
         if (map.getPlayer().getCell().getNeighbor(1, 0).getItem() instanceof InteractiveObject) {
             return new int[]{1, 0};
         } else if (map.getPlayer().getCell().getNeighbor(-1, 0).getItem() instanceof InteractiveObject) {

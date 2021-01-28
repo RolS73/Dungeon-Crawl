@@ -28,55 +28,55 @@ public class MapLoader {
                     Cell cell = map.getCell(x, y);
                     switch (line.charAt(x)) {
                         case ' ':
-                            cell.setType(CellType.EMPTY);
+                            cell.setCellType(CellType.EMPTY);
                             break;
                         case '#':
-                            cell.setType(CellType.WALL);
+                            cell.setCellType(CellType.WALL);
                             break;
                         case '.':
-                            cell.setType(CellType.FLOOR);
+                            cell.setCellType(CellType.FLOOR);
                             break;
                         case 's':
-                            cell.setType(CellType.FLOOR);
+                            cell.setCellType(CellType.FLOOR);
                             map.monsters.add(new Skeleton(cell));
                             break;
                         case '@':
-                            cell.setType(CellType.FLOOR);
+                            cell.setCellType(CellType.FLOOR);
                             map.setPlayer(new Player(cell));
                             break;
                         case 'k':
-                            cell.setType(CellType.FLOOR);
+                            cell.setCellType(CellType.FLOOR);
                             new Key(cell);
                             break;
                         case 'l':
-                            cell.setType(CellType.FLOOR);
+                            cell.setCellType(CellType.FLOOR);
                             new Life(cell);
                             break;
                         case 'w':
-                            cell.setType(CellType.FLOOR);
+                            cell.setCellType(CellType.FLOOR);
                             new Weapon(cell, "Skelie Choppa", 5);
                             break;
                         case 'D':
-                            cell.setType(CellType.WALL);
+                            cell.setCellType(CellType.WALL);
                             map.interactables.add(new LockedDoor(cell));
                             break;
                         case 'f':
-                            cell.setType(CellType.FIRESTAND);
+                            cell.setCellType(CellType.FIRESTAND);
                             break;
                         case 'b':
-                            cell.setType(CellType.WALL);
+                            cell.setCellType(CellType.WALL);
                             map.interactables.add(new Barrel(cell, "barrel"));
                             break;
                         case 'd':
-                            cell.setType(CellType.FLOOR);
+                            cell.setCellType(CellType.FLOOR);
                             map.monsters.add(new Duck(cell));
                             break;
                         case 'g':
-                            cell.setType(CellType.FLOOR);
+                            cell.setCellType(CellType.FLOOR);
                             map.monsters.add(new Guardian(cell));
                             break;
                         case 'h':
-                            cell.setType(CellType.FLOOR);
+                            cell.setCellType(CellType.FLOOR);
                             map.monsters.add(new TheThing(cell));
                             break;
                         default:

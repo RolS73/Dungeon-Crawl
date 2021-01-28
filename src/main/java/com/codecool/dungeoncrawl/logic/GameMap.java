@@ -34,7 +34,7 @@ public class GameMap {
         return monsters;
     }
 
-    public List<InteractiveObject> getInteractables() {
+    public List<InteractiveObject> getInteractablesArray() {
         return interactables;
     }
 
