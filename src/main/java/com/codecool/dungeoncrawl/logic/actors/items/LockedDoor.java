@@ -20,7 +20,7 @@ public class LockedDoor extends Item implements InteractiveObject {
 
         @Override
         public boolean isThisObjectInteractive(){
-            for (Item item : Main.Inventory) {
+            for (Item item : Main.inventory) {
                 if (item.getName().equals("Key of Wisdom")) {
                     return true;
                 }
@@ -33,7 +33,7 @@ public class LockedDoor extends Item implements InteractiveObject {
             if (isThisObjectInteractive()) {
                 this.getCell().setItem(new OpenedDoor(getCell()));
                 this.getCell().setCellType(CellType.FLOOR);
-                Main.Inventory.removeIf(item -> item.getName().equals("Key of Wisdom"));
+                Main.inventory.removeIf(item -> item.getName().equals("Key of Wisdom"));
             }
         }
 
