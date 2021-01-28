@@ -24,41 +24,27 @@ public class AiMovement {
                 map.monsters.remove(i);
                 i--;
             } else if (isPlayerNearby(map.monsters.get(i))) {
+                if(map.monsters.get(i) instanceof TheThing){
+                    count++;
+                }
                     map.monsters.get(i).monsterMove(getPlayerXDifference(map.monsters.get(i)), getPlayerYDifference(map.monsters.get(i)));
-//                    if(map.monsters.get(i).getHealth()<1){
-//                        map.monsters.remove(i);
-//                        i--;
-//                    }
             } else if (map.monsters.get(i) instanceof Skeleton) {
                 setRandom();
                 map.monsters.get(i).monsterMove(x, y);
-//                if(map.monsters.get(i).getHealth()<1){
-//                    map.monsters.remove(i);
-//                    i--;
-//                }
-
             } else if (map.monsters.get(i) instanceof Duck) {
                 map.monsters.get(i).monsterMove(getPlayerXDifference(map.monsters.get(i)), getPlayerYDifference(map.monsters.get(i)));
-//                if(map.monsters.get(i).getHealth()<1){
-//                    map.monsters.remove(i);
-//                    i--;
-//                }
             } else if(map.monsters.get(i) instanceof Guardian){
                 map.monsters.get(i).monsterMove(1,0);
             } else if (map.monsters.get(i) instanceof TheThing){
-                if(count==3){
+                count++;
+                if(count>6){
+                    coordinateGenerator();
+                    ((TheThing) map.monsters.get(i)).teleport(x,y);
                     count = 0;
-                    int[] teleportCoordinates = coordinateGenerator();
-                    x = teleportCoordinates[0]; y = teleportCoordinates[1];
-                }else{
+                }else {
                     setRandom();
-                    count++;
+                    map.monsters.get(i).monsterMove(x,y);
                 }
-                map.monsters.get(i).monsterMove(x,y);
-//                if(map.monsters.get(i).getHealth()<1){
-//                    map.monsters.remove(i);
-//                    i--;
-//                }
             }
         }
     }
@@ -106,10 +92,17 @@ public class AiMovement {
         }
     }
 
-    private int[] coordinateGenerator(){
-        int[] coords = new int[]{10, 8};
-        return coords;
+    private void coordinateGenerator(){
+        int[] lolz = new int[2];
+        while(true){
+            lolz[0] = (int) (map.getWidth() * Math.random());
+            lolz[1] = (int) (map.getHeight() * Math.random());
+            if(map.getCell(lolz[0], lolz[1]).getCellType()==CellType.FLOOR){
+                x = lolz[0];
+                y = lolz[1];
+                break;
+            }
+        }
     }
-
     
 }

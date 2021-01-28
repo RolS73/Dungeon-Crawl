@@ -23,7 +23,6 @@ public class TheThing  extends Monster {
     public void monsterMove(int x, int y) {
 
         Cell nextCell = this.getCell().getNeighbor(x, y);
-
         if(nextCell.getCellType() == CellType.FLOOR){
             if(nextCell.getActor() instanceof Player){
                 nextCell.getActor().setHealth(nextCell.getActor().getHealth()- this.getAttackPower());
@@ -42,8 +41,11 @@ public class TheThing  extends Monster {
 
     }
 
-//    private int[] coordinateGenerator(){
-//        int[] lolz = new int[]{5, 6};
-//        return lolz;
-//    }
+    public void  teleport(int x, int y){
+        Cell nextCell = this.getCell().getQagbmpoibmCell(x,y);
+        nextCell.setActor(this);
+        this.getCell().setActor(null);
+        this.setCell(nextCell);
+    }
+
 }

@@ -41,6 +41,8 @@ public class Cell implements Drawable {
         return gameMap.getCell(x + dx, y + dy);
     }
 
+    public Cell getQagbmpoibmCell(int xx, int yy){ return gameMap.getCell(xx,yy);}
+
     @Override
     public String getTileName() {
         return type.getTileName();
@@ -60,5 +62,13 @@ public class Cell implements Drawable {
 
     public void setItem(Actor item) {
         this.item = item;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
     }
 }
