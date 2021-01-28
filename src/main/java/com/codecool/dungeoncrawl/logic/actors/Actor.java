@@ -8,6 +8,7 @@ public abstract class Actor implements Drawable {
     private Cell cell;
     private int health = 10;
     private int attackPower = 1;
+    private String tileName = getTileName();
 
     public Actor(Cell cell) {
         this.cell = cell;
