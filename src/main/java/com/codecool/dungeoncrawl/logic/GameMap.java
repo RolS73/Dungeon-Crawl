@@ -1,6 +1,7 @@
 package com.codecool.dungeoncrawl.logic;
 
 import com.codecool.dungeoncrawl.logic.actors.Player;
+import com.codecool.dungeoncrawl.logic.actors.items.Chest;
 import com.codecool.dungeoncrawl.logic.actors.items.DoorSealedFromOtherSide;
 import com.codecool.dungeoncrawl.logic.actors.items.InteractiveObject;
 import com.codecool.dungeoncrawl.logic.actors.monsters.Monster;
@@ -18,6 +19,7 @@ public class GameMap {
     List<Monster> monsters = new ArrayList<>();
     List<InteractiveObject> interactablesCollection = new ArrayList<>();
     List<DoorSealedFromOtherSide> doorsSealedFromOtherSideCollection = new ArrayList<>();
+    List<Chest> chestsCollection = new ArrayList<>();
 
 
     public GameMap(int width, int height, CellType defaultCellType) {
@@ -46,6 +48,10 @@ public class GameMap {
 
     public Player getPlayer() {
         return player;
+    }
+
+    public List<Chest> getChestsCollection() {
+        return chestsCollection;
     }
 
     public List<Monster> getMonsters() {

@@ -3,35 +3,43 @@ import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 
 public class Chest extends Item implements InteractiveObject {
-    private String tileName;
+    private String anotherTilename;
 
-    public Chest(Cell cell, String tileName) {
-        super(cell, tileName);
+    public Chest(Cell cell, String name) {
+        super(cell, name);
         setAttackPower(0);
+        this.anotherTilename = name;
     }
 
-    public void setName(String name) {
-        this.tileName = name;
-    }
-
-    public String getName() {
-        return this.tileName;
+    public void setAnotherTilename(String anotherTilename) {
+        this.anotherTilename = anotherTilename;
     }
 
     @Override
     public String getTileName() {
-        return "barrel";
-    }
-
-    public void setTileName(String tileName) {
-        this.tileName = tileName;
+        return anotherTilename;
     }
 
     @Override
     public void interact() {
         if (isThisObjectInteractive()) {
-            this.getCell().setItem(new LootTable("Rare").getItemFromTable());
-            this.getCell().setCellType(CellType.FLOOR);
+            switch (this.getTileName()) {
+                case "chest1":
+                    this.getCell().setItem(new LootTable("Common").getItemFromTable());
+                    this.anotherTilename = "chest1Opened";
+                    this.getCell().setCellType(CellType.FLOOR);
+                    break;
+                case "chest2":
+                    this.getCell().setItem(new LootTable("Rare").getItemFromTable());
+                    this.anotherTilename = "chest2Opened";
+                    this.getCell().setCellType(CellType.FLOOR);
+                    break;
+                case "chest3":
+                    this.getCell().setItem(new LootTable("Legendary").getItemFromTable());
+                    this.anotherTilename = "chest3Opened";
+                    this.getCell().setCellType(CellType.FLOOR);
+                    break;
+            }
         }
     }
 

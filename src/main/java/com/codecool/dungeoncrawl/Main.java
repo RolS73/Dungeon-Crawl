@@ -73,6 +73,10 @@ public class Main extends Application {
         map.getDoorsSealedFromOtherSideArray().get(1).setOpenableFromWhatDirection("Left");
         map.getDoorsSealedFromOtherSideArray().get(2).setOpenableFromWhatDirection("Right");
 
+        map.getChestsCollection().get(0).setAnotherTilename("chest1");
+        map.getChestsCollection().get(1).setAnotherTilename("chest2");
+        map.getChestsCollection().get(2).setAnotherTilename("chest2");
+
         pickUpButton.setDisable(true);
         pickUpButton.setOnAction(pickUp -> {
             Item item = (Item) map.getPlayer().getCell().getItem();

@@ -26,7 +26,7 @@ public class Tiles {
         tileMap.put("empty", new Tile(0, 0));
         tileMap.put("wall", new Tile(10, 17));
         tileMap.put("suspiciousWall", new Tile(10, 17));
-        tileMap.put("secretPassage", new Tile(0, 0));
+        tileMap.put("secretPassage", new Tile(2, 0));
         tileMap.put("floor", new Tile(2, 0));
 
         tileMap.put("sealedFromOtherSideDoor", new Tile(3, 4));
@@ -39,6 +39,13 @@ public class Tiles {
         tileMap.put("barrel", new Tile(10, 8));
         tileMap.put("crate", new Tile(15, 14));
         tileMap.put("crate2", new Tile(14, 14));
+
+        tileMap.put("chest1", new Tile(8, 6));
+        tileMap.put("chest1Opened", new Tile(9, 6));
+        tileMap.put("chest2", new Tile(10, 6));
+        tileMap.put("chest2Opened", new Tile(11, 6));
+        tileMap.put("chest3", new Tile(10, 6));
+        tileMap.put("chest3Opened", new Tile(11, 6));
 
         tileMap.put("player", new Tile(27, 0));
         tileMap.put("playerArmored1", new Tile(28, 0));

@@ -66,6 +66,12 @@ public class MapLoader {
                             map.interactablesCollection.add(doorSealedFromOtherSide);
                             map.doorsSealedFromOtherSideCollection.add(doorSealedFromOtherSide);
                             break;
+                        case 'C':
+                            cell.setCellType(CellType.WALL);
+                            Chest chest = new Chest(cell, "chest1");
+                            map.interactablesCollection.add(chest);
+                            map.chestsCollection.add(chest);
+                            break;
                         case 'f':
                             cell.setCellType(CellType.FIRESTAND);
                             break;
