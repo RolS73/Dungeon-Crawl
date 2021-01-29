@@ -2,25 +2,29 @@ package com.codecool.dungeoncrawl.logic.actors.items;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 
-public class ChestCommon extends Item implements InteractiveObject {
-    private String name;
+public class Chest extends Item implements InteractiveObject {
+    private String tileName;
 
-    public ChestCommon(Cell cell, String name) {
-        super(cell, name);
+    public Chest(Cell cell, String tileName) {
+        super(cell, tileName);
         setAttackPower(0);
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.tileName = name;
     }
 
     public String getName() {
-        return this.name;
+        return this.tileName;
     }
 
     @Override
     public String getTileName() {
         return "barrel";
+    }
+
+    public void setTileName(String tileName) {
+        this.tileName = tileName;
     }
 
     @Override

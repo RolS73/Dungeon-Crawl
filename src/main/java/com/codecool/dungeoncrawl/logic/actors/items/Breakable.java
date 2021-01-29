@@ -3,10 +3,10 @@ package com.codecool.dungeoncrawl.logic.actors.items;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 
-public class Barrel extends Item implements InteractiveObject {
-    private String tileName = "barrel";
+public class Breakable extends Item implements InteractiveObject {
+    private String tileName = "breakable";
 
-    public Barrel(Cell cell, String name) {
+    public Breakable(Cell cell, String name) {
         super(cell, name);
         setAttackPower(0);
     }

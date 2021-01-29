@@ -35,9 +35,10 @@ public class Tiles {
         tileMap.put("openedDoor", new Tile(4, 3));
 
         tileMap.put("firestand", new Tile(4, 15));
-        //tileMap.put("breakable", new Tile(10, 8));
+        tileMap.put("breakable", new Tile(10, 8));
         tileMap.put("barrel", new Tile(10, 8));
         tileMap.put("crate", new Tile(15, 14));
+        tileMap.put("crate2", new Tile(14, 14));
 
         tileMap.put("player", new Tile(27, 0));
         tileMap.put("playerArmored1", new Tile(28, 0));

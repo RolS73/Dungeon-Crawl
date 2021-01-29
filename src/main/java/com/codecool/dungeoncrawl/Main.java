@@ -32,8 +32,8 @@ public class Main extends Application {
     GameMap map = MapLoader.loadMap();
     AiMovement AI = new AiMovement(map);
     Canvas canvas = new Canvas(
-            21 * Tiles.TILE_WIDTH,
-            21 * Tiles.TILE_WIDTH);
+            19 * Tiles.TILE_WIDTH,
+            19 * Tiles.TILE_WIDTH);
     GraphicsContext context = canvas.getGraphicsContext2D();
     Label healthLabel = new Label();
     Label attackPwLabel = new Label();
@@ -195,6 +195,9 @@ public class Main extends Application {
                         }
                     }
                 }
+                /*else if (isThereAPickupableItemUnderThePlayer()) {
+                    map.getPlayer().getCell().getItem().
+                }*/
                 refresh();
                 break;
         }
@@ -224,8 +227,8 @@ public class Main extends Application {
 
         int dx = Math.min(0, 11-map.getPlayer().getX());
         int dy = Math.min(0, 11-map.getPlayer().getY());
-        dx = Math.max(21-map.getWidth(), dx);
-        dy = Math.max(21-map.getHeight(), dy);
+        dx = Math.max(19-map.getWidth(), dx);
+        dy = Math.max(19-map.getHeight(), dy);
 
         for (int x = 0; x < map.getWidth(); x++) {
             for (int y = 0; y < map.getHeight(); y++) {
@@ -270,6 +273,10 @@ public class Main extends Application {
         } else {
             return new int[]{0, -1};
         }
+    }
+
+    private boolean isThereAPickupableItemUnderThePlayer() {
+        return map.getPlayer().getCell().getItem() instanceof PickupableItem;
     }
 
 }
