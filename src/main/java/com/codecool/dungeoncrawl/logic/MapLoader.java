@@ -71,7 +71,14 @@ public class MapLoader {
                             break;
                         case 'b':
                             cell.setCellType(CellType.WALL);
-                            map.interactablesCollection.add(new Barrel(cell, "barrel"));
+                            Barrel barrel = new Barrel(cell, "barrel");
+                            int randomNum = RandomGenerator.nextInt(2);
+                            if (randomNum == 0) {
+                                barrel.setTileName("crate");
+                            } else {
+                                barrel.setTileName("barrel");
+                            }
+                            map.interactablesCollection.add(barrel);
                             break;
                         case 'd':
                             cell.setCellType(CellType.FLOOR);

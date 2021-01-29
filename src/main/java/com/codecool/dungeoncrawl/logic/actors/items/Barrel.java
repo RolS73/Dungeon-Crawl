@@ -4,24 +4,24 @@ import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 
 public class Barrel extends Item implements InteractiveObject {
-    private String name;
+    private String tileName = "barrel";
 
     public Barrel(Cell cell, String name) {
         super(cell, name);
         setAttackPower(0);
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getName() {
-        return this.name;
+        return this.tileName;
     }
 
     @Override
     public String getTileName() {
-        return "barrel";
+        return tileName;
+    }
+
+    public void setTileName(String tileName) {
+        this.tileName = tileName;
     }
 
     @Override
