@@ -79,6 +79,10 @@ public class MapLoader {
                             cell.setCellType(CellType.FLOOR);
                             map.monsters.add(new TheThing(cell));
                             break;
+                        case 'H':
+                            cell.setCellType(CellType.WALL);
+                            map.interactables.add(new SuspiciousWall(cell));
+                            break;
                         default:
                             throw new RuntimeException("Unrecognized character: '" + line.charAt(x) + "'");
                     }

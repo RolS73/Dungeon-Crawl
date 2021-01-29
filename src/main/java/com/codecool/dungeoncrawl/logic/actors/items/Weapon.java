@@ -4,6 +4,8 @@ import com.codecool.dungeoncrawl.logic.Cell;
 
 public class Weapon extends Item {
 
+    private String tileName = "staff";
+
     private int attackpowerIncrease;
 
     public Weapon(Cell cell, String name, int attackpowerIncrease) {
@@ -11,9 +13,18 @@ public class Weapon extends Item {
         this.attackpowerIncrease = attackpowerIncrease;
     }
 
+    public Weapon(String name, int attackpowerIncrease) {
+        super(name);
+        this.attackpowerIncrease = attackpowerIncrease;
+    }
+
     @Override
     public String getTileName() {
-        return "weapon";
+        return tileName;
+    }
+
+    public void setTileName(String tileName) {
+        this.tileName = tileName;
     }
 
     public int getAttackpowerIncrease() {

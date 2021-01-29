@@ -1,12 +1,11 @@
 package com.codecool.dungeoncrawl.logic.actors.items;
-
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 
-public class Barrel extends Item implements InteractiveObject {
+public class ChestCommon extends Item implements InteractiveObject {
     private String name;
 
-    public Barrel(Cell cell, String name) {
+    public ChestCommon(Cell cell, String name) {
         super(cell, name);
         setAttackPower(0);
     }
@@ -27,7 +26,7 @@ public class Barrel extends Item implements InteractiveObject {
     @Override
     public void interact() {
         if (isThisObjectInteractive()) {
-            this.getCell().setItem(new LootTable().getItemFromTable());
+            this.getCell().setItem(new LootTable("Rare").getItemFromTable());
             this.getCell().setCellType(CellType.FLOOR);
         }
     }
@@ -47,3 +46,4 @@ public class Barrel extends Item implements InteractiveObject {
         return this.getCell().equals(cell);
     }
 }
+

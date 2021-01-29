@@ -21,10 +21,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.util.NoSuchElementException;
+
 public class Main extends Application {
 
 
-    public static ObservableList<Item> Inventory = FXCollections.observableArrayList();
+    public static ObservableList<Item> inventory = FXCollections.observableArrayList();
 
 
     GameMap map = MapLoader.loadMap();
@@ -38,8 +40,7 @@ public class Main extends Application {
 
     Button pickUpButton = new Button("Pick up!");
     Button dontPickUp = new Button("Leave it..");
-
-
+    
     public static void main(String[] args) {
         launch(args);
     }
@@ -58,12 +59,12 @@ public class Main extends Application {
         ui.setPadding(new Insets(10, 10, 10, 10));
         ui.add(lifeStatus, 0, 0);
 
-        TableView<Item> inventoryTable = new TableView<>(Inventory);
+        TableView<Item> inventoryTable = new TableView<>(inventory);
         TableColumn<Item, String> itemnames = new TableColumn<>("Inventory");
 
         itemnames.setCellValueFactory(items -> new ReadOnlyStringWrapper(items.getValue().getName()));
         inventoryTable.getColumns().add(itemnames);
-        inventoryTable.setMaxWidth(100);
+        inventoryTable.setMaxWidth(130);
         inventoryTable.setMaxHeight(150);
         inventoryTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         ui.add(inventoryTable, 0, 2);
@@ -105,17 +106,44 @@ public class Main extends Application {
 
     private void pickUpItem(Item item) {
         if (item instanceof Weapon) {
-            map.getPlayer().raiseAttackPower(((Weapon) item).getAttackpowerIncrease());
-            Inventory.add(item);
-            map.getPlayer().getCell().setItem(null);
+            if (inventory.stream().anyMatch(i -> i instanceof Weapon)) {
+                checkCurrentWeapon(item);
+            } else {
+                equipWeapon(item);
+            }
         } else if (item instanceof Life) {
             map.getPlayer().raiseMaxHealth(5);
             map.getPlayer().setHealth(map.getPlayer().getMaxHealth());
             map.getPlayer().getCell().setItem(null);
         } else if (item instanceof Key) {
-            Inventory.add(item);
+            inventory.add(item);
             map.getPlayer().getCell().setItem(null);
         }
+    }
+
+    private void checkCurrentWeapon(Item item) {
+        Weapon currentWeapon = getCurrentWeapon();
+        if (currentWeapon.getAttackpowerIncrease() < ((Weapon) item).getAttackpowerIncrease()) {
+            unequipCurrentWeapon(currentWeapon);
+            equipWeapon(item);
+        }
+    }
+
+    private Weapon getCurrentWeapon() {
+        return (Weapon) inventory.stream().filter(weapon -> weapon instanceof Weapon)
+                .findFirst()
+                .orElseThrow(() -> new NoSuchElementException("No Weapon found"));
+    }
+
+    private void unequipCurrentWeapon(Weapon currentWeapon) {
+        inventory.remove(currentWeapon);
+        map.getPlayer().setAttackPower(map.getPlayer().getAttackPower() - currentWeapon.getAttackpowerIncrease());
+    }
+
+    private void equipWeapon(Item item) {
+        map.getPlayer().raiseAttackPower(((Weapon) item).getAttackpowerIncrease());
+        inventory.add(item);
+        map.getPlayer().getCell().setItem(null);
     }
 
     private void onKeyPressed(KeyEvent keyEvent) {
@@ -152,6 +180,7 @@ public class Main extends Application {
                 if (map.getPlayer().getCell().getItem() != null) {
                     Item item = (Item) map.getPlayer().getCell().getItem();
                     pickUpItem(item);
+                    //BUG!! Doesn't work if current weapon is stronger! (Pick up button still works, as intended)
 
                 } else if (isThereAnInteractiveObjectAroundThePlayer()) {
                     int[] interactableDirection = getTheInteractiveEntityDirection();
@@ -186,7 +215,7 @@ public class Main extends Application {
     }
 
     private boolean isItemInInventory(String itemName) {
-        for (Item item : Inventory) {
+        for (Item item : inventory) {
             if (item.getName().equals(itemName)) {
                 return true;
             }
