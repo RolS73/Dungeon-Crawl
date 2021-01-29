@@ -10,5 +10,7 @@ public interface InteractiveObject {
 
     boolean isMoveOnPossibleAfterInteraction();
 
+    boolean isPlayerInteractingFromLegalDirection(Cell cell);
+
     boolean isThisInteractiveObjectCurrentlyBeingFocusedOn(Cell cell);
 }

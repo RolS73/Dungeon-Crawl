@@ -1,9 +1,9 @@
 package com.codecool.dungeoncrawl.logic;
 
-import com.codecool.dungeoncrawl.logic.actors.Actor;
 import com.codecool.dungeoncrawl.logic.actors.Player;
-import com.codecool.dungeoncrawl.logic.actors.monsters.Monster;
+import com.codecool.dungeoncrawl.logic.actors.items.DoorLockedFromOtherSide;
 import com.codecool.dungeoncrawl.logic.actors.items.InteractiveObject;
+import com.codecool.dungeoncrawl.logic.actors.monsters.Monster;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +17,7 @@ public class GameMap {
 
     List<Monster> monsters = new ArrayList<>();
     List<InteractiveObject> interactables = new ArrayList<>();
+    List<DoorLockedFromOtherSide> doorsLockedFromOtherSideArray = new ArrayList<>();
 
 
     public GameMap(int width, int height, CellType defaultCellType) {
@@ -30,17 +31,13 @@ public class GameMap {
         }
     }
 
-    public List<Monster> getMonsters() {
-        return monsters;
-    }
-
-    public List<InteractiveObject> getInteractablesArray() {
-        return interactables;
-    }
-
     public Cell getCell(int x, int y) {
         return (x<0 || x >= width || y<0 || y >= height) ? null : cells[x][y];
         // return cells[x][y]; eredeti
+    }
+
+    public List<DoorLockedFromOtherSide> getDoorsLockedFromOtherSideArray() {
+        return doorsLockedFromOtherSideArray;
     }
 
     public void setPlayer(Player player) {
@@ -49,6 +46,14 @@ public class GameMap {
 
     public Player getPlayer() {
         return player;
+    }
+
+    public List<Monster> getMonsters() {
+        return monsters;
+    }
+
+    public List<InteractiveObject> getInteractablesArray() {
+        return interactables;
     }
 
     public int getWidth() {

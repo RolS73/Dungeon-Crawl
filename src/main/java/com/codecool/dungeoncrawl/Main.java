@@ -69,6 +69,10 @@ public class Main extends Application {
         ui.add(inventoryTable, 0, 2);
         inventoryTable.setFocusTraversable(false);
 
+        map.getDoorsLockedFromOtherSideArray().get(0).setOpenableFromWhatDirection("Down");
+        map.getDoorsLockedFromOtherSideArray().get(1).setOpenableFromWhatDirection("Left");
+        map.getDoorsLockedFromOtherSideArray().get(2).setOpenableFromWhatDirection("Right");
+
         pickUpButton.setDisable(true);
         pickUpButton.setOnAction(pickUp -> {
             Item item = (Item) map.getPlayer().getCell().getItem();
@@ -181,7 +185,8 @@ public class Main extends Application {
                     Cell currentlyFocusedCell = map.getPlayer().getCell().getNeighbor(interactableDirection[0], interactableDirection[1]);
                     while (map.getInteractablesArray().size() > interactablesArrayCurrentIndex) {
                         if (map.getInteractablesArray().get(interactablesArrayCurrentIndex).isThisObjectInteractive() &&
-                                map.getInteractablesArray().get(interactablesArrayCurrentIndex).isThisInteractiveObjectCurrentlyBeingFocusedOn(currentlyFocusedCell)) {
+                                map.getInteractablesArray().get(interactablesArrayCurrentIndex).isThisInteractiveObjectCurrentlyBeingFocusedOn(currentlyFocusedCell) &&
+                                map.getInteractablesArray().get(interactablesArrayCurrentIndex).isPlayerInteractingFromLegalDirection(map.getPlayer().getCell())) {
                             map.getInteractablesArray().get(interactablesArrayCurrentIndex).interact();
                             refresh();
                             return;

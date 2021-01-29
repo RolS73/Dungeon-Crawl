@@ -53,6 +53,7 @@ public class Tiles {
         tileMap.put("hammer3", new Tile(6, 30));
 
         tileMap.put("lockedDoor", new Tile(3, 4));
+        tileMap.put("lockedFromOtherSideDoor", new Tile(3, 4));
         tileMap.put("openedDoor", new Tile(4, 4));
         tileMap.put("firestand", new Tile(4, 15));
         tileMap.put("duck", new Tile(25, 7));

@@ -60,6 +60,12 @@ public class MapLoader {
                             cell.setCellType(CellType.WALL);
                             map.interactables.add(new LockedDoor(cell));
                             break;
+                        case 'O':
+                            cell.setCellType(CellType.WALL);
+                            DoorLockedFromOtherSide doorLockedFromOtherSide = new DoorLockedFromOtherSide(cell);
+                            map.interactables.add(doorLockedFromOtherSide);
+                            map.doorsLockedFromOtherSideArray.add(doorLockedFromOtherSide);
+                            break;
                         case 'f':
                             cell.setCellType(CellType.FIRESTAND);
                             break;
