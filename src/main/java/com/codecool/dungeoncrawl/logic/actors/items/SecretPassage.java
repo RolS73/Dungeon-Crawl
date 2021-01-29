@@ -41,6 +41,11 @@ public class SecretPassage extends Item implements InteractiveObject {
     }
 
     @Override
+    public boolean isPlayerInteractingFromLegalDirection(Cell cell) {
+        return true;
+    }
+
+    @Override
     public boolean isThisInteractiveObjectCurrentlyBeingFocusedOn(Cell cell) {
         return this.getCell().equals(cell);
     }

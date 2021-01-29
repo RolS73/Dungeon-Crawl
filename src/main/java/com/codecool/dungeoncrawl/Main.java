@@ -32,15 +32,14 @@ public class Main extends Application {
     GameMap map = MapLoader.loadMap();
     AiMovement AI = new AiMovement(map);
     Canvas canvas = new Canvas(
-            map.getWidth() * Tiles.TILE_WIDTH,
-            map.getHeight() * Tiles.TILE_WIDTH);
+            21 * Tiles.TILE_WIDTH,
+            21 * Tiles.TILE_WIDTH);
     GraphicsContext context = canvas.getGraphicsContext2D();
     Label healthLabel = new Label();
     Label attackPwLabel = new Label();
 
     Button pickUpButton = new Button("Pick up!");
-    Button dontPickUp = new Button("Leave it..");
-    
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -70,24 +69,23 @@ public class Main extends Application {
         ui.add(inventoryTable, 0, 2);
         inventoryTable.setFocusTraversable(false);
 
+        map.getDoorsLockedFromOtherSideArray().get(0).setOpenableFromWhatDirection("Down");
+        map.getDoorsLockedFromOtherSideArray().get(1).setOpenableFromWhatDirection("Left");
+        map.getDoorsLockedFromOtherSideArray().get(2).setOpenableFromWhatDirection("Right");
+
         pickUpButton.setDisable(true);
         pickUpButton.setOnAction(pickUp -> {
             Item item = (Item) map.getPlayer().getCell().getItem();
             pickUpItem(item);
             refresh();
             pickUpButton.setDisable(true);
-            dontPickUp.setDisable(true);
         });
-
-        dontPickUp.setDisable(true);
-        dontPickUp.setOnAction(leave -> {
-            pickUpButton.setDisable(true);
-            dontPickUp.setDisable(true);
-        });
-
         HBox lootButtons = new HBox();
         lootButtons.setSpacing(10);
-        lootButtons.getChildren().addAll(pickUpButton, dontPickUp);
+        pickUpButton.setFocusTraversable(false);
+        pickUpButton.setPrefWidth(130);
+
+        lootButtons.getChildren().addAll(pickUpButton);
         ui.add(lootButtons, 0, 1);
 
         BorderPane borderPane = new BorderPane();
@@ -180,7 +178,6 @@ public class Main extends Application {
                 if (map.getPlayer().getCell().getItem() != null) {
                     Item item = (Item) map.getPlayer().getCell().getItem();
                     pickUpItem(item);
-                    //BUG!! Doesn't work if current weapon is stronger! (Pick up button still works, as intended)
 
                 } else if (isThereAnInteractiveObjectAroundThePlayer()) {
                     int[] interactableDirection = getTheInteractiveEntityDirection();
@@ -188,7 +185,8 @@ public class Main extends Application {
                     Cell currentlyFocusedCell = map.getPlayer().getCell().getNeighbor(interactableDirection[0], interactableDirection[1]);
                     while (map.getInteractablesArray().size() > interactablesArrayCurrentIndex) {
                         if (map.getInteractablesArray().get(interactablesArrayCurrentIndex).isThisObjectInteractive() &&
-                                map.getInteractablesArray().get(interactablesArrayCurrentIndex).isThisInteractiveObjectCurrentlyBeingFocusedOn(currentlyFocusedCell)) {
+                                map.getInteractablesArray().get(interactablesArrayCurrentIndex).isThisInteractiveObjectCurrentlyBeingFocusedOn(currentlyFocusedCell) &&
+                                map.getInteractablesArray().get(interactablesArrayCurrentIndex).isPlayerInteractingFromLegalDirection(map.getPlayer().getCell())) {
                             map.getInteractablesArray().get(interactablesArrayCurrentIndex).interact();
                             refresh();
                             return;
@@ -202,14 +200,11 @@ public class Main extends Application {
         }
         if (map.getPlayer().getCell().getItem() instanceof OpenedDoor) {
             pickUpButton.setDisable(true);
-            dontPickUp.setDisable(true);
         } else {
             if (map.getPlayer().getCell().getItem() != null) {
                 pickUpButton.setDisable(false);
-                dontPickUp.setDisable(false);
             } else {
                 pickUpButton.setDisable(true);
-                dontPickUp.setDisable(true);
             }
         }
     }
@@ -226,15 +221,21 @@ public class Main extends Application {
     private void refresh() {
         context.setFill(Color.BLACK);
         context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
+        int dx = Math.min(0, 11-map.getPlayer().getX());
+        int dy = Math.min(0, 11-map.getPlayer().getY());
+        dx = Math.max(21-map.getWidth(), dx);
+        dy = Math.max(21-map.getHeight(), dy);
+
         for (int x = 0; x < map.getWidth(); x++) {
             for (int y = 0; y < map.getHeight(); y++) {
                 Cell cell = map.getCell(x, y);
-                Tiles.drawTile(context, cell, x, y);
+                Tiles.drawTile(context, cell, x+dx,y+dy);
                 if (cell.getItem() != null) {
-                    Tiles.drawTile(context, cell.getItem(), x, y);
+                    Tiles.drawTile(context, cell.getItem(), x+dx, y+dy);
                 }
                 if (cell.getActor() != null) {
-                    Tiles.drawTile(context, cell.getActor(), x, y);
+                    Tiles.drawTile(context, cell.getActor(), x+dx, y+dy);
                 }
                 if (!(map.getPlayer().getTileName().equals("playerArmored2")) && map.getPlayer().getMaxHealth() > 10) {
                     map.getPlayer().setTileName("playerArmored1");
