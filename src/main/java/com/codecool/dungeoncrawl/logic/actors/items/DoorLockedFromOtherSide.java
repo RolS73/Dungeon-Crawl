@@ -4,7 +4,7 @@ import com.codecool.dungeoncrawl.logic.CellType;
 
     public class DoorLockedFromOtherSide extends Item implements InteractiveObject {
 
-        private String name = "lockedDoor";
+        private String name = "lockedFromOtherSideDoor";
         private Cell openableFromWhatSide;
 
         int[] coordinates;
@@ -46,7 +46,9 @@ import com.codecool.dungeoncrawl.logic.CellType;
         @Override
         public void interact() {
             if (isThisObjectInteractive()) {
-                this.getCell().setItem(new OpenedDoor(getCell()));
+                OpenedDoor openDoor = new OpenedDoor(this.getCell());
+                openDoor.setAnotherTileName("lockedFromOtherSideDoorOpened");
+                this.getCell().setItem(openDoor);
                 this.getCell().setCellType(CellType.FLOOR);
             }
         }
