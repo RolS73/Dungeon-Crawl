@@ -69,9 +69,9 @@ public class Main extends Application {
         ui.add(inventoryTable, 0, 2);
         inventoryTable.setFocusTraversable(false);
 
-        map.getDoorsLockedFromOtherSideArray().get(0).setOpenableFromWhatDirection("Down");
-        map.getDoorsLockedFromOtherSideArray().get(1).setOpenableFromWhatDirection("Left");
-        map.getDoorsLockedFromOtherSideArray().get(2).setOpenableFromWhatDirection("Right");
+        map.getDoorsSealedFromOtherSideArray().get(0).setOpenableFromWhatDirection("Down");
+        map.getDoorsSealedFromOtherSideArray().get(1).setOpenableFromWhatDirection("Left");
+        map.getDoorsSealedFromOtherSideArray().get(2).setOpenableFromWhatDirection("Right");
 
         pickUpButton.setDisable(true);
         pickUpButton.setOnAction(pickUp -> {

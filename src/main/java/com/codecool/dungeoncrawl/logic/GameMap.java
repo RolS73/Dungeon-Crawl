@@ -1,7 +1,7 @@
 package com.codecool.dungeoncrawl.logic;
 
 import com.codecool.dungeoncrawl.logic.actors.Player;
-import com.codecool.dungeoncrawl.logic.actors.items.DoorLockedFromOtherSide;
+import com.codecool.dungeoncrawl.logic.actors.items.DoorSealedFromOtherSide;
 import com.codecool.dungeoncrawl.logic.actors.items.InteractiveObject;
 import com.codecool.dungeoncrawl.logic.actors.monsters.Monster;
 
@@ -16,8 +16,8 @@ public class GameMap {
     Player player;
 
     List<Monster> monsters = new ArrayList<>();
-    List<InteractiveObject> interactables = new ArrayList<>();
-    List<DoorLockedFromOtherSide> doorsLockedFromOtherSideArray = new ArrayList<>();
+    List<InteractiveObject> interactablesCollection = new ArrayList<>();
+    List<DoorSealedFromOtherSide> doorsSealedFromOtherSideCollection = new ArrayList<>();
 
 
     public GameMap(int width, int height, CellType defaultCellType) {
@@ -36,8 +36,8 @@ public class GameMap {
         // return cells[x][y]; eredeti
     }
 
-    public List<DoorLockedFromOtherSide> getDoorsLockedFromOtherSideArray() {
-        return doorsLockedFromOtherSideArray;
+    public List<DoorSealedFromOtherSide> getDoorsSealedFromOtherSideArray() {
+        return doorsSealedFromOtherSideCollection;
     }
 
     public void setPlayer(Player player) {
@@ -53,7 +53,7 @@ public class GameMap {
     }
 
     public List<InteractiveObject> getInteractablesArray() {
-        return interactables;
+        return interactablesCollection;
     }
 
     public int getWidth() {

@@ -58,20 +58,20 @@ public class MapLoader {
                             break;
                         case 'D':
                             cell.setCellType(CellType.WALL);
-                            map.interactables.add(new LockedDoor(cell));
+                            map.interactablesCollection.add(new LockedDoor(cell));
                             break;
                         case 'O':
                             cell.setCellType(CellType.WALL);
-                            DoorLockedFromOtherSide doorLockedFromOtherSide = new DoorLockedFromOtherSide(cell);
-                            map.interactables.add(doorLockedFromOtherSide);
-                            map.doorsLockedFromOtherSideArray.add(doorLockedFromOtherSide);
+                            DoorSealedFromOtherSide doorSealedFromOtherSide = new DoorSealedFromOtherSide(cell);
+                            map.interactablesCollection.add(doorSealedFromOtherSide);
+                            map.doorsSealedFromOtherSideCollection.add(doorSealedFromOtherSide);
                             break;
                         case 'f':
                             cell.setCellType(CellType.FIRESTAND);
                             break;
                         case 'b':
                             cell.setCellType(CellType.WALL);
-                            map.interactables.add(new Barrel(cell, "barrel"));
+                            map.interactablesCollection.add(new Barrel(cell, "barrel"));
                             break;
                         case 'd':
                             cell.setCellType(CellType.FLOOR);
@@ -87,7 +87,7 @@ public class MapLoader {
                             break;
                         case 'H':
                             cell.setCellType(CellType.WALL);
-                            map.interactables.add(new SuspiciousWall(cell));
+                            map.interactablesCollection.add(new SuspiciousWall(cell));
                             break;
                         default:
                             throw new RuntimeException("Unrecognized character: '" + line.charAt(x) + "'");

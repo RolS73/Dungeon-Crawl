@@ -52,10 +52,10 @@ public class Tiles {
         tileMap.put("axe3", new Tile(9, 29));
         tileMap.put("hammer3", new Tile(6, 30));
 
-        tileMap.put("lockedFromOtherSideDoor", new Tile(3, 3));
-        tileMap.put("lockedFromOtherSideDoorOpened", new Tile(4, 3));
-        tileMap.put("lockedDoor", new Tile(3, 4));
-        tileMap.put("openedDoor", new Tile(4, 4));
+        tileMap.put("sealedFromOtherSideDoor", new Tile(3, 4));
+        tileMap.put("sealedFromOtherSideDoorOpened", new Tile(4, 4));
+        tileMap.put("lockedDoor", new Tile(3, 3));
+        tileMap.put("openedDoor", new Tile(4, 3));
 
         tileMap.put("firestand", new Tile(4, 15));
         tileMap.put("duck", new Tile(25, 7));

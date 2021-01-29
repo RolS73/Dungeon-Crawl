@@ -2,14 +2,14 @@ package com.codecool.dungeoncrawl.logic.actors.items;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 
-    public class DoorLockedFromOtherSide extends Item implements InteractiveObject {
+    public class DoorSealedFromOtherSide extends Item implements InteractiveObject {
 
-        private String name = "lockedFromOtherSideDoor";
+        private String name = "sealedFromOtherSideDoor";
         private Cell openableFromWhatSide;
 
         int[] coordinates;
 
-        public DoorLockedFromOtherSide(Cell cell) {
+        public DoorSealedFromOtherSide(Cell cell) {
             super(cell, "Door from Doom");
             this.coordinates = new int[]{cell.getX(), cell.getY()};
             this.setName("Door from Doom");
@@ -47,7 +47,7 @@ import com.codecool.dungeoncrawl.logic.CellType;
         public void interact() {
             if (isThisObjectInteractive()) {
                 OpenedDoor openDoor = new OpenedDoor(this.getCell());
-                openDoor.setAnotherTileName("lockedFromOtherSideDoorOpened");
+                openDoor.setAnotherTileName("sealedFromOtherSideDoorOpened");
                 this.getCell().setItem(openDoor);
                 this.getCell().setCellType(CellType.FLOOR);
             }
