@@ -69,7 +69,7 @@ public class Main extends Application {
         ui.add(inventoryTable, 0, 2);
         inventoryTable.setFocusTraversable(false);
 
-        map.getDoorsSealedFromOtherSideArray().get(0).setOpenableFromWhatDirection("Down");
+        map.getDoorsSealedFromOtherSideArray().get(0).setOpenableFromWhatDirection("Up");
         map.getDoorsSealedFromOtherSideArray().get(1).setOpenableFromWhatDirection("Left");
         map.getDoorsSealedFromOtherSideArray().get(2).setOpenableFromWhatDirection("Right");
 
@@ -250,6 +250,7 @@ public class Main extends Application {
                 if (map.getPlayer().getMaxHealth() >= 20) {
                     map.getPlayer().setTileName("playerArmored2");
                 }
+                map.getTrapsCollection().get(0);
             }
         }
         attackPwLabel.setText("" + map.getPlayer().getAttackPower());

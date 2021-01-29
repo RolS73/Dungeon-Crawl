@@ -75,6 +75,18 @@ public class MapLoader {
                         case 'f':
                             cell.setCellType(CellType.FIRESTAND);
                             break;
+                        case 'F':
+                            cell.setCellType(CellType.WALL);
+                            map.interactablesCollection.add(new TorchPuzzle(cell));
+                            break;
+                        case 't':
+                            cell.setCellType(CellType.FLOOR);
+                            map.trapsCollection.add(new TrapPlain(cell, "trap"));
+                            break;
+                        case 'T':
+                            cell.setCellType(CellType.FLOOR);
+                            map.trapsCollection.add(new TrapBloody(cell, "bloodyTrap"));
+                            break;
                         case 'b':
                             cell.setCellType(CellType.WALL);
                             Breakable breakable = new Breakable(cell, "breakable");
