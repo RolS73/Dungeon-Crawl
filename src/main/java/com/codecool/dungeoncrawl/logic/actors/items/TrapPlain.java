@@ -2,29 +2,30 @@ package com.codecool.dungeoncrawl.logic.actors.items;
 
 import com.codecool.dungeoncrawl.logic.Cell;
 
-public class TrapPlain extends Item implements EnvironmentalDamageSource {
+public class TrapPlain extends Item implements EnvironmentalDamage {
 
-    //private static boolean isActive;
-    private static int currentCooldownCount;
-    private static int cooldownMax;
-    private static String anotherTilename = "spikeTrapResting";
+    private final int environmentalDamageValue;
+    private int currentCooldownCount;
+    private final int cooldownMax;
+    private String anotherTilename = "spikeTrapResting";
 
     @Override
     public String getTileName() {
         return anotherTilename;
     }
 
-    public static void setAnotherTileName(String newName) {
-        anotherTilename = newName;
+    public void setAnotherTileName(String newName) {
+        this.anotherTilename = newName;
     }
 
-    public TrapPlain(Cell cell, String name, int cooldown) {
+    public TrapPlain(Cell cell, String name, int cooldown, int damage) {
         super(cell, name);
         currentCooldownCount = cooldown;
         cooldownMax = cooldown;
+        this.environmentalDamageValue = damage;
     }
 
-    public static void activate() {
+    public void activate() {
         if (currentCooldownCount > 0) {
             if (anotherTilename.equals("spikeTrapActive")) {
                 anotherTilename = "spikeTrapResting";
@@ -36,9 +37,14 @@ public class TrapPlain extends Item implements EnvironmentalDamageSource {
         }
     }
 
+    @Override
+    public int getAttackPower() {
+        return environmentalDamageValue;
+    }
 
-    public boolean isPlayerBeingAffectedByAnEnvironmentalDamageSource() {
-        return false;
+    @Override
+    public boolean isEnvironmentalDamageActive() {
+        return this.getTileName().equals("spikeTrapActive");
     }
 }
 

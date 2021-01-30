@@ -81,11 +81,11 @@ public class MapLoader {
                             break;
                         case 't':
                             cell.setCellType(CellType.FLOOR);
-                            map.trapsCollection.add(new TrapPlain(cell, "spikeTrapResting", 2));
+                            map.trapsCollection.add(new TrapPlain(cell, "spikeTrapResting", 2, 2));
                             break;
                         case 'T':
                             cell.setCellType(CellType.FLOOR);
-                            map.trapsCollection.add(new TrapPlain(cell, "spikeTrapResting", 1));
+                            map.trapsCollection.add(new TrapPlain(cell, "spikeTrapActive", 1, 2));
                             break;
                         case 'B':
                             cell.setCellType(CellType.FLOOR);
