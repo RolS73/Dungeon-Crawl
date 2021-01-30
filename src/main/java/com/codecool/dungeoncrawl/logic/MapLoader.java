@@ -58,20 +58,51 @@ public class MapLoader {
                             break;
                         case 'D':
                             cell.setCellType(CellType.WALL);
-                            map.interactables.add(new LockedDoor(cell));
+                            map.interactablesCollection.add(new LockedDoor(cell));
                             break;
                         case 'O':
                             cell.setCellType(CellType.WALL);
-                            DoorLockedFromOtherSide doorLockedFromOtherSide = new DoorLockedFromOtherSide(cell);
-                            map.interactables.add(doorLockedFromOtherSide);
-                            map.doorsLockedFromOtherSideArray.add(doorLockedFromOtherSide);
+                            DoorSealedFromOtherSide doorSealedFromOtherSide = new DoorSealedFromOtherSide(cell);
+                            map.interactablesCollection.add(doorSealedFromOtherSide);
+                            map.doorsSealedFromOtherSideCollection.add(doorSealedFromOtherSide);
+                            break;
+                        case 'C':
+                            cell.setCellType(CellType.WALL);
+                            Chest chest = new Chest(cell, "chest1");
+                            map.interactablesCollection.add(chest);
+                            map.chestsCollection.add(chest);
                             break;
                         case 'f':
                             cell.setCellType(CellType.FIRESTAND);
                             break;
+                        case 'F':
+                            cell.setCellType(CellType.WALL);
+                            map.interactablesCollection.add(new TorchPuzzle(cell));
+                            break;
+                        case 't':
+                            cell.setCellType(CellType.FLOOR);
+                            map.trapsCollection.add(new TrapPlain(cell, "spikeTrapResting", 2));
+                            break;
+                        case 'T':
+                            cell.setCellType(CellType.FLOOR);
+                            map.trapsCollection.add(new TrapPlain(cell, "spikeTrapResting", 1));
+                            break;
+                        case 'B':
+                            cell.setCellType(CellType.FLOOR);
+                            map.trapBloodyCollection.add(new TrapBloody(cell, "spikeTrapBloodyActive"));
+                            break;
                         case 'b':
                             cell.setCellType(CellType.WALL);
-                            map.interactables.add(new Barrel(cell, "barrel"));
+                            Breakable breakable = new Breakable(cell, "breakable");
+                            int randomNum = RandomGenerator.nextInt(3);
+                            if (randomNum == 0) {
+                                breakable.setTileName("crate");
+                            } else if (randomNum == 1) {
+                                breakable.setTileName("crate2");
+                            } else {
+                                breakable.setTileName("barrel");
+                            }
+                            map.interactablesCollection.add(breakable);
                             break;
                         case 'd':
                             cell.setCellType(CellType.FLOOR);
@@ -87,7 +118,7 @@ public class MapLoader {
                             break;
                         case 'H':
                             cell.setCellType(CellType.WALL);
-                            map.interactables.add(new SuspiciousWall(cell));
+                            map.interactablesCollection.add(new SuspiciousWall(cell));
                             break;
                         default:
                             throw new RuntimeException("Unrecognized character: '" + line.charAt(x) + "'");

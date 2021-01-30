@@ -32,8 +32,8 @@ public class Main extends Application {
     GameMap map = MapLoader.loadMap();
     AiMovement AI = new AiMovement(map);
     Canvas canvas = new Canvas(
-            21 * Tiles.TILE_WIDTH,
-            21 * Tiles.TILE_WIDTH);
+            19 * Tiles.TILE_WIDTH,
+            19 * Tiles.TILE_WIDTH);
     GraphicsContext context = canvas.getGraphicsContext2D();
     Label healthLabel = new Label();
     Label attackPwLabel = new Label();
@@ -69,9 +69,13 @@ public class Main extends Application {
         ui.add(inventoryTable, 0, 2);
         inventoryTable.setFocusTraversable(false);
 
-        map.getDoorsLockedFromOtherSideArray().get(0).setOpenableFromWhatDirection("Down");
-        map.getDoorsLockedFromOtherSideArray().get(1).setOpenableFromWhatDirection("Left");
-        map.getDoorsLockedFromOtherSideArray().get(2).setOpenableFromWhatDirection("Right");
+        map.getDoorsSealedFromOtherSideArray().get(0).setOpenableFromWhatDirection("Up");
+        map.getDoorsSealedFromOtherSideArray().get(1).setOpenableFromWhatDirection("Left");
+        map.getDoorsSealedFromOtherSideArray().get(2).setOpenableFromWhatDirection("Right");
+
+        map.getChestsCollection().get(0).setAnotherTilename("chest1");
+        map.getChestsCollection().get(1).setAnotherTilename("chest2");
+        map.getChestsCollection().get(2).setAnotherTilename("chest2");
 
         pickUpButton.setDisable(true);
         pickUpButton.setOnAction(pickUp -> {
@@ -150,31 +154,42 @@ public class Main extends Application {
             case W:
                 map.getPlayer().move(0, -1);
                 AI.monsterMover();
+                TrapPlain.activate();
+                if (isPlayerSufferingEnvironmentalDamage()) { environmentalDamageTick();}
                 refresh();
                 break;
             case DOWN:
             case S:
                 map.getPlayer().move(0, 1);
                 AI.monsterMover();
+                if (isPlayerSufferingEnvironmentalDamage()) { environmentalDamageTick();}
+                TrapPlain.activate();
                 refresh();
                 break;
             case LEFT:
             case A:
                 map.getPlayer().move(-1, 0);
                 AI.monsterMover();
+                if (isPlayerSufferingEnvironmentalDamage()) { environmentalDamageTick();}
+                TrapPlain.activate();
                 refresh();
                 break;
             case RIGHT:
             case D:
                 map.getPlayer().move(1, 0);
                 AI.monsterMover();
+                if (isPlayerSufferingEnvironmentalDamage()) { environmentalDamageTick();}
+                TrapPlain.activate();
                 refresh();
                 break;
             case SPACE:
                 AI.monsterMover();
+                if (isPlayerSufferingEnvironmentalDamage()) { environmentalDamageTick();}
+                TrapPlain.activate();
                 refresh();
                 break;
             case E:
+                if (isPlayerSufferingEnvironmentalDamage()) { environmentalDamageTick();}
                 if (map.getPlayer().getCell().getItem() != null) {
                     Item item = (Item) map.getPlayer().getCell().getItem();
                     pickUpItem(item);
@@ -195,6 +210,9 @@ public class Main extends Application {
                         }
                     }
                 }
+                /*else if (isThereAPickupableItemUnderThePlayer()) {
+                    map.getPlayer().getCell().getItem().
+                }*/
                 refresh();
                 break;
         }
@@ -224,8 +242,8 @@ public class Main extends Application {
 
         int dx = Math.min(0, 11-map.getPlayer().getX());
         int dy = Math.min(0, 11-map.getPlayer().getY());
-        dx = Math.max(21-map.getWidth(), dx);
-        dy = Math.max(21-map.getHeight(), dy);
+        dx = Math.max(19-map.getWidth(), dx);
+        dy = Math.max(19-map.getHeight(), dy);
 
         for (int x = 0; x < map.getWidth(); x++) {
             for (int y = 0; y < map.getHeight(); y++) {
@@ -269,6 +287,24 @@ public class Main extends Application {
             return new int[]{0, 1};
         } else {
             return new int[]{0, -1};
+        }
+    }
+
+    private boolean isThereAPickupableItemUnderThePlayer() {
+        return map.getPlayer().getCell().getItem() instanceof PickupableItem;
+    }
+
+    private boolean isPlayerSufferingEnvironmentalDamage() {
+        if (map.getPlayer().getCell().getTileName().equals("trapActive")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void environmentalDamageTick() {
+        if (map.getPlayer().getCell().getTileName().equals("trapActive")) {
+            map.getPlayer().setHealth(map.getPlayer().getHealth() - 2);
         }
     }
 
