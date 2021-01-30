@@ -2,16 +2,12 @@ package com.codecool.dungeoncrawl.logic.actors.items;
 
 import com.codecool.dungeoncrawl.logic.Cell;
 
-public class TrapBloody extends Item implements EnvironmentalDamageSource {
+public class TrapBloody extends Item implements EnvironmentalDamage {
 
     private String anotherTileName = "spikeTrapBloodyActive";
 
     public TrapBloody(Cell cell, String name) {
         super(cell, name);
-    }
-
-    public void activate(Cell cell) {
-
     }
 
     @Override
@@ -23,7 +19,8 @@ public class TrapBloody extends Item implements EnvironmentalDamageSource {
         this.anotherTileName = newName;
     }
 
-    public boolean isPlayerBeingAffectedByAnEnvironmentalDamageSource(Cell cell) {
-        return this.getCell() == cell;
+    @Override
+    public boolean isEnvironmentalDamageActive() {
+        return true;
     }
 }
