@@ -154,31 +154,42 @@ public class Main extends Application {
             case W:
                 map.getPlayer().move(0, -1);
                 AI.monsterMover();
+                TrapPlain.activate();
+                if (isPlayerSufferingEnvironmentalDamage()) { environmentalDamageTick();}
                 refresh();
                 break;
             case DOWN:
             case S:
                 map.getPlayer().move(0, 1);
                 AI.monsterMover();
+                if (isPlayerSufferingEnvironmentalDamage()) { environmentalDamageTick();}
+                TrapPlain.activate();
                 refresh();
                 break;
             case LEFT:
             case A:
                 map.getPlayer().move(-1, 0);
                 AI.monsterMover();
+                if (isPlayerSufferingEnvironmentalDamage()) { environmentalDamageTick();}
+                TrapPlain.activate();
                 refresh();
                 break;
             case RIGHT:
             case D:
                 map.getPlayer().move(1, 0);
                 AI.monsterMover();
+                if (isPlayerSufferingEnvironmentalDamage()) { environmentalDamageTick();}
+                TrapPlain.activate();
                 refresh();
                 break;
             case SPACE:
                 AI.monsterMover();
+                if (isPlayerSufferingEnvironmentalDamage()) { environmentalDamageTick();}
+                TrapPlain.activate();
                 refresh();
                 break;
             case E:
+                if (isPlayerSufferingEnvironmentalDamage()) { environmentalDamageTick();}
                 if (map.getPlayer().getCell().getItem() != null) {
                     Item item = (Item) map.getPlayer().getCell().getItem();
                     pickUpItem(item);
@@ -250,7 +261,6 @@ public class Main extends Application {
                 if (map.getPlayer().getMaxHealth() >= 20) {
                     map.getPlayer().setTileName("playerArmored2");
                 }
-                map.getTrapsCollection().get(0);
             }
         }
         attackPwLabel.setText("" + map.getPlayer().getAttackPower());
@@ -282,6 +292,20 @@ public class Main extends Application {
 
     private boolean isThereAPickupableItemUnderThePlayer() {
         return map.getPlayer().getCell().getItem() instanceof PickupableItem;
+    }
+
+    private boolean isPlayerSufferingEnvironmentalDamage() {
+        if (map.getPlayer().getCell().getTileName().equals("trapActive")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void environmentalDamageTick() {
+        if (map.getPlayer().getCell().getTileName().equals("trapActive")) {
+            map.getPlayer().setHealth(map.getPlayer().getHealth() - 2);
+        }
     }
 
 }

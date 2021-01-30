@@ -1,10 +1,7 @@
 package com.codecool.dungeoncrawl.logic;
 
 import com.codecool.dungeoncrawl.logic.actors.Player;
-import com.codecool.dungeoncrawl.logic.actors.items.Chest;
-import com.codecool.dungeoncrawl.logic.actors.items.DoorSealedFromOtherSide;
-import com.codecool.dungeoncrawl.logic.actors.items.InteractiveObject;
-import com.codecool.dungeoncrawl.logic.actors.items.Trap;
+import com.codecool.dungeoncrawl.logic.actors.items.*;
 import com.codecool.dungeoncrawl.logic.actors.monsters.Monster;
 
 import java.util.ArrayList;
@@ -21,7 +18,8 @@ public class GameMap {
     List<InteractiveObject> interactablesCollection = new ArrayList<>();
     List<DoorSealedFromOtherSide> doorsSealedFromOtherSideCollection = new ArrayList<>();
     List<Chest> chestsCollection = new ArrayList<>();
-    List<Trap> trapsCollection = new ArrayList<>();
+    List<TrapPlain> trapsCollection = new ArrayList<>();
+    List<TrapBloody> trapBloodyCollection = new ArrayList<>();
 
 
     public GameMap(int width, int height, CellType defaultCellType) {
@@ -56,8 +54,12 @@ public class GameMap {
         return chestsCollection;
     }
 
-    public List<Trap> getTrapsCollection() {
+    public List<TrapPlain> getTrapsCollection() {
         return trapsCollection;
+    }
+
+    public List<TrapBloody> getTrapBloodyCollection() {
+        return trapBloodyCollection;
     }
 
     public List<Monster> getMonsters() {

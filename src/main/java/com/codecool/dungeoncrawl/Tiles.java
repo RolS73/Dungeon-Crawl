@@ -37,10 +37,10 @@ public class Tiles {
         tileMap.put("firestand", new Tile(4, 15));
         tileMap.put("puzzleFireStandInActive", new Tile(3, 14));
         tileMap.put("puzzleFireStandActive", new Tile(4, 14));
-        tileMap.put("trapResting", new Tile(0, 22));
-        tileMap.put("trapActive", new Tile(0, 23));
-        tileMap.put("trapBloodyResting", new Tile(1, 22));
-        tileMap.put("trapBloodyActive", new Tile(1, 23));
+        tileMap.put("spikeTrapResting", new Tile(22, 0));
+        tileMap.put("spikeTrapActive", new Tile(23, 0));
+        tileMap.put("spikeTrapBloodyResting", new Tile(22, 1));
+        tileMap.put("spikeTrapBloodyActive", new Tile(23, 1));
 
         tileMap.put("breakable", new Tile(10, 8));
         tileMap.put("barrel", new Tile(10, 8));
