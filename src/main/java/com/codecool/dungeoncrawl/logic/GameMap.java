@@ -23,6 +23,9 @@ public class GameMap {
     List<LeverSwitch> leverSwitchCollection = new ArrayList<>();
     List<GateOpenableByASwitch> GateOpenableByASwitchCollection = new ArrayList<>();
     List<Switch> switchablesCollection = new ArrayList<>();
+    List<SuspiciousWall> suspiciousWallsCollection = new ArrayList<>();
+    List<HiddenPassage> hiddenPassagesCollection = new ArrayList<>();
+    List<HiddenItem> hiddenItemsCollection = new ArrayList<>();
 
 
     public GameMap(int width, int height, CellType defaultCellType) {
@@ -36,9 +39,21 @@ public class GameMap {
         }
     }
 
+    public List<HiddenPassage> getHiddenPassagesCollection() {
+        return hiddenPassagesCollection;
+    }
+
+    public List<HiddenItem> getHiddenItemsCollection() {
+        return hiddenItemsCollection;
+    }
+
     public Cell getCell(int x, int y) {
         return (x<0 || x >= width || y<0 || y >= height) ? null : cells[x][y];
         // return cells[x][y]; eredeti
+    }
+
+    public List<SuspiciousWall> getSuspiciousWallsCollection() {
+        return suspiciousWallsCollection;
     }
 
     public List<DoorSealedFromOtherSide> getDoorsSealedFromOtherSideArray() {

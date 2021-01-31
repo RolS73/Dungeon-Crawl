@@ -1,12 +1,10 @@
 package com.codecool.dungeoncrawl.logic.actors.items;
 
-import com.codecool.dungeoncrawl.logic.Cell;
-
 public interface PickupableItem {
 
-    void Pickup();
+    //void Pickup();
 
-    boolean isThisObjectPickupable();
+    //boolean isThisObjectPickupable();
 
-    boolean isThisPickupableItemCurrentlyBeingFocusedOn(Cell cell);
+    //boolean isThisPickupableItemCurrentlyBeingFocusedOn(Cell cell);
 }

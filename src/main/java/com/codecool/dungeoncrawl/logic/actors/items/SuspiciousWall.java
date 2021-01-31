@@ -5,42 +5,41 @@ import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.actors.Sounds;
 
-public class SuspiciousWall extends Item implements InteractiveObject {
+public class SuspiciousWall extends Item implements InteractiveObject, Switch {
 
-    private String name = "suspiciousWall";
-    private boolean isThisCurrentlyInteractive = true;
+    private String anotherTileName = "suspiciousWall";
+    private String groupName;
 
     int[] coordinates;
 
     public SuspiciousWall(Cell cell) {
-
         super(cell, "Door to Secrets");
-        this.coordinates = new int[]{cell.getX(), cell.getY()};
-        this.setName("Door to Secrets");
 
-        isThisCurrentlyInteractive = isThisObjectInteractive();
+
     }
 
     @Override
     public boolean isThisObjectInteractive() {
-        return isThisCurrentlyInteractive;
+        return this.anotherTileName.equals("suspiciousWall") || this.anotherTileName.equals("empty");
     }
-
 
 
     @Override
     public void interact() {
         if (isThisObjectInteractive()) {
-            this.getCell().setItem(new SecretPassage(this.getCell()));
             Sounds.playSound("IllusioryWall");
+            this.anotherTileName = "floor";
             this.getCell().setCellType(CellType.FLOOR);
-            isThisCurrentlyInteractive = false;
         }
     }
 
     @Override
     public String getTileName() {
-        return this.name;
+        return this.anotherTileName;
+    }
+
+    public void setTileName(String tileName) {
+        this.anotherTileName = tileName;
     }
 
     @Override
@@ -58,10 +57,18 @@ public class SuspiciousWall extends Item implements InteractiveObject {
         return this.getCell().equals(cell);
     }
 
+    @Override
+    public String getGroupName() {
+        return groupName;
+    }
 
+    @Override
+    public boolean isThisFromTheSameGroup(String groupName) {
+        return this.groupName.equals(groupName);
+    }
 
-    public int[] getCoordinates() {
-        return coordinates;
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
     }
 }
 

@@ -77,11 +77,39 @@ public class Main extends Application {
         map.getChestsCollection().get(1).setAnotherTilename("chest2");
         map.getChestsCollection().get(2).setAnotherTilename("chest2");
 
-        map.getLeverSwitchCollection().get(0).setGroupName("group1");
-        map.getGateOpenableByASwitchCollection().get(0).setGroupName("group1");
-        map.getGateOpenableByASwitchCollection().get(1).setGroupName("group1");
-        map.getGateOpenableByASwitchCollection().get(2).setGroupName("group1");
-        map.getGateOpenableByASwitchCollection().get(3).setGroupName("group1");
+        map.getLeverSwitchCollection().get(0).setGroupName("GateGroup1");
+        map.getGateOpenableByASwitchCollection().get(0).setGroupName("GateGroup1");
+        map.getGateOpenableByASwitchCollection().get(1).setGroupName("GateGroup1");
+        map.getGateOpenableByASwitchCollection().get(2).setGroupName("GateGroup1");
+        map.getGateOpenableByASwitchCollection().get(3).setGroupName("GateGroup1");
+
+        map.getSuspiciousWallsCollection().get(0).setGroupName("SuspiciousWallGroup1");  //Under the first puzzle torch
+        map.getHiddenPassagesCollection().get(0).setGroupName("SuspiciousWallGroup1");
+        map.getHiddenItemsCollection().get(0).setGroupName("SuspiciousWallGroup1");
+
+        map.getSuspiciousWallsCollection().get(1).setGroupName("SuspiciousWallGroup2");  //Under the first SusWall
+        map.getHiddenItemsCollection().get(1).setGroupName("SuspiciousWallGroup2");
+        map.getSuspiciousWallsCollection().get(1).setTileName("empty");
+
+        map.getSuspiciousWallsCollection().get(4).setGroupName("SuspiciousWallGroup3");  //Main Hall
+        map.getHiddenPassagesCollection().get(2).setGroupName("SuspiciousWallGroup3");
+        map.getHiddenItemsCollection().get(3).setGroupName("SuspiciousWallGroup3");
+
+        map.getSuspiciousWallsCollection().get(3).setGroupName("SuspiciousWallGroup4"); //Under spawn room
+        map.getHiddenPassagesCollection().get(1).setGroupName("SuspiciousWallGroup4");
+        map.getHiddenItemsCollection().get(2).setGroupName("SuspiciousWallGroup4");
+
+        map.getSuspiciousWallsCollection().get(5).setGroupName("SuspiciousWallGroup5");
+        map.getSuspiciousWallsCollection().get(6).setGroupName("SuspiciousWallGroup5");
+        for (int i = 3; i < 14; i++) {
+            map.getHiddenPassagesCollection().get(i).setGroupName("SuspiciousWallGroup5");
+        }
+
+        map.getSuspiciousWallsCollection().get(7).setGroupName("SuspiciousWallGroup6");
+        map.getHiddenItemsCollection().get(4).setGroupName("SuspiciousWallGroup6");
+
+        map.getSuspiciousWallsCollection().get(9).setGroupName("SuspiciousWallGroup7");
+        map.getHiddenItemsCollection().get(5).setGroupName("SuspiciousWallGroup7");
 
         pickUpButton.setDisable(true);
         pickUpButton.setOnAction(pickUp -> {
@@ -209,7 +237,7 @@ public class Main extends Application {
                 if (isPlayerBeingAffectedByAnEnvironmentalDamageSource()) {
                     playerSuffersEnvironmentalDamage();
                 }
-                if (map.getPlayer().getCell().getItem() != null) {
+                if (map.getPlayer().getCell().getItem() != null && map.getPlayer().getCell().getItem() instanceof PickupableItem) {
                     Item item = (Item) map.getPlayer().getCell().getItem();
                     pickUpItem(item);
 
@@ -227,8 +255,10 @@ public class Main extends Application {
                             if (currentlyProcessedInteractable instanceof Switch && ((Switch) currentlyProcessedInteractable).getGroupName() != null) {
                                 map.getSwitchablesCollection()
                                         .stream()
+                                        .filter(x -> x.getGroupName() != null)
                                         .filter(x -> x.isThisFromTheSameGroup(((Switch) currentlyProcessedInteractable).getGroupName()))
                                         .forEach(InteractiveObject::interact);
+                                //System.out.println(((Switch) currentlyProcessedInteractable).getGroupName());
                             }
                             if (currentlyProcessedInteractable.isMoveOnPossibleAfterInteraction() && !(currentlyProcessedInteractable instanceof Switch)) {
                                 currentlyFocusedCell.setCellType(CellType.FLOOR);
@@ -246,7 +276,8 @@ public class Main extends Application {
                 refresh();
                 break;
         }
-        if (map.getPlayer().getCell().getItem() instanceof OpenedDoor) {
+        if (map.getPlayer().getCell().getItem() instanceof OpenedDoor || map.getPlayer().getCell().getItem() instanceof Switch
+                || map.getPlayer().getCell().getItem() instanceof InteractiveObject || map.getPlayer().getCell().getItem() instanceof EnvironmentalDamage) {
             pickUpButton.setDisable(true);
         } else {
             if (map.getPlayer().getCell().getItem() != null) {

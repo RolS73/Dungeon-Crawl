@@ -126,13 +126,30 @@ public class MapLoader {
                             cell.setCellType(CellType.FLOOR);
                             map.monsters.add(new Guardian(cell));
                             break;
-                        case 'h':
+                        case 'e':
                             cell.setCellType(CellType.FLOOR);
                             map.monsters.add(new TheThing(cell));
                             break;
-                        case 'H':
+                        case 'W':
                             cell.setCellType(CellType.WALL);
-                            map.interactablesCollection.add(new SuspiciousWall(cell));
+                            SuspiciousWall suspiciousWall = new SuspiciousWall(cell);
+                            map.interactablesCollection.add(suspiciousWall);
+                            map.suspiciousWallsCollection.add(suspiciousWall);
+                            map.switchablesCollection.add(suspiciousWall);
+                            break;
+                        case 'h':
+                            cell.setCellType(CellType.FLOOR);
+                            HiddenPassage hiddenPassage = new HiddenPassage(cell, "hiddenPassage");
+                            map.interactablesCollection.add(hiddenPassage);
+                            map.hiddenPassagesCollection.add(hiddenPassage);
+                            map.switchablesCollection.add(hiddenPassage);
+                            break;
+                        case 'H':
+                            cell.setCellType(CellType.FLOOR);
+                            HiddenItem hiddenItem = new HiddenItem(cell, "hiddenItem");
+                            map.interactablesCollection.add(hiddenItem);
+                            map.hiddenItemsCollection.add(hiddenItem);
+                            map.switchablesCollection.add(hiddenItem);
                             break;
                         default:
                             throw new RuntimeException("Unrecognized character: '" + line.charAt(x) + "'");

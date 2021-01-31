@@ -2,7 +2,7 @@ package com.codecool.dungeoncrawl.logic.actors.items;
 
 import com.codecool.dungeoncrawl.logic.Cell;
 
-public class Weapon extends Item {
+public class Weapon extends Item implements PickupableItem {
 
     private String tileName = "staff";
 

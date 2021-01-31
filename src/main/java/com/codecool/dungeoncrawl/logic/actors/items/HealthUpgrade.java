@@ -19,12 +19,12 @@ public class HealthUpgrade extends Item implements PickupableItem {
         this.tileName = tileName;
     }
 
-    @Override
+    /*@Override
     public void Pickup() {
 
-    }
+    }*/
 
-    @Override
+    /*@Override
     public boolean isThisObjectPickupable() {
         return true;
     }
@@ -32,5 +32,5 @@ public class HealthUpgrade extends Item implements PickupableItem {
     @Override
     public boolean isThisPickupableItemCurrentlyBeingFocusedOn(Cell cell) {
         return this.getCell() == cell;
-    }
+    }*/
 }

@@ -2,7 +2,7 @@ package com.codecool.dungeoncrawl.logic.actors.items;
 
 import com.codecool.dungeoncrawl.logic.Cell;
 
-public class Life extends Item {
+public class Life extends Item implements PickupableItem {
 
     private String tileName = "life";
 

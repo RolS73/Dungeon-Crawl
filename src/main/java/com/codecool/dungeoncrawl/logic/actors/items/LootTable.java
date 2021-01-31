@@ -27,7 +27,7 @@ public class LootTable {
         rareLoot.add(new Weapon("Scepter of Silverport", 6));
         rareLoot.add(new Weapon("A polished sword", 8));
         rareLoot.add(new Weapon("The Hungry Axe", 10));
-        rareLoot.add(new Weapon("Smile Crusher", 12));
+        rareLoot.add(new Weapon("Smile Crusher", 11));
 
         rareLoot.get(0).setTileName("staff2");
         rareLoot.get(1).setTileName("sword2");
@@ -36,10 +36,10 @@ public class LootTable {
     }
     private List<Item> legendaryLoot = new ArrayList<>();
     {
-        legendaryLoot.add(new Weapon("THE Sword", 10));
-        legendaryLoot.add(new Weapon("Thunder", 12));
+        legendaryLoot.add(new Weapon("THE Sword", 16));
+        legendaryLoot.add(new Weapon("Thunder", 17));
         legendaryLoot.add(new Weapon("Lance of the Gods", 20));
-        legendaryLoot.add(new Weapon("Flail of Endless Elemental Winds", 15));
+        legendaryLoot.add(new Weapon("Flail of Endless Elemental Winds", 18));
 
         legendaryLoot.get(0).setTileName("sword3");
         legendaryLoot.get(1).setTileName("staff3");
@@ -73,7 +73,7 @@ public class LootTable {
 
     private List<Item> calculateRoll() {
         int randomNumber = RandomGenerator.RANDOM.nextInt(100);
-        if (randomNumber < 27) {
+        if (randomNumber > 7 && randomNumber < 27) {
             return rareLoot;
         } else if (randomNumber < 7) {
             return legendaryLoot;
