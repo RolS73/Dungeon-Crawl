@@ -148,8 +148,8 @@ public class Main extends Application {
                 equipWeapon(item);
             }
         } else if (item instanceof Life) {
-            map.getPlayer().raiseMaxHealth(5);
-            map.getPlayer().setHealth(map.getPlayer().getMaxHealth());
+            //map.getPlayer().raiseMaxHealth(5);
+            map.getPlayer().setHealth(map.getPlayer().getHealth() + map.getPlayer().getCell().getItem().getHealth() > map.getPlayer().getMaxHealth() ? map.getPlayer().getMaxHealth() : map.getPlayer().getHealth() + map.getPlayer().getCell().getItem().getHealth());
             map.getPlayer().getCell().setItem(null);
         } else if (item instanceof Key) {
             inventory.add(item);

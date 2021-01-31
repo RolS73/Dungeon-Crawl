@@ -25,17 +25,17 @@ public class Chest extends Item implements InteractiveObject {
         if (isThisObjectInteractive()) {
             switch (this.getTileName()) {
                 case "chest1":
-                    this.getCell().setItem(new LootTable("Common").getItemFromTable());
+                    this.getCell().setItem(new LootTable("weapon", "Common").getItemFromTable());
                     this.anotherTilename = "chest1Opened";
                     this.getCell().setCellType(CellType.FLOOR);
                     break;
                 case "chest2":
-                    this.getCell().setItem(new LootTable("Rare").getItemFromTable());
+                    this.getCell().setItem(new LootTable("weapon","Rare").getItemFromTable());
                     this.anotherTilename = "chest2Opened";
                     this.getCell().setCellType(CellType.FLOOR);
                     break;
                 case "chest3":
-                    this.getCell().setItem(new LootTable("Legendary").getItemFromTable());
+                    this.getCell().setItem(new LootTable("weapon","Legendary").getItemFromTable());
                     this.anotherTilename = "chest3Opened";
                     this.getCell().setCellType(CellType.FLOOR);
                     break;

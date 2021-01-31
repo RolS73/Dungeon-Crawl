@@ -64,7 +64,7 @@ public class MapLoader {
                             break;
                         case 'l':
                             cell.setCellType(CellType.FLOOR);
-                            new Life(cell);
+                            new Life(cell, 5);
                             break;
                         case 'w':
                             cell.setCellType(CellType.FLOOR);

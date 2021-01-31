@@ -10,95 +10,147 @@ import java.util.List;
 public class LootTable {
 
     private  List<Item> lootTable = new ArrayList<>();
-    private List<Item> commonLoot = new ArrayList<>();
+    private List<Item> itemCommonLoot = new ArrayList<>();
     {
-        commonLoot.add(new Weapon("Toothpick", 2));
-        commonLoot.add(new Weapon("Stick of Truth", 3));
-        commonLoot.add(new Weapon("A sword", 4));
-        commonLoot.add(new Weapon("Smiling Hammer", 5));
+        itemCommonLoot.add(new Life("Dusty Apple", 2));
+        itemCommonLoot.add(new Life("Stale Bread", 3));
 
-        commonLoot.get(0).setTileName("dagger1");
-        commonLoot.get(1).setTileName("staff1");
-        commonLoot.get(2).setTileName("sword1");
-        commonLoot.get(3).setTileName("hammer1");
+        itemCommonLoot.get(0).setTileName("apple");
+        itemCommonLoot.get(1).setTileName("bread");
     }
-    private List<Item> rareLoot = new ArrayList<>();
+    private List<Item> itemRareLoot = new ArrayList<>();
     {
-        rareLoot.add(new Weapon("Scepter of Silverport", 6));
-        rareLoot.add(new Weapon("A polished sword", 8));
-        rareLoot.add(new Weapon("The Hungry Axe", 10));
-        rareLoot.add(new Weapon("Smile Crusher", 11));
+        itemRareLoot.add(new Life("Fresh Fish", 4));
+        itemRareLoot.add(new Life("Hearty Cheese", 5));
 
-        rareLoot.get(0).setTileName("staff2");
-        rareLoot.get(1).setTileName("sword2");
-        rareLoot.get(2).setTileName("axe2");
-        rareLoot.get(3).setTileName("hammer2");
+        itemRareLoot.get(0).setTileName("fish");
+        itemRareLoot.get(1).setTileName("cheese");
     }
-    private List<Item> legendaryLoot = new ArrayList<>();
+    private List<Item> itemLegendaryLoot = new ArrayList<>();
     {
-        legendaryLoot.add(new Weapon("THE Sword", 16));
-        legendaryLoot.add(new Weapon("Thunder", 17));
-        legendaryLoot.add(new Weapon("Lance of the Gods", 20));
-        legendaryLoot.add(new Weapon("Flail of Endless Elemental Winds", 18));
+        itemLegendaryLoot.add(new Life("Juicy Steak", 10));
+        itemLegendaryLoot.add(new Life("Wholesome Hunk of Ham", 12));
 
-        legendaryLoot.get(0).setTileName("sword3");
-        legendaryLoot.get(1).setTileName("staff3");
-        legendaryLoot.get(2).setTileName("axe3");
-        legendaryLoot.get(3).setTileName("hammer3");
+        itemLegendaryLoot.get(0).setTileName("steak");
+        itemLegendaryLoot.get(1).setTileName("ham");
+    }
+
+    private List<Item> weaponCommonLoot = new ArrayList<>();
+    {
+        weaponCommonLoot.add(new Weapon("Toothpick", 2));
+        weaponCommonLoot.add(new Weapon("Stick of Truth", 3));
+        weaponCommonLoot.add(new Weapon("A sword", 4));
+        weaponCommonLoot.add(new Weapon("Smiling Hammer", 5));
+
+        weaponCommonLoot.get(0).setTileName("dagger1");
+        weaponCommonLoot.get(1).setTileName("staff1");
+        weaponCommonLoot.get(2).setTileName("sword1");
+        weaponCommonLoot.get(3).setTileName("hammer1");
+    }
+    private List<Item> weaponRareLoot = new ArrayList<>();
+    {
+        weaponRareLoot.add(new Weapon("Scepter of Silverport", 6));
+        weaponRareLoot.add(new Weapon("A polished sword", 8));
+        weaponRareLoot.add(new Weapon("The Hungry Axe", 10));
+        weaponRareLoot.add(new Weapon("Smile Crusher", 11));
+
+        weaponRareLoot.get(0).setTileName("staff2");
+        weaponRareLoot.get(1).setTileName("sword2");
+        weaponRareLoot.get(2).setTileName("axe2");
+        weaponRareLoot.get(3).setTileName("hammer2");
+    }
+    private List<Item> weaponLegendaryLoot = new ArrayList<>();
+    {
+        weaponLegendaryLoot.add(new Weapon("THE Sword", 16));
+        weaponLegendaryLoot.add(new Weapon("Thunder", 17));
+        weaponLegendaryLoot.add(new Weapon("Lance of the Gods", 20));
+        weaponLegendaryLoot.add(new Weapon("Flail of Endless Elemental Winds", 18));
+
+        weaponLegendaryLoot.get(0).setTileName("sword3");
+        weaponLegendaryLoot.get(1).setTileName("staff3");
+        weaponLegendaryLoot.get(2).setTileName("axe3");
+        weaponLegendaryLoot.get(3).setTileName("hammer3");
     }
 
 
     public LootTable() {
-        this.lootTable = calculateRoll();
-    }
-
-    public LootTable(String chosenLootTable) {
-        switch (chosenLootTable) {
-            case "common":
-            case "Common":
-                this.lootTable = commonLoot;
-                break;
-            case "rare":
-            case "Rare":
-                this.lootTable = rareLoot;
-                break;
-            case "legendary":
-            case "Legendary":
-                this.lootTable = legendaryLoot;
-                break;
-            default:
-                this.lootTable = commonLoot;
+        int tableRoll = RandomGenerator.nextInt(10);
+        if (tableRoll > 4) {
+            this.lootTable = calculateRollForWeaponLootTable();
+        } else {
+            this.lootTable = calculateRollForItemLootTable();
         }
     }
 
-    private List<Item> calculateRoll() {
+    public LootTable(String lootTableType, String chosenLootTableRarity) {
+        if (lootTableType.equals("Item") || lootTableType.equals("item")) {
+                switch (chosenLootTableRarity) {
+                    case "common":
+                    case "Common":
+                        this.lootTable = itemCommonLoot;
+                        break;
+                    case "rare":
+                    case "Rare":
+                        this.lootTable = itemRareLoot;
+                        break;
+                    case "legendary":
+                    case "Legendary":
+                        this.lootTable = itemLegendaryLoot;
+                        break;
+                    default:
+                        this.lootTable = itemCommonLoot;
+                }
+        } else {
+            switch (chosenLootTableRarity) {
+                case "common":
+                case "Common":
+                    this.lootTable = weaponCommonLoot;
+                    break;
+                case "rare":
+                case "Rare":
+                    this.lootTable = weaponRareLoot;
+                    break;
+                case "legendary":
+                case "Legendary":
+                    this.lootTable = weaponLegendaryLoot;
+                    break;
+                default:
+                    this.lootTable = weaponCommonLoot;
+            }
+        }
+    }
+
+    private List<Item> calculateRollForWeaponLootTable() {
         int randomNumber = RandomGenerator.RANDOM.nextInt(100);
         if (randomNumber > 7 && randomNumber < 27) {
-            return rareLoot;
+            return weaponRareLoot;
         } else if (randomNumber < 7) {
-            return legendaryLoot;
+            return weaponLegendaryLoot;
         } else {
-            return commonLoot;
+            return weaponCommonLoot;
+        }
+    }
+
+    private List<Item> calculateRollForItemLootTable() {
+        int randomNumber = RandomGenerator.RANDOM.nextInt(100);
+        if (randomNumber > 10 && randomNumber < 30) {
+            return itemRareLoot;
+        } else if (randomNumber < 10) {
+            return itemLegendaryLoot;
+        } else {
+            return itemCommonLoot;
         }
     }
 
 
     public int generateNumberForLootTable() {
-        return RandomGenerator.RANDOM.nextInt(3);
+        return RandomGenerator.RANDOM.nextInt(lootTable.size());
     }
 
     public Item getItemFromTable() {
 
-        int rolledItemNumber = generateNumberForLootTable();
+        //int rolledItemNumber = generateNumberForLootTable();
         return lootTable.get(generateNumberForLootTable());
-//        int rolledItemNumber = generateNumberForLootTable() + 1;
-//        if (lootTable.equals(commonLoot) && rolledItemNumber == 1) {
-//            return new Key(cell);
-//        } else if (rolledTable.equals(commonLoot) && rolledItemNumber == 2) {
-//            return new Life(cell);
-//        } else if (rolledTable.equals(commonLoot) && rolledItemNumber == 3) {
-//            return new Weapon(cell);
-//        } else return null;
     }
 
 
