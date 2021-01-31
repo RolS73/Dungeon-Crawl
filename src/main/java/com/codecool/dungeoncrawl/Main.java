@@ -149,11 +149,21 @@ public class Main extends Application {
             }
         } else if (item instanceof Life) {
             //map.getPlayer().raiseMaxHealth(5);
-            map.getPlayer().setHealth(map.getPlayer().getHealth() + map.getPlayer().getCell().getItem().getHealth() > map.getPlayer().getMaxHealth() ? map.getPlayer().getMaxHealth() : map.getPlayer().getHealth() + map.getPlayer().getCell().getItem().getHealth());
-            map.getPlayer().getCell().setItem(null);
+            if (!(map.getPlayer().getHealth() == map.getPlayer().getMaxHealth())) {
+                map.getPlayer().setHealth(map.getPlayer().getHealth() + map.getPlayer().getCell().getItem().getHealth() > map.getPlayer().getMaxHealth() ? map.getPlayer().getMaxHealth() : map.getPlayer().getHealth() + map.getPlayer().getCell().getItem().getHealth());
+                map.getPlayer().getCell().setItem(null);
+            }
         } else if (item instanceof Key) {
             inventory.add(item);
             map.getPlayer().getCell().setItem(null);
+        } else if (item instanceof LifeUpgrade) {
+            //map.getPlayer().raiseMaxHealth(5);
+            map.getPlayer().raiseMaxHealth(map.getPlayer().getCell().getItem().getHealth());
+            map.getPlayer().getCell().setItem(null);
+        } else if (item instanceof ArmorUpgrade) {
+            map.getPlayer().raiseArmor(map.getPlayer().getCell().getItem().getHealth());
+            map.getPlayer().getCell().setItem(null);
+            //System.out.println(map.getPlayer().getArmor());
         }
     }
 
@@ -316,10 +326,10 @@ public class Main extends Application {
                 if (cell.getActor() != null) {
                     Tiles.drawTile(context, cell.getActor(), x + dx, y + dy);
                 }
-                if (!(map.getPlayer().getTileName().equals("playerArmored2")) && map.getPlayer().getMaxHealth() > 10) {
+                if (!(map.getPlayer().getTileName().equals("playerArmored2")) && map.getPlayer().getArmor() > 6) {
                     map.getPlayer().setTileName("playerArmored1");
                 }
-                if (map.getPlayer().getMaxHealth() >= 20) {
+                if (map.getPlayer().getArmor() >= 13) {
                     map.getPlayer().setTileName("playerArmored2");
                 }
             }

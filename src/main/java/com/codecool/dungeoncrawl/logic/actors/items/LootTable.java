@@ -14,25 +14,37 @@ public class LootTable {
     {
         itemCommonLoot.add(new Life("Dusty Apple", 2));
         itemCommonLoot.add(new Life("Stale Bread", 3));
+        itemCommonLoot.add(new LifeUpgrade("Broken Heart", 2));
+        itemCommonLoot.add(new ArmorUpgrade("Shoddy Leather Vest", 1));
 
         itemCommonLoot.get(0).setTileName("apple");
         itemCommonLoot.get(1).setTileName("bread");
+        itemCommonLoot.get(2).setTileName("lifeUpgrade1");
+        itemCommonLoot.get(3).setTileName("armorUpgrade1");
     }
     private List<Item> itemRareLoot = new ArrayList<>();
     {
         itemRareLoot.add(new Life("Fresh Fish", 4));
         itemRareLoot.add(new Life("Hearty Cheese", 5));
+        itemRareLoot.add(new LifeUpgrade("Yearning Heart", 3));
+        itemRareLoot.add(new ArmorUpgrade("Iron Mail", 2));
 
         itemRareLoot.get(0).setTileName("fish");
         itemRareLoot.get(1).setTileName("cheese");
+        itemRareLoot.get(2).setTileName("lifeUpgrade2");
+        itemRareLoot.get(3).setTileName("armorUpgrade2");
     }
     private List<Item> itemLegendaryLoot = new ArrayList<>();
     {
         itemLegendaryLoot.add(new Life("Juicy Steak", 10));
-        itemLegendaryLoot.add(new Life("Wholesome Hunk of Ham", 12));
+        itemLegendaryLoot.add(new Life("Hunk of Ham", 12));
+        itemLegendaryLoot.add(new LifeUpgrade("Wholesome Heart", 4));
+        itemLegendaryLoot.add(new ArmorUpgrade("Mithril Plate Shirt", 3));
 
         itemLegendaryLoot.get(0).setTileName("steak");
         itemLegendaryLoot.get(1).setTileName("ham");
+        itemLegendaryLoot.get(2).setTileName("lifeUpgrade3");
+        itemLegendaryLoot.get(3).setTileName("armorUpgrade3");
     }
 
     private List<Item> weaponCommonLoot = new ArrayList<>();
@@ -74,8 +86,8 @@ public class LootTable {
 
 
     public LootTable() {
-        int tableRoll = RandomGenerator.nextInt(10);
-        if (tableRoll > 4) {
+        int tableRoll = RandomGenerator.nextInt(100);
+        if (tableRoll < 32) {
             this.lootTable = calculateRollForWeaponLootTable();
         } else {
             this.lootTable = calculateRollForItemLootTable();

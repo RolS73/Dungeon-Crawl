@@ -57,6 +57,15 @@ public class Tiles {
         tileMap.put("steak", new Tile(16, 28));
         tileMap.put("ham", new Tile(17, 28));
 
+        tileMap.put("lifeUpgrade1", new Tile(24, 22));
+        tileMap.put("lifeUpgrade2", new Tile(25, 22));
+        tileMap.put("lifeUpgrade3", new Tile(27, 22));
+        tileMap.put("lifeUpgrade4", new Tile(26, 22));
+
+        tileMap.put("armorUpgrade1", new Tile(0, 23));
+        tileMap.put("armorUpgrade2", new Tile(1, 23));
+        tileMap.put("armorUpgrade3", new Tile(4, 23));
+
         tileMap.put("chest1", new Tile(8, 6));
         tileMap.put("chest1Opened", new Tile(9, 6));
         tileMap.put("chest2", new Tile(10, 6));
