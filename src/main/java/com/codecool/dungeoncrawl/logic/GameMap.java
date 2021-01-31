@@ -20,6 +20,9 @@ public class GameMap {
     List<Chest> chestsCollection = new ArrayList<>();
     List<TrapPlain> trapsCollection = new ArrayList<>();
     List<TrapBloody> trapBloodyCollection = new ArrayList<>();
+    List<LeverSwitch> leverSwitchCollection = new ArrayList<>();
+    List<GateOpenableByASwitch> GateOpenableByASwitchCollection = new ArrayList<>();
+    List<Switch> switchablesCollection = new ArrayList<>();
 
 
     public GameMap(int width, int height, CellType defaultCellType) {
@@ -40,6 +43,10 @@ public class GameMap {
 
     public List<DoorSealedFromOtherSide> getDoorsSealedFromOtherSideArray() {
         return doorsSealedFromOtherSideCollection;
+    }
+
+    public List<GateOpenableByASwitch> getGateOpenableByASwitchCollection() {
+        return GateOpenableByASwitchCollection;
     }
 
     public void setPlayer(Player player) {
@@ -66,8 +73,16 @@ public class GameMap {
         return monsters;
     }
 
+    public List<LeverSwitch> getLeverSwitchCollection() {
+        return leverSwitchCollection;
+    }
+
     public List<InteractiveObject> getInteractablesArray() {
         return interactablesCollection;
+    }
+
+    public List<Switch> getSwitchablesCollection() {
+        return switchablesCollection;
     }
 
     public int getWidth() {

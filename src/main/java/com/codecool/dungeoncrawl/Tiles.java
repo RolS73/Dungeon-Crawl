@@ -41,6 +41,9 @@ public class Tiles {
         tileMap.put("spikeTrapActive", new Tile(23, 0));
         tileMap.put("spikeTrapBloodyResting", new Tile(22, 1));
         tileMap.put("spikeTrapBloodyActive", new Tile(23, 1));
+        tileMap.put("gateOpenableByASwitch", new Tile(5, 3));
+        tileMap.put("leverSwitchOff", new Tile(3, 10));
+        tileMap.put("leverSwitchOn", new Tile(4, 10));
 
         tileMap.put("breakable", new Tile(10, 8));
         tileMap.put("barrel", new Tile(10, 8));

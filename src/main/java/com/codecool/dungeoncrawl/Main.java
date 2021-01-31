@@ -77,6 +77,12 @@ public class Main extends Application {
         map.getChestsCollection().get(1).setAnotherTilename("chest2");
         map.getChestsCollection().get(2).setAnotherTilename("chest2");
 
+        map.getLeverSwitchCollection().get(0).setGroupName("group1");
+        map.getGateOpenableByASwitchCollection().get(0).setGroupName("group1");
+        map.getGateOpenableByASwitchCollection().get(1).setGroupName("group1");
+        map.getGateOpenableByASwitchCollection().get(2).setGroupName("group1");
+        map.getGateOpenableByASwitchCollection().get(3).setGroupName("group1");
+
         pickUpButton.setDisable(true);
         pickUpButton.setOnAction(pickUp -> {
             Item item = (Item) map.getPlayer().getCell().getItem();
@@ -212,10 +218,21 @@ public class Main extends Application {
                     int interactablesArrayCurrentIndex = 0;
                     Cell currentlyFocusedCell = map.getPlayer().getCell().getNeighbor(interactableDirection[0], interactableDirection[1]);
                     while (map.getInteractablesArray().size() > interactablesArrayCurrentIndex) {
-                        if (map.getInteractablesArray().get(interactablesArrayCurrentIndex).isThisObjectInteractive() &&
-                                map.getInteractablesArray().get(interactablesArrayCurrentIndex).isThisInteractiveObjectCurrentlyBeingFocusedOn(currentlyFocusedCell) &&
-                                map.getInteractablesArray().get(interactablesArrayCurrentIndex).isPlayerInteractingFromLegalDirection(map.getPlayer().getCell())) {
-                            map.getInteractablesArray().get(interactablesArrayCurrentIndex).interact();
+                        InteractiveObject currentlyProcessedInteractable = map.getInteractablesArray().get(interactablesArrayCurrentIndex);
+                        //System.out.println(currentlyProcessedInteractable);
+                        if (currentlyProcessedInteractable.isThisObjectInteractive() &&
+                                currentlyProcessedInteractable.isThisInteractiveObjectCurrentlyBeingFocusedOn(currentlyFocusedCell) &&
+                                currentlyProcessedInteractable.isPlayerInteractingFromLegalDirection(map.getPlayer().getCell())) {
+                            currentlyProcessedInteractable.interact();
+                            if (currentlyProcessedInteractable instanceof Switch && ((Switch) currentlyProcessedInteractable).getGroupName() != null) {
+                                map.getSwitchablesCollection()
+                                        .stream()
+                                        .filter(x -> x.isThisFromTheSameGroup(((Switch) currentlyProcessedInteractable).getGroupName()))
+                                        .forEach(InteractiveObject::interact);
+                            }
+                            if (currentlyProcessedInteractable.isMoveOnPossibleAfterInteraction() && !(currentlyProcessedInteractable instanceof Switch)) {
+                                currentlyFocusedCell.setCellType(CellType.FLOOR);
+                            }
                             refresh();
                             return;
                         } else {
@@ -253,20 +270,20 @@ public class Main extends Application {
         context.setFill(Color.BLACK);
         context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
-        int dx = Math.min(0, 11-map.getPlayer().getX());
-        int dy = Math.min(0, 11-map.getPlayer().getY());
-        dx = Math.max(19-map.getWidth(), dx);
-        dy = Math.max(19-map.getHeight(), dy);
+        int dx = Math.min(0, 11 - map.getPlayer().getX());
+        int dy = Math.min(0, 11 - map.getPlayer().getY());
+        dx = Math.max(19 - map.getWidth(), dx);
+        dy = Math.max(19 - map.getHeight(), dy);
 
         for (int x = 0; x < map.getWidth(); x++) {
             for (int y = 0; y < map.getHeight(); y++) {
                 Cell cell = map.getCell(x, y);
-                Tiles.drawTile(context, cell, x+dx,y+dy);
+                Tiles.drawTile(context, cell, x + dx, y + dy);
                 if (cell.getItem() != null) {
-                    Tiles.drawTile(context, cell.getItem(), x+dx, y+dy);
+                    Tiles.drawTile(context, cell.getItem(), x + dx, y + dy);
                 }
                 if (cell.getActor() != null) {
-                    Tiles.drawTile(context, cell.getActor(), x+dx, y+dy);
+                    Tiles.drawTile(context, cell.getActor(), x + dx, y + dy);
                 }
                 if (!(map.getPlayer().getTileName().equals("playerArmored2")) && map.getPlayer().getMaxHealth() > 10) {
                     map.getPlayer().setTileName("playerArmored1");

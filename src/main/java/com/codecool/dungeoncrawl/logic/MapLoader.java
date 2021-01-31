@@ -44,6 +44,20 @@ public class MapLoader {
                             cell.setCellType(CellType.FLOOR);
                             map.setPlayer(new Player(cell));
                             break;
+                        case '=':
+                            cell.setCellType(CellType.WALL);
+                            GateOpenableByASwitch gate = new GateOpenableByASwitch(cell, "gateOpenableByASwitch");
+                            cell.setItem(gate);
+                            map.interactablesCollection.add(gate);
+                            map.GateOpenableByASwitchCollection.add(gate);
+                            map.switchablesCollection.add(gate);
+                            break;
+                        case '%':
+                            cell.setCellType(CellType.WALL);
+                            LeverSwitch leverSwitch = new LeverSwitch(cell);
+                            map.interactablesCollection.add(leverSwitch);
+                            map.leverSwitchCollection.add(leverSwitch);
+                            break;
                         case 'k':
                             cell.setCellType(CellType.FLOOR);
                             new Key(cell);

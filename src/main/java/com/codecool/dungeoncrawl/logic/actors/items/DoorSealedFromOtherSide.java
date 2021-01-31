@@ -1,6 +1,5 @@
 package com.codecool.dungeoncrawl.logic.actors.items;
 import com.codecool.dungeoncrawl.logic.Cell;
-import com.codecool.dungeoncrawl.logic.CellType;
 
     public class DoorSealedFromOtherSide extends Item implements InteractiveObject {
 
@@ -49,7 +48,6 @@ import com.codecool.dungeoncrawl.logic.CellType;
                 OpenedDoor openDoor = new OpenedDoor(this.getCell());
                 openDoor.setAnotherTileName("sealedFromOtherSideDoorOpened");
                 this.getCell().setItem(openDoor);
-                this.getCell().setCellType(CellType.FLOOR);
             }
         }
 
