@@ -2,6 +2,7 @@ package com.codecool.dungeoncrawl.logic;
 
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.actors.items.*;
+import com.codecool.dungeoncrawl.logic.actors.monsters.HiddenEnemySpawner;
 import com.codecool.dungeoncrawl.logic.actors.monsters.Monster;
 
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ public class GameMap {
     List<SuspiciousWall> suspiciousWallsCollection = new ArrayList<>();
     List<HiddenPassage> hiddenPassagesCollection = new ArrayList<>();
     List<HiddenItem> hiddenItemsCollection = new ArrayList<>();
+    List<HiddenEnemySpawner> hiddenEnemySpawnersCollection = new ArrayList<>();
 
 
     public GameMap(int width, int height, CellType defaultCellType) {
@@ -50,6 +52,10 @@ public class GameMap {
     public Cell getCell(int x, int y) {
         return (x<0 || x >= width || y<0 || y >= height) ? null : cells[x][y];
         // return cells[x][y]; eredeti
+    }
+
+    public List<HiddenEnemySpawner> getHiddenEnemySpawnersCollection() {
+        return hiddenEnemySpawnersCollection;
     }
 
     public List<SuspiciousWall> getSuspiciousWallsCollection() {
