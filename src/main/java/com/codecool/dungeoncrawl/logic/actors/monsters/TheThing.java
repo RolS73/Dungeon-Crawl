@@ -6,8 +6,6 @@ import com.codecool.dungeoncrawl.logic.actors.Player;
 
 public class TheThing  extends Monster {
 
-    private int count;
-
     public TheThing(Cell cell) {
         super(cell);
         this.setAttackPower(3);
