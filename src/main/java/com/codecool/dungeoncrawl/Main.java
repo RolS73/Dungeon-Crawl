@@ -179,10 +179,15 @@ public class Main extends Application {
             }
             map.getPlayer().getCell().setItem(null);
         } else if (item instanceof ArmorUpgrade) {
-            map.getPlayer().raiseArmor(map.getPlayer().getCell().getItem().getHealth());
-            map.getPlayer().getCell().setItem(null);
+            equipArmor(item);
             //System.out.println(map.getPlayer().getArmor());
         }
+    }
+
+    private void equipArmor(Item item) {
+        inventory.add(item);
+        map.getPlayer().raiseArmor(map.getPlayer().getCell().getItem().getHealth());
+        map.getPlayer().getCell().setItem(null);
     }
 
     private void checkCurrentWeapon(Item item) {
