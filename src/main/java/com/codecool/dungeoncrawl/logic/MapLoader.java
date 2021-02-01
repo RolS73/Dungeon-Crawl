@@ -45,7 +45,7 @@ public class MapLoader {
                             map.setPlayer(new Player(cell));
                             break;
                         case '=':
-                            cell.setCellType(CellType.WALL);
+                            cell.setCellType(CellType.OBJECT);
                             GateOpenableByASwitch gate = new GateOpenableByASwitch(cell, "gateOpenableByASwitch");
                             cell.setItem(gate);
                             map.interactablesCollection.add(gate);
@@ -53,7 +53,7 @@ public class MapLoader {
                             map.switchablesCollection.add(gate);
                             break;
                         case '%':
-                            cell.setCellType(CellType.WALL);
+                            cell.setCellType(CellType.OBJECT);
                             LeverSwitch leverSwitch = new LeverSwitch(cell);
                             map.interactablesCollection.add(leverSwitch);
                             map.leverSwitchCollection.add(leverSwitch);
@@ -71,17 +71,17 @@ public class MapLoader {
                             new Weapon(cell, "Skelie Choppa", 5);
                             break;
                         case 'D':
-                            cell.setCellType(CellType.WALL);
+                            cell.setCellType(CellType.OBJECT);
                             map.interactablesCollection.add(new LockedDoor(cell));
                             break;
                         case 'O':
-                            cell.setCellType(CellType.WALL);
+                            cell.setCellType(CellType.OBJECT);
                             DoorSealedFromOtherSide doorSealedFromOtherSide = new DoorSealedFromOtherSide(cell);
                             map.interactablesCollection.add(doorSealedFromOtherSide);
                             map.doorsSealedFromOtherSideCollection.add(doorSealedFromOtherSide);
                             break;
                         case 'C':
-                            cell.setCellType(CellType.WALL);
+                            cell.setCellType(CellType.OBJECT);
                             Chest chest = new Chest(cell, "chest1");
                             map.interactablesCollection.add(chest);
                             map.chestsCollection.add(chest);
@@ -90,7 +90,7 @@ public class MapLoader {
                             cell.setCellType(CellType.FIRESTAND);
                             break;
                         case 'F':
-                            cell.setCellType(CellType.WALL);
+                            cell.setCellType(CellType.OBJECT);
                             map.interactablesCollection.add(new TorchPuzzle(cell));
                             break;
                         case 't':
@@ -106,7 +106,7 @@ public class MapLoader {
                             map.trapBloodyCollection.add(new TrapBloody(cell, "spikeTrapBloodyActive"));
                             break;
                         case 'b':
-                            cell.setCellType(CellType.WALL);
+                            cell.setCellType(CellType.OBJECT);
                             Breakable breakable = new Breakable(cell, "breakable");
                             int randomNum = RandomGenerator.nextInt(3);
                             if (randomNum == 0) {
