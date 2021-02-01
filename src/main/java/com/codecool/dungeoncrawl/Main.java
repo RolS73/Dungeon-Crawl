@@ -159,7 +159,7 @@ public class Main extends Application {
     private void pickUpItem(Item item) {
         if (item instanceof Weapon) {
             if (inventory.stream().anyMatch(i -> i instanceof Weapon)) {
-                checkCurrentWeapon(item);
+                compareWithCurrentWeapon(item);
             } else {
                 equipWeapon(item);
             }
@@ -179,18 +179,41 @@ public class Main extends Application {
             }
             map.getPlayer().getCell().setItem(null);
         } else if (item instanceof ArmorUpgrade) {
-            equipArmor(item);
+            if (inventory.stream().anyMatch(i -> i instanceof ArmorUpgrade)) {
+                compareWithCurrentArmor(item);
+            } else {
+                equipArmor(item);
+            }
             //System.out.println(map.getPlayer().getArmor());
         }
     }
 
+    private void compareWithCurrentArmor(Item item) {
+        ArmorUpgrade currentArmor = getCurrentArmor();
+        if (currentArmor.getHealth() < ((ArmorUpgrade) item).getHealth()) {
+            unequipArmor(currentArmor);
+            equipArmor(item);
+        }
+    }
+
+    private void unequipArmor(ArmorUpgrade currentArmor) {
+        inventory.remove(currentArmor);
+        map.getPlayer().setArmor(0);
+    }
+
     private void equipArmor(Item item) {
         inventory.add(item);
-        map.getPlayer().raiseArmor(map.getPlayer().getCell().getItem().getHealth());
+        map.getPlayer().setArmor(map.getPlayer().getCell().getItem().getHealth());
         map.getPlayer().getCell().setItem(null);
     }
 
-    private void checkCurrentWeapon(Item item) {
+    private ArmorUpgrade getCurrentArmor() {
+        return (ArmorUpgrade) inventory.stream().filter(a -> a instanceof ArmorUpgrade)
+                .findFirst()
+                .orElseThrow(() -> new NoSuchElementException("No Armor found"));
+    }
+
+    private void compareWithCurrentWeapon(Item item) {
         Weapon currentWeapon = getCurrentWeapon();
         if (currentWeapon.getAttackpowerIncrease() < ((Weapon) item).getAttackpowerIncrease()) {
             unequipCurrentWeapon(currentWeapon);

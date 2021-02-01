@@ -35,9 +35,13 @@ public class Player extends Actor {
         return armor;
     }
 
-    public void raiseArmor(int armorUpgrade) {
-        this.armor = this.armor + armorUpgrade;
+    public void setArmor(int armor) {
+        this.armor = armor;
     }
+
+//    public void raiseArmor(int armorUpgrade) {
+//        this.armor = this.armor + armorUpgrade;
+//    }
 
     public void restoreHealth(int healAmount) {
         super.setHealth(Math.min(getHealth() + healAmount, getMaxHealth()));
