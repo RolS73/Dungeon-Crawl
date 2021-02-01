@@ -37,6 +37,7 @@ public class Main extends Application {
     GraphicsContext context = canvas.getGraphicsContext2D();
     Label healthLabel = new Label();
     Label attackPwLabel = new Label();
+    Label armorLabel = new Label();
 
     Button pickUpButton = new Button("Pick up!");
 
@@ -51,12 +52,22 @@ public class Main extends Application {
         ui.setPadding(new Insets(10));
 
         HBox lifeStatus = new HBox();
-        lifeStatus.getChildren().addAll(new Label("Health: "), healthLabel, new Label("  Attackpw: "), attackPwLabel);
+        lifeStatus.setSpacing(5);
+        lifeStatus.getChildren().addAll(new Label("Health:"), healthLabel, new Label("Armor:"), armorLabel);
+
+        HBox attackPwStatus = new HBox();
+        attackPwStatus.getChildren().addAll( new Label("Attackpw: "), attackPwLabel);
 
         ui.setHgap(10);
         ui.setVgap(10);
         ui.setPadding(new Insets(10, 10, 10, 10));
         ui.add(lifeStatus, 0, 0);
+        ui.add(attackPwStatus, 0, 1);
+
+
+        Label instructions = new Label();
+        instructions.setText("Move with arrow keys or WASD.\nInteract: E key.\nPick up items with E key.");
+        ui.add(instructions, 0, 4);
 
         TableView<Item> inventoryTable = new TableView<>(inventory);
         TableColumn<Item, String> itemnames = new TableColumn<>("Inventory");
@@ -66,8 +77,9 @@ public class Main extends Application {
         inventoryTable.setMaxWidth(130);
         inventoryTable.setMaxHeight(150);
         inventoryTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        ui.add(inventoryTable, 0, 2);
+        ui.add(inventoryTable, 0, 3);
         inventoryTable.setFocusTraversable(false);
+        inventoryTable.setPlaceholder(new Label("Inventory is empty!"));
 
         map.getDoorsSealedFromOtherSideArray().get(0).setOpenableFromWhatDirection("Up");
         map.getDoorsSealedFromOtherSideArray().get(1).setOpenableFromWhatDirection("Left");
@@ -124,7 +136,7 @@ public class Main extends Application {
         pickUpButton.setPrefWidth(130);
 
         lootButtons.getChildren().addAll(pickUpButton);
-        ui.add(lootButtons, 0, 1);
+        ui.add(lootButtons, 0, 2);
 
         BorderPane borderPane = new BorderPane();
 
@@ -336,6 +348,7 @@ public class Main extends Application {
         }
         attackPwLabel.setText("" + map.getPlayer().getAttackPower());
         healthLabel.setText("" + map.getPlayer().getHealth());
+        armorLabel.setText("" + map.getPlayer().getArmor());
     }
 
     private boolean isThereAnInteractiveObjectAroundThePlayer() {
