@@ -69,6 +69,9 @@ public class Main extends Application {
         ui.add(inventoryTable, 0, 2);
         inventoryTable.setFocusTraversable(false);
 
+        map.getPlacedItemsCollection().get(0).getCell().setItem(new LootTable("Item","Rare").overwriteLoot(2));
+        map.getPlacedItemsCollection().get(1).getCell().setItem((new LootTable("Item","Rare").overwriteLoot(3)));
+
         map.getDoorsSealedFromOtherSideArray().get(0).setOpenableFromWhatDirection("Up");
         map.getDoorsSealedFromOtherSideArray().get(1).setOpenableFromWhatDirection("Left");
         map.getDoorsSealedFromOtherSideArray().get(2).setOpenableFromWhatDirection("Right");
@@ -369,11 +372,11 @@ public class Main extends Application {
     }*/
 
     private void playerSuffersEnvironmentalDamage() {
-        map.getPlayer().setHealth(map.getPlayer().getHealth() - map.getPlayer().getCell().getItem().getAttackPower());
+        map.getPlayer().lowerHealth(map.getPlayer().getCell().getItem().getAttackPower());
     }
 
     public boolean isPlayerBeingAffectedByAnEnvironmentalDamageSource() {
-        return map.getPlayer().getCell() instanceof EnvironmentalDamage && map.getPlayer().getCell().getItem().getTileName().contains("Active");
+        return map.getPlayer().getCell().getItem() instanceof EnvironmentalDamage && map.getPlayer().getCell().getItem().getAttackPower() > 0;
     }
 
    /* private boolean isPlayerSufferingEnvironmentalDamage() {

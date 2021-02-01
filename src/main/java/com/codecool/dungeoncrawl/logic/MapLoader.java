@@ -55,6 +55,11 @@ public class MapLoader {
                             map.interactablesCollection.add(leverSwitch);
                             map.leverSwitchCollection.add(leverSwitch);
                             break;
+                        case 'P':
+                            cell.setCellType(CellType.OBJECT);
+                            Passage passage = new Passage(cell, "Passage");
+                            map.interactablesCollection.add(passage);
+                            break;
                         case 'k':
                             cell.setCellType(CellType.FLOOR);
                             new Key(cell);
@@ -63,6 +68,11 @@ public class MapLoader {
                             cell.setCellType(CellType.FLOOR);
                             new Life(cell, 5);
                             break;
+                        case 'L':
+                            cell.setCellType(CellType.FLOOR);
+                            Item placedItem = new Life(cell, 2);
+                            cell.setItem(placedItem);
+                            map.placedItemsCollection.add(placedItem);
                         case 'w':
                             cell.setCellType(CellType.FLOOR);
                             new Weapon(cell, "Skelie Choppa", 5);
@@ -92,15 +102,15 @@ public class MapLoader {
                             break;
                         case 't':
                             cell.setCellType(CellType.FLOOR);
-                            map.trapsCollection.add(new TrapPlain(cell, "spikeTrapResting", 2, 2));
+                            map.trapsCollection.add(new TrapPlain(cell, "spikeTrapResting", 2, 3));
                             break;
                         case 'T':
                             cell.setCellType(CellType.FLOOR);
-                            map.trapsCollection.add(new TrapPlain(cell, "spikeTrapActive", 1, 2));
+                            map.trapsCollection.add(new TrapPlain(cell, "spikeTrapActive", 1, 3));
                             break;
                         case 'B':
                             cell.setCellType(CellType.FLOOR);
-                            map.trapBloodyCollection.add(new TrapBloody(cell, "spikeTrapBloodyActive"));
+                            map.trapBloodyCollection.add(new TrapBloody(cell, "spikeTrapBloodyActive", 5));
                             break;
                         case 'b':
                             cell.setCellType(CellType.OBJECT);

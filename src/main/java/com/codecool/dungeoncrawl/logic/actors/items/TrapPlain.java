@@ -4,7 +4,8 @@ import com.codecool.dungeoncrawl.logic.Cell;
 
 public class TrapPlain extends Item implements EnvironmentalDamage {
 
-    private final int environmentalDamageValue;
+    private int environmentalDamageValue;
+    private int environmentalDamageMax;
     private int currentCooldownCount;
     private final int cooldownMax;
     private String anotherTilename = "spikeTrapResting";
@@ -23,16 +24,19 @@ public class TrapPlain extends Item implements EnvironmentalDamage {
         currentCooldownCount = cooldown;
         cooldownMax = cooldown;
         this.environmentalDamageValue = damage;
+        this.environmentalDamageMax = damage;
     }
 
     public void activate() {
         if (currentCooldownCount > 0) {
             if (anotherTilename.equals("spikeTrapActive")) {
                 anotherTilename = "spikeTrapResting";
+                this.environmentalDamageValue = 0;
             }
             currentCooldownCount--;
         } else if (currentCooldownCount == 0) {
             setAnotherTileName("spikeTrapActive");
+            this.environmentalDamageValue = environmentalDamageMax;
             currentCooldownCount = cooldownMax;
         }
     }

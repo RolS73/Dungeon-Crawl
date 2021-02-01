@@ -5,9 +5,11 @@ import com.codecool.dungeoncrawl.logic.Cell;
 public class TrapBloody extends Item implements EnvironmentalDamage {
 
     private String anotherTileName = "spikeTrapBloodyActive";
+    private int environmentalDamageValue;
 
-    public TrapBloody(Cell cell, String name) {
+    public TrapBloody(Cell cell, String name, int damageValue) {
         super(cell, name);
+        environmentalDamageValue = damageValue;
     }
 
     @Override
@@ -22,5 +24,10 @@ public class TrapBloody extends Item implements EnvironmentalDamage {
     @Override
     public boolean isEnvironmentalDamageActive() {
         return true;
+    }
+
+    @Override
+    public int getAttackPower() {
+        return environmentalDamageValue;
     }
 }

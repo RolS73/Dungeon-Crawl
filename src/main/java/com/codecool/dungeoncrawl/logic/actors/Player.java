@@ -42,4 +42,8 @@ public class Player extends Actor {
     public void restoreHealth(int healAmount) {
         super.setHealth(Math.min(getHealth() + healAmount, getMaxHealth()));
     }
+
+    public void lowerHealth(int damageAmount) {
+        super.setHealth(getHealth() - damageAmount);
+    }
 }

@@ -165,6 +165,10 @@ public class LootTable {
         return lootTable.get(generateNumberForLootTable());
     }
 
+    public Item overwriteLoot(int LootNumber) {
+        return lootTable.get(LootNumber);
+    }
+
 
 //    public enum commonItems {
 //        KEY,

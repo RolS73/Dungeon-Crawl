@@ -28,6 +28,7 @@ public class GameMap {
     List<HiddenPassage> hiddenPassagesCollection = new ArrayList<>();
     List<HiddenItem> hiddenItemsCollection = new ArrayList<>();
     List<HiddenEnemySpawner> hiddenEnemySpawnersCollection = new ArrayList<>();
+    List<Item> placedItemsCollection = new ArrayList<>();
 
 
     public GameMap(int width, int height, CellType defaultCellType) {
@@ -76,6 +77,10 @@ public class GameMap {
 
     public Player getPlayer() {
         return player;
+    }
+
+    public List<Item> getPlacedItemsCollection() {
+        return placedItemsCollection;
     }
 
     public List<Chest> getChestsCollection() {
