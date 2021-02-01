@@ -83,32 +83,33 @@ public class Main extends Application {
         map.getGateOpenableByASwitchCollection().get(2).setGroupName("GateGroup1");
         map.getGateOpenableByASwitchCollection().get(3).setGroupName("GateGroup1");
 
-        map.getSuspiciousWallsCollection().get(0).setGroupName("SuspiciousWallGroup1");  //Under the first puzzle torch
+        map.getSuspiciousWallsCollection().get(0).setGroupName("SuspiciousWallGroup1");  // Under the first puzzle torch
         map.getHiddenPassagesCollection().get(0).setGroupName("SuspiciousWallGroup1");
         map.getHiddenItemsCollection().get(0).setGroupName("SuspiciousWallGroup1");
 
-        map.getSuspiciousWallsCollection().get(1).setGroupName("SuspiciousWallGroup2");  //Under the first SusWall
+        map.getSuspiciousWallsCollection().get(1).setGroupName("SuspiciousWallGroup2");  // Under the first SusWall
         map.getHiddenItemsCollection().get(1).setGroupName("SuspiciousWallGroup2");
         map.getSuspiciousWallsCollection().get(1).setTileName("empty");
 
-        map.getSuspiciousWallsCollection().get(4).setGroupName("SuspiciousWallGroup3");  //Main Hall
+        map.getSuspiciousWallsCollection().get(4).setGroupName("SuspiciousWallGroup3");  // Main Hall
         map.getHiddenPassagesCollection().get(2).setGroupName("SuspiciousWallGroup3");
         map.getHiddenItemsCollection().get(3).setGroupName("SuspiciousWallGroup3");
 
-        map.getSuspiciousWallsCollection().get(3).setGroupName("SuspiciousWallGroup4"); //Under spawn room
+        map.getSuspiciousWallsCollection().get(3).setGroupName("SuspiciousWallGroup4"); // Under spawn room
         map.getHiddenPassagesCollection().get(1).setGroupName("SuspiciousWallGroup4");
         map.getHiddenItemsCollection().get(2).setGroupName("SuspiciousWallGroup4");
+        map.getHiddenEnemySpawnersCollection().get(0).setGroupName("SuspiciousWallGroup4");
 
-        map.getSuspiciousWallsCollection().get(5).setGroupName("SuspiciousWallGroup5");
+        map.getSuspiciousWallsCollection().get(5).setGroupName("SuspiciousWallGroup5");  // Hidden passage between gates
         map.getSuspiciousWallsCollection().get(6).setGroupName("SuspiciousWallGroup5");
         for (int i = 3; i < 14; i++) {
             map.getHiddenPassagesCollection().get(i).setGroupName("SuspiciousWallGroup5");
         }
 
-        map.getSuspiciousWallsCollection().get(7).setGroupName("SuspiciousWallGroup6");
+        map.getSuspiciousWallsCollection().get(7).setGroupName("SuspiciousWallGroup6");  // Left optional room
         map.getHiddenItemsCollection().get(4).setGroupName("SuspiciousWallGroup6");
 
-        map.getSuspiciousWallsCollection().get(9).setGroupName("SuspiciousWallGroup7");
+        map.getSuspiciousWallsCollection().get(9).setGroupName("SuspiciousWallGroup7");  // Right optional room
         map.getHiddenItemsCollection().get(5).setGroupName("SuspiciousWallGroup7");
 
         pickUpButton.setDisable(true);
@@ -150,15 +151,17 @@ public class Main extends Application {
         } else if (item instanceof Life) {
             //map.getPlayer().raiseMaxHealth(5);
             if (!(map.getPlayer().getHealth() == map.getPlayer().getMaxHealth())) {
-                map.getPlayer().setHealth(map.getPlayer().getHealth() + map.getPlayer().getCell().getItem().getHealth() > map.getPlayer().getMaxHealth() ? map.getPlayer().getMaxHealth() : map.getPlayer().getHealth() + map.getPlayer().getCell().getItem().getHealth());
+                map.getPlayer().restoreHealth(map.getPlayer().getCell().getItem().getHealth());
                 map.getPlayer().getCell().setItem(null);
             }
         } else if (item instanceof Key) {
             inventory.add(item);
             map.getPlayer().getCell().setItem(null);
         } else if (item instanceof LifeUpgrade) {
-            //map.getPlayer().raiseMaxHealth(5);
             map.getPlayer().raiseMaxHealth(map.getPlayer().getCell().getItem().getHealth());
+            if (map.getPlayer().getMaxHealth() == map.getPlayer().getHealth()) {
+                map.getPlayer().restoreHealth(map.getPlayer().getCell().getItem().getHealth());
+            }
             map.getPlayer().getCell().setItem(null);
         } else if (item instanceof ArmorUpgrade) {
             map.getPlayer().raiseArmor(map.getPlayer().getCell().getItem().getHealth());

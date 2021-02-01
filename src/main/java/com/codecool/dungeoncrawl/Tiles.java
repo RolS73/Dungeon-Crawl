@@ -28,6 +28,7 @@ public class Tiles {
         tileMap.put("suspiciousWall", new Tile(10, 17));
         tileMap.put("secretPassage", new Tile(2, 0));
         tileMap.put("floor", new Tile(2, 0));
+        tileMap.put("hiddenEnemySpawner", new Tile(2, 0));
 
         tileMap.put("sealedFromOtherSideDoor", new Tile(3, 4));
         tileMap.put("sealedFromOtherSideDoorOpened", new Tile(4, 4));
