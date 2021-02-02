@@ -380,7 +380,12 @@ public class Main extends Application {
                 }
             }
         }
-        attackPwLabel.setText("" + map.getPlayer().getAttackPower());
+        if (inventory.stream().anyMatch(item -> item instanceof Weapon)) {
+            attackPwLabel.setText("4 + " + getCurrentWeapon().getAttackpowerIncrease());
+        } else {
+            attackPwLabel.setText("4");
+        }
+//        attackPwLabel.setText("" + map.getPlayer().getAttackPower());
         healthLabel.setText("" + map.getPlayer().getHealth());
         armorLabel.setText("" + map.getPlayer().getArmor());
     }
