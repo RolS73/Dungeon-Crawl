@@ -2,6 +2,8 @@ package com.codecool.dungeoncrawl;
 
 import com.codecool.dungeoncrawl.logic.*;
 import com.codecool.dungeoncrawl.logic.actors.items.*;
+import com.codecool.dungeoncrawl.logic.actors.monsters.HiddenEnemySpawner;
+import com.codecool.dungeoncrawl.logic.actors.monsters.Skeleton;
 import javafx.application.Application;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
@@ -29,7 +31,7 @@ public class Main extends Application {
     public static ObservableList<Item> inventory = FXCollections.observableArrayList();
 
 
-    GameMap map = MapLoader.loadMap();
+    static GameMap map = MapLoader.loadMap();
     AiMovement AI = new AiMovement(map);
     Canvas canvas = new Canvas(
             19 * Tiles.TILE_WIDTH,
@@ -314,6 +316,7 @@ public class Main extends Application {
                                         .filter(x -> x.getGroupName() != null)
                                         .filter(x -> x.isThisFromTheSameGroup(((Switch) currentlyProcessedInteractable).getGroupName()))
                                         .forEach(InteractiveObject::interact);
+                                //if(instance of HiddenEnemySpawner) { map.monsters.add(new Monster(ide kell cell ahova spawnol))}
                                 //System.out.println(((Switch) currentlyProcessedInteractable).getGroupName());
                             }
                             if (currentlyProcessedInteractable.isMoveOnPossibleAfterInteraction() && !(currentlyProcessedInteractable instanceof Switch)) {
@@ -423,6 +426,10 @@ public class Main extends Application {
 
     public boolean isPlayerBeingAffectedByAnEnvironmentalDamageSource() {
         return map.getPlayer().getCell().getItem() instanceof EnvironmentalDamage && map.getPlayer().getCell().getItem().getAttackPower() > 0;
+    }
+
+    public static GameMap cheatingMapGetter(){
+        return map;
     }
 
    /* private boolean isPlayerSufferingEnvironmentalDamage() {

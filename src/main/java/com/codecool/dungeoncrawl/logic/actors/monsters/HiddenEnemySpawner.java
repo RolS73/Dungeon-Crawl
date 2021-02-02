@@ -1,6 +1,8 @@
 package com.codecool.dungeoncrawl.logic.actors.monsters;
 
+import com.codecool.dungeoncrawl.Main;
 import com.codecool.dungeoncrawl.logic.Cell;
+import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.actors.items.InteractiveObject;
 import com.codecool.dungeoncrawl.logic.actors.items.Item;
 import com.codecool.dungeoncrawl.logic.actors.items.Switch;
@@ -10,6 +12,10 @@ public class HiddenEnemySpawner extends Item implements InteractiveObject, Switc
     String groupName;
     String enemyType;
     String anotherTileName = "floor";
+
+    public Cell getCellForSpawn(){
+        return this.getCell();
+    }
 
     public HiddenEnemySpawner(Cell cell, String name) {
         super(cell, name);
@@ -27,7 +33,11 @@ public class HiddenEnemySpawner extends Item implements InteractiveObject, Switc
 
     @Override
     public void interact() {
-        Skeleton hiddenSkeleton = new Skeleton(this.getCell());
+        Main.cheatingMapGetter().getMonsters().add(new Skeleton(this.getCell()));
+    }
+
+    public void interact(Monster monster) {
+        Main.cheatingMapGetter().getMonsters().add(monster);
     }
 
     public void setGroupName(String groupName) {
