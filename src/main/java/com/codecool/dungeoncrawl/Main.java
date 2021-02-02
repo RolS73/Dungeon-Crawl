@@ -92,6 +92,10 @@ public class Main extends Application {
         map.getChestsCollection().get(1).setAnotherTilename("chest2");
         map.getChestsCollection().get(2).setAnotherTilename("chest2");
 
+
+        map.getSecretPassagesCollection().get(1).setTileName("empty");
+        map.getSecretPassagesCollection().get(1).getCell().setCellType(CellType.FLOOR);
+
         map.getLeverSwitchCollection().get(0).setGroupName("GateGroup1");
         map.getGateOpenableByASwitchCollection().get(0).setGroupName("GateGroup1");
         map.getGateOpenableByASwitchCollection().get(1).setGroupName("GateGroup1");
@@ -106,25 +110,25 @@ public class Main extends Application {
         map.getHiddenItemsCollection().get(1).setGroupName("SuspiciousWallGroup2");
         map.getSuspiciousWallsCollection().get(1).setTileName("empty");
 
-        map.getSuspiciousWallsCollection().get(4).setGroupName("SuspiciousWallGroup3");  // Main Hall
+        map.getSuspiciousWallsCollection().get(3).setGroupName("SuspiciousWallGroup3");  // Main Hall
         map.getHiddenPassagesCollection().get(2).setGroupName("SuspiciousWallGroup3");
         map.getHiddenItemsCollection().get(3).setGroupName("SuspiciousWallGroup3");
 
-        map.getSuspiciousWallsCollection().get(3).setGroupName("SuspiciousWallGroup4"); // Under spawn room
+        map.getSuspiciousWallsCollection().get(2).setGroupName("SuspiciousWallGroup4"); // Under spawn room
         map.getHiddenPassagesCollection().get(1).setGroupName("SuspiciousWallGroup4");
         map.getHiddenItemsCollection().get(2).setGroupName("SuspiciousWallGroup4");
         map.getHiddenEnemySpawnersCollection().get(0).setGroupName("SuspiciousWallGroup4");
 
-        map.getSuspiciousWallsCollection().get(5).setGroupName("SuspiciousWallGroup5");  // Hidden passage between gates
-        map.getSuspiciousWallsCollection().get(6).setGroupName("SuspiciousWallGroup5");
+        map.getSuspiciousWallsCollection().get(4).setGroupName("SuspiciousWallGroup5");  // Hidden passage between gates
+        map.getSuspiciousWallsCollection().get(5).setGroupName("SuspiciousWallGroup5");
         for (int i = 3; i < 14; i++) {
             map.getHiddenPassagesCollection().get(i).setGroupName("SuspiciousWallGroup5");
         }
 
-        map.getSuspiciousWallsCollection().get(7).setGroupName("SuspiciousWallGroup6");  // Left optional room
+        map.getSuspiciousWallsCollection().get(6).setGroupName("SuspiciousWallGroup6");  // Left optional room
         map.getHiddenItemsCollection().get(4).setGroupName("SuspiciousWallGroup6");
 
-        map.getSuspiciousWallsCollection().get(9).setGroupName("SuspiciousWallGroup7");  // Right optional room
+        map.getSuspiciousWallsCollection().get(8).setGroupName("SuspiciousWallGroup7");  // Right optional room
         map.getHiddenItemsCollection().get(5).setGroupName("SuspiciousWallGroup7");
 
         pickUpButton.setDisable(true);
@@ -257,6 +261,12 @@ public class Main extends Application {
                 map.getTrapsCollection().forEach(TrapPlain::activate);
                 if (isPlayerBeingAffectedByAnEnvironmentalDamageSource()) {
                     playerSuffersEnvironmentalDamage();
+                }
+                if (map.getSecretPassagesCollection().get(0).getCell() == map.getPlayer().getCell()) {
+                    map.getPlayer().move(66,0);
+                }
+                if (map.getSecretPassagesCollection().get(1).getCell() == map.getPlayer().getCell()) {
+                    map.getPlayer().move(-66,0);
                 }
                 refresh();
                 break;

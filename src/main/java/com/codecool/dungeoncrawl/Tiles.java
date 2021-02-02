@@ -26,16 +26,19 @@ public class Tiles {
         tileMap.put("empty", new Tile(0, 0));
         tileMap.put("wall", new Tile(10, 17));
         tileMap.put("suspiciousWall", new Tile(10, 17));
-        tileMap.put("secretPassage", new Tile(2, 0));
+        tileMap.put("secretPassage", new Tile(10, 17));
         tileMap.put("floor", new Tile(2, 0));
         tileMap.put("hiddenEnemySpawner", new Tile(2, 0));
         tileMap.put("stairwayUp", new Tile(4, 6));
+        tileMap.put("friendlyOldMan", new Tile(24, 6));
+        tileMap.put("friendlyDwarf", new Tile(25, 6));
 
         tileMap.put("sealedFromOtherSideDoor", new Tile(3, 4));
         tileMap.put("sealedFromOtherSideDoorOpened", new Tile(4, 4));
         tileMap.put("lockedDoor", new Tile(3, 3));
         tileMap.put("openedDoor", new Tile(4, 3));
 
+        tileMap.put("bonfire", new Tile(4, 15));
         tileMap.put("firestand", new Tile(4, 15));
         tileMap.put("puzzleFireStandInActive", new Tile(3, 14));
         tileMap.put("puzzleFireStandActive", new Tile(4, 14));

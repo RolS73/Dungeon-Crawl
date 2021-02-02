@@ -1,5 +1,6 @@
 package com.codecool.dungeoncrawl.logic;
 
+import com.codecool.dungeoncrawl.logic.actors.Actor;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.actors.items.*;
 import com.codecool.dungeoncrawl.logic.actors.monsters.HiddenEnemySpawner;
@@ -29,6 +30,8 @@ public class GameMap {
     List<HiddenItem> hiddenItemsCollection = new ArrayList<>();
     List<HiddenEnemySpawner> hiddenEnemySpawnersCollection = new ArrayList<>();
     List<Item> placedItemsCollection = new ArrayList<>();
+    List<SecretPassage> secretPassagesCollection = new ArrayList<>();
+    List<Actor> actorsCollection = new ArrayList<>();
 
 
     public GameMap(int width, int height, CellType defaultCellType) {
@@ -40,6 +43,14 @@ public class GameMap {
                 cells[x][y] = new Cell(this, x, y, defaultCellType);
             }
         }
+    }
+
+    public List<Actor> getActorsCollection() {
+        return actorsCollection;
+    }
+
+    public List<SecretPassage> getSecretPassagesCollection() {
+        return secretPassagesCollection;
     }
 
     public List<HiddenPassage> getHiddenPassagesCollection() {

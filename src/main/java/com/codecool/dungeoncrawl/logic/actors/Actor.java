@@ -3,6 +3,7 @@ package com.codecool.dungeoncrawl.logic.actors;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.Drawable;
+import com.codecool.dungeoncrawl.logic.actors.items.NonPlayerCharacter;
 
 public abstract class Actor implements Drawable {
     private Cell cell;
@@ -26,7 +27,7 @@ public abstract class Actor implements Drawable {
         if (nextCell == null) {
             return;
         }
-        if (nextCell.getActor() != null) {
+        if (nextCell.getActor() != null && !(nextCell.getActor() instanceof NonPlayerCharacter)) {
             nextCell.getActor().health = nextCell.getActor().health - attackPower;
 //            this.health = this.health - nextCell.getActor().getAttackPower();
 

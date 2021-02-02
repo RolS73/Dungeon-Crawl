@@ -2,41 +2,44 @@
 package com.codecool.dungeoncrawl.logic.actors.items;
 
 import com.codecool.dungeoncrawl.logic.Cell;
+import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.actors.Sounds;
 
 public class SecretPassage extends Item implements InteractiveObject {
 
-    private String name = "secretPassage";
-
-    int[] coordinates;
+    private String anotherTileName = "secretPassage";
 
     public SecretPassage(Cell cell) {
-
         super(cell, "Path to Secrets");
-        this.coordinates = new int[]{cell.getX(), cell.getY()};
-        this.setName("Path to Secrets");
-
-    }
-
-    @Override
-    public boolean isThisObjectInteractive() {
-        return true;
     }
 
     @Override
     public void interact() {
-        if (isThisObjectInteractive()) {
-            Sounds.playSound("Move5");;
+        if (anotherTileName.equals("empty")) {
+            Sounds.playSound("Move5");
+        }
+        if (isThisObjectInteractive() && anotherTileName.equals("secretPassage")) {
+            this.anotherTileName = "empty";
+            this.getCell().setCellType(CellType.FLOOR);
         }
     }
 
     @Override
     public String getTileName() {
-        return this.name;
+        return this.anotherTileName;
+    }
+
+    public void setTileName(String newName) {
+        anotherTileName = newName;
     }
 
     @Override
     public boolean isMoveOnPossibleAfterInteraction() {
+        return false;
+    }
+
+    @Override
+    public boolean isThisObjectInteractive() {
         return true;
     }
 
@@ -48,10 +51,6 @@ public class SecretPassage extends Item implements InteractiveObject {
     @Override
     public boolean isThisInteractiveObjectCurrentlyBeingFocusedOn(Cell cell) {
         return this.getCell().equals(cell);
-    }
-
-    public int[] getCoordinates() {
-        return coordinates;
     }
 }
 
