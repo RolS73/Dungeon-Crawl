@@ -1,14 +1,17 @@
 package com.codecool.dungeoncrawl;
 
+import com.codecool.dungeoncrawl.logic.actors.Player;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
 public class Menu {
 
@@ -20,7 +23,11 @@ public class Menu {
     }
 
     {
-
+//        BackgroundImage myBI= new BackgroundImage(new Image("my url",32,32,false,true),
+//                BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+//                BackgroundSize.DEFAULT);
+////then you set to your node
+//        myContainer.setBackground(new Background(myBI));
         Label title = new Label("PLACEHOLDER TITLE");
         HBox titledPane = new HBox();
         titledPane.setAlignment(Pos.CENTER);
@@ -39,13 +46,18 @@ public class Menu {
 
         playButton.setDisable(true);
 
-        playButton.setOnAction(play -> Main.stage.setScene(Main.gameScene));
         playerName.textProperty().addListener((observable, oldvalue, newvalue) -> {
             if (newvalue.equals("")) {
                 playButton.setDisable(true);
             } else {
                 playButton.setDisable(false);
             }
+        });
+
+        playButton.setOnAction(play -> {
+            Main.stage.setScene(Main.gameScene);
+            Player.setPlayerName(playerName.getText());
+            System.out.println(Player.getPlayerName());
         });
 
         menu.getChildren().addAll(askForName, playerName, playButton);

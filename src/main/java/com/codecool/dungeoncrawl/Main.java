@@ -1,6 +1,7 @@
 package com.codecool.dungeoncrawl;
 
 import com.codecool.dungeoncrawl.logic.*;
+import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.actors.items.*;
 import javafx.application.Application;
 import javafx.beans.property.ReadOnlyStringWrapper;
@@ -54,6 +55,9 @@ public class Main extends Application {
         ui.setPrefWidth(200);
         ui.setPadding(new Insets(10));
 
+        Label name = new Label(Player.getPlayerName()); //Player name doesn't show :(
+        ui.add(name, 0, 0);
+
         HBox lifeStatus = new HBox();
         lifeStatus.setSpacing(5);
         lifeStatus.getChildren().addAll(new Label("Health:"), healthLabel, new Label("Armor:"), armorLabel);
@@ -64,13 +68,14 @@ public class Main extends Application {
         ui.setHgap(10);
         ui.setVgap(10);
         ui.setPadding(new Insets(10, 10, 10, 10));
-        ui.add(lifeStatus, 0, 0);
-        ui.add(attackPwStatus, 0, 1);
+
+        ui.add(lifeStatus, 0, 1);
+        ui.add(attackPwStatus, 0, 2);
 
 
         Label instructions = new Label();
         instructions.setText("Move with arrow keys or WASD.\nInteract: E key.\nPick up items with E key.");
-        ui.add(instructions, 0, 4);
+        ui.add(instructions, 0, 5);
 
         TableView<Item> inventoryTable = new TableView<>(inventory);
         TableColumn<Item, String> itemnames = new TableColumn<>("Inventory");
@@ -80,7 +85,7 @@ public class Main extends Application {
         inventoryTable.setMaxWidth(130);
         inventoryTable.setMaxHeight(150);
         inventoryTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        ui.add(inventoryTable, 0, 3);
+        ui.add(inventoryTable, 0, 4);
         inventoryTable.setFocusTraversable(false);
         inventoryTable.setPlaceholder(new Label("Inventory is empty!"));
 
@@ -143,7 +148,7 @@ public class Main extends Application {
         pickUpButton.setPrefWidth(130);
 
         lootButtons.getChildren().addAll(pickUpButton);
-        ui.add(lootButtons, 0, 2);
+        ui.add(lootButtons, 0, 3);
 
         BorderPane borderPane = new BorderPane();
 
@@ -155,7 +160,6 @@ public class Main extends Application {
         primaryStage.setScene(menu.getMenuScreen());
         Scene scene = new Scene(borderPane);
         gameScene = scene;
-//        menu.getPlayButton().setOnAction(play -> primaryStage.setScene(scene));
 
         refresh();
         scene.setOnKeyPressed(this::onKeyPressed);
