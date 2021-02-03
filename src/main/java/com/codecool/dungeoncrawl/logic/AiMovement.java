@@ -79,6 +79,24 @@ public class AiMovement {
         return 0;
     }
 
+    private int biggerDifference(int x , int y){
+        if (x>=y){
+                return x;
+            } else if (y>x){
+                return y;
+            }
+            return x;
+    }
+
+    private int smallDifference(int x, int y){
+        if (x<=y){
+            return x;
+        } else if (y<x){
+            return y;
+        }
+        return x;
+    }
+
     private void setRandom(){
         double random = Math.random()*10;
         if(random<2.5){

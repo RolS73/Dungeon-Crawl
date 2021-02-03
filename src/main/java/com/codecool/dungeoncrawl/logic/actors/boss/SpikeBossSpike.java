@@ -1,11 +1,11 @@
-package com.codecool.dungeoncrawl.logic.actors.monsters.boss;
+package com.codecool.dungeoncrawl.logic.actors.boss;
 
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.actors.monsters.Monster;
 
-public class SpikeBossHand  extends Monster {
+public class SpikeBossSpike  extends Monster {
 
-    public SpikeBossHand(Cell cell) {
+    public SpikeBossSpike(Cell cell) {
         super(cell);
     }
 
