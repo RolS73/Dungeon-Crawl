@@ -4,6 +4,7 @@ import com.codecool.dungeoncrawl.logic.Cell;
 
 public class Player extends Actor {
 
+    public static String playerName;
     private String name = "player";
     private int maxHealth = 10;
     private int armor;
@@ -49,5 +50,13 @@ public class Player extends Actor {
 
     public void lowerHealth(int damageAmount) {
         super.setHealth(getHealth() - damageAmount);
+    }
+
+    public static String getPlayerName() {
+        return playerName;
+    }
+
+    public static void setPlayerName(String playerName) {
+        Player.playerName = playerName;
     }
 }
