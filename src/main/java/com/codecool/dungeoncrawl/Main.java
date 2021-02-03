@@ -358,9 +358,9 @@ public class Main extends Application {
             }
         }
         if (map.getPlayer().getMaxHealth() <= 0) {
-            Sounds.playSound("Hdead.wav");
-
-            stage.setScene();
+            Sounds.playSound("Hdead");
+            GameOver gameOver = new GameOver();
+            stage.setScene(gameOver.getGameOverScene());
         }
     }
 
