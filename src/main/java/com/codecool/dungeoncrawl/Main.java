@@ -2,6 +2,7 @@ package com.codecool.dungeoncrawl;
 
 import com.codecool.dungeoncrawl.logic.*;
 import com.codecool.dungeoncrawl.logic.actors.Player;
+import com.codecool.dungeoncrawl.logic.actors.Sounds;
 import com.codecool.dungeoncrawl.logic.actors.items.*;
 import javafx.application.Application;
 import javafx.beans.property.ReadOnlyStringWrapper;
@@ -355,6 +356,11 @@ public class Main extends Application {
             } else {
                 pickUpButton.setDisable(true);
             }
+        }
+        if (map.getPlayer().getMaxHealth() <= 0) {
+            Sounds.playSound("Hdead.wav");
+
+            stage.setScene();
         }
     }
 
