@@ -97,7 +97,7 @@ public class AiMovement {
         while(true){
             lolz[0] = (int) (map.getWidth() * Math.random());
             lolz[1] = (int) (map.getHeight() * Math.random());
-            if(map.getCell(lolz[0], lolz[1]).getCellType()==CellType.FLOOR && map.getCell(lolz[0], lolz[1]).getActor()!=null){
+            if(map.getCell(lolz[0], lolz[1]).getCellType()==CellType.FLOOR && map.getCell(lolz[0], lolz[1]).getActor()==null){
                 x = lolz[0];
                 y = lolz[1];
                 break;

@@ -23,7 +23,7 @@ public class Skeleton extends Monster {
     public void monsterMove(int x, int y) {
         Cell nextCell = this.getCell().getNeighbor(x, y);
 
-        if (nextCell.getCellType() == CellType.FLOOR) {
+        if (nextCell.getCellType() == CellType.FLOOR && nextCell.getCellType() != CellType.OBJECT) {
             if (nextCell.getActor() instanceof Player) {
                 nextCell.getActor().setHealth(nextCell.getActor().getHealth() - this.getAttackPower());
                 if (this.getHealth() < 1) {
