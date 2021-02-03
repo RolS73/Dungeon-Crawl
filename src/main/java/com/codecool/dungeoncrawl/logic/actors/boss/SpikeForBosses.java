@@ -3,10 +3,13 @@ package com.codecool.dungeoncrawl.logic.actors.boss;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.actors.monsters.Monster;
 
-public class SpikeBossHand  extends Monster {
+public class SpikeForBosses extends Monster {
 
-    public SpikeBossHand(Cell cell) {
+    private SpikeBoss mainBody;
+
+    public SpikeForBosses(Cell cell) {
         super(cell);
+
     }
 
     @Override

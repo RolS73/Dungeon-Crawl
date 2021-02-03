@@ -1,6 +1,7 @@
 package com.codecool.dungeoncrawl.logic;
 
 import com.codecool.dungeoncrawl.logic.actors.*;
+import com.codecool.dungeoncrawl.logic.actors.boss.SpikeForBosses;
 import com.codecool.dungeoncrawl.logic.actors.monsters.Duck;
 import com.codecool.dungeoncrawl.logic.actors.monsters.Guardian;
 import com.codecool.dungeoncrawl.logic.actors.monsters.Skeleton;
@@ -15,6 +16,7 @@ public class AiMovement {
 
     public AiMovement(GameMap map) {
         this.map = map;
+        bossNecessities();
     }
 
     public void monsterMover() {
@@ -120,6 +122,12 @@ public class AiMovement {
                 y = lolz[1];
                 break;
             }
+        }
+    }
+
+    private void bossNecessities(){
+        for(SpikeForBosses s: map.spikeForBossesList){
+            map.boss1.spikeAdder(s);
         }
     }
     
