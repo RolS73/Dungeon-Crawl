@@ -146,9 +146,11 @@ public class Main extends Application {
 
         borderPane.setCenter(canvas);
         borderPane.setRight(ui);
+        
+        Menu menu = new Menu();
 
         Scene scene = new Scene(borderPane);
-        primaryStage.setScene(scene);
+        primaryStage.setScene(menu.getMenuScreen());
         refresh();
         scene.setOnKeyPressed(this::onKeyPressed);
 
