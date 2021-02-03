@@ -38,6 +38,8 @@ public class Main extends Application {
     Label healthLabel = new Label();
     Label attackPwLabel = new Label();
     Label armorLabel = new Label();
+    public static Stage stage = new Stage();
+    public static Scene gameScene;
 
     Button pickUpButton = new Button("Pick up!");
 
@@ -47,6 +49,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        stage = primaryStage;
         GridPane ui = new GridPane();
         ui.setPrefWidth(200);
         ui.setPadding(new Insets(10));
@@ -146,17 +149,22 @@ public class Main extends Application {
 
         borderPane.setCenter(canvas);
         borderPane.setRight(ui);
-        
+
         Menu menu = new Menu();
 
-        Scene scene = new Scene(borderPane);
         primaryStage.setScene(menu.getMenuScreen());
+        Scene scene = new Scene(borderPane);
+        gameScene = scene;
+//        menu.getPlayButton().setOnAction(play -> primaryStage.setScene(scene));
+
         refresh();
         scene.setOnKeyPressed(this::onKeyPressed);
 
         primaryStage.setTitle("Dungeon Crawl");
         primaryStage.show();
     }
+
+
 
     private void pickUpItem(Item item) {
         if (item instanceof Weapon) {
