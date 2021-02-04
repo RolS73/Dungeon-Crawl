@@ -67,7 +67,7 @@ public class Tiles {
         tileMap.put("cheese", new Tile(14, 5));
         tileMap.put("fish", new Tile(15, 5));
         tileMap.put("steak", new Tile(12, 6));
-        tileMap.put("ham", new Tile(13, 7));
+        tileMap.put("ham", new Tile(13, 6));
 
         tileMap.put("lifeUpgrade1", new Tile(9, 4));
         tileMap.put("lifeUpgrade2", new Tile(9, 3));
@@ -115,7 +115,7 @@ public class Tiles {
         tileMap.put("thethingU", new Tile(7,4));
 
         tileMap.put("key", new Tile(1, 7));
-        tileMap.put("life", new Tile(9, 4));
+        tileMap.put("life", new Tile(9, 1));
         tileMap.put("weapon", new Tile(12, 1));
 
         tileMap.put("sword1", new Tile(12, 1));

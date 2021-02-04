@@ -43,6 +43,7 @@ public class Main extends Application {
     static Menu menu = new Menu();
     public static Label name = new Label("");
     Button pickUpButton = new Button("Pick up!");
+    GameOver gameOver = new GameOver();
 
     public static void main(String[] args) {
         launch(args);
@@ -52,6 +53,8 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         stage = primaryStage;
         GridPane ui = new GridPane();
+        ui.setStyle("-fx-background-color: black;");
+
         ui.setPrefWidth(200);
         ui.setPadding(new Insets(10));
 
@@ -68,6 +71,8 @@ public class Main extends Application {
         ui.setHgap(10);
         ui.setVgap(10);
         ui.setPadding(new Insets(10, 10, 10, 10));
+        ui.getStylesheets().add("Main.css");
+//        ui.setStyle("-fx-background-color : black; -fx-font-weight: bold; -fx-text-fill: #FFFFFF");
 
         ui.add(lifeStatus, 0, 1);
         ui.add(attackPwStatus, 0, 2);
@@ -92,7 +97,7 @@ public class Main extends Application {
         map.getPlacedItemsCollection().get(0).getCell().setItem(new LootTable("Item","Rare").overwriteLoot(2));
         map.getPlacedItemsCollection().get(1).getCell().setItem((new LootTable("Item","Rare").overwriteLoot(3)));
 
-        map.getDoorsSealedFromOtherSideArray().get(0).setOpenableFromWhatDirection("Up");
+        map.getDoorsSealedFromOtherSideArray().get(0).setOpenableFromWhatDirection("Down");
         map.getDoorsSealedFromOtherSideArray().get(1).setOpenableFromWhatDirection("Left");
         map.getDoorsSealedFromOtherSideArray().get(2).setOpenableFromWhatDirection("Right");
 
@@ -146,6 +151,11 @@ public class Main extends Application {
         map.getMapQuickTravelPassages().get(1).setDestinationX(42);
         map.getMapQuickTravelPassages().get(1).setDestinationY(19);
 
+        map.getMapQuickTravelPassages().get(2).setDestinationX(-42);
+        map.getMapQuickTravelPassages().get(2).setDestinationY(-20);
+        map.getMapQuickTravelPassages().get(3).setDestinationX(-42);
+        map.getMapQuickTravelPassages().get(3).setDestinationY(-20);
+
         /*map.getHiddenEnemySpawnersCollection().get(5).setEnemyType("soulStealer");*/
 
         pickUpButton.setDisable(true);
@@ -172,7 +182,11 @@ public class Main extends Application {
 
         primaryStage.setScene(menu.getMenuScreen());
         Scene scene = new Scene(borderPane);
+//        scene.getStylesheets().add
+//                (Main.class.getResource("Main.css").toExternalForm());
         gameScene = scene;
+
+
 
         refresh();
         scene.setOnKeyPressed(this::onKeyPressed);
@@ -370,9 +384,9 @@ public class Main extends Application {
                 refresh();
                 break;
         }
-        if (map.getPlayer().getHealth() <= -100) {
+        if (map.getPlayer().getHealth() <= 0) {
             Sounds.playSound("Hdead");
-            GameOver gameOver = new GameOver();
+
             stage.setScene(gameOver.getGameOverScene());
         }
         if (map.getPlayer().getCell().getItem() instanceof OpenedDoor || map.getPlayer().getCell().getItem() instanceof Switch
@@ -380,6 +394,11 @@ public class Main extends Application {
             pickUpButton.setDisable(true);
         } else {
             pickUpButton.setDisable(map.getPlayer().getCell().getItem() == null);
+        }
+        if (map.getBoss1() == null) {
+            Sounds.playSound("Odead");
+            gameOver.setVictory();
+            stage.setScene(gameOver.getGameOverScene());
         }
 
     }
@@ -458,7 +477,7 @@ public class Main extends Application {
         } else {
             attackPwLabel.setText("4");
         }
-        healthLabel.setText("" + map.getPlayer().getHealth());
+        healthLabel.setText("" + map.getPlayer().getHealth() + "/" + map.getPlayer().getMaxHealth());
         armorLabel.setText("" + map.getPlayer().getArmor());
     }
 
