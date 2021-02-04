@@ -39,7 +39,8 @@ public abstract class Actor implements Drawable {
             }
         }
 
-        if (nextCell.getCellType() == CellType.FLOOR && nextCell.getActor() == null) {
+        if ((nextCell.getCellType() == CellType.BOSSFLOOR || nextCell.getCellType() == CellType.STUNNER ||
+                nextCell.getCellType() == CellType.FLOOR) && nextCell.getActor() == null) {
             Sounds.playSound("Move5b");
 
             // eredeti

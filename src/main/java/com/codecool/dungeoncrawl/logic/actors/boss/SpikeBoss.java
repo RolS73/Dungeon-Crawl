@@ -24,7 +24,9 @@ public class SpikeBoss extends Actor {
 
     @Override
     public void move(int dx, int dy) {
-        //dx és dy Player koordináták
+        for(SpikeForBosses s : spikes){
+            s.monsterMove(dx, dy);
+        }
     }
 
     public void spikeAdder(SpikeForBosses spike){
