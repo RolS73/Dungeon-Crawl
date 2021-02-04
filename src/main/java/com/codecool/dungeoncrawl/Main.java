@@ -52,7 +52,8 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         stage = primaryStage;
         GridPane ui = new GridPane();
-//        ui.setStyle("-fx-background-color : black; -fx-font-weight: bold; -fx-text-fill: #FFFFFF");
+        ui.setStyle("-fx-background-color: black;");
+
         ui.setPrefWidth(200);
         ui.setPadding(new Insets(10));
 
@@ -69,6 +70,8 @@ public class Main extends Application {
         ui.setHgap(10);
         ui.setVgap(10);
         ui.setPadding(new Insets(10, 10, 10, 10));
+        ui.getStylesheets().add("Main.css");
+//        ui.setStyle("-fx-background-color : black; -fx-font-weight: bold; -fx-text-fill: #FFFFFF");
 
         ui.add(lifeStatus, 0, 1);
         ui.add(attackPwStatus, 0, 2);
@@ -168,9 +171,11 @@ public class Main extends Application {
 
         primaryStage.setScene(menu.getMenuScreen());
         Scene scene = new Scene(borderPane);
-        scene.getStylesheets().add
-                (Main.class.getResource("Main.css").toExternalForm());
+//        scene.getStylesheets().add
+//                (Main.class.getResource("Main.css").toExternalForm());
         gameScene = scene;
+
+
 
         refresh();
         scene.setOnKeyPressed(this::onKeyPressed);
