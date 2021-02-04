@@ -15,7 +15,7 @@ import javafx.scene.paint.Color;
 public class Menu {
 
     private final BorderPane menuLayout = new BorderPane();
-    private final Scene menuScreen = new Scene(menuLayout, 400, 300);
+    private final Scene menuScreen = new Scene(menuLayout, 490, 300);
 
     public Scene getMenuScreen() {
         return menuScreen;
@@ -23,13 +23,13 @@ public class Menu {
 
     {
         BackgroundSize bSize = new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, false);
-        Image gameOver = new Image("/title.jpg");
+        Image gameOver = new Image("/tunnel.jpg");
         menuLayout.setBackground(new Background(new BackgroundImage(gameOver,
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundPosition.CENTER,
                 bSize)));
-//        menuLayout.setStyle("-fx-border-color : black; -fx-border-width : 0 5 ");
+        menuLayout.setStyle("-fx-border-color : black; -fx-border-width : 0 5 ");
 
         Label title = new Label("PLACEHOLDER TITLE");
         HBox titledPane = new HBox();

@@ -16,10 +16,10 @@ public class GameOver {
 
     {
 //        javafx.scene.control.Label title = new Label("Game Over");
-        HBox titledPane = new HBox();
-        titledPane.setAlignment(Pos.CENTER);
-//        titledPane.getChildren().add(title);
-        borderPane.setTop(titledPane);
+//        HBox titledPane = new HBox();
+//        titledPane.setAlignment(Pos.CENTER);
+////        titledPane.getChildren().add(title);
+//        borderPane.setTop(titledPane);
 
         BackgroundSize bSize = new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, false);
         Image gameOver = new Image("/gameOver.png");
@@ -29,24 +29,24 @@ public class GameOver {
                 BackgroundPosition.CENTER,
                 bSize)));
 
-        VBox vBox = new VBox();
-
-        vBox.setAlignment(Pos.CENTER);
-
-        Label question = new Label("YOU DIED!");
-
-//        Button tryAgain = new Button("Yes!");
-//        Button dontTryAgain = new Button("No!!");
+//        VBox vBox = new VBox();
 //
-////        tryAgain.setOnAction(play -> Main.stage.setScene(Main.getMenu().getMenuScreen()));;;
-//        dontTryAgain.setOnAction(quit -> System.exit(0));
+//        vBox.setAlignment(Pos.CENTER);
 //
-//        HBox answers = new HBox();
-//        answers.getChildren().addAll(dontTryAgain);
-
-        vBox.getChildren().addAll(question);
-
-        borderPane.setCenter(vBox);
+//        Label question = new Label("YOU DIED!");
+//
+////        Button tryAgain = new Button("Yes!");
+////        Button dontTryAgain = new Button("No!!");
+////
+//////        tryAgain.setOnAction(play -> Main.stage.setScene(Main.getMenu().getMenuScreen()));;;
+////        dontTryAgain.setOnAction(quit -> System.exit(0));
+////
+////        HBox answers = new HBox();
+////        answers.getChildren().addAll(dontTryAgain);
+//
+//        vBox.getChildren().addAll(question);
+//
+//        borderPane.setCenter(vBox);
     }
 
     public Scene getGameOverScene() {
