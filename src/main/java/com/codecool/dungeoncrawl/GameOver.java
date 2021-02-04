@@ -3,10 +3,10 @@ package com.codecool.dungeoncrawl;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
 import javafx.scene.control.Button;
+
 
 
 public class GameOver {
@@ -20,6 +20,14 @@ public class GameOver {
         titledPane.setAlignment(Pos.CENTER);
         titledPane.getChildren().add(title);
         borderPane.setTop(titledPane);
+
+        BackgroundSize bSize = new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, false);
+        Image gameOver = new Image("/gameOver.png");
+        borderPane.setBackground(new Background(new BackgroundImage(gameOver,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.CENTER,
+                bSize)));
 
         VBox vBox = new VBox();
 
