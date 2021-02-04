@@ -27,11 +27,11 @@ D...........######................#
 #...s.......#    #......#########t#
 #....S......#    #f.ss.f#       #.#
 #####..######    ###==###       #t#                      #####..######
-    #..#           #..#         #.#                      #NnNNnnNNANN#
-    #..WhhhhhhhhhhhWLL#       ###t###                    #NnNnNNNnnNN#
-    #..#           #..#       #b...b#                    #NNNnNnNNnNN#
- H  #..#         ###==###     #.....#                    #NNnNNaNNnNN#
-#W###..####      #.....%#     #..g..#                    #NnnNNNnNNnN#
+    #..#           #..#         #.#                      #NnNNnnNNNNN#
+    #..WhhhhhhhhhhhWLL#       ###t###                    #NnNnNNNNNNN#
+    #..#           #..#       #b...b#                    #NNNnNaANnNN#
+ H  #..#         ###==###     #.....#                    #NNnNNNNnNnN#
+#W###..####      #.....%#     #..g..#                    #NnNnNNnnNNN#
 #.BBB..t.B#   H  #......#     #####W#                    #NNNnNnNNnNN#
 #.tBBBBBtB####W###......#######..F..#                    #NnNNNNnNnNN#
 #F.tTt.T.tW......O......O..l..W.s.s.#                    #####..######

@@ -11,6 +11,9 @@ public class SpikeForBosses extends Monster {
     //private SpikeBoss mainBody;
     int count = 0;
     boolean stunned = false;
+    private String name = "spikeforbossesL";
+
+
 
     public SpikeForBosses(Cell cell) {
         super(cell);
@@ -20,11 +23,19 @@ public class SpikeForBosses extends Monster {
 
     @Override
     public String getTileName() {
-        return "spikeforbosses";
+        return this.name;
     }
 
     @Override
     public void monsterMove(int x, int y) {
+
+        if (x<=0) {
+            this.name = "spikeforbossesL";
+        }
+        if (x>0) {
+            this.name = "spikeforbossesR";
+        }
+
         Cell nextCell = this.getCell().getNeighbor(x, y);
 
         if(stunned){
@@ -51,6 +62,7 @@ public class SpikeForBosses extends Monster {
                     this.getCell().setActor(null);
                 }
             } else if (nextCell.getActor() != null) {
+
             } else {
                 nextCell.setActor(this);
                 this.getCell().setActor(null);

@@ -4,6 +4,7 @@ import com.codecool.dungeoncrawl.Main;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.Drawable;
+import com.codecool.dungeoncrawl.logic.actors.boss.SpikeForBosses;
 import com.codecool.dungeoncrawl.logic.actors.items.Breakable;
 
 import java.util.Arrays;
@@ -38,8 +39,7 @@ public abstract class Actor implements Drawable {
             nextCell.getActor().health = nextCell.getActor().health - attackPower;
 //            this.health = this.health - nextCell.getActor().getAttackPower();
 
-
-            if (nextCell.getActor().health < 1) {
+            if (nextCell.getActor().health < 1 && !(nextCell.getActor() instanceof SpikeForBosses)) {
                 nextCell.setActor(null);
                 Sounds.playSound("Damage3");
             } else {
