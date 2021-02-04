@@ -13,6 +13,7 @@ public class GameOver {
 
     private final BorderPane borderPane = new BorderPane();
     private final Scene gameOverScene = new Scene(borderPane, 280, 210);
+    BackgroundSize bSize = new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, false);
 
     {
 //        javafx.scene.control.Label title = new Label("Game Over");
@@ -20,7 +21,7 @@ public class GameOver {
 //        titledPane.setAlignment(Pos.CENTER);
 ////        titledPane.getChildren().add(title);
 //        borderPane.setTop(titledPane);
-        BackgroundSize bSize = new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, false);
+
         Image gameOver = new Image("/gameOver.png");
         borderPane.setBackground(new Background(new BackgroundImage(gameOver,
                 BackgroundRepeat.NO_REPEAT,
@@ -28,7 +29,6 @@ public class GameOver {
                 BackgroundPosition.CENTER,
                 bSize)));
         borderPane.setStyle("-fx-border-color : black; -fx-border-width : 0 5 ");
-
 
 //        VBox vBox = new VBox();
 //
@@ -52,5 +52,14 @@ public class GameOver {
 
     public Scene getGameOverScene() {
         return gameOverScene;
+    }
+
+    public void setVictory() {
+        Image victory = new Image("/Victory.png");
+        borderPane.setBackground(new Background(new BackgroundImage(victory,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.CENTER,
+                bSize)));
     }
 }
