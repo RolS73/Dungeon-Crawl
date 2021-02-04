@@ -43,6 +43,7 @@ public class Main extends Application {
     static Menu menu = new Menu();
     public static Label name = new Label("");
     Button pickUpButton = new Button("Pick up!");
+    GameOver gameOver = new GameOver();
 
     public static void main(String[] args) {
         launch(args);
@@ -52,6 +53,8 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         stage = primaryStage;
         GridPane ui = new GridPane();
+        ui.setStyle("-fx-background-color: black;");
+
         ui.setPrefWidth(200);
         ui.setPadding(new Insets(10));
 
@@ -68,6 +71,8 @@ public class Main extends Application {
         ui.setHgap(10);
         ui.setVgap(10);
         ui.setPadding(new Insets(10, 10, 10, 10));
+        ui.getStylesheets().add("Main.css");
+//        ui.setStyle("-fx-background-color : black; -fx-font-weight: bold; -fx-text-fill: #FFFFFF");
 
         ui.add(lifeStatus, 0, 1);
         ui.add(attackPwStatus, 0, 2);
@@ -177,7 +182,11 @@ public class Main extends Application {
 
         primaryStage.setScene(menu.getMenuScreen());
         Scene scene = new Scene(borderPane);
+//        scene.getStylesheets().add
+//                (Main.class.getResource("Main.css").toExternalForm());
         gameScene = scene;
+
+
 
         refresh();
         scene.setOnKeyPressed(this::onKeyPressed);
@@ -377,7 +386,7 @@ public class Main extends Application {
         }
         if (map.getPlayer().getHealth() <= 0) {
             Sounds.playSound("Hdead");
-            GameOver gameOver = new GameOver();
+
             stage.setScene(gameOver.getGameOverScene());
         }
         if (map.getPlayer().getCell().getItem() instanceof OpenedDoor || map.getPlayer().getCell().getItem() instanceof Switch
@@ -385,6 +394,11 @@ public class Main extends Application {
             pickUpButton.setDisable(true);
         } else {
             pickUpButton.setDisable(map.getPlayer().getCell().getItem() == null);
+        }
+        if (map.getBoss1() == null) {
+            Sounds.playSound("Odead");
+            gameOver.setVictory();
+            stage.setScene(gameOver.getGameOverScene());
         }
 
     }
