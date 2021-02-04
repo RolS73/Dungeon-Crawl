@@ -36,7 +36,12 @@ public abstract class Actor implements Drawable {
             return;
         }
         if (nextCell.getActor() != null) {
-            nextCell.getActor().health = nextCell.getActor().health - attackPower;
+            if (nextCell.getActor() instanceof Player) {
+                damageCalculation(nextCell);
+            } else {
+                nextCell.getActor().health = nextCell.getActor().health - attackPower;
+            }
+
 //            this.health = this.health - nextCell.getActor().getAttackPower();
 
             if (nextCell.getActor().health < 1 && !(nextCell.getActor() instanceof SpikeForBosses)) {
@@ -71,6 +76,14 @@ public abstract class Actor implements Drawable {
             ((Breakable) nextCell.getItem()).interact();
         }
 
+    }
+
+    protected void damageCalculation(Cell nextCell) {
+        if (attackPower - ((Player) nextCell.getActor()).getArmor() <= 0) {
+            nextCell.getActor().health -= 1;
+        } else {
+            nextCell.getActor().health = nextCell.getActor().health - (attackPower - ((Player) nextCell.getActor()).getArmor());
+        }
     }
 
     public int getHealth() {
