@@ -46,22 +46,22 @@ public class Menu {
 
         playButton.setDisable(true);
 
-        playerName.textProperty().addListener((observable, oldvalue, newvalue) -> {
-            if (newvalue.equals("")) {
-                playButton.setDisable(true);
-            } else {
-                playButton.setDisable(false);
-            }
+        playerName.textProperty().addListener((observable, oldValue, newValue) -> {
+            playButton.setDisable(newValue.isEmpty());
         });
 
         playButton.setOnAction(play -> {
             Main.stage.setScene(Main.gameScene);
-            Player.setPlayerName(playerName.getText());
-            System.out.println(Player.getPlayerName());
+            Main.name.setText(playerName.getText());
+
+
+//            System.out.println(Player.getPlayerName());
         });
 
         menu.getChildren().addAll(askForName, playerName, playButton);
         menuLayout.setCenter(menu);
     }
+
+
 
 }

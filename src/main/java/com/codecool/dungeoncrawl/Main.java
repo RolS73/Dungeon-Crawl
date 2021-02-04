@@ -2,6 +2,7 @@ package com.codecool.dungeoncrawl;
 
 import com.codecool.dungeoncrawl.logic.*;
 import com.codecool.dungeoncrawl.logic.actors.Player;
+import com.codecool.dungeoncrawl.logic.actors.Sounds;
 import com.codecool.dungeoncrawl.logic.actors.items.*;
 import com.codecool.dungeoncrawl.logic.actors.monsters.HiddenEnemySpawner;
 import com.codecool.dungeoncrawl.logic.actors.monsters.Skeleton;
@@ -43,7 +44,8 @@ public class Main extends Application {
     Label armorLabel = new Label();
     public static Stage stage;
     public static Scene gameScene;
-
+    static Menu menu = new Menu();
+    static Label name = new Label("");
     Button pickUpButton = new Button("Pick up!");
 
     public static void main(String[] args) {
@@ -57,7 +59,7 @@ public class Main extends Application {
         ui.setPrefWidth(200);
         ui.setPadding(new Insets(10));
 
-        Label name = new Label(Player.getPlayerName()); //Player name doesn't show :(
+        //Player name doesn't show :(
         ui.add(name, 0, 0);
 
         HBox lifeStatus = new HBox();
@@ -157,7 +159,7 @@ public class Main extends Application {
         borderPane.setCenter(canvas);
         borderPane.setRight(ui);
 
-        Menu menu = new Menu();
+//        Menu menu = new Menu();
 
         primaryStage.setScene(menu.getMenuScreen());
         Scene scene = new Scene(borderPane);
@@ -170,7 +172,9 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-
+    public static Menu getMenu() {
+        return menu;
+    }
 
     private void pickUpItem(Item item) {
         if (item instanceof Weapon) {
@@ -353,16 +357,18 @@ public class Main extends Application {
                 refresh();
                 break;
         }
+        if (map.getPlayer().getHealth() <= 0) {
+            Sounds.playSound("Hdead");
+            GameOver gameOver = new GameOver();
+            stage.setScene(gameOver.getGameOverScene());
+        }
         if (map.getPlayer().getCell().getItem() instanceof OpenedDoor || map.getPlayer().getCell().getItem() instanceof Switch
                 || map.getPlayer().getCell().getItem() instanceof InteractiveObject || map.getPlayer().getCell().getItem() instanceof EnvironmentalDamage) {
             pickUpButton.setDisable(true);
         } else {
-            if (map.getPlayer().getCell().getItem() != null) {
-                pickUpButton.setDisable(false);
-            } else {
-                pickUpButton.setDisable(true);
-            }
+            pickUpButton.setDisable(map.getPlayer().getCell().getItem() == null);
         }
+
     }
 
     private boolean isItemInInventory(String itemName) {
@@ -439,7 +445,6 @@ public class Main extends Application {
         } else {
             attackPwLabel.setText("4");
         }
-//        attackPwLabel.setText("" + map.getPlayer().getAttackPower());
         healthLabel.setText("" + map.getPlayer().getHealth());
         armorLabel.setText("" + map.getPlayer().getArmor());
     }
