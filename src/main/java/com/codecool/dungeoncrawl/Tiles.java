@@ -32,6 +32,12 @@ public class Tiles {
         tileMap.put("hiddenEnemySpawner", new Tile(2, 0));
         tileMap.put("stairwayUp", new Tile(3, 0));
 
+        tileMap.put("spikeboss", new Tile(22,23));
+        tileMap.put("spikeforbosses", new Tile(20,6));
+        tileMap.put("bosshand", new Tile(10,22));
+        tileMap.put("stunner", new Tile(5, 0));
+        tileMap.put("bossfloor", new Tile(19,1));
+
         tileMap.put("sealedFromOtherSideDoor", new Tile(8, 7));
         tileMap.put("sealedFromOtherSideDoorOpened", new Tile(9, 7));
         tileMap.put("lockedDoor", new Tile(8, 7));
