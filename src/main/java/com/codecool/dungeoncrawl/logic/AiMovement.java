@@ -24,6 +24,10 @@ public class AiMovement {
         if(map.boss1 != null){
             if(map.boss1.getHealth()<1){
                 map.boss1.move(0,0);
+                for(int i= 0; i>map.spikeForBossesList.size(); i++){
+                    map.spikeForBossesList.remove(i);
+                    i--;
+                }
                 map.boss1 = null;
             } else {
                 for (int i = 0; i < map.spikeForBossesList.size(); i++) {

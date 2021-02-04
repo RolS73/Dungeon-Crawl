@@ -59,4 +59,8 @@ public class SpikeForBosses extends Monster {
 
         }
     }
+
+    public void remover(){
+        this.getCell().setActor(null);
+    }
 }
