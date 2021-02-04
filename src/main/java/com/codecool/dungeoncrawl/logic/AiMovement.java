@@ -1,6 +1,7 @@
 package com.codecool.dungeoncrawl.logic;
 
 import com.codecool.dungeoncrawl.logic.actors.*;
+import com.codecool.dungeoncrawl.logic.actors.boss.SpikeForBosses;
 import com.codecool.dungeoncrawl.logic.actors.monsters.Duck;
 import com.codecool.dungeoncrawl.logic.actors.monsters.Guardian;
 import com.codecool.dungeoncrawl.logic.actors.monsters.Skeleton;
@@ -15,15 +16,35 @@ import com.codecool.dungeoncrawl.logic.actors.monsters.TheThing;
 
     public AiMovement(GameMap map) {
         this.map = map;
+        bossNecessities();
     }
 
     public void monsterMover() {
 
+        if(map.boss1 != null && map.player.isThisABossFight()){
+            if(map.boss1.getHealth()<1){
+                map.boss1.move(0,0);
+                for(int i= 0; i>map.spikeForBossesList.size(); i++){
+                    map.spikeForBossesList.remove(i);
+                    i--;
+                }
+                map.boss1 = null;
+            } else {
+                for (int i = 0; i < map.spikeForBossesList.size(); i++) {
+                    map.spikeForBossesList.get(i).monsterMove(getPlayerXDifference(map.spikeForBossesList.get(i)), getPlayerYDifference(map.spikeForBossesList.get(i)));
+                }
+            }
+        }
+
+
         for (int i = 0; i < map.monsters.size(); i++) {
-            if(map.monsters.get(i).getHealth()<1){
+            if (map.monsters.get(i).getHealth() < 1) {
                 map.monsters.remove(i);
                 i--;
-            } else if (isPlayerNearby(map.monsters.get(i))) {
+            }
+        }
+        for (int i = 0; i < map.monsters.size(); i++) {
+                if (isPlayerNearby(map.monsters.get(i))) {
                 if(map.monsters.get(i) instanceof TheThing){
                     count++;
                 }
@@ -79,6 +100,24 @@ import com.codecool.dungeoncrawl.logic.actors.monsters.TheThing;
         return 0;
     }
 
+    private int biggerDifference(int x , int y){
+        if (x>=y){
+                return x;
+            } else if (y>x){
+                return y;
+            }
+            return x;
+    }
+
+    private int smallDifference(int x, int y){
+        if (x<=y){
+            return x;
+        } else if (y<x){
+            return y;
+        }
+        return x;
+    }
+
     private void setRandom(){
         double random = Math.random()*10;
         if(random<2.5){
@@ -97,11 +136,17 @@ import com.codecool.dungeoncrawl.logic.actors.monsters.TheThing;
         while(true){
             lolz[0] = (int) (map.getWidth() * Math.random());
             lolz[1] = (int) (map.getHeight() * Math.random());
-            if(map.getCell(lolz[0], lolz[1]).getCellType()==CellType.FLOOR && map.getCell(lolz[0], lolz[1]).getActor()!=null){
+            if(map.getCell(lolz[0], lolz[1]).getCellType()==CellType.FLOOR && map.getCell(lolz[0], lolz[1]).getActor()==null){
                 x = lolz[0];
                 y = lolz[1];
                 break;
             }
+        }
+    }
+
+    private void bossNecessities(){
+        for(SpikeForBosses s: map.spikeForBossesList){
+            map.boss1.spikeAdder(s);
         }
     }
     

@@ -14,6 +14,8 @@ public abstract class Actor implements Drawable {
     private int attackPower = 1;
     private String tileName = getTileName();
     private final List<String> wallCheat = Arrays.asList("Laci", "Ricsi", "Roland", "Szablocs", "George");
+    private boolean thisABossFight = false;
+
 
     public Actor(Cell cell) {
         this.cell = cell;
@@ -44,12 +46,12 @@ public abstract class Actor implements Drawable {
             }
         }
 
-
         if (this instanceof Player && wallCheat.contains(Main.name.getText()) && nextCell.getActor() == null) {
             cell.setActor(null);
             nextCell.setActor(this);
             cell = nextCell;
-        } else if (nextCell.getCellType() == CellType.FLOOR && nextCell.getActor() == null) {
+        } else if ((nextCell.getCellType() == CellType.BOSSFLOOR || nextCell.getCellType() == CellType.STUNNER ||
+                nextCell.getCellType() == CellType.FLOOR) && nextCell.getActor() == null) {
             Sounds.playSound("Move5b");
 
             // eredeti
@@ -57,6 +59,10 @@ public abstract class Actor implements Drawable {
             nextCell.setActor(this);
             cell = nextCell;
             // eredeti
+
+           if(this.getCell().getCellType() == CellType.BOSSFLOOR){
+               thisABossFight = true;
+           }
 
         }
 
@@ -96,5 +102,9 @@ public abstract class Actor implements Drawable {
 
     public void raiseAttackPower(int attackPowerGrowth) {
         this.attackPower = this.attackPower + attackPowerGrowth;
+    }
+
+    public boolean isThisABossFight() {
+        return thisABossFight;
     }
 }

@@ -1,6 +1,8 @@
 package com.codecool.dungeoncrawl.logic;
 
 import com.codecool.dungeoncrawl.logic.actors.*;
+import com.codecool.dungeoncrawl.logic.actors.boss.SpikeBoss;
+import com.codecool.dungeoncrawl.logic.actors.boss.SpikeForBosses;
 import com.codecool.dungeoncrawl.logic.actors.items.*;
 import com.codecool.dungeoncrawl.logic.actors.monsters.*;
 
@@ -9,7 +11,7 @@ import java.util.Scanner;
 
 public class MapLoader {
     public static GameMap loadMap() {
-        InputStream is = MapLoader.class.getResourceAsStream("/map.txt");
+        InputStream is = MapLoader.class.getResourceAsStream("/mapb.txt");
         Scanner scanner = new Scanner(is);
         int width = scanner.nextInt();
         int height = scanner.nextInt();
@@ -24,6 +26,20 @@ public class MapLoader {
                 if (x < line.length()) {
                     Cell cell = map.getCell(x, y);
                     switch (line.charAt(x)) {
+                        case 'a':
+                            cell.setCellType(CellType.BOSSFLOOR);
+                            map.boss1 = (new SpikeBoss(cell));
+                            break;
+                        case 'A':
+                            cell.setCellType(CellType.BOSSFLOOR);
+                            map.spikeForBossesList.add(new SpikeForBosses(cell));
+                            break;
+                        case 'n':
+                            cell.setCellType(CellType.STUNNER);
+                            break;
+                        case 'N':
+                            cell.setCellType(CellType.BOSSFLOOR);
+                            break;
                         case ' ':
                             cell.setCellType(CellType.EMPTY);
                             break;
