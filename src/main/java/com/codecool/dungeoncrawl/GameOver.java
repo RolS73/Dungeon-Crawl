@@ -12,13 +12,13 @@ import javafx.scene.control.Button;
 public class GameOver {
 
     private final BorderPane borderPane = new BorderPane();
-    private final Scene gameOverScene = new Scene(borderPane, 100, 100);
+    private final Scene gameOverScene = new Scene(borderPane, 300, 300);
 
     {
-        javafx.scene.control.Label title = new Label("Game Over");
+//        javafx.scene.control.Label title = new Label("Game Over");
         HBox titledPane = new HBox();
         titledPane.setAlignment(Pos.CENTER);
-        titledPane.getChildren().add(title);
+//        titledPane.getChildren().add(title);
         borderPane.setTop(titledPane);
 
         BackgroundSize bSize = new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, false);
