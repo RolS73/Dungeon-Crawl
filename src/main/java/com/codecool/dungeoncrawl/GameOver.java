@@ -28,6 +28,7 @@ public class GameOver {
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundPosition.CENTER,
                 bSize)));
+        borderPane.setStyle("-fx-border-color : black; -fx-border-width : 0 5 ");
 
 //        VBox vBox = new VBox();
 //
