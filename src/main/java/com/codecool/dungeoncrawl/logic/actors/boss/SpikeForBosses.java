@@ -8,14 +8,19 @@ import com.codecool.dungeoncrawl.logic.actors.monsters.Monster;
 
 public class SpikeForBosses extends Monster {
 
-    private SpikeBoss mainBody;
+    //private SpikeBoss mainBody;
     int count = 0;
     boolean stunned = false;
 
     public SpikeForBosses(Cell cell) {
         super(cell);
-        mainBody = Main.cheatingMapGetter().getBoss1();
-        setAttackPower(mainBody.getAttackPower());
+       // mainBody = Main.cheatingMapGetter().getBoss1();
+        setAttackPower(10);
+    }
+
+    @Override
+    public String getTileName() {
+        return "spikeforbosses";
     }
 
     @Override
@@ -24,16 +29,16 @@ public class SpikeForBosses extends Monster {
 
         if(stunned){
             count++;
-            if (count>3){
+            if (count>5){
                 stunned = false;
             }
             return;
         }
 
         if(nextCell.getCellType()== CellType.STUNNER){
-            if(count>4){
+            if(count>5){
                 count = 0;
-            } else {
+            } else if(count==0) {
                 stunned = true;
                 return;
             }

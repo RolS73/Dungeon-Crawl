@@ -32,8 +32,8 @@ public class Tiles {
         tileMap.put("stairwayUp", new Tile(4, 6));
 
         tileMap.put("bossfloor", new Tile(19,1));
-        tileMap.put("bosshead", new Tile(22,23));
-        tileMap.put("bossspike", new Tile(20,6));
+        tileMap.put("spikeboss", new Tile(22,23));
+        tileMap.put("spikeforbosses", new Tile(20,6));
         tileMap.put("bosshand", new Tile(10,22));
         tileMap.put("stunner", new Tile(5, 2));
 

@@ -21,11 +21,26 @@ public class AiMovement {
 
     public void monsterMover() {
 
+        if(map.boss1 != null){
+            if(map.boss1.getHealth()<1){
+                map.boss1.move(0,0);
+                map.boss1 = null;
+            } else {
+                for (int i = 0; i < map.spikeForBossesList.size(); i++) {
+                    map.spikeForBossesList.get(i).monsterMove(getPlayerXDifference(map.spikeForBossesList.get(i)), getPlayerYDifference(map.spikeForBossesList.get(i)));
+                }
+            }
+        }
+
+
         for (int i = 0; i < map.monsters.size(); i++) {
-            if(map.monsters.get(i).getHealth()<1){
+            if (map.monsters.get(i).getHealth() < 1) {
                 map.monsters.remove(i);
                 i--;
-            } else if (isPlayerNearby(map.monsters.get(i))) {
+            }
+        }
+        for (int i = 0; i < map.monsters.size(); i++) {
+                if (isPlayerNearby(map.monsters.get(i))) {
                 if(map.monsters.get(i) instanceof TheThing){
                     count++;
                 }
