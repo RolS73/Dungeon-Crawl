@@ -60,5 +60,10 @@ public class Guardian extends Monster {
             }
 
         }
+        if (Math.abs(x) + Math.abs(y) > 1) {
+            count = 0;
+
+        }
+//        System.out.println(count);
     }
 }
