@@ -34,6 +34,7 @@ public class GameMap {
     List<HiddenItem> hiddenItemsCollection = new ArrayList<>();
     List<HiddenEnemySpawner> hiddenEnemySpawnersCollection = new ArrayList<>();
     List<Item> placedItemsCollection = new ArrayList<>();
+    List<Switch> mapStateSwitchers = new ArrayList<>();
 
 
     public GameMap(int width, int height, CellType defaultCellType) {
@@ -45,6 +46,10 @@ public class GameMap {
                 cells[x][y] = new Cell(this, x, y, defaultCellType);
             }
         }
+    }
+
+    public List<Switch> getMapStateSwitchers() {
+        return mapStateSwitchers;
     }
 
     public List<HiddenPassage> getHiddenPassagesCollection() {

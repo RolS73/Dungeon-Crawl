@@ -6,7 +6,7 @@ public class Player extends Actor {
 
 
     private String name = "playerD";
-    private int maxHealth = 10;
+    private int maxHealth = 100;
     private int armor;
 
     public Player(Cell cell) {

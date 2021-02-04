@@ -32,11 +32,11 @@ public class Tiles {
         tileMap.put("hiddenEnemySpawner", new Tile(2, 0));
         tileMap.put("stairwayUp", new Tile(3, 0));
 
-        tileMap.put("spikeboss", new Tile(22,23));
-        tileMap.put("spikeforbosses", new Tile(20,6));
-        tileMap.put("bosshand", new Tile(10,22));
+        tileMap.put("spikeboss", new Tile(2,3));
+        tileMap.put("spikeforbosses", new Tile(2,2));
+        tileMap.put("bosshand", new Tile(3,2));
         tileMap.put("stunner", new Tile(5, 0));
-        tileMap.put("bossfloor", new Tile(19,1));
+        tileMap.put("bossfloor", new Tile(4,0));
 
         tileMap.put("sealedFromOtherSideDoor", new Tile(8, 7));
         tileMap.put("sealedFromOtherSideDoorOpened", new Tile(9, 7));
@@ -144,8 +144,11 @@ public class Tiles {
 
     public static void drawTile(GraphicsContext context, Drawable d, int x, int y) {
         Tile tile = tileMap.get(d.getTileName());
-        context.drawImage(tileset, tile.x, tile.y, tile.w, tile.h,
-                x * TILE_WIDTH, y * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH);
+        if (d.getTileName().equals("spikeboss")) {
+            context.drawImage(tileset, tile.x, tile.y, tile.w*2, tile.h*2,x * TILE_WIDTH - 24, y * TILE_WIDTH - 24, TILE_WIDTH*2, TILE_WIDTH*2);
+        } else {
+            context.drawImage(tileset, tile.x, tile.y, tile.w, tile.h,x * TILE_WIDTH, y * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH);
+        }
     }
 
     public static void draw3xTile(GraphicsContext context, Drawable d, int x, int y) {

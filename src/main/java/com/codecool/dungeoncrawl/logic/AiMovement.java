@@ -7,8 +7,8 @@ import com.codecool.dungeoncrawl.logic.actors.monsters.Guardian;
 import com.codecool.dungeoncrawl.logic.actors.monsters.Skeleton;
 import com.codecool.dungeoncrawl.logic.actors.monsters.TheThing;
 
-    public class AiMovement {
-    
+public class AiMovement {
+
     private GameMap map;
     private int x;
     private int y;
@@ -21,10 +21,10 @@ import com.codecool.dungeoncrawl.logic.actors.monsters.TheThing;
 
     public void monsterMover() {
 
-        if(map.boss1 != null && map.player.isThisABossFight()){
-            if(map.boss1.getHealth()<1){
-                map.boss1.move(0,0);
-                for(int i= 0; i>map.spikeForBossesList.size(); i++){
+        if (map.boss1 != null && map.player.isThisABossFight()) {
+            if (map.boss1.getHealth() < 1) {
+                map.boss1.move(0, 0);
+                for (int i = 0; i > map.spikeForBossesList.size(); i++) {
                     map.spikeForBossesList.remove(i);
                     i--;
                 }
@@ -44,34 +44,34 @@ import com.codecool.dungeoncrawl.logic.actors.monsters.TheThing;
             }
         }
         for (int i = 0; i < map.monsters.size(); i++) {
-                if (isPlayerNearby(map.monsters.get(i))) {
-                if(map.monsters.get(i) instanceof TheThing){
+            if (isPlayerNearby(map.monsters.get(i))) {
+                if (map.monsters.get(i) instanceof TheThing) {
                     count++;
                 }
-                    map.monsters.get(i).monsterMove(getPlayerXDifference(map.monsters.get(i)), getPlayerYDifference(map.monsters.get(i)));
+                map.monsters.get(i).monsterMove(getPlayerXDifference(map.monsters.get(i)), getPlayerYDifference(map.monsters.get(i)));
             } else if (map.monsters.get(i) instanceof Skeleton) {
                 setRandom();
                 map.monsters.get(i).monsterMove(x, y);
             } else if (map.monsters.get(i) instanceof Duck) {
                 map.monsters.get(i).monsterMove(getPlayerXDifference(map.monsters.get(i)), getPlayerYDifference(map.monsters.get(i)));
-            } else if(map.monsters.get(i) instanceof Guardian){
+            } else if (map.monsters.get(i) instanceof Guardian) {
                 ((Guardian) map.monsters.get(i)).monsterLookat(map.player.getX() - map.monsters.get(i).getX(), map.player.getY() - map.monsters.get(i).getY());
-            } else if (map.monsters.get(i) instanceof TheThing){
+            } else if (map.monsters.get(i) instanceof TheThing) {
                 count++;
-                if(count>6){
+                if (count > 6) {
                     coordinateGenerator();
-                    ((TheThing) map.monsters.get(i)).teleport(x,y);
+                    ((TheThing) map.monsters.get(i)).teleport(x, y);
                     count = 0;
-                }else {
+                } else {
                     setRandom();
-                    map.monsters.get(i).monsterMove(x,y);
+                    map.monsters.get(i).monsterMove(x, y);
                 }
             }
         }
     }
 
-    private boolean isPlayerNearby(Actor monster){
-        if(Math.abs(monster.getX()- map.player.getX())+Math.abs(monster.getY()- map.player.getY())==1){
+    private boolean isPlayerNearby(Actor monster) {
+        if (Math.abs(monster.getX() - map.player.getX()) + Math.abs(monster.getY() - map.player.getY()) == 1) {
             return true;
         }
 //        else if (Math.abs(monster.getX()- map.player.getX())+Math.abs(monster.getY()- map.player.getY())==2){
@@ -80,63 +80,67 @@ import com.codecool.dungeoncrawl.logic.actors.monsters.TheThing;
         return false;
     }
 
-    private int getPlayerXDifference(Actor monster){
+    private int getPlayerXDifference(Actor monster) {
         int x = monster.getX() - map.player.getX();
-        if(x>0){
+        if (x > 0) {
             return -1;
-        } else if(x<0) {
+        } else if (x < 0) {
             return 1;
         }
         return 0;
     }
 
-    private int getPlayerYDifference(Actor monster){
+    private int getPlayerYDifference(Actor monster) {
         int y = monster.getY() - map.player.getY();
-        if(y>0){
-             return -1;
-        } else if (y<0) {
+        if (y > 0) {
+            return -1;
+        } else if (y < 0) {
             return 1;
         }
         return 0;
     }
 
-    private int biggerDifference(int x , int y){
-        if (x>=y){
-                return x;
-            } else if (y>x){
-                return y;
-            }
+    private int biggerDifference(int x, int y) {
+        if (x >= y) {
             return x;
-    }
-
-    private int smallDifference(int x, int y){
-        if (x<=y){
-            return x;
-        } else if (y<x){
+        } else if (y > x) {
             return y;
         }
         return x;
     }
 
-    private void setRandom(){
-        double random = Math.random()*10;
-        if(random<2.5){
-            this.x = 1; this.y = 0;
-        } else if(random>=2.5 && random<5){
-            this.x = 0; this.y = 1;
-        }else if(random>=5 && random<7.5){
-            this.x = -1; this.y = 0;
-        } else if(random>=7.5){
-            this.x = 0; this.y = -1;
+    private int smallDifference(int x, int y) {
+        if (x <= y) {
+            return x;
+        } else if (y < x) {
+            return y;
+        }
+        return x;
+    }
+
+    private void setRandom() {
+        double random = Math.random() * 10;
+        if (random < 2.5) {
+            this.x = 1;
+            this.y = 0;
+        } else if (random >= 2.5 && random < 5) {
+            this.x = 0;
+            this.y = 1;
+        } else if (random >= 5 && random < 7.5) {
+            this.x = -1;
+            this.y = 0;
+        } else if (random >= 7.5) {
+            this.x = 0;
+            this.y = -1;
         }
     }
 
-    private void coordinateGenerator(){
+    private void coordinateGenerator() {
         int[] lolz = new int[2];
-        while(true){
+        while (true) {
             lolz[0] = (int) (map.getWidth() * Math.random());
             lolz[1] = (int) (map.getHeight() * Math.random());
-            if(map.getCell(lolz[0], lolz[1]).getCellType()==CellType.FLOOR && map.getCell(lolz[0], lolz[1]).getActor()==null){
+            if (map.getCell(lolz[0], lolz[1]).getCellType() == CellType.FLOOR && map.getCell(lolz[0], lolz[1]).getActor() == null) {
                 x = lolz[0];
                 y = lolz[1];
                 break;
@@ -144,10 +148,10 @@ import com.codecool.dungeoncrawl.logic.actors.monsters.TheThing;
         }
     }
 
-    private void bossNecessities(){
-        for(SpikeForBosses s: map.spikeForBossesList){
+    private void bossNecessities() {
+        for (SpikeForBosses s : map.spikeForBossesList) {
             map.boss1.spikeAdder(s);
         }
     }
-    
+
 }

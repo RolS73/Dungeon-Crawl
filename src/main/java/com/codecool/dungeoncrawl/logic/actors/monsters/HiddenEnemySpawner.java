@@ -2,18 +2,17 @@ package com.codecool.dungeoncrawl.logic.actors.monsters;
 
 import com.codecool.dungeoncrawl.Main;
 import com.codecool.dungeoncrawl.logic.Cell;
-import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.actors.items.InteractiveObject;
 import com.codecool.dungeoncrawl.logic.actors.items.Item;
 import com.codecool.dungeoncrawl.logic.actors.items.Switch;
 
 public class HiddenEnemySpawner extends Item implements InteractiveObject, Switch {
 
-    String groupName;
-    String enemyType;
-    String anotherTileName = "floor";
+    private String groupName;
+    private String enemyType;
+    private String anotherTileName = "floor";
 
-    public Cell getCellForSpawn(){
+    public Cell getCellForSpawn() {
         return this.getCell();
     }
 
@@ -33,7 +32,11 @@ public class HiddenEnemySpawner extends Item implements InteractiveObject, Switc
 
     @Override
     public void interact() {
-        Main.cheatingMapGetter().getMonsters().add(new Skeleton(this.getCell()));
+        if (enemyType == null || enemyType.equals("skeleton")) {
+            Main.cheatingMapGetter().getMonsters().add(new Skeleton(this.getCell()));
+        } else if (enemyType.equals("soulStealer")) {
+            Main.cheatingMapGetter().getMonsters().add(new SoulStealer(this.getCell()));
+        }
     }
 
     public void interact(Monster monster) {
@@ -44,6 +47,13 @@ public class HiddenEnemySpawner extends Item implements InteractiveObject, Switc
         this.groupName = groupName;
     }
 
+    public String getEnemyType() {
+        return enemyType;
+    }
+
+    public void setEnemyType(String enemyType) {
+        this.enemyType = enemyType;
+    }
 
     public String getTileName() {
         if (enemyType != null) {

@@ -49,9 +49,9 @@ public class LootTable {
 
     private List<Item> weaponCommonLoot = new ArrayList<>();
     {
-        weaponCommonLoot.add(new Weapon("Toothpick", 2));
+        weaponCommonLoot.add(new Weapon("Backscratcher", 2));
         weaponCommonLoot.add(new Weapon("Stick of Truth", 3));
-        weaponCommonLoot.add(new Weapon("A sword", 4));
+        weaponCommonLoot.add(new Weapon("Rustbringer", 4));
         weaponCommonLoot.add(new Weapon("Smiling Hammer", 5));
 
         weaponCommonLoot.get(0).setTileName("axe1");
@@ -62,7 +62,7 @@ public class LootTable {
     private List<Item> weaponRareLoot = new ArrayList<>();
     {
         weaponRareLoot.add(new Weapon("Scepter of Silverport", 6));
-        weaponRareLoot.add(new Weapon("A polished sword", 8));
+        weaponRareLoot.add(new Weapon("Shining Sword", 8));
         weaponRareLoot.add(new Weapon("The Hungry Axe", 10));
         weaponRareLoot.add(new Weapon("Smile Crusher", 11));
 
@@ -73,10 +73,10 @@ public class LootTable {
     }
     private List<Item> weaponLegendaryLoot = new ArrayList<>();
     {
-        weaponLegendaryLoot.add(new Weapon("THE Sword", 16));
-        weaponLegendaryLoot.add(new Weapon("Thunder", 17));
-        weaponLegendaryLoot.add(new Weapon("Lance of the Gods", 20));
-        weaponLegendaryLoot.add(new Weapon("Flail of Endless Elemental Winds", 18));
+        weaponLegendaryLoot.add(new Weapon("Sword of Reckoning", 16));
+        weaponLegendaryLoot.add(new Weapon("Solarsong", 17));
+        weaponLegendaryLoot.add(new Weapon("Hydra's Cry", 18));
+        weaponLegendaryLoot.add(new Weapon("Judgement", 20));
 
         weaponLegendaryLoot.get(0).setTileName("sword3");
         weaponLegendaryLoot.get(1).setTileName("staff3");

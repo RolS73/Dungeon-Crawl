@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class MapLoader {
     public static GameMap loadMap() {
-        InputStream is = MapLoader.class.getResourceAsStream("/mapb.txt");
+        InputStream is = MapLoader.class.getResourceAsStream("/map.txt");
         Scanner scanner = new Scanner(is);
         int width = scanner.nextInt();
         int height = scanner.nextInt();
@@ -114,7 +114,9 @@ public class MapLoader {
                             break;
                         case 'F':
                             cell.setCellType(CellType.OBJECT);
-                            map.interactablesCollection.add(new TorchPuzzle(cell));
+                            TorchPuzzle torchPuzzle = new TorchPuzzle(cell);
+                            map.interactablesCollection.add(torchPuzzle);
+                            map.mapStateSwitchers.add(torchPuzzle);
                             break;
                         case 't':
                             cell.setCellType(CellType.FLOOR);
