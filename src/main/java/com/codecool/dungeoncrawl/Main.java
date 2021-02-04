@@ -45,7 +45,7 @@ public class Main extends Application {
     public static Stage stage;
     public static Scene gameScene;
     static Menu menu = new Menu();
-    static Label name = new Label("");
+    public static Label name = new Label("");
     Button pickUpButton = new Button("Pick up!");
 
     public static void main(String[] args) {
