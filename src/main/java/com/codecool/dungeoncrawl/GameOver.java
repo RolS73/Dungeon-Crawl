@@ -12,7 +12,7 @@ import javafx.scene.control.Button;
 public class GameOver {
 
     private final BorderPane borderPane = new BorderPane();
-    private final Scene gameOverScene = new Scene(borderPane, 300, 300);
+    private final Scene gameOverScene = new Scene(borderPane, 280, 210);
 
     {
 //        javafx.scene.control.Label title = new Label("Game Over");
