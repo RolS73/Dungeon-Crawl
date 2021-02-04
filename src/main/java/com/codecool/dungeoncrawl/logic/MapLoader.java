@@ -72,9 +72,10 @@ public class MapLoader {
                             map.leverSwitchCollection.add(leverSwitch);
                             break;
                         case 'P':
-                            cell.setCellType(CellType.OBJECT);
+                            cell.setCellType(CellType.FLOOR);
                             Passage passage = new Passage(cell, "Passage");
                             map.interactablesCollection.add(passage);
+                            map.mapQuickTravelPassages.add(passage);
                             break;
                         case 'k':
                             cell.setCellType(CellType.FLOOR);

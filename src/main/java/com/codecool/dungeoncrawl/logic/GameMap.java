@@ -35,6 +35,7 @@ public class GameMap {
     List<HiddenEnemySpawner> hiddenEnemySpawnersCollection = new ArrayList<>();
     List<Item> placedItemsCollection = new ArrayList<>();
     List<Switch> mapStateSwitchers = new ArrayList<>();
+    List<Passage> mapQuickTravelPassages = new ArrayList<>();
 
 
     public GameMap(int width, int height, CellType defaultCellType) {
@@ -50,6 +51,10 @@ public class GameMap {
 
     public List<Switch> getMapStateSwitchers() {
         return mapStateSwitchers;
+    }
+
+    public List<Passage> getMapQuickTravelPassages() {
+        return mapQuickTravelPassages;
     }
 
     public List<HiddenPassage> getHiddenPassagesCollection() {

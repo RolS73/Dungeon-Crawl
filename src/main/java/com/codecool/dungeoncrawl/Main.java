@@ -141,6 +141,11 @@ public class Main extends Application {
         map.getSuspiciousWallsCollection().get(9).setGroupName("SuspiciousWallGroup7");  // Right optional room
         map.getHiddenItemsCollection().get(5).setGroupName("SuspiciousWallGroup7");
 
+        map.getMapQuickTravelPassages().get(0).setDestinationX(42);
+        map.getMapQuickTravelPassages().get(0).setDestinationY(19);
+        map.getMapQuickTravelPassages().get(1).setDestinationX(42);
+        map.getMapQuickTravelPassages().get(1).setDestinationY(19);
+
         /*map.getHiddenEnemySpawnersCollection().get(5).setEnemyType("soulStealer");*/
 
         pickUpButton.setDisable(true);
@@ -314,6 +319,10 @@ public class Main extends Application {
                 if (isPlayerBeingAffectedByAnEnvironmentalDamageSource()) {
                     playerSuffersEnvironmentalDamage();
                 }
+                if (map.getPlayer().getCell().getItem() instanceof Passage) {
+                    ((Passage) map.getPlayer().getCell().getItem()).interact();
+                }
+                //System.out.println(map.getPlayer().getX() + "," + map.getPlayer().getY());
                 refresh();
                 break;
             case E:
@@ -361,7 +370,7 @@ public class Main extends Application {
                 refresh();
                 break;
         }
-        if (map.getPlayer().getHealth() <= 0) {
+        if (map.getPlayer().getHealth() <= -100) {
             Sounds.playSound("Hdead");
             GameOver gameOver = new GameOver();
             stage.setScene(gameOver.getGameOverScene());
