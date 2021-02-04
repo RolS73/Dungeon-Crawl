@@ -145,14 +145,14 @@ public class MapLoader {
                             map.switchablesCollection.add(suspiciousWall);
                             break;
                         case 'h':
-                            cell.setCellType(CellType.FLOOR);
+                            cell.setCellType(CellType.EMPTY);
                             HiddenPassage hiddenPassage = new HiddenPassage(cell, "hiddenPassage");
                             map.interactablesCollection.add(hiddenPassage);
                             map.hiddenPassagesCollection.add(hiddenPassage);
                             map.switchablesCollection.add(hiddenPassage);
                             break;
                         case 'H':
-                            cell.setCellType(CellType.FLOOR);
+                            cell.setCellType(CellType.EMPTY);
                             HiddenItem hiddenItem = new HiddenItem(cell, "hiddenItem");
                             map.interactablesCollection.add(hiddenItem);
                             map.hiddenItemsCollection.add(hiddenItem);

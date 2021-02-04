@@ -6,6 +6,8 @@ import com.codecool.dungeoncrawl.logic.actors.Player;
 
 public class Duck extends Monster {
 
+    private String name = "duckD";
+
     public Duck(Cell cell) {
         super(cell);
         this.setAttackPower(1);
@@ -14,11 +16,23 @@ public class Duck extends Monster {
 
     @Override
     public String getTileName() {
-        return "duck";
+        return this.name;
     }
 
     @Override
     public void monsterMove(int x, int y) {
+        if (y<0) {
+            this.name = "duckU";
+        }
+        if (y>0) {
+            this.name = "duckD";
+        }
+        if (x<0) {
+            this.name = "duckL";
+        }
+        if (x>0) {
+            this.name = "duckR";
+        }
         Cell nextCell = this.getCell().getNeighbor(x, y);
 
         if(nextCell.getCellType() == CellType.FLOOR){

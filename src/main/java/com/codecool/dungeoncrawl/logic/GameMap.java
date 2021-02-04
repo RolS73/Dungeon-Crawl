@@ -15,7 +15,7 @@ public class GameMap {
 
     Player player;
 
-    List<Monster> monsters = new ArrayList<>();
+    static List<Monster> monsters = new ArrayList<>();
     List<InteractiveObject> interactablesCollection = new ArrayList<>();
     List<DoorSealedFromOtherSide> doorsSealedFromOtherSideCollection = new ArrayList<>();
     List<Chest> chestsCollection = new ArrayList<>();

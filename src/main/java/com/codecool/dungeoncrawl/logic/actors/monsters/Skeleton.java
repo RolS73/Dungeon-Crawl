@@ -6,7 +6,7 @@ import com.codecool.dungeoncrawl.logic.actors.Player;
 
 public class Skeleton extends Monster {
 
-
+    private String name = "skeletonD";
 
     public Skeleton(Cell cell) {
         super(cell);
@@ -16,11 +16,23 @@ public class Skeleton extends Monster {
 
     @Override
     public String getTileName() {
-        return "skeleton";
+        return this.name;
     }
 
     @Override
     public void monsterMove(int x, int y) {
+        if (y<0) {
+            this.name = "skeletonU";
+        }
+        if (y>0) {
+            this.name = "skeletonD";
+        }
+        if (x<0) {
+            this.name = "skeletonL";
+        }
+        if (x>0) {
+            this.name = "skeletonR";
+        }
         Cell nextCell = this.getCell().getNeighbor(x, y);
 
         if (nextCell.getCellType() == CellType.FLOOR) {
