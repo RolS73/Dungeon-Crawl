@@ -19,6 +19,7 @@ public class SpikeForBosses extends Monster {
         super(cell);
        // mainBody = Main.cheatingMapGetter().getBoss1();
         setAttackPower(10);
+        setHealth(100000);
     }
 
     @Override
@@ -37,6 +38,13 @@ public class SpikeForBosses extends Monster {
         }
 
         Cell nextCell = this.getCell().getNeighbor(x, y);
+        if(nextCell.getActor() instanceof SpikeBoss){
+            nextCell = this.getCell().getNeighbor(3*x, 3*y);
+            nextCell.setActor(this);
+            this.getCell().setActor(null);
+            this.setCell(nextCell);
+            return;
+        }
 
         if(stunned){
             count++;
@@ -75,4 +83,5 @@ public class SpikeForBosses extends Monster {
     public void remover(){
         this.getCell().setActor(null);
     }
+
 }

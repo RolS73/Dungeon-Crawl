@@ -35,11 +35,14 @@ public abstract class Actor implements Drawable {
         if (nextCell == null) {
             return;
         }
+        if (nextCell.getActor() instanceof SpikeForBosses){
+            return;
+        }
         if (nextCell.getActor() != null) {
             nextCell.getActor().health = nextCell.getActor().health - attackPower;
 //            this.health = this.health - nextCell.getActor().getAttackPower();
 
-            if (nextCell.getActor().health < 1 && !(nextCell.getActor() instanceof SpikeForBosses)) {
+            if (nextCell.getActor().health < 1 ) {
                 nextCell.setActor(null);
                 Sounds.playSound("Damage3");
             } else {
