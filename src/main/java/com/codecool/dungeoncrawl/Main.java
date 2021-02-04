@@ -92,7 +92,7 @@ public class Main extends Application {
         map.getPlacedItemsCollection().get(0).getCell().setItem(new LootTable("Item","Rare").overwriteLoot(2));
         map.getPlacedItemsCollection().get(1).getCell().setItem((new LootTable("Item","Rare").overwriteLoot(3)));
 
-        map.getDoorsSealedFromOtherSideArray().get(0).setOpenableFromWhatDirection("Up");
+        map.getDoorsSealedFromOtherSideArray().get(0).setOpenableFromWhatDirection("Down");
         map.getDoorsSealedFromOtherSideArray().get(1).setOpenableFromWhatDirection("Left");
         map.getDoorsSealedFromOtherSideArray().get(2).setOpenableFromWhatDirection("Right");
 
@@ -145,6 +145,11 @@ public class Main extends Application {
         map.getMapQuickTravelPassages().get(0).setDestinationY(19);
         map.getMapQuickTravelPassages().get(1).setDestinationX(42);
         map.getMapQuickTravelPassages().get(1).setDestinationY(19);
+
+        map.getMapQuickTravelPassages().get(2).setDestinationX(-42);
+        map.getMapQuickTravelPassages().get(2).setDestinationY(-20);
+        map.getMapQuickTravelPassages().get(3).setDestinationX(-42);
+        map.getMapQuickTravelPassages().get(3).setDestinationY(-20);
 
         /*map.getHiddenEnemySpawnersCollection().get(5).setEnemyType("soulStealer");*/
 
@@ -370,7 +375,7 @@ public class Main extends Application {
                 refresh();
                 break;
         }
-        if (map.getPlayer().getHealth() <= -100) {
+        if (map.getPlayer().getHealth() <= 0) {
             Sounds.playSound("Hdead");
             GameOver gameOver = new GameOver();
             stage.setScene(gameOver.getGameOverScene());
@@ -458,7 +463,7 @@ public class Main extends Application {
         } else {
             attackPwLabel.setText("4");
         }
-        healthLabel.setText("" + map.getPlayer().getHealth());
+        healthLabel.setText("" + map.getPlayer().getHealth() + "/" + map.getPlayer().getMaxHealth());
         armorLabel.setText("" + map.getPlayer().getArmor());
     }
 

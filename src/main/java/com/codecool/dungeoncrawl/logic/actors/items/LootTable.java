@@ -20,7 +20,7 @@ public class LootTable {
         itemCommonLoot.get(0).setTileName("apple");
         itemCommonLoot.get(1).setTileName("bread");
         itemCommonLoot.get(2).setTileName("lifeUpgrade1");
-        itemCommonLoot.get(3).setTileName("armorUpgrade1");
+        itemCommonLoot.get(3).setTileName("armorUpgrade0");
     }
     private List<Item> itemRareLoot = new ArrayList<>();
     {
@@ -32,7 +32,7 @@ public class LootTable {
         itemRareLoot.get(0).setTileName("fish");
         itemRareLoot.get(1).setTileName("cheese");
         itemRareLoot.get(2).setTileName("lifeUpgrade2");
-        itemRareLoot.get(3).setTileName("armorUpgrade2");
+        itemRareLoot.get(3).setTileName("armorUpgrade1");
     }
     private List<Item> itemLegendaryLoot = new ArrayList<>();
     {
@@ -44,7 +44,7 @@ public class LootTable {
         itemLegendaryLoot.get(0).setTileName("steak");
         itemLegendaryLoot.get(1).setTileName("ham");
         itemLegendaryLoot.get(2).setTileName("lifeUpgrade3");
-        itemLegendaryLoot.get(3).setTileName("armorUpgrade3");
+        itemLegendaryLoot.get(3).setTileName("armorUpgrade2");
     }
 
     private List<Item> weaponCommonLoot = new ArrayList<>();
