@@ -1,14 +1,19 @@
 package com.codecool.dungeoncrawl.logic.actors;
 
+import com.codecool.dungeoncrawl.Main;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.Drawable;
+
+import java.util.Arrays;
+import java.util.List;
 
 public abstract class Actor implements Drawable {
     private Cell cell;
     private int health = 10;
     private int attackPower = 1;
     private String tileName = getTileName();
+    private final List<String> wallCheat = Arrays.asList("Laci", "Ricsi", "Roland", "Szablocs", "George");
 
     public Actor(Cell cell) {
         this.cell = cell;
@@ -39,7 +44,12 @@ public abstract class Actor implements Drawable {
             }
         }
 
-        if (nextCell.getCellType() == CellType.FLOOR && nextCell.getActor() == null) {
+
+        if (this instanceof Player && wallCheat.contains(Main.name.getText()) && nextCell.getActor() == null) {
+            cell.setActor(null);
+            nextCell.setActor(this);
+            cell = nextCell;
+        } else if (nextCell.getCellType() == CellType.FLOOR && nextCell.getActor() == null) {
             Sounds.playSound("Move5b");
 
             // eredeti
