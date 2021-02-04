@@ -6,7 +6,7 @@ import com.codecool.dungeoncrawl.logic.actors.monsters.Guardian;
 import com.codecool.dungeoncrawl.logic.actors.monsters.Skeleton;
 import com.codecool.dungeoncrawl.logic.actors.monsters.TheThing;
 
-public class AiMovement {
+    public class AiMovement {
     
     private GameMap map;
     private int x;
@@ -34,7 +34,7 @@ public class AiMovement {
             } else if (map.monsters.get(i) instanceof Duck) {
                 map.monsters.get(i).monsterMove(getPlayerXDifference(map.monsters.get(i)), getPlayerYDifference(map.monsters.get(i)));
             } else if(map.monsters.get(i) instanceof Guardian){
-                map.monsters.get(i).monsterMove(1,0);
+                ((Guardian) map.monsters.get(i)).monsterLookat(map.player.getX() - map.monsters.get(i).getX(), map.player.getY() - map.monsters.get(i).getY());
             } else if (map.monsters.get(i) instanceof TheThing){
                 count++;
                 if(count>6){

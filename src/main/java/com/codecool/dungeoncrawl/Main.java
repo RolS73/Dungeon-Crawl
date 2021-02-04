@@ -35,13 +35,13 @@ public class Main extends Application {
     static GameMap map = MapLoader.loadMap();
     AiMovement AI = new AiMovement(map);
     Canvas canvas = new Canvas(
-            19 * Tiles.TILE_WIDTH,
-            19 * Tiles.TILE_WIDTH);
+            15 * Tiles.TILE_WIDTH,
+            15 * Tiles.TILE_WIDTH);
     GraphicsContext context = canvas.getGraphicsContext2D();
     Label healthLabel = new Label();
     Label attackPwLabel = new Label();
     Label armorLabel = new Label();
-    public static Stage stage = new Stage();
+    public static Stage stage;
     public static Scene gameScene;
 
     Button pickUpButton = new Button("Pick up!");
@@ -258,6 +258,7 @@ public class Main extends Application {
         switch (keyEvent.getCode()) {
             case UP:
             case W:
+                map.getPlayer().setTileName("playerU");
                 map.getPlayer().move(0, -1);
                 AI.monsterMover();
                 map.getTrapsCollection().forEach(TrapPlain::activate);
@@ -268,6 +269,7 @@ public class Main extends Application {
                 break;
             case DOWN:
             case S:
+                map.getPlayer().setTileName("playerD");
                 map.getPlayer().move(0, 1);
                 AI.monsterMover();
                 map.getTrapsCollection().forEach(TrapPlain::activate);
@@ -278,6 +280,7 @@ public class Main extends Application {
                 break;
             case LEFT:
             case A:
+                map.getPlayer().setTileName("playerL");
                 map.getPlayer().move(-1, 0);
                 AI.monsterMover();
                 map.getTrapsCollection().forEach(TrapPlain::activate);
@@ -288,6 +291,7 @@ public class Main extends Application {
                 break;
             case RIGHT:
             case D:
+                map.getPlayer().setTileName("playerR");
                 map.getPlayer().move(1, 0);
                 AI.monsterMover();
                 map.getTrapsCollection().forEach(TrapPlain::activate);
@@ -371,32 +375,65 @@ public class Main extends Application {
     }
 
     private void refresh() {
-        context.setFill(Color.BLACK);
-        context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        // context.setFill(Color.BLACK);
+        // context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
-        int dx = Math.min(0, 11 - map.getPlayer().getX());
-        int dy = Math.min(0, 11 - map.getPlayer().getY());
-        dx = Math.max(19 - map.getWidth(), dx);
-        dy = Math.max(19 - map.getHeight(), dy);
+        Tiles.drawParalaxx(context, map.getPlayer().getX(), map.getPlayer().getY());
 
+
+        int dx = 7-map.getPlayer().getX(); // 0;
+        int dy = 7-map.getPlayer().getY(); // 0;
+/*
+        if (map.getWidth()<16) {
+            dx = (15-map.getWidth())/2;
+        } else {
+            dx = Math.min(0, 7 - map.getPlayer().getX());
+            dx = Math.max(15 - map.getWidth()  , dx);
+        }
+        if (map.getHeight()<16) {
+            dy = (15-map.getHeight())/2;
+        } else {
+            dy = Math.min(0, 7 - map.getPlayer().getY());
+            dy = Math.max(15 - map.getHeight() , dy);
+        }
+*/
         for (int x = 0; x < map.getWidth(); x++) {
             for (int y = 0; y < map.getHeight(); y++) {
                 Cell cell = map.getCell(x, y);
                 Tiles.drawTile(context, cell, x + dx, y + dy);
+
+            }
+        }
+        for (int x = 0; x < map.getWidth(); x++) {
+            for (int y = 0; y < map.getHeight(); y++) {
+                Cell cell = map.getCell(x, y);
                 if (cell.getItem() != null) {
                     Tiles.drawTile(context, cell.getItem(), x + dx, y + dy);
                 }
                 if (cell.getActor() != null) {
-                    Tiles.drawTile(context, cell.getActor(), x + dx, y + dy);
+                    if (cell.getActor().getTileName().contains("duck")) {
+                        Tiles.draw3xTile(context, cell.getActor(), x + dx, y + dy);
+                    } else {
+                        Tiles.drawTile(context, cell.getActor(), x + dx, y + dy);
+                    }
                 }
+
+
                 if (!(map.getPlayer().getTileName().equals("playerArmored2")) && map.getPlayer().getArmor() > 6) {
                     map.getPlayer().setTileName("playerArmored1");
                 }
                 if (map.getPlayer().getArmor() >= 13) {
                     map.getPlayer().setTileName("playerArmored2");
                 }
+
+
             }
         }
+        // Tiles.drawTile(context, map.getPlayer().getCell().getActor(), map.getPlayer().getX() + dx, map.getPlayer().getY() + dy);
+
+
+
+
         if (inventory.stream().anyMatch(item -> item instanceof Weapon)) {
             attackPwLabel.setText("4 + " + getCurrentWeapon().getAttackpowerIncrease());
         } else {

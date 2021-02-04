@@ -5,7 +5,7 @@ import com.codecool.dungeoncrawl.logic.Cell;
 public class Player extends Actor {
 
     public static String playerName;
-    private String name = "player";
+    private String name = "playerD";
     private int maxHealth = 10;
     private int armor;
 
