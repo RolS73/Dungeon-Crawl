@@ -42,6 +42,7 @@ public class Main extends Application {
     Label armorLabel = new Label();
     public static Stage stage = new Stage();
     public static Scene gameScene;
+    static Menu menu = new Menu();
 
     Button pickUpButton = new Button("Pick up!");
 
@@ -156,7 +157,7 @@ public class Main extends Application {
         borderPane.setCenter(canvas);
         borderPane.setRight(ui);
 
-        Menu menu = new Menu();
+//        Menu menu = new Menu();
 
         primaryStage.setScene(menu.getMenuScreen());
         Scene scene = new Scene(borderPane);
@@ -169,7 +170,9 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-
+    public static Menu getMenu() {
+        return menu;
+    }
 
     private void pickUpItem(Item item) {
         if (item instanceof Weapon) {
@@ -347,21 +350,18 @@ public class Main extends Application {
                 refresh();
                 break;
         }
-        if (map.getPlayer().getCell().getItem() instanceof OpenedDoor || map.getPlayer().getCell().getItem() instanceof Switch
-                || map.getPlayer().getCell().getItem() instanceof InteractiveObject || map.getPlayer().getCell().getItem() instanceof EnvironmentalDamage) {
-            pickUpButton.setDisable(true);
-        } else {
-            if (map.getPlayer().getCell().getItem() != null) {
-                pickUpButton.setDisable(false);
-            } else {
-                pickUpButton.setDisable(true);
-            }
-        }
-        if (map.getPlayer().getMaxHealth() <= 0) {
+        if (map.getPlayer().getHealth() <= 0) {
             Sounds.playSound("Hdead");
             GameOver gameOver = new GameOver();
             stage.setScene(gameOver.getGameOverScene());
         }
+        if (map.getPlayer().getCell().getItem() instanceof OpenedDoor || map.getPlayer().getCell().getItem() instanceof Switch
+                || map.getPlayer().getCell().getItem() instanceof InteractiveObject || map.getPlayer().getCell().getItem() instanceof EnvironmentalDamage) {
+            pickUpButton.setDisable(true);
+        } else {
+            pickUpButton.setDisable(map.getPlayer().getCell().getItem() == null);
+        }
+
     }
 
     private boolean isItemInInventory(String itemName) {
