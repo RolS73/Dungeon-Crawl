@@ -31,13 +31,13 @@ public class Menu {
                 bSize)));
         menuLayout.setStyle("-fx-border-color : black; -fx-border-width : 0 5 ");
 
-        Label title = new Label("PLACEHOLDER TITLE");
+        Label title = new Label("Dungeon Crawl");
         HBox titledPane = new HBox();
         titledPane.setAlignment(Pos.CENTER);
         titledPane.getChildren().add(title);
         menuLayout.setTop(titledPane);
         menuLayout.setPadding(new Insets(10, 10, 10, 10));
-        title.setStyle("-fx-font-weight: bold; -fx-text-fill: #FFFFFF");
+        title.setStyle("-fx-font-weight: bold; -fx-text-fill: #FFFFFF; -fx-font-size: 20pt");
 
         VBox menu = new VBox();
         menu.setAlignment(Pos.CENTER);
