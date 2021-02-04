@@ -21,7 +21,7 @@ public class AiMovement {
 
     public void monsterMover() {
 
-        if(map.boss1 != null){
+        if(map.boss1 != null && map.player.isThisABossFight()){
             if(map.boss1.getHealth()<1){
                 map.boss1.move(0,0);
                 for(int i= 0; i>map.spikeForBossesList.size(); i++){

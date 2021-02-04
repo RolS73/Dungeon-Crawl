@@ -9,6 +9,7 @@ public abstract class Actor implements Drawable {
     private int health = 10;
     private int attackPower = 1;
     private String tileName = getTileName();
+    private boolean thisABossFight = false;
 
     public Actor(Cell cell) {
         this.cell = cell;
@@ -49,6 +50,10 @@ public abstract class Actor implements Drawable {
             cell = nextCell;
             // eredeti
 
+           if(this.getCell().getCellType() == CellType.BOSSFLOOR){
+               thisABossFight = true;
+           }
+
         }
 
     }
@@ -87,5 +92,9 @@ public abstract class Actor implements Drawable {
 
     public void raiseAttackPower(int attackPowerGrowth) {
         this.attackPower = this.attackPower + attackPowerGrowth;
+    }
+
+    public boolean isThisABossFight() {
+        return thisABossFight;
     }
 }
