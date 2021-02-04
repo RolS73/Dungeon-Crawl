@@ -400,6 +400,14 @@ public class Main extends Application {
             gameOver.setVictory();
             stage.setScene(gameOver.getGameOverScene());
         }
+        int soundChance = RandomGenerator.nextInt(100);
+        if (soundChance < 1) {
+            Sounds.playSound("Skeleton Move");
+        } else if (soundChance < 2) {
+            Sounds.playSound("Griffon1");
+        } else if (soundChance < 3) {
+            Sounds.playSound("Drready");
+        }
 
     }
 
