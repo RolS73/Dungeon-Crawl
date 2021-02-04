@@ -1,11 +1,8 @@
 package com.codecool.dungeoncrawl;
 
 import com.codecool.dungeoncrawl.logic.*;
-import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.actors.Sounds;
 import com.codecool.dungeoncrawl.logic.actors.items.*;
-import com.codecool.dungeoncrawl.logic.actors.monsters.HiddenEnemySpawner;
-import com.codecool.dungeoncrawl.logic.actors.monsters.Skeleton;
 import javafx.application.Application;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
@@ -22,7 +19,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.util.NoSuchElementException;
@@ -104,6 +100,11 @@ public class Main extends Application {
         map.getChestsCollection().get(1).setAnotherTilename("chest2");
         map.getChestsCollection().get(2).setAnotherTilename("chest2");
 
+        map.getMapStateSwitchers().get(0).setGroupName("hiddenEnemyGroup1");
+        for (int i = 0; i < 3; i++) {
+            map.getHiddenEnemySpawnersCollection().get(i).setGroupName("hiddenEnemyGroup1");
+        }
+
         map.getLeverSwitchCollection().get(0).setGroupName("GateGroup1");
         map.getGateOpenableByASwitchCollection().get(0).setGroupName("GateGroup1");
         map.getGateOpenableByASwitchCollection().get(1).setGroupName("GateGroup1");
@@ -125,7 +126,8 @@ public class Main extends Application {
         map.getSuspiciousWallsCollection().get(3).setGroupName("SuspiciousWallGroup4"); // Under spawn room
         map.getHiddenPassagesCollection().get(1).setGroupName("SuspiciousWallGroup4");
         map.getHiddenItemsCollection().get(2).setGroupName("SuspiciousWallGroup4");
-        map.getHiddenEnemySpawnersCollection().get(0).setGroupName("SuspiciousWallGroup4");
+        map.getHiddenEnemySpawnersCollection().get(3).setGroupName("SuspiciousWallGroup4");
+        map.getHiddenEnemySpawnersCollection().get(4).setGroupName("SuspiciousWallGroup4");
 
         map.getSuspiciousWallsCollection().get(5).setGroupName("SuspiciousWallGroup5");  // Hidden passage between gates
         map.getSuspiciousWallsCollection().get(6).setGroupName("SuspiciousWallGroup5");
@@ -138,6 +140,8 @@ public class Main extends Application {
 
         map.getSuspiciousWallsCollection().get(9).setGroupName("SuspiciousWallGroup7");  // Right optional room
         map.getHiddenItemsCollection().get(5).setGroupName("SuspiciousWallGroup7");
+
+        map.getHiddenEnemySpawnersCollection().get(5).setEnemyType("soulStealer");
 
         pickUpButton.setDisable(true);
         pickUpButton.setOnAction(pickUp -> {

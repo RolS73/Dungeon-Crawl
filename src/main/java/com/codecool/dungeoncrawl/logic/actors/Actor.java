@@ -4,6 +4,7 @@ import com.codecool.dungeoncrawl.Main;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.Drawable;
+import com.codecool.dungeoncrawl.logic.actors.items.Breakable;
 
 import java.util.Arrays;
 import java.util.List;
@@ -64,6 +65,10 @@ public abstract class Actor implements Drawable {
                thisABossFight = true;
            }
 
+        }
+
+        if (nextCell.getItem() instanceof Breakable) {
+            ((Breakable) nextCell.getItem()).interact();
         }
 
     }

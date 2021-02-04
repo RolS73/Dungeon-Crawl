@@ -1,11 +1,13 @@
 package com.codecool.dungeoncrawl.logic.actors.items;
 
+import com.codecool.dungeoncrawl.Main;
 import com.codecool.dungeoncrawl.logic.Cell;
 
-public class TorchPuzzle extends Item implements InteractiveObject {
+public class TorchPuzzle extends Item implements InteractiveObject, Switch {
 
     private String name = "puzzleFireStandInActive";
     private static int totalTorchesActivated = 0;
+    private String groupName;
 
     public TorchPuzzle(Cell cell) {
 
@@ -23,8 +25,8 @@ public class TorchPuzzle extends Item implements InteractiveObject {
         if (isThisObjectInteractive()) {
             this.name = "puzzleFireStandActive";
             totalTorchesActivated++;
-            if (totalTorchesActivated <= 3) {
-                //activate secret passage at the bottom of the level
+            if (totalTorchesActivated == 3) {
+                Main.cheatingMapGetter().getHiddenEnemySpawnersCollection().get(5).interact();
             }
         }
     }
@@ -48,5 +50,21 @@ public class TorchPuzzle extends Item implements InteractiveObject {
     public boolean isThisInteractiveObjectCurrentlyBeingFocusedOn(Cell cell) {
         return this.getCell().equals(cell);
     }
+
+    @Override
+    public String getGroupName() {
+        return groupName;
+    }
+
+    @Override
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
+
+    @Override
+    public boolean isThisFromTheSameGroup(String groupName) {
+        return this.groupName.equals(groupName);
+    }
+
 
 }

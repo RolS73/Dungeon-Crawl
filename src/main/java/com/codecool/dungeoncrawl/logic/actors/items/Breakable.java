@@ -1,6 +1,7 @@
 package com.codecool.dungeoncrawl.logic.actors.items;
 
 import com.codecool.dungeoncrawl.logic.Cell;
+import com.codecool.dungeoncrawl.logic.CellType;
 
 public class Breakable extends Item implements InteractiveObject {
     private String tileName = "breakable";
@@ -27,6 +28,7 @@ public class Breakable extends Item implements InteractiveObject {
     public void interact() {
         if (isThisObjectInteractive()) {
             this.getCell().setItem(new LootTable().getItemFromTable());
+            this.getCell().setCellType(CellType.FLOOR);
         }
     }
 
@@ -37,7 +39,7 @@ public class Breakable extends Item implements InteractiveObject {
 
     @Override
     public boolean isMoveOnPossibleAfterInteraction() {
-        return true;
+        return false;
     }
 
     @Override

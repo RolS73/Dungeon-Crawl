@@ -114,7 +114,9 @@ public class MapLoader {
                             break;
                         case 'F':
                             cell.setCellType(CellType.OBJECT);
-                            map.interactablesCollection.add(new TorchPuzzle(cell));
+                            TorchPuzzle torchPuzzle = new TorchPuzzle(cell);
+                            map.interactablesCollection.add(torchPuzzle);
+                            map.mapStateSwitchers.add(torchPuzzle);
                             break;
                         case 't':
                             cell.setCellType(CellType.FLOOR);
