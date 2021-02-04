@@ -133,6 +133,7 @@ public class Tiles {
         tileMap.put("staff4", new Tile(15, 4));
 
 
+
     }
 
     public static void drawTile(GraphicsContext context, Drawable d, int x, int y) {

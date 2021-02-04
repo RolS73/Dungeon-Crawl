@@ -1,6 +1,8 @@
 package com.codecool.dungeoncrawl.logic;
 
 import com.codecool.dungeoncrawl.logic.actors.Player;
+import com.codecool.dungeoncrawl.logic.actors.boss.SpikeBoss;
+import com.codecool.dungeoncrawl.logic.actors.boss.SpikeForBosses;
 import com.codecool.dungeoncrawl.logic.actors.items.*;
 import com.codecool.dungeoncrawl.logic.actors.monsters.HiddenEnemySpawner;
 import com.codecool.dungeoncrawl.logic.actors.monsters.Monster;
@@ -15,6 +17,9 @@ public class GameMap {
 
     Player player;
 
+
+    SpikeBoss boss1;
+    List<SpikeForBosses> spikeForBossesList = new ArrayList<>();
     static List<Monster> monsters = new ArrayList<>();
     List<InteractiveObject> interactablesCollection = new ArrayList<>();
     List<DoorSealedFromOtherSide> doorsSealedFromOtherSideCollection = new ArrayList<>();
@@ -117,5 +122,9 @@ public class GameMap {
 
     public int getHeight() {
         return height;
+    }
+
+    public SpikeBoss getBoss1() {
+        return boss1;
     }
 }
