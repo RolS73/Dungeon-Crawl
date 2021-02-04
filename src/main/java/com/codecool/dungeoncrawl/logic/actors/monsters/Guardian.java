@@ -7,6 +7,8 @@ import com.codecool.dungeoncrawl.logic.actors.Player;
 
 public class Guardian extends Monster {
 
+    private String name = "guardianD";
+
     private int count = 0;
 
     public Guardian(Cell cell) {
@@ -17,7 +19,7 @@ public class Guardian extends Monster {
 
     @Override
     public String getTileName() {
-        return "guardian";
+        return this.name;
     }
 
     @Override
@@ -34,6 +36,26 @@ public class Guardian extends Monster {
             }
         } else {
             count = 0;
+        }
+    }
+
+    public void monsterLookat(int x, int y) {
+        if (Math.abs(x)>Math.abs(y)) {
+            if (x<0) {
+                this.name = "guardianL";
+            }
+            if (x>0) {
+                this.name = "guardianR";
+            }
+
+        } else {
+            if (y<0) {
+                this.name = "guardianU";
+            }
+            if (y>0) {
+                this.name = "guardianD";
+            }
+
         }
     }
 }

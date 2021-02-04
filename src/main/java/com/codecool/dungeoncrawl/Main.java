@@ -1,6 +1,8 @@
 package com.codecool.dungeoncrawl;
 
 import com.codecool.dungeoncrawl.logic.*;
+import com.codecool.dungeoncrawl.logic.actors.Player;
+import com.codecool.dungeoncrawl.logic.actors.Sounds;
 import com.codecool.dungeoncrawl.logic.actors.items.*;
 import com.codecool.dungeoncrawl.logic.actors.monsters.HiddenEnemySpawner;
 import com.codecool.dungeoncrawl.logic.actors.monsters.Skeleton;
@@ -34,13 +36,16 @@ public class Main extends Application {
     static GameMap map = MapLoader.loadMap();
     AiMovement AI = new AiMovement(map);
     Canvas canvas = new Canvas(
-            19 * Tiles.TILE_WIDTH,
-            19 * Tiles.TILE_WIDTH);
+            15 * Tiles.TILE_WIDTH,
+            15 * Tiles.TILE_WIDTH);
     GraphicsContext context = canvas.getGraphicsContext2D();
     Label healthLabel = new Label();
     Label attackPwLabel = new Label();
     Label armorLabel = new Label();
-
+    public static Stage stage;
+    public static Scene gameScene;
+    static Menu menu = new Menu();
+    static Label name = new Label("");
     Button pickUpButton = new Button("Pick up!");
 
     public static void main(String[] args) {
@@ -49,9 +54,13 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        stage = primaryStage;
         GridPane ui = new GridPane();
         ui.setPrefWidth(200);
         ui.setPadding(new Insets(10));
+
+        //Player name doesn't show :(
+        ui.add(name, 0, 0);
 
         HBox lifeStatus = new HBox();
         lifeStatus.setSpacing(5);
@@ -63,13 +72,14 @@ public class Main extends Application {
         ui.setHgap(10);
         ui.setVgap(10);
         ui.setPadding(new Insets(10, 10, 10, 10));
-        ui.add(lifeStatus, 0, 0);
-        ui.add(attackPwStatus, 0, 1);
+
+        ui.add(lifeStatus, 0, 1);
+        ui.add(attackPwStatus, 0, 2);
 
 
         Label instructions = new Label();
         instructions.setText("Move with arrow keys or WASD.\nInteract: E key.\nPick up items with E key.");
-        ui.add(instructions, 0, 4);
+        ui.add(instructions, 0, 5);
 
         TableView<Item> inventoryTable = new TableView<>(inventory);
         TableColumn<Item, String> itemnames = new TableColumn<>("Inventory");
@@ -79,7 +89,7 @@ public class Main extends Application {
         inventoryTable.setMaxWidth(130);
         inventoryTable.setMaxHeight(150);
         inventoryTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        ui.add(inventoryTable, 0, 3);
+        ui.add(inventoryTable, 0, 4);
         inventoryTable.setFocusTraversable(false);
         inventoryTable.setPlaceholder(new Label("Inventory is empty!"));
 
@@ -142,20 +152,28 @@ public class Main extends Application {
         pickUpButton.setPrefWidth(130);
 
         lootButtons.getChildren().addAll(pickUpButton);
-        ui.add(lootButtons, 0, 2);
+        ui.add(lootButtons, 0, 3);
 
         BorderPane borderPane = new BorderPane();
 
         borderPane.setCenter(canvas);
         borderPane.setRight(ui);
 
+//        Menu menu = new Menu();
+
+        primaryStage.setScene(menu.getMenuScreen());
         Scene scene = new Scene(borderPane);
-        primaryStage.setScene(scene);
+        gameScene = scene;
+
         refresh();
         scene.setOnKeyPressed(this::onKeyPressed);
 
         primaryStage.setTitle("Dungeon Crawl");
         primaryStage.show();
+    }
+
+    public static Menu getMenu() {
+        return menu;
     }
 
     private void pickUpItem(Item item) {
@@ -244,6 +262,7 @@ public class Main extends Application {
         switch (keyEvent.getCode()) {
             case UP:
             case W:
+                map.getPlayer().setTileName("playerU");
                 map.getPlayer().move(0, -1);
                 AI.monsterMover();
                 map.getTrapsCollection().forEach(TrapPlain::activate);
@@ -254,6 +273,7 @@ public class Main extends Application {
                 break;
             case DOWN:
             case S:
+                map.getPlayer().setTileName("playerD");
                 map.getPlayer().move(0, 1);
                 AI.monsterMover();
                 map.getTrapsCollection().forEach(TrapPlain::activate);
@@ -264,6 +284,7 @@ public class Main extends Application {
                 break;
             case LEFT:
             case A:
+                map.getPlayer().setTileName("playerL");
                 map.getPlayer().move(-1, 0);
                 AI.monsterMover();
                 map.getTrapsCollection().forEach(TrapPlain::activate);
@@ -274,6 +295,7 @@ public class Main extends Application {
                 break;
             case RIGHT:
             case D:
+                map.getPlayer().setTileName("playerR");
                 map.getPlayer().move(1, 0);
                 AI.monsterMover();
                 map.getTrapsCollection().forEach(TrapPlain::activate);
@@ -335,16 +357,18 @@ public class Main extends Application {
                 refresh();
                 break;
         }
+        if (map.getPlayer().getHealth() <= 0) {
+            Sounds.playSound("Hdead");
+            GameOver gameOver = new GameOver();
+            stage.setScene(gameOver.getGameOverScene());
+        }
         if (map.getPlayer().getCell().getItem() instanceof OpenedDoor || map.getPlayer().getCell().getItem() instanceof Switch
                 || map.getPlayer().getCell().getItem() instanceof InteractiveObject || map.getPlayer().getCell().getItem() instanceof EnvironmentalDamage) {
             pickUpButton.setDisable(true);
         } else {
-            if (map.getPlayer().getCell().getItem() != null) {
-                pickUpButton.setDisable(false);
-            } else {
-                pickUpButton.setDisable(true);
-            }
+            pickUpButton.setDisable(map.getPlayer().getCell().getItem() == null);
         }
+
     }
 
     private boolean isItemInInventory(String itemName) {
@@ -357,38 +381,70 @@ public class Main extends Application {
     }
 
     private void refresh() {
-        context.setFill(Color.BLACK);
-        context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        // context.setFill(Color.BLACK);
+        // context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
-        int dx = Math.min(0, 11 - map.getPlayer().getX());
-        int dy = Math.min(0, 11 - map.getPlayer().getY());
-        dx = Math.max(19 - map.getWidth(), dx);
-        dy = Math.max(19 - map.getHeight(), dy);
+        Tiles.drawParalaxx(context, map.getPlayer().getX(), map.getPlayer().getY());
 
+
+        int dx = 7-map.getPlayer().getX(); // 0;
+        int dy = 7-map.getPlayer().getY(); // 0;
+/*
+        if (map.getWidth()<16) {
+            dx = (15-map.getWidth())/2;
+        } else {
+            dx = Math.min(0, 7 - map.getPlayer().getX());
+            dx = Math.max(15 - map.getWidth()  , dx);
+        }
+        if (map.getHeight()<16) {
+            dy = (15-map.getHeight())/2;
+        } else {
+            dy = Math.min(0, 7 - map.getPlayer().getY());
+            dy = Math.max(15 - map.getHeight() , dy);
+        }
+*/
         for (int x = 0; x < map.getWidth(); x++) {
             for (int y = 0; y < map.getHeight(); y++) {
                 Cell cell = map.getCell(x, y);
                 Tiles.drawTile(context, cell, x + dx, y + dy);
+
+            }
+        }
+        for (int x = 0; x < map.getWidth(); x++) {
+            for (int y = 0; y < map.getHeight(); y++) {
+                Cell cell = map.getCell(x, y);
                 if (cell.getItem() != null) {
                     Tiles.drawTile(context, cell.getItem(), x + dx, y + dy);
                 }
                 if (cell.getActor() != null) {
-                    Tiles.drawTile(context, cell.getActor(), x + dx, y + dy);
+                    if (cell.getActor().getTileName().contains("duck")) {
+                        Tiles.draw3xTile(context, cell.getActor(), x + dx, y + dy);
+                    } else {
+                        Tiles.drawTile(context, cell.getActor(), x + dx, y + dy);
+                    }
                 }
+
+
                 if (!(map.getPlayer().getTileName().equals("playerArmored2")) && map.getPlayer().getArmor() > 6) {
                     map.getPlayer().setTileName("playerArmored1");
                 }
                 if (map.getPlayer().getArmor() >= 13) {
                     map.getPlayer().setTileName("playerArmored2");
                 }
+
+
             }
         }
+        // Tiles.drawTile(context, map.getPlayer().getCell().getActor(), map.getPlayer().getX() + dx, map.getPlayer().getY() + dy);
+
+
+
+
         if (inventory.stream().anyMatch(item -> item instanceof Weapon)) {
             attackPwLabel.setText("4 + " + getCurrentWeapon().getAttackpowerIncrease());
         } else {
             attackPwLabel.setText("4");
         }
-//        attackPwLabel.setText("" + map.getPlayer().getAttackPower());
         healthLabel.setText("" + map.getPlayer().getHealth());
         armorLabel.setText("" + map.getPlayer().getArmor());
     }

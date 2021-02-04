@@ -54,7 +54,7 @@ public class LootTable {
         weaponCommonLoot.add(new Weapon("A sword", 4));
         weaponCommonLoot.add(new Weapon("Smiling Hammer", 5));
 
-        weaponCommonLoot.get(0).setTileName("dagger1");
+        weaponCommonLoot.get(0).setTileName("axe1");
         weaponCommonLoot.get(1).setTileName("staff1");
         weaponCommonLoot.get(2).setTileName("sword1");
         weaponCommonLoot.get(3).setTileName("hammer1");
