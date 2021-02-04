@@ -31,7 +31,7 @@ public class Guardian extends Monster {
         }
         if (nextCell.getActor() instanceof Player) {
             count++;
-            System.out.println(count);
+//            System.out.println(count);
             if(count > 2){
                 nextCell.getActor().setHealth(nextCell.getActor().getHealth() - this.getAttackPower());
                 count = 0;

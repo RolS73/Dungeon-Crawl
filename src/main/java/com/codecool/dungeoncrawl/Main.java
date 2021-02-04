@@ -390,6 +390,11 @@ public class Main extends Application {
         } else {
             pickUpButton.setDisable(map.getPlayer().getCell().getItem() == null);
         }
+        if (map.getBoss1() == null) {
+            Sounds.playSound("Odead");
+            gameOver.setVictory();
+            stage.setScene(gameOver.getGameOverScene());
+        }
 
     }
 
