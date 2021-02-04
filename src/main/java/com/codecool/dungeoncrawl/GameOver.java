@@ -23,18 +23,20 @@ public class GameOver {
 
         VBox vBox = new VBox();
 
-        Label question = new Label("Try Again?");
+        vBox.setAlignment(Pos.CENTER);
 
-        Button tryAgain = new Button("Yes!");
-        Button dontTryAgain = new Button("No!!");
+        Label question = new Label("YOU DIED!");
 
-        tryAgain.setOnAction(play -> Main.stage.setScene(Main.getMenu().getMenuScreen()));;
-        dontTryAgain.setOnAction(quit -> System.exit(0));
+//        Button tryAgain = new Button("Yes!");
+//        Button dontTryAgain = new Button("No!!");
+//
+////        tryAgain.setOnAction(play -> Main.stage.setScene(Main.getMenu().getMenuScreen()));;;
+//        dontTryAgain.setOnAction(quit -> System.exit(0));
+//
+//        HBox answers = new HBox();
+//        answers.getChildren().addAll(dontTryAgain);
 
-        HBox answers = new HBox();
-        answers.getChildren().addAll(tryAgain, dontTryAgain);
-
-        vBox.getChildren().addAll(question, answers);
+        vBox.getChildren().addAll(question);
 
         borderPane.setCenter(vBox);
     }

@@ -52,9 +52,10 @@ public class Menu {
 
         playButton.setOnAction(play -> {
             Main.stage.setScene(Main.gameScene);
-            Player.setPlayerName(playerName.getText());
+            Main.name.setText(playerName.getText());
 
-            System.out.println(Player.getPlayerName());
+
+//            System.out.println(Player.getPlayerName());
         });
 
         menu.getChildren().addAll(askForName, playerName, playButton);

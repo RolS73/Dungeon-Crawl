@@ -43,7 +43,7 @@ public class Main extends Application {
     public static Stage stage = new Stage();
     public static Scene gameScene;
     static Menu menu = new Menu();
-
+    static Label name = new Label("");
     Button pickUpButton = new Button("Pick up!");
 
     public static void main(String[] args) {
@@ -57,7 +57,7 @@ public class Main extends Application {
         ui.setPrefWidth(200);
         ui.setPadding(new Insets(10));
 
-        Label name = new Label(Player.getPlayerName()); //Player name doesn't show :(
+        //Player name doesn't show :(
         ui.add(name, 0, 0);
 
         HBox lifeStatus = new HBox();
@@ -405,7 +405,6 @@ public class Main extends Application {
         } else {
             attackPwLabel.setText("4");
         }
-//        attackPwLabel.setText("" + map.getPlayer().getAttackPower());
         healthLabel.setText("" + map.getPlayer().getHealth());
         armorLabel.setText("" + map.getPlayer().getArmor());
     }
