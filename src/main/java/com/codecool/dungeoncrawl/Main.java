@@ -141,7 +141,7 @@ public class Main extends Application {
         map.getSuspiciousWallsCollection().get(9).setGroupName("SuspiciousWallGroup7");  // Right optional room
         map.getHiddenItemsCollection().get(5).setGroupName("SuspiciousWallGroup7");
 
-        map.getHiddenEnemySpawnersCollection().get(5).setEnemyType("soulStealer");
+        /*map.getHiddenEnemySpawnersCollection().get(5).setEnemyType("soulStealer");*/
 
         pickUpButton.setDisable(true);
         pickUpButton.setOnAction(pickUp -> {
