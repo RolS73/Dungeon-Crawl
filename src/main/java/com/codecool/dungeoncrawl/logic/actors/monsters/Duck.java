@@ -37,7 +37,8 @@ public class Duck extends Monster {
 
         if(nextCell.getCellType() == CellType.FLOOR){
             if(nextCell.getActor() instanceof Player){
-                nextCell.getActor().setHealth(nextCell.getActor().getHealth()- this.getAttackPower());
+                damageCalculation(nextCell);
+//                nextCell.getActor().setHealth(nextCell.getActor().getHealth()- this.getAttackPower());
                 if(this.getHealth()<1){
                     this.getCell().setActor(null);
                 }

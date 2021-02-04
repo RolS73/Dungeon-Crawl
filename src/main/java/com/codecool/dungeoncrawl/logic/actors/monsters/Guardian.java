@@ -33,7 +33,8 @@ public class Guardian extends Monster {
             count++;
 //            System.out.println(count);
             if(count > 2){
-                nextCell.getActor().setHealth(nextCell.getActor().getHealth() - this.getAttackPower());
+                damageCalculation(nextCell);
+//                nextCell.getActor().setHealth(nextCell.getActor().getHealth() - this.getAttackPower());
                 count = 0;
             }
         } else {
