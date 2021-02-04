@@ -56,6 +56,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         stage = primaryStage;
         GridPane ui = new GridPane();
+//        ui.setStyle("-fx-background-color : black; -fx-font-weight: bold; -fx-text-fill: #FFFFFF");
         ui.setPrefWidth(200);
         ui.setPadding(new Insets(10));
 
@@ -163,6 +164,8 @@ public class Main extends Application {
 
         primaryStage.setScene(menu.getMenuScreen());
         Scene scene = new Scene(borderPane);
+        scene.getStylesheets().add
+                (Main.class.getResource("Main.css").toExternalForm());
         gameScene = scene;
 
         refresh();

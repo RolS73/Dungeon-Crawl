@@ -20,7 +20,6 @@ public class GameOver {
 //        titledPane.setAlignment(Pos.CENTER);
 ////        titledPane.getChildren().add(title);
 //        borderPane.setTop(titledPane);
-
         BackgroundSize bSize = new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, false);
         Image gameOver = new Image("/gameOver.png");
         borderPane.setBackground(new Background(new BackgroundImage(gameOver,
@@ -29,6 +28,7 @@ public class GameOver {
                 BackgroundPosition.CENTER,
                 bSize)));
         borderPane.setStyle("-fx-border-color : black; -fx-border-width : 0 5 ");
+
 
 //        VBox vBox = new VBox();
 //
