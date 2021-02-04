@@ -1,7 +1,8 @@
 package com.codecool.dungeoncrawl.logic.actors.items;
 import com.codecool.dungeoncrawl.logic.Cell;
+import com.codecool.dungeoncrawl.logic.actors.Sounds;
 
-    public class DoorSealedFromOtherSide extends Item implements InteractiveObject {
+public class DoorSealedFromOtherSide extends Item implements InteractiveObject {
 
         private String name = "sealedFromOtherSideDoor";
         private Cell openableFromWhatSide;
@@ -48,6 +49,7 @@ import com.codecool.dungeoncrawl.logic.Cell;
                 OpenedDoor openDoor = new OpenedDoor(this.getCell());
                 openDoor.setAnotherTileName("sealedFromOtherSideDoorOpened");
                 this.getCell().setItem(openDoor);
+                Sounds.playSound("Door5b");
             }
         }
 
