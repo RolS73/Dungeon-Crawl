@@ -43,6 +43,7 @@ public class Main extends Application {
     static Menu menu = new Menu();
     public static Label name = new Label("");
     Button pickUpButton = new Button("Pick up!");
+    GameOver gameOver = new GameOver();
 
     public static void main(String[] args) {
         launch(args);
@@ -371,7 +372,7 @@ public class Main extends Application {
         }
         if (map.getPlayer().getHealth() <= 0) {
             Sounds.playSound("Hdead");
-            GameOver gameOver = new GameOver();
+
             stage.setScene(gameOver.getGameOverScene());
         }
         if (map.getPlayer().getCell().getItem() instanceof OpenedDoor || map.getPlayer().getCell().getItem() instanceof Switch
