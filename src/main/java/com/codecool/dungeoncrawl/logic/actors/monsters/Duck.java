@@ -11,7 +11,7 @@ public class Duck extends Monster {
     public Duck(Cell cell) {
         super(cell);
         this.setAttackPower(1);
-        this.setHealth(2);
+        this.setHealth(1);
     }
 
     @Override

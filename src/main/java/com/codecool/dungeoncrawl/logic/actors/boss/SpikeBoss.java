@@ -13,7 +13,7 @@ public class SpikeBoss extends Actor {
     public SpikeBoss(Cell cell) {
         super(cell);
         this.setAttackPower(7);
-        this.setHealth(130);
+        this.setHealth(150);
     }
 
     @Override

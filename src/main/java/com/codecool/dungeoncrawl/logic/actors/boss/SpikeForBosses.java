@@ -17,7 +17,7 @@ public class SpikeForBosses extends Monster {
     public SpikeForBosses(Cell cell) {
         super(cell);
        // mainBody = Main.cheatingMapGetter().getBoss1();
-        setAttackPower(7);
+        setAttackPower(8);
         setHealth(100000);
     }
 
