@@ -56,9 +56,13 @@ public abstract class Actor implements Drawable {
         }
 
         if (this instanceof Player && wallCheat.contains(Main.name.getText()) && nextCell.getActor() == null) {
+            Sounds.playSound("Move5b");
             cell.setActor(null);
             nextCell.setActor(this);
             cell = nextCell;
+            if(this.getCell().getCellType() == CellType.BOSSFLOOR){
+                thisABossFight = true;
+            }
         } else if ((nextCell.getCellType() == CellType.BOSSFLOOR || nextCell.getCellType() == CellType.STUNNER ||
                 nextCell.getCellType() == CellType.FLOOR) && nextCell.getActor() == null) {
             Sounds.playSound("Move5b");
