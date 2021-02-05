@@ -16,7 +16,7 @@ import com.codecool.dungeoncrawl.logic.CellType;
         public void interact() {
             this.anotherTileName = "floor";
             this.getCell().setCellType(CellType.FLOOR);
-            this.getCell().setItem(new LootTable("Rare").getItemFromTable());
+            this.getCell().setItem(new LootTable(LootTable.lootRarityLevel.RARE).getItemFromTable());
             this.setGroupName("activated");
         }
 
