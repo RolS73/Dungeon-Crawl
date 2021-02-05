@@ -21,6 +21,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 public class Main extends Application {
@@ -38,12 +40,12 @@ public class Main extends Application {
     Label healthLabel = new Label();
     Label attackPwLabel = new Label();
     Label armorLabel = new Label();
-    public static Stage stage;
-    public static Scene gameScene;
-    static Menu menu = new Menu();
-    public static Label name = new Label("");
+    Menu menu = new Menu();
+    private Label name = new Label("");
     Button pickUpButton = new Button("Pick up!");
     GameOver gameOver = new GameOver();
+    private Stage stage;
+    private final List<String> wallCheat = Arrays.asList("Laci", "Ricsi", "Roland", "Szablocs", "George");
 
     public static void main(String[] args) {
         launch(args);
@@ -58,7 +60,6 @@ public class Main extends Application {
         ui.setPrefWidth(200);
         ui.setPadding(new Insets(10));
 
-        //Player name doesn't show :(
         ui.add(name, 0, 0);
 
         HBox lifeStatus = new HBox();
@@ -72,7 +73,6 @@ public class Main extends Application {
         ui.setVgap(10);
         ui.setPadding(new Insets(10, 10, 10, 10));
         ui.getStylesheets().add("Main.css");
-//        ui.setStyle("-fx-background-color : black; -fx-font-weight: bold; -fx-text-fill: #FFFFFF");
 
         ui.add(lifeStatus, 0, 1);
         ui.add(attackPwStatus, 0, 2);
@@ -178,15 +178,17 @@ public class Main extends Application {
         borderPane.setCenter(canvas);
         borderPane.setRight(ui);
 
-//        Menu menu = new Menu();
-
         primaryStage.setScene(menu.getMenuScreen());
+
         Scene scene = new Scene(borderPane);
-//        scene.getStylesheets().add
-//                (Main.class.getResource("Main.css").toExternalForm());
-        gameScene = scene;
 
-
+        menu.getPlayButton().setOnAction(play -> {
+            primaryStage.setScene(scene);
+            name.setText(menu.getPlayerName().getText());
+            if (wallCheat.contains(name.getText())) {
+                map.getPlayer().setWallCheatOn(true);
+            }
+        });
 
         refresh();
         scene.setOnKeyPressed(this::onKeyPressed);
@@ -195,9 +197,9 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    public static Menu getMenu() {
-        return menu;
-    }
+//    public static Menu getMenu() {
+//        return menu;
+//    }
 
     private void pickUpItem(Item item) {
         if (item instanceof Weapon) {

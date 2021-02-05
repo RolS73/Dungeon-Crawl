@@ -16,9 +16,19 @@ public class Menu {
 
     private final BorderPane menuLayout = new BorderPane();
     private final Scene menuScreen = new Scene(menuLayout, 490, 300);
+    private final Button playButton = new Button("Play!");
+    private  final TextField playerName = new TextField();
 
     public Scene getMenuScreen() {
         return menuScreen;
+    }
+
+    public Button getPlayButton() {
+        return playButton;
+    }
+
+    public TextField getPlayerName() {
+        return playerName;
     }
 
     {
@@ -46,10 +56,10 @@ public class Menu {
         Label askForName = new Label("Please enter your name!");
         askForName.setStyle("-fx-font-weight: bold; -fx-text-fill: #FFFFFF");
 
-        TextField playerName = new TextField();
+
         playerName.setMaxWidth(100);
 
-        Button playButton = new Button("Play!");
+
         playButton.setStyle("-fx-font-weight: bold; -fx-text-fill: #000000");
 
         playButton.setDisable(true);
@@ -58,18 +68,17 @@ public class Menu {
             playButton.setDisable(newValue.isEmpty());
         });
 
-        playButton.setOnAction(play -> {
-            Main.stage.setScene(Main.gameScene);
-            Main.name.setText(playerName.getText());
-
-
-//            System.out.println(Player.getPlayerName());
-        });
+//        playButton.setOnAction(play -> {
+//            Main.stage.setScene(Main.gameScene);
+//            Main.name.setText(playerName.getText());
+//
+//
+////            System.out.println(Player.getPlayerName());
+//        });
 
         menu.getChildren().addAll(askForName, playerName, playButton);
         menuLayout.setCenter(menu);
     }
-
 
 
 }
