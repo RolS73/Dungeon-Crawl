@@ -220,6 +220,11 @@ public class Main extends Application {
             if (map.getPlayer().getMaxHealth() == map.getPlayer().getHealth()) {
                 map.getPlayer().restoreHealth(map.getPlayer().getCell().getItem().getHealth());
             }
+            if (item.getHealth() >= 5) {
+                map.getPlayer().setHealth(map.getPlayer().getMaxHealth());
+            } else {
+                map.getPlayer().setHealth(map.getPlayer().getHealth() + item.getHealth());
+            }
             map.getPlayer().getCell().setItem(null);
         } else if (item instanceof ArmorUpgrade) {
             if (inventory.stream().anyMatch(i -> i instanceof ArmorUpgrade)) {
