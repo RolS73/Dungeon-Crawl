@@ -7,11 +7,12 @@ public class Player extends Actor {
 
     private String name = "playerD";
     private int maxHealth = 15;
+    private int strength = 1;
     private int armor;
 
     public Player(Cell cell) {
         super(cell);
-        this.setAttackPower(4); // ez új
+        this.setAttackPower(1); // ez új
         this.setHealth(maxHealth);
         this.armor = 0;
     }
@@ -43,6 +44,11 @@ public class Player extends Actor {
 //    public void raiseArmor(int armorUpgrade) {
 //        this.armor = this.armor + armorUpgrade;
 //    }
+
+
+    public int getStrength() {
+        return strength;
+    }
 
     public void restoreHealth(int healAmount) {
         super.setHealth(Math.min(getHealth() + healAmount, getMaxHealth()));

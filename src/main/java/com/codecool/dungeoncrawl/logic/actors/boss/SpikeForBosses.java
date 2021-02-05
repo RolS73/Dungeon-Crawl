@@ -1,6 +1,5 @@
 package com.codecool.dungeoncrawl.logic.actors.boss;
 
-import com.codecool.dungeoncrawl.Main;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.actors.Player;
@@ -18,7 +17,7 @@ public class SpikeForBosses extends Monster {
     public SpikeForBosses(Cell cell) {
         super(cell);
        // mainBody = Main.cheatingMapGetter().getBoss1();
-        setAttackPower(10);
+        setAttackPower(8);
         setHealth(100000);
     }
 

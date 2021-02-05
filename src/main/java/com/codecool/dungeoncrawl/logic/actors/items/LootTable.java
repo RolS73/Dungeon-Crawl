@@ -49,10 +49,10 @@ public class LootTable {
 
     private List<Item> weaponCommonLoot = new ArrayList<>();
     {
-        weaponCommonLoot.add(new Weapon("Backscratcher", 2));
-        weaponCommonLoot.add(new Weapon("Stick of Truth", 3));
-        weaponCommonLoot.add(new Weapon("Rustbringer", 4));
-        weaponCommonLoot.add(new Weapon("Smiling Hammer", 5));
+        weaponCommonLoot.add(new Weapon("Backscratcher", 3));
+        weaponCommonLoot.add(new Weapon("Stick of Truth", 4));
+        weaponCommonLoot.add(new Weapon("Rustbringer", 5));
+        weaponCommonLoot.add(new Weapon("Smiling Hammer", 6));
 
         weaponCommonLoot.get(0).setTileName("axe1");
         weaponCommonLoot.get(1).setTileName("staff1");
@@ -61,8 +61,8 @@ public class LootTable {
     }
     private List<Item> weaponRareLoot = new ArrayList<>();
     {
-        weaponRareLoot.add(new Weapon("Scepter of Silverport", 6));
-        weaponRareLoot.add(new Weapon("Shining Sword", 8));
+        weaponRareLoot.add(new Weapon("Scepter of Silverport", 8));
+        weaponRareLoot.add(new Weapon("Shining Sword", 9));
         weaponRareLoot.add(new Weapon("The Hungry Axe", 10));
         weaponRareLoot.add(new Weapon("Smile Crusher", 11));
 
@@ -73,10 +73,10 @@ public class LootTable {
     }
     private List<Item> weaponLegendaryLoot = new ArrayList<>();
     {
-        weaponLegendaryLoot.add(new Weapon("Sword of Reckoning", 16));
-        weaponLegendaryLoot.add(new Weapon("Solarsong", 17));
-        weaponLegendaryLoot.add(new Weapon("Hydra's Cry", 18));
-        weaponLegendaryLoot.add(new Weapon("Judgement", 20));
+        weaponLegendaryLoot.add(new Weapon("Sword of Reckoning", 18));
+        weaponLegendaryLoot.add(new Weapon("Solarsong", 19));
+        weaponLegendaryLoot.add(new Weapon("Hydra's Cry", 20));
+        weaponLegendaryLoot.add(new Weapon("Judgement", 21));
 
         weaponLegendaryLoot.get(0).setTileName("sword3");
         weaponLegendaryLoot.get(1).setTileName("staff3");
@@ -94,43 +94,51 @@ public class LootTable {
         }
     }
 
-    public LootTable(String lootTableType, String chosenLootTableRarity) {
-        if (lootTableType.equals("Item") || lootTableType.equals("item")) {
-                switch (chosenLootTableRarity) {
-                    case "common":
-                    case "Common":
-                        this.lootTable = itemCommonLoot;
-                        break;
-                    case "rare":
-                    case "Rare":
-                        this.lootTable = itemRareLoot;
-                        break;
-                    case "legendary":
-                    case "Legendary":
-                        this.lootTable = itemLegendaryLoot;
-                        break;
-                    default:
-                        this.lootTable = itemCommonLoot;
-                }
-        } else {
-            switch (chosenLootTableRarity) {
-                case "common":
-                case "Common":
-                    this.lootTable = weaponCommonLoot;
-                    break;
-                case "rare":
-                case "Rare":
-                    this.lootTable = weaponRareLoot;
-                    break;
-                case "legendary":
-                case "Legendary":
-                    this.lootTable = weaponLegendaryLoot;
-                    break;
-                default:
-                    this.lootTable = weaponCommonLoot;
+    public LootTable(lootRarityLevel minimumLootRarity) {
+        int tableRoll = RandomGenerator.nextInt(100);
+        if (minimumLootRarity.equals(lootRarityLevel.RARE)) {
+            if (tableRoll < 32) {
+                this.lootTable = calculateRollForWeaponLootTableAtleastRare();
+            } else {
+                this.lootTable = calculateRollForItemLootTableAtleastRare();
             }
+        } else if (minimumLootRarity.equals(lootRarityLevel.LEGENDARY)) {
+            if (tableRoll < 32) {
+                this.lootTable = calculateRollForWeaponLootTableAtleastLegendary();
+            } else {
+                this.lootTable = calculateRollForItemLootTableAtleastLegendary();
+            }
+        } else if (minimumLootRarity.equals(lootRarityLevel.COMMON)) {
+                if (tableRoll < 32) {
+                    this.lootTable = calculateRollForWeaponLootTable();
+                } else {
+                    this.lootTable = calculateRollForItemLootTable();
+                }
         }
     }
+
+    public LootTable(lootRarityLevel minimumLootRarity, lootType lootType) {
+        if (minimumLootRarity.equals(lootRarityLevel.COMMON)) {
+                if (lootType.equals(LootTable.lootType.ITEM)) {
+                    this.lootTable = calculateRollForItemLootTable();
+                } else if (lootType.equals(LootTable.lootType.WEAPON)) {
+                    this.lootTable = calculateRollForWeaponLootTable();
+                }
+        }
+        if (minimumLootRarity.equals(lootRarityLevel.RARE)) {
+            if (lootType.equals(LootTable.lootType.ITEM)) {
+                this.lootTable = calculateRollForItemLootTableAtleastRare();
+            } else if (lootType.equals(LootTable.lootType.WEAPON)) {
+                this.lootTable = calculateRollForWeaponLootTableAtleastRare();
+            }
+        } else if (minimumLootRarity.equals(lootRarityLevel.LEGENDARY)) {
+                if (lootType.equals(LootTable.lootType.ITEM)) {
+                    this.lootTable = calculateRollForItemLootTableAtleastLegendary();
+                } else if (lootType.equals(LootTable.lootType.WEAPON)) {
+                    this.lootTable = calculateRollForWeaponLootTableAtleastLegendary();
+                }
+            }
+        }
 
     private List<Item> calculateRollForWeaponLootTable() {
         int randomNumber = RandomGenerator.RANDOM.nextInt(100);
@@ -154,27 +162,87 @@ public class LootTable {
         }
     }
 
+    private List<Item> calculateRollForItemLootTableAtleastRare() {
+        int randomNumber = RandomGenerator.RANDOM.nextInt(100);
+        if (randomNumber < 10) {
+            return itemLegendaryLoot;
+        } else {
+            return itemRareLoot;
+        }
+    }
+
+    private List<Item> calculateRollForWeaponLootTableAtleastRare() {
+        int randomNumber = RandomGenerator.RANDOM.nextInt(100);
+        if (randomNumber < 7) {
+            return weaponLegendaryLoot;
+        } else {
+            return weaponRareLoot;
+        }
+    }
+
+    private List<Item> calculateRollForItemLootTableAtleastLegendary() {
+/*        int randomNumber = RandomGenerator.RANDOM.nextInt(100);
+        if (randomNumber < 3) {
+            return itemMythicalLoot;
+        } else {*/
+            return itemLegendaryLoot;
+        //}
+    }
+
+    private List<Item> calculateRollForWeaponLootTableAtleastLegendary() {
+        /*int randomNumber = RandomGenerator.RANDOM.nextInt(100);
+        if (randomNumber < 1) {
+            return weaponMythicalLoot;
+        } else {*/
+            return weaponLegendaryLoot;
+        //}
+    }
+
 
     public int generateNumberForLootTable() {
         return RandomGenerator.RANDOM.nextInt(lootTable.size());
     }
 
     public Item getItemFromTable() {
-
-        //int rolledItemNumber = generateNumberForLootTable();
         return lootTable.get(generateNumberForLootTable());
     }
 
-    public Item overwriteLoot(int LootNumber) {
-        return lootTable.get(LootNumber);
+    public List<Item> getItemCommonLoot() {
+        return itemCommonLoot;
+    }
+
+    public List<Item> getItemRareLoot() {
+        return itemRareLoot;
+    }
+
+    public List<Item> getItemLegendaryLoot() {
+        return itemLegendaryLoot;
+    }
+
+    public List<Item> getWeaponCommonLoot() {
+        return weaponCommonLoot;
+    }
+
+    public List<Item> getWeaponRareLoot() {
+        return weaponRareLoot;
+    }
+
+    public List<Item> getWeaponLegendaryLoot() {
+        return weaponLegendaryLoot;
     }
 
 
-//    public enum commonItems {
-//        KEY,
-//        LIFE,
-//        WEAPON
-//    }
+
+    enum lootType {
+        ITEM,
+        WEAPON
+    }
+
+    enum lootRarityLevel {
+        COMMON,
+        RARE,
+        LEGENDARY
+    }
 
 }
 

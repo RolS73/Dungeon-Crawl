@@ -94,8 +94,10 @@ public class Main extends Application {
         inventoryTable.setFocusTraversable(false);
         inventoryTable.setPlaceholder(new Label("Inventory is empty!"));
 
-        map.getPlacedItemsCollection().get(0).getCell().setItem(new LootTable("Item","Rare").overwriteLoot(2));
-        map.getPlacedItemsCollection().get(1).getCell().setItem((new LootTable("Item","Rare").overwriteLoot(3)));
+        map.getPlacedItemsCollection().get(0).getCell().setItem(new LootTable().getItemRareLoot().get(2));
+        map.getPlacedItemsCollection().get(1).getCell().setItem(new LootTable().getItemRareLoot().get(3));
+        map.getPlacedItemsCollection().get(2).getCell().setItem(new LootTable().getItemRareLoot().get(2));
+        map.getPlacedItemsCollection().get(3).getCell().setItem(new LootTable().getItemRareLoot().get(2));
 
         map.getDoorsSealedFromOtherSideArray().get(0).setOpenableFromWhatDirection("Down");
         map.getDoorsSealedFromOtherSideArray().get(1).setOpenableFromWhatDirection("Left");
@@ -488,9 +490,9 @@ public class Main extends Application {
 
 
         if (inventory.stream().anyMatch(item -> item instanceof Weapon)) {
-            attackPwLabel.setText("4 + " + getCurrentWeapon().getAttackpowerIncrease());
+            attackPwLabel.setText(map.getPlayer().getStrength() + "+" + getCurrentWeapon().getAttackpowerIncrease());
         } else {
-            attackPwLabel.setText("4");
+            attackPwLabel.setText(String.valueOf(map.getPlayer().getStrength()));
         }
         healthLabel.setText("" + map.getPlayer().getHealth() + "/" + map.getPlayer().getMaxHealth());
         armorLabel.setText("" + map.getPlayer().getArmor());

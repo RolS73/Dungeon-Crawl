@@ -1,8 +1,6 @@
 package com.codecool.dungeoncrawl.logic.actors.monsters;
 
 import com.codecool.dungeoncrawl.logic.Cell;
-import com.codecool.dungeoncrawl.logic.CellType;
-import com.codecool.dungeoncrawl.logic.actors.Actor;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 
 public class Guardian extends Monster {
@@ -13,7 +11,7 @@ public class Guardian extends Monster {
 
     public Guardian(Cell cell) {
         super(cell);
-        this.setAttackPower(10);
+        this.setAttackPower(9);
         this.setHealth(20);
     }
 
