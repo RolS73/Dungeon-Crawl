@@ -11,7 +11,7 @@ public class Skeleton extends Monster {
     public Skeleton(Cell cell) {
         super(cell);
         this.setAttackPower(2);
-        this.setHealth(7);
+        this.setHealth(10);
     }
 
     @Override

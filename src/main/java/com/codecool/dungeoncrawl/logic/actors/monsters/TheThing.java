@@ -11,7 +11,7 @@ public class TheThing  extends Monster {
     public TheThing(Cell cell) {
         super(cell);
         this.setAttackPower(3);
-        this.setHealth(9);
+        this.setHealth(8);
     }
 
     @Override
