@@ -3,11 +3,13 @@ package com.codecool.dungeoncrawl.logic.actors;
 import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 public class Sounds {
     public static void playSound(String fileName) {
         try {
-            File file = new File("src/main/resources/" + fileName + ".wav");
+//            File file = new File("src/main/resources/" + fileName + ".wav");
+            URL file = Sounds.class.getResource("/" + fileName + ".wav");
             Clip clip = AudioSystem.getClip();
             // getAudioInputStream() also accepts a File or InputStream
             AudioInputStream ais = AudioSystem.getAudioInputStream(file);
