@@ -94,7 +94,7 @@ public class Main extends Application {
         inventoryTable.setFocusTraversable(false);
         inventoryTable.setPlaceholder(new Label("Inventory is empty!"));
 
-        map.getPlacedItemsCollection().get(0).getCell().setItem(new LootTable().getItemRareLoot().get(2));
+        /*map.getPlacedItemsCollection().get(0).getCell().setItem(new LootTable().getItemRareLoot().get(2));
         map.getPlacedItemsCollection().get(1).getCell().setItem(new LootTable().getItemRareLoot().get(3));
         map.getPlacedItemsCollection().get(2).getCell().setItem(new LootTable().getItemRareLoot().get(2));
         map.getPlacedItemsCollection().get(3).getCell().setItem(new LootTable().getItemRareLoot().get(2));
@@ -146,9 +146,9 @@ public class Main extends Application {
         map.getHiddenItemsCollection().get(4).setGroupName("SuspiciousWallGroup6");
 
         map.getSuspiciousWallsCollection().get(9).setGroupName("SuspiciousWallGroup7");  // Right optional room
-        map.getHiddenItemsCollection().get(5).setGroupName("SuspiciousWallGroup7");
+        map.getHiddenItemsCollection().get(5).setGroupName("SuspiciousWallGroup7");*/
 
-        map.getMapQuickTravelPassages().get(0).setDestinationX(42);
+        /*map.getMapQuickTravelPassages().get(0).setDestinationX(42);
         map.getMapQuickTravelPassages().get(0).setDestinationY(19);
         map.getMapQuickTravelPassages().get(1).setDestinationX(42);
         map.getMapQuickTravelPassages().get(1).setDestinationY(19);
@@ -156,7 +156,7 @@ public class Main extends Application {
         map.getMapQuickTravelPassages().get(2).setDestinationX(-42);
         map.getMapQuickTravelPassages().get(2).setDestinationY(-20);
         map.getMapQuickTravelPassages().get(3).setDestinationX(-42);
-        map.getMapQuickTravelPassages().get(3).setDestinationY(-20);
+        map.getMapQuickTravelPassages().get(3).setDestinationY(-20);*/
 
         /*map.getHiddenEnemySpawnersCollection().get(5).setEnemyType("soulStealer");*/
 
@@ -402,19 +402,19 @@ public class Main extends Application {
         } else {
             pickUpButton.setDisable(map.getPlayer().getCell().getItem() == null);
         }
-        if (map.getBoss1() == null) {
+        /*if (map.getBoss1() == null) {
             Sounds.playSound("Odead");
             gameOver.setVictory();
             stage.setScene(gameOver.getGameOverScene());
-        }
-        int soundChance = RandomGenerator.nextInt(100);
+        }*/
+        /*int soundChance = RandomGenerator.nextInt(100);
         if (soundChance < 1) {
             Sounds.playSound("Skeleton Move");
         } else if (soundChance < 2) {
             Sounds.playSound("Griffon1");
         } else if (soundChance < 3) {
             Sounds.playSound("Drready");
-        }
+        }*/
 
     }
 
