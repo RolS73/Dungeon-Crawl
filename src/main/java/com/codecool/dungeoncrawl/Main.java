@@ -94,6 +94,7 @@ public class Main extends Application {
         inventoryTable.setFocusTraversable(false);
         inventoryTable.setPlaceholder(new Label("Inventory is empty!"));
 
+        
         /*map.getPlacedItemsCollection().get(0).getCell().setItem(new LootTable().getItemRareLoot().get(2));
         map.getPlacedItemsCollection().get(1).getCell().setItem(new LootTable().getItemRareLoot().get(3));
         map.getPlacedItemsCollection().get(2).getCell().setItem(new LootTable().getItemRareLoot().get(2));
