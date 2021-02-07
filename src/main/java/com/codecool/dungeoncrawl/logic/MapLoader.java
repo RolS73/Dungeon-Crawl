@@ -33,6 +33,10 @@ public class MapLoader {
                             cell.setCellType(CellType.BOSSFLOOR);
                             map.spikeForBossesList.add(new SpikeForBosses(cell));
                             break;
+                        case '&':
+                        cell.setCellType(CellType.BOSSFLOOR);
+                        map.monsters.add(new CursedKing(cell));
+                        break;
                         case 'n':
                             cell.setCellType(CellType.STUNNER);
                             break;
