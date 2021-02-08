@@ -15,8 +15,8 @@ public abstract class Actor implements Drawable {
     private int health = 10;
     private int attackPower = 1;
     private String tileName = getTileName();
-    private final List<String> wallCheat = Arrays.asList("Laci", "Ricsi", "Roland", "Szablocs", "George");
     private boolean thisABossFight = false;
+    private boolean wallCheatOn = false;
 
 
     public Actor(Cell cell) {
@@ -55,7 +55,7 @@ public abstract class Actor implements Drawable {
             }
         }
 
-        if (this instanceof Player && wallCheat.contains(Main.name.getText()) && nextCell.getActor() == null) {
+        if (wallCheatOn && nextCell.getActor() == null) {
             Sounds.playSound("Move5b");
             cell.setActor(null);
             nextCell.setActor(this);
@@ -83,6 +83,14 @@ public abstract class Actor implements Drawable {
             ((Breakable) nextCell.getItem()).interact();
         }
 
+    }
+
+    public boolean isWallCheatOn() {
+        return wallCheatOn;
+    }
+
+    public void setWallCheatOn(boolean wallCheatOn) {
+        this.wallCheatOn = wallCheatOn;
     }
 
     protected void damageCalculation(Cell nextCell) {
