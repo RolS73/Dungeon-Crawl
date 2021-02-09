@@ -140,4 +140,11 @@ public abstract class Actor implements Drawable {
     public boolean isThisABossFight() {
         return thisABossFight;
     }
+
+    public void  teleport(int x, int y){
+        Cell nextCell = this.getCell().getQagbmpoibmCell(x,y);
+        nextCell.setActor(this);
+        this.getCell().setActor(null);
+        this.setCell(nextCell);
+    }
 }
