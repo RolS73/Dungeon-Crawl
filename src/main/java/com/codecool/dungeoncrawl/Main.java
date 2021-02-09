@@ -5,8 +5,6 @@ import com.codecool.dungeoncrawl.logic.actors.Sounds;
 import com.codecool.dungeoncrawl.logic.actors.items.*;
 import javafx.application.Application;
 import javafx.beans.property.ReadOnlyStringWrapper;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -23,12 +21,11 @@ import javafx.stage.Stage;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 public class Main extends Application {
 
 
-    public static ObservableList<Item> inventory = FXCollections.observableArrayList();
+//    public static ObservableList<Item> inventory = FXCollections.observableArrayList();
     boolean isDeveloperStartingGearEnabled;
 
 
@@ -47,6 +44,7 @@ public class Main extends Application {
     GameOver gameOver = new GameOver();
     private Stage stage;
     private final List<String> wallCheat = Arrays.asList("Laci", "Ricsi", "Roland", "Szablocs", "George");
+    InventoryManager inventoryManager = new InventoryManager();
 
     public static void main(String[] args) {
         launch(args);
@@ -83,11 +81,11 @@ public class Main extends Application {
         instructions.setText("Move with arrow keys or WASD.\nInteract: E key.\nPick up items with E key.");
         ui.add(instructions, 0, 5);
 
-        TableView<Item> inventoryTable = new TableView<>(inventory);
-        TableColumn<Item, String> itemnames = new TableColumn<>("Inventory");
+        TableView<Item> inventoryTable = new TableView<>(InventoryManager.inventory);
+        TableColumn<Item, String> itemNames = new TableColumn<>("Inventory");
 
-        itemnames.setCellValueFactory(items -> new ReadOnlyStringWrapper(items.getValue().getName()));
-        inventoryTable.getColumns().add(itemnames);
+        itemNames.setCellValueFactory(items -> new ReadOnlyStringWrapper(items.getValue().getName()));
+        inventoryTable.getColumns().add(itemNames);
         inventoryTable.setMaxWidth(130);
         inventoryTable.setMaxHeight(150);
         inventoryTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
@@ -167,7 +165,7 @@ public class Main extends Application {
         pickUpButton.setDisable(true);
         pickUpButton.setOnAction(pickUp -> {
             Item item = (Item) map.getPlayer().getCell().getItem();
-            pickUpItem(item);
+            inventoryManager.pickUpItem(item, map);
             refresh();
             pickUpButton.setDisable(true);
         });
@@ -203,96 +201,92 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-//    public static Menu getMenu() {
-//        return menu;
+//    private void pickUpItem(Item item) {
+//        if (item instanceof Weapon) {
+//            if (inventory.stream().anyMatch(i -> i instanceof Weapon)) {
+//                compareWithCurrentWeapon(item);
+//            } else {
+//                equipWeapon(item);
+//            }
+//        } else if (item instanceof Life) {
+//            //map.getPlayer().raiseMaxHealth(5);
+//            if (!(map.getPlayer().getHealth() == map.getPlayer().getMaxHealth())) {
+//                map.getPlayer().restoreHealth(map.getPlayer().getCell().getItem().getHealth());
+//                map.getPlayer().getCell().setItem(null);
+//            }
+//        } else if (item instanceof Key) {
+//            inventory.add(item);
+//            map.getPlayer().getCell().setItem(null);
+//        } else if (item instanceof LifeUpgrade) {
+//            map.getPlayer().raiseMaxHealth(map.getPlayer().getCell().getItem().getHealth());
+//            if (map.getPlayer().getMaxHealth() == map.getPlayer().getHealth()) {
+//                map.getPlayer().restoreHealth(map.getPlayer().getCell().getItem().getHealth());
+//            }
+//            if (item.getHealth() >= 5) {
+//                map.getPlayer().setHealth(map.getPlayer().getMaxHealth());
+//            } else {
+//                map.getPlayer().setHealth(map.getPlayer().getHealth() + item.getHealth());
+//            }
+//            map.getPlayer().getCell().setItem(null);
+//        } else if (item instanceof ArmorUpgrade) {
+//            if (inventory.stream().anyMatch(i -> i instanceof ArmorUpgrade)) {
+//                compareWithCurrentArmor(item);
+//            } else {
+//                equipArmor(item);
+//            }
+//            //System.out.println(map.getPlayer().getArmor());
+//        }
 //    }
-
-    private void pickUpItem(Item item) {
-        if (item instanceof Weapon) {
-            if (inventory.stream().anyMatch(i -> i instanceof Weapon)) {
-                compareWithCurrentWeapon(item);
-            } else {
-                equipWeapon(item);
-            }
-        } else if (item instanceof Life) {
-            //map.getPlayer().raiseMaxHealth(5);
-            if (!(map.getPlayer().getHealth() == map.getPlayer().getMaxHealth())) {
-                map.getPlayer().restoreHealth(map.getPlayer().getCell().getItem().getHealth());
-                map.getPlayer().getCell().setItem(null);
-            }
-        } else if (item instanceof Key) {
-            inventory.add(item);
-            map.getPlayer().getCell().setItem(null);
-        } else if (item instanceof LifeUpgrade) {
-            map.getPlayer().raiseMaxHealth(map.getPlayer().getCell().getItem().getHealth());
-            if (map.getPlayer().getMaxHealth() == map.getPlayer().getHealth()) {
-                map.getPlayer().restoreHealth(map.getPlayer().getCell().getItem().getHealth());
-            }
-            if (item.getHealth() >= 5) {
-                map.getPlayer().setHealth(map.getPlayer().getMaxHealth());
-            } else {
-                map.getPlayer().setHealth(map.getPlayer().getHealth() + item.getHealth());
-            }
-            map.getPlayer().getCell().setItem(null);
-        } else if (item instanceof ArmorUpgrade) {
-            if (inventory.stream().anyMatch(i -> i instanceof ArmorUpgrade)) {
-                compareWithCurrentArmor(item);
-            } else {
-                equipArmor(item);
-            }
-            //System.out.println(map.getPlayer().getArmor());
-        }
-    }
-
-    private void compareWithCurrentArmor(Item item) {
-        ArmorUpgrade currentArmor = getCurrentArmor();
-        if (currentArmor.getHealth() < ((ArmorUpgrade) item).getHealth()) {
-            unequipArmor(currentArmor);
-            equipArmor(item);
-        }
-    }
-
-    private void unequipArmor(ArmorUpgrade currentArmor) {
-        inventory.remove(currentArmor);
-        map.getPlayer().setArmor(0);
-    }
-
-    private void equipArmor(Item item) {
-        inventory.add(item);
-        map.getPlayer().setArmor(map.getPlayer().getCell().getItem().getHealth());
-        map.getPlayer().getCell().setItem(null);
-    }
-
-    private ArmorUpgrade getCurrentArmor() {
-        return (ArmorUpgrade) inventory.stream().filter(a -> a instanceof ArmorUpgrade)
-                .findFirst()
-                .orElseThrow(() -> new NoSuchElementException("No Armor found"));
-    }
-
-    private void compareWithCurrentWeapon(Item item) {
-        Weapon currentWeapon = getCurrentWeapon();
-        if (currentWeapon.getAttackpowerIncrease() < ((Weapon) item).getAttackpowerIncrease()) {
-            unequipCurrentWeapon(currentWeapon);
-            equipWeapon(item);
-        }
-    }
-
-    private Weapon getCurrentWeapon() {
-        return (Weapon) inventory.stream().filter(weapon -> weapon instanceof Weapon)
-                .findFirst()
-                .orElseThrow(() -> new NoSuchElementException("No Weapon found"));
-    }
-
-    private void unequipCurrentWeapon(Weapon currentWeapon) {
-        inventory.remove(currentWeapon);
-        map.getPlayer().setAttackPower(map.getPlayer().getAttackPower() - currentWeapon.getAttackpowerIncrease());
-    }
-
-    private void equipWeapon(Item item) {
-        map.getPlayer().raiseAttackPower(((Weapon) item).getAttackpowerIncrease());
-        inventory.add(item);
-        map.getPlayer().getCell().setItem(null);
-    }
+//
+//    private void compareWithCurrentArmor(Item item) {
+//        ArmorUpgrade currentArmor = getCurrentArmor();
+//        if (currentArmor.getHealth() < ((ArmorUpgrade) item).getHealth()) {
+//            unequipArmor(currentArmor);
+//            equipArmor(item);
+//        }
+//    }
+//
+//    private void unequipArmor(ArmorUpgrade currentArmor) {
+//        inventory.remove(currentArmor);
+//        map.getPlayer().setArmor(0);
+//    }
+//
+//    private void equipArmor(Item item) {
+//        inventory.add(item);
+//        map.getPlayer().setArmor(map.getPlayer().getCell().getItem().getHealth());
+//        map.getPlayer().getCell().setItem(null);
+//    }
+//
+//    private ArmorUpgrade getCurrentArmor() {
+//        return (ArmorUpgrade) inventory.stream().filter(a -> a instanceof ArmorUpgrade)
+//                .findFirst()
+//                .orElseThrow(() -> new NoSuchElementException("No Armor found"));
+//    }
+//
+//    private void compareWithCurrentWeapon(Item item) {
+//        Weapon currentWeapon = getCurrentWeapon();
+//        if (currentWeapon.getAttackpowerIncrease() < ((Weapon) item).getAttackpowerIncrease()) {
+//            unequipCurrentWeapon(currentWeapon);
+//            equipWeapon(item);
+//        }
+//    }
+//
+//    private Weapon getCurrentWeapon() {
+//        return (Weapon) inventory.stream().filter(weapon -> weapon instanceof Weapon)
+//                .findFirst()
+//                .orElseThrow(() -> new NoSuchElementException("No Weapon found"));
+//    }
+//
+//    private void unequipCurrentWeapon(Weapon currentWeapon) {
+//        inventory.remove(currentWeapon);
+//        map.getPlayer().setAttackPower(map.getPlayer().getAttackPower() - currentWeapon.getAttackpowerIncrease());
+//    }
+//
+//    private void equipWeapon(Item item) {
+//        map.getPlayer().raiseAttackPower(((Weapon) item).getAttackpowerIncrease());
+//        inventory.add(item);
+//        map.getPlayer().getCell().setItem(null);
+//    }
 
     private void onKeyPressed(KeyEvent keyEvent) {
         switch (keyEvent.getCode()) {
@@ -367,7 +361,7 @@ public class Main extends Application {
                 }
                 if (map.getPlayer().getCell().getItem() != null && map.getPlayer().getCell().getItem() instanceof PickupableItem) {
                     Item item = (Item) map.getPlayer().getCell().getItem();
-                    pickUpItem(item);
+                    inventoryManager.pickUpItem(item, map);
 
                 } else if (isThereAnInteractiveObjectAroundThePlayer()) {
                     int[] interactableDirection = getTheInteractiveEntityDirection();
@@ -410,8 +404,8 @@ public class Main extends Application {
                     map.getPlayer().setHealth(map.getPlayer().getMaxHealth());
                     Item rareWeapon = new LootTable().getWeaponRareLoot().get(1);
                     Item rareArmor = new LootTable().getItemRareLoot().get(3);
-                    inventory.add(rareWeapon);
-                    inventory.add(rareArmor);
+                    InventoryManager.inventory.add(rareWeapon);
+                    InventoryManager.inventory.add(rareArmor);
                     map.getPlayer().raiseAttackPower(((Weapon) rareWeapon).getAttackpowerIncrease());
                     map.getPlayer().setArmor(rareArmor.getHealth());
                     isDeveloperStartingGearEnabled = true;
@@ -424,8 +418,8 @@ public class Main extends Application {
                     map.getPlayer().setHealth(map.getPlayer().getMaxHealth());
                     Item LegendaryWeapon = new LootTable().getWeaponLegendaryLoot().get(1);
                     Item LegendaryArmor = new LootTable().getItemLegendaryLoot().get(3);
-                    inventory.add(LegendaryWeapon);
-                    inventory.add(LegendaryArmor);
+                    InventoryManager.inventory.add(LegendaryWeapon);
+                    InventoryManager.inventory.add(LegendaryArmor);
                     map.getPlayer().raiseAttackPower(((Weapon) LegendaryWeapon).getAttackpowerIncrease());
                     map.getPlayer().setArmor(LegendaryArmor.getHealth());
                     isDeveloperStartingGearEnabled = true;
@@ -458,15 +452,6 @@ public class Main extends Application {
             Sounds.playSound("Drready");
         }*/
 
-    }
-
-    private boolean isItemInInventory(String itemName) {
-        for (Item item : inventory) {
-            if (item.getName().equals(itemName)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     private void refresh() {
@@ -529,8 +514,8 @@ public class Main extends Application {
 
 
 
-        if (inventory.stream().anyMatch(item -> item instanceof Weapon)) {
-            attackPwLabel.setText(map.getPlayer().getStrength() + "+" + getCurrentWeapon().getAttackpowerIncrease());
+        if (InventoryManager.inventory.stream().anyMatch(item -> item instanceof Weapon)) {
+            attackPwLabel.setText(map.getPlayer().getStrength() + "+" + inventoryManager.getCurrentWeapon().getAttackpowerIncrease());
         } else {
             attackPwLabel.setText(String.valueOf(map.getPlayer().getStrength()));
         }

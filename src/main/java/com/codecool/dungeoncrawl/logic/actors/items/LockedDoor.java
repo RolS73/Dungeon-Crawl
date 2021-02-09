@@ -1,7 +1,7 @@
 package com.codecool.dungeoncrawl.logic.actors.items;
 
-import com.codecool.dungeoncrawl.Main;
 import com.codecool.dungeoncrawl.logic.Cell;
+import com.codecool.dungeoncrawl.logic.InventoryManager;
 import com.codecool.dungeoncrawl.logic.actors.Sounds;
 
 public class LockedDoor extends Item implements InteractiveObject {
@@ -15,7 +15,7 @@ public class LockedDoor extends Item implements InteractiveObject {
 
         @Override
         public boolean isThisObjectInteractive(){
-            for (Item item : Main.inventory) {
+            for (Item item : InventoryManager.inventory) {
                 if (item.getName().equals("Key of Wisdom")) {
                     return true;
                 }
@@ -27,7 +27,7 @@ public class LockedDoor extends Item implements InteractiveObject {
         public void interact() {
             if (isThisObjectInteractive()) {
                 this.getCell().setItem(new OpenedDoor(getCell()));
-                Main.inventory.removeIf(item -> item.getName().equals("Key of Wisdom"));
+                InventoryManager.inventory.removeIf(item -> item.getName().equals("Key of Wisdom"));
                 Sounds.playSound("Door5b");
             }
         }
