@@ -43,7 +43,7 @@ public class Main extends Application {
     Button pickUpButton = new Button("Pick up!");
     GameOver gameOver = new GameOver();
     private Stage stage;
-    private final List<String> wallCheat = Arrays.asList("Laci", "Ricsi", "Roland", "Szablocs", "George");
+    private final List<String> wallCheat = Arrays.asList("Laci", "Ricsi", "Roland", "Szabolcs", "George");
     InventoryManager inventoryManager = new InventoryManager();
 
     public static void main(String[] args) {

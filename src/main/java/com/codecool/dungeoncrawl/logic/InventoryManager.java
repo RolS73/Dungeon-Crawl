@@ -18,44 +18,57 @@ public class InventoryManager {
                 equipWeapon(item, map);
             }
         } else if (item instanceof Life) {
-            //map.getPlayer().raiseMaxHealth(5);
             if (!(map.getPlayer().getHealth() == map.getPlayer().getMaxHealth())) {
-                map.getPlayer().restoreHealth(map.getPlayer().getCell().getItem().getHealth());
-                map.getPlayer().getCell().setItem(null);
+                pickUpLife(map);
+                removeItemFromGround(map);
             }
         } else if (item instanceof Key) {
             inventory.add(item);
-            map.getPlayer().getCell().setItem(null);
+            removeItemFromGround(map);
         } else if (item instanceof LifeUpgrade) {
-            map.getPlayer().raiseMaxHealth(map.getPlayer().getCell().getItem().getHealth());
-            if (map.getPlayer().getMaxHealth() == map.getPlayer().getHealth()) {
-                map.getPlayer().restoreHealth(map.getPlayer().getCell().getItem().getHealth());
-            }
-            if (item.getHealth() >= 5) {
-                map.getPlayer().setHealth(map.getPlayer().getMaxHealth());
-            } else {
-                map.getPlayer().setHealth(map.getPlayer().getHealth() + item.getHealth());
-            }
-            map.getPlayer().getCell().setItem(null);
+            pickUpLifeUpgrade(item, map);
+            removeItemFromGround(map);
         } else if (item instanceof ArmorUpgrade) {
             if (inventory.stream().anyMatch(i -> i instanceof ArmorUpgrade)) {
                 compareWithCurrentArmor(item, map);
             } else {
                 equipArmor(item, map);
             }
-            //System.out.println(map.getPlayer().getArmor());
+        }
+    }
+
+    private void removeItemFromGround(GameMap map) {
+        if (map.getPlayer().getCell().getItem() != null) {
+            map.getPlayer().getCell().setItem(null);
+        }
+    }
+
+    private void pickUpLife(GameMap map) {
+        map.getPlayer().restoreHealth(map.getPlayer().getCell().getItem().getHealth());
+    }
+
+    private void pickUpLifeUpgrade(Item item, GameMap map) {
+        map.getPlayer().raiseMaxHealth(map.getPlayer().getCell().getItem().getHealth());
+        if (map.getPlayer().getMaxHealth() == map.getPlayer().getHealth()) {
+            map.getPlayer().restoreHealth(map.getPlayer().getCell().getItem().getHealth());
+        }
+        if (item.getHealth() >= 5) {
+            map.getPlayer().setHealth(map.getPlayer().getMaxHealth());
+        } else {
+            map.getPlayer().setHealth(map.getPlayer().getHealth() + item.getHealth());
         }
     }
 
     public Weapon getCurrentWeapon() {
-        return (Weapon) inventory.stream().filter(weapon -> weapon instanceof Weapon)
+        return inventory.stream().filter(Weapon.class::isInstance)
+                .map(Weapon.class::cast)
                 .findFirst()
                 .orElseThrow(() -> new NoSuchElementException("No Weapon found"));
     }
 
     private void compareWithCurrentArmor(Item item, GameMap map) {
         ArmorUpgrade currentArmor = getCurrentArmor();
-        if (currentArmor.getHealth() < ((ArmorUpgrade) item).getHealth()) {
+        if (currentArmor.getHealth() < item.getHealth()) {
             unequipArmor(currentArmor, map);
             equipArmor(item, map);
         }
@@ -69,11 +82,12 @@ public class InventoryManager {
     private void equipArmor(Item item, GameMap map) {
         inventory.add(item);
         map.getPlayer().setArmor(map.getPlayer().getCell().getItem().getHealth());
-        map.getPlayer().getCell().setItem(null);
+        removeItemFromGround(map);
     }
 
     private ArmorUpgrade getCurrentArmor() {
-        return (ArmorUpgrade) inventory.stream().filter(a -> a instanceof ArmorUpgrade)
+        return inventory.stream().filter(ArmorUpgrade.class::isInstance)
+                .map(ArmorUpgrade.class::cast)
                 .findFirst()
                 .orElseThrow(() -> new NoSuchElementException("No Armor found"));
     }
@@ -86,8 +100,6 @@ public class InventoryManager {
         }
     }
 
-
-
     private void unequipCurrentWeapon(Weapon currentWeapon, GameMap map) {
         inventory.remove(currentWeapon);
         map.getPlayer().setAttackPower(map.getPlayer().getAttackPower() - currentWeapon.getAttackpowerIncrease());
@@ -96,6 +108,6 @@ public class InventoryManager {
     private void equipWeapon(Item item, GameMap map) {
         map.getPlayer().raiseAttackPower(((Weapon) item).getAttackpowerIncrease());
         inventory.add(item);
-        map.getPlayer().getCell().setItem(null);
+        removeItemFromGround(map);
     }
 }
