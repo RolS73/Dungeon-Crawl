@@ -81,7 +81,8 @@ public class InventoryManager {
 
     private void equipArmor(Item item, GameMap map) {
         inventory.add(item);
-        map.getPlayer().setArmor(map.getPlayer().getCell().getItem().getHealth());
+        map.getPlayer().setArmor(item.getHealth());
+//        map.getPlayer().setArmor(map.getPlayer().getCell().getItem().getHealth());
         removeItemFromGround(map);
     }
 

@@ -317,10 +317,8 @@ public class Main extends Application {
                     map.getPlayer().setHealth(map.getPlayer().getMaxHealth());
                     Item rareWeapon = new LootTable().getWeaponRareLoot().get(1);
                     Item rareArmor = new LootTable().getItemRareLoot().get(3);
-                    InventoryManager.inventory.add(rareWeapon);
-                    InventoryManager.inventory.add(rareArmor);
-                    map.getPlayer().raiseAttackPower(((Weapon) rareWeapon).getAttackpowerIncrease());
-                    map.getPlayer().setArmor(rareArmor.getHealth());
+                    inventoryManager.pickUpItem(rareWeapon, map);
+                    inventoryManager.pickUpItem(rareArmor, map);
                     isDeveloperStartingGearEnabled = true;
                     refresh();
                     break;
@@ -331,10 +329,8 @@ public class Main extends Application {
                     map.getPlayer().setHealth(map.getPlayer().getMaxHealth());
                     Item LegendaryWeapon = new LootTable().getWeaponLegendaryLoot().get(1);
                     Item LegendaryArmor = new LootTable().getItemLegendaryLoot().get(3);
-                    InventoryManager.inventory.add(LegendaryWeapon);
-                    InventoryManager.inventory.add(LegendaryArmor);
-                    map.getPlayer().raiseAttackPower(((Weapon) LegendaryWeapon).getAttackpowerIncrease());
-                    map.getPlayer().setArmor(LegendaryArmor.getHealth());
+                    inventoryManager.pickUpItem(LegendaryArmor, map);
+                    inventoryManager.pickUpItem(LegendaryWeapon, map);
                     isDeveloperStartingGearEnabled = true;
                     refresh();
                     break;
