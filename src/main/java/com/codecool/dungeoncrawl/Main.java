@@ -27,6 +27,7 @@ public class Main extends Application {
 
 
     public static ObservableList<Item> inventory = FXCollections.observableArrayList();
+    boolean isDeveloperStartingGearEnabled;
 
 
     static GameMap map = MapLoader.loadMap();
@@ -94,8 +95,10 @@ public class Main extends Application {
         inventoryTable.setFocusTraversable(false);
         inventoryTable.setPlaceholder(new Label("Inventory is empty!"));
 
+
+
         
-        /*map.getPlacedItemsCollection().get(0).getCell().setItem(new LootTable().getItemRareLoot().get(2));
+        map.getPlacedItemsCollection().get(0).getCell().setItem(new LootTable().getItemRareLoot().get(2));
         map.getPlacedItemsCollection().get(1).getCell().setItem(new LootTable().getItemRareLoot().get(3));
         map.getPlacedItemsCollection().get(2).getCell().setItem(new LootTable().getItemRareLoot().get(2));
         map.getPlacedItemsCollection().get(3).getCell().setItem(new LootTable().getItemRareLoot().get(2));
@@ -147,9 +150,9 @@ public class Main extends Application {
         map.getHiddenItemsCollection().get(4).setGroupName("SuspiciousWallGroup6");
 
         map.getSuspiciousWallsCollection().get(9).setGroupName("SuspiciousWallGroup7");  // Right optional room
-        map.getHiddenItemsCollection().get(5).setGroupName("SuspiciousWallGroup7");*/
+        map.getHiddenItemsCollection().get(5).setGroupName("SuspiciousWallGroup7");
 
-        /*map.getMapQuickTravelPassages().get(0).setDestinationX(42);
+        map.getMapQuickTravelPassages().get(0).setDestinationX(42);
         map.getMapQuickTravelPassages().get(0).setDestinationY(19);
         map.getMapQuickTravelPassages().get(1).setDestinationX(42);
         map.getMapQuickTravelPassages().get(1).setDestinationY(19);
@@ -157,7 +160,7 @@ public class Main extends Application {
         map.getMapQuickTravelPassages().get(2).setDestinationX(-42);
         map.getMapQuickTravelPassages().get(2).setDestinationY(-20);
         map.getMapQuickTravelPassages().get(3).setDestinationX(-42);
-        map.getMapQuickTravelPassages().get(3).setDestinationY(-20);*/
+        map.getMapQuickTravelPassages().get(3).setDestinationY(-20);
 
         /*map.getHiddenEnemySpawnersCollection().get(5).setEnemyType("soulStealer");*/
 
@@ -344,7 +347,15 @@ public class Main extends Application {
                 if (map.getPlayer().getCell().getItem() instanceof Passage) {
                     ((Passage) map.getPlayer().getCell().getItem()).interact();
                 }
-                //System.out.println(map.getPlayer().getX() + "," + map.getPlayer().getY());
+                System.out.println("Player X Coordinate: " + map.getPlayer().getX() + "\n" + "Player Y Coordinate: " + map.getPlayer().getY());
+                refresh();
+                break;
+            case F4:
+                map.getPlayer().teleport(94,20);
+                refresh();
+                break;
+            case F9:
+                map.getPlayer().teleport(62,38);
                 refresh();
                 break;
             case E:
@@ -391,6 +402,34 @@ public class Main extends Application {
                 }*/
                 refresh();
                 break;
+            case F5:
+                if (!isDeveloperStartingGearEnabled) {
+                    map.getPlayer().raiseMaxHealth(17);
+                    map.getPlayer().setHealth(map.getPlayer().getMaxHealth());
+                    Item rareWeapon = new LootTable().getWeaponRareLoot().get(1);
+                    Item rareArmor = new LootTable().getItemRareLoot().get(3);
+                    inventory.add(rareWeapon);
+                    inventory.add(rareArmor);
+                    map.getPlayer().raiseAttackPower(((Weapon) rareWeapon).getAttackpowerIncrease());
+                    map.getPlayer().setArmor(rareArmor.getHealth());
+                    isDeveloperStartingGearEnabled = true;
+                    refresh();
+                    break;
+                }
+            case F6:
+                if (!isDeveloperStartingGearEnabled) {
+                    map.getPlayer().raiseMaxHealth(35);
+                    map.getPlayer().setHealth(map.getPlayer().getMaxHealth());
+                    Item LegendaryWeapon = new LootTable().getWeaponLegendaryLoot().get(1);
+                    Item LegendaryArmor = new LootTable().getItemLegendaryLoot().get(3);
+                    inventory.add(LegendaryWeapon);
+                    inventory.add(LegendaryArmor);
+                    map.getPlayer().raiseAttackPower(((Weapon) LegendaryWeapon).getAttackpowerIncrease());
+                    map.getPlayer().setArmor(LegendaryArmor.getHealth());
+                    isDeveloperStartingGearEnabled = true;
+                    refresh();
+                    break;
+                }
         }
         if (map.getPlayer().getHealth() <= 0) {
             Sounds.playSound("Hdead");
