@@ -74,6 +74,12 @@ public class MapLoader {
                             map.interactablesCollection.add(leverSwitch);
                             map.leverSwitchCollection.add(leverSwitch);
                             break;
+                        case '*':
+                            cell.setCellType(CellType.WALL);
+                            SecretPassage secretPassage = new SecretPassage(cell);
+                            map.interactablesCollection.add(secretPassage);
+                            map.secretPassagesCollection.add(secretPassage);
+                            break;
                         case 'P':
                             cell.setCellType(CellType.FLOOR);
                             Passage passage = new Passage(cell, "Passage");
@@ -129,6 +135,21 @@ public class MapLoader {
                         case 'T':
                             cell.setCellType(CellType.FLOOR);
                             map.trapsCollection.add(new TrapPlain(cell, "spikeTrapActive", 1, 3));
+                            break;
+                        case 'M':
+                            cell.setCellType(CellType.FLOOR);
+                            OldMan oldMan = new OldMan(cell);
+                            map.actorsCollection.add(oldMan);
+                            map.interactablesCollection.add(oldMan);
+                            break;
+                        case '§':
+                            cell.setCellType(CellType.FIRESTAND);
+                            break;
+                        case 'm':
+                            cell.setCellType(CellType.FLOOR);
+                            NonPlayerCharacter dwarf = new NonPlayerCharacter(cell);
+                            map.actorsCollection.add(dwarf);
+                            map.interactablesCollection.add(dwarf);
                             break;
                         case 'B':
                             cell.setCellType(CellType.FLOOR);
