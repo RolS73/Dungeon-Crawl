@@ -6,7 +6,7 @@ package com.codecool.dungeoncrawl.logic.actors.items;
 import com.codecool.dungeoncrawl.Main;
 import com.codecool.dungeoncrawl.logic.Cell;
 
-public class Passage extends Item implements InteractiveObject {
+public class Passage extends Item implements InteractiveObject, StepOnActivatable {
 
     private String anotherTileName = "stairwayUp";
     private String groupName;
@@ -27,7 +27,7 @@ public class Passage extends Item implements InteractiveObject {
 
     @Override
     public void interact() {
-        Main.cheatingMapGetter().getPlayer().move(destinationX, destinationY);
+        Main.cheatingMapGetter().getPlayer().teleport(destinationX, destinationY);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class Passage extends Item implements InteractiveObject {
 
     @Override
     public boolean isThisObjectInteractive() {
-        return true;
+        return false;
     }
 
     @Override
@@ -81,5 +81,10 @@ public class Passage extends Item implements InteractiveObject {
 
     public void setDestinationY(int destinationY) {
         this.destinationY = destinationY;
+    }
+
+    @Override
+    public void activate() {
+        Main.cheatingMapGetter().getPlayer().teleport(destinationX, destinationY);
     }
 }

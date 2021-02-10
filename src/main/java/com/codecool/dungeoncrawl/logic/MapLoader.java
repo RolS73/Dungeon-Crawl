@@ -75,8 +75,8 @@ public class MapLoader {
                             map.leverSwitchCollection.add(leverSwitch);
                             break;
                         case '*':
-                            cell.setCellType(CellType.WALL);
-                            SecretPassage secretPassage = new SecretPassage(cell);
+                            cell.setCellType(CellType.OBJECT);
+                            SecretPassage secretPassage = new SecretPassage(cell, 70, 11);
                             map.interactablesCollection.add(secretPassage);
                             map.secretPassagesCollection.add(secretPassage);
                             break;
@@ -142,9 +142,9 @@ public class MapLoader {
                             map.actorsCollection.add(oldMan);
                             map.interactablesCollection.add(oldMan);
                             break;
-                        case '§':
+                        /*case '§':
                             cell.setCellType(CellType.FIRESTAND);
-                            break;
+                            break;*/
                         case 'm':
                             cell.setCellType(CellType.FLOOR);
                             NonPlayerCharacter dwarf = new NonPlayerCharacter(cell);

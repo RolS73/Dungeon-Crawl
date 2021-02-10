@@ -101,7 +101,7 @@ public class Main extends Application {
         map.getPlacedItemsCollection().get(2).getCell().setItem(new LootTable().getItemRareLoot().get(2));
         map.getPlacedItemsCollection().get(3).getCell().setItem(new LootTable().getItemRareLoot().get(2));
 
-        map.getDoorsSealedFromOtherSideArray().get(0).setOpenableFromWhatDirection("Down");
+        map.getDoorsSealedFromOtherSideArray().get(0).setOpenableFromWhatDirection("Up");
         map.getDoorsSealedFromOtherSideArray().get(1).setOpenableFromWhatDirection("Left");
         map.getDoorsSealedFromOtherSideArray().get(2).setOpenableFromWhatDirection("Right");
 
@@ -150,15 +150,18 @@ public class Main extends Application {
         map.getSuspiciousWallsCollection().get(9).setGroupName("SuspiciousWallGroup7");  // Right optional room
         map.getHiddenItemsCollection().get(5).setGroupName("SuspiciousWallGroup7");
 
-        map.getMapQuickTravelPassages().get(0).setDestinationX(42);
-        map.getMapQuickTravelPassages().get(0).setDestinationY(19);
-        map.getMapQuickTravelPassages().get(1).setDestinationX(42);
-        map.getMapQuickTravelPassages().get(1).setDestinationY(19);
+        map.getMapQuickTravelPassages().get(0).setDestinationX(3);
+        map.getMapQuickTravelPassages().get(0).setDestinationY(15);
 
-        map.getMapQuickTravelPassages().get(2).setDestinationX(-42);
-        map.getMapQuickTravelPassages().get(2).setDestinationY(-20);
-        map.getMapQuickTravelPassages().get(3).setDestinationX(-42);
-        map.getMapQuickTravelPassages().get(3).setDestinationY(-20);
+        map.getMapQuickTravelPassages().get(1).setDestinationX(62);
+        map.getMapQuickTravelPassages().get(1).setDestinationY(38);
+        map.getMapQuickTravelPassages().get(2).setDestinationX(63);
+        map.getMapQuickTravelPassages().get(2).setDestinationY(38);
+
+        map.getMapQuickTravelPassages().get(3).setDestinationX(20);
+        map.getMapQuickTravelPassages().get(3).setDestinationY(20);
+        map.getMapQuickTravelPassages().get(4).setDestinationX(21);
+        map.getMapQuickTravelPassages().get(4).setDestinationY(20);
 
         /*map.getHiddenEnemySpawnersCollection().get(5).setEnemyType("soulStealer");*/
 
@@ -212,6 +215,9 @@ public class Main extends Application {
                 if (isPlayerBeingAffectedByAnEnvironmentalDamageSource()) {
                     playerSuffersEnvironmentalDamage();
                 }
+                if (map.getPlayer().getCell().getItem() instanceof StepOnActivatable) {
+                    ((StepOnActivatable) map.getPlayer().getCell().getItem()).activate();
+                }
                 refresh();
                 break;
             case DOWN:
@@ -222,6 +228,9 @@ public class Main extends Application {
                 map.getTrapsCollection().forEach(TrapPlain::activate);
                 if (isPlayerBeingAffectedByAnEnvironmentalDamageSource()) {
                     playerSuffersEnvironmentalDamage();
+                }
+                if (map.getPlayer().getCell().getItem() instanceof StepOnActivatable) {
+                    ((StepOnActivatable) map.getPlayer().getCell().getItem()).activate();
                 }
                 refresh();
                 break;
@@ -234,6 +243,9 @@ public class Main extends Application {
                 if (isPlayerBeingAffectedByAnEnvironmentalDamageSource()) {
                     playerSuffersEnvironmentalDamage();
                 }
+                if (map.getPlayer().getCell().getItem() instanceof StepOnActivatable) {
+                    ((StepOnActivatable) map.getPlayer().getCell().getItem()).activate();
+                }
                 refresh();
                 break;
             case RIGHT:
@@ -245,6 +257,9 @@ public class Main extends Application {
                 if (isPlayerBeingAffectedByAnEnvironmentalDamageSource()) {
                     playerSuffersEnvironmentalDamage();
                 }
+                if (map.getPlayer().getCell().getItem() instanceof StepOnActivatable) {
+                    ((StepOnActivatable) map.getPlayer().getCell().getItem()).activate();
+                }
                 refresh();
                 break;
             case SPACE:
@@ -253,10 +268,10 @@ public class Main extends Application {
                 if (isPlayerBeingAffectedByAnEnvironmentalDamageSource()) {
                     playerSuffersEnvironmentalDamage();
                 }
-                if (map.getPlayer().getCell().getItem() instanceof Passage) {
-                    ((Passage) map.getPlayer().getCell().getItem()).interact();
-                }
                 System.out.println("Player X Coordinate: " + map.getPlayer().getX() + "\n" + "Player Y Coordinate: " + map.getPlayer().getY());
+                if (map.getPlayer().getCell().getItem() instanceof StepOnActivatable) {
+                    ((StepOnActivatable) map.getPlayer().getCell().getItem()).activate();
+                }
                 refresh();
                 break;
             case F4:
@@ -305,6 +320,9 @@ public class Main extends Application {
                             interactablesArrayCurrentIndex++;
                         }
                     }
+                }
+                if (map.getPlayer().getCell().getItem() instanceof StepOnActivatable) {
+                    ((StepOnActivatable) map.getPlayer().getCell().getItem()).activate();
                 }
                 /*else if (isThereAPickupableItemUnderThePlayer()) {
                     map.getPlayer().getCell().getItem().

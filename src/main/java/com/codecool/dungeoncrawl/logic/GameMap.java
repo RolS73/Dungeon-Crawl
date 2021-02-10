@@ -36,6 +36,8 @@ public class GameMap {
     List<Item> placedItemsCollection = new ArrayList<>();
     List<Switch> mapStateSwitchers = new ArrayList<>();
     List<Passage> mapQuickTravelPassages = new ArrayList<>();
+    List<SecretPassage> secretPassagesCollection = new ArrayList<>();
+    List<NonPlayerCharacter> actorsCollection = new ArrayList<>();
 
 
     public GameMap(int width, int height, CellType defaultCellType) {

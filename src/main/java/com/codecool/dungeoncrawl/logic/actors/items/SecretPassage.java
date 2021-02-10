@@ -1,27 +1,39 @@
 
 package com.codecool.dungeoncrawl.logic.actors.items;
 
+import com.codecool.dungeoncrawl.Main;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
-import com.codecool.dungeoncrawl.logic.actors.Sounds;
 
-public class SecretPassage extends Item implements InteractiveObject {
+public class SecretPassage extends Item implements InteractiveObject, StepOnActivatable {
 
-    private String anotherTileName = "secretPassage";
+    private String anotherTileName = "wall";
+    private boolean isAlreadyOpened;
+    private int destinationX;
+    private int destinationY;
 
-    public SecretPassage(Cell cell) {
+    public SecretPassage(Cell cell, int destinationX, int destinationY) {
         super(cell, "Path to Secrets");
+        isAlreadyOpened = false;
+        this.destinationX = destinationX;
+        this.destinationY = destinationY;
     }
 
     @Override
     public void interact() {
-        if (anotherTileName.equals("empty")) {
-            Sounds.playSound("Move5");
-        }
-        if (isThisObjectInteractive() && anotherTileName.equals("secretPassage")) {
-            this.anotherTileName = "empty";
-            this.getCell().setCellType(CellType.FLOOR);
-        }
+      if (!isAlreadyOpened) {
+          this.anotherTileName = "empty";
+          this.getCell().setCellType(CellType.FLOOR);
+          isAlreadyOpened = true;
+      }
+    }
+
+    public boolean isAlreadyOpened() {
+        return isAlreadyOpened;
+    }
+
+    public void setAlreadyOpened(boolean alreadyOpened) {
+        isAlreadyOpened = alreadyOpened;
     }
 
     @Override
@@ -51,6 +63,11 @@ public class SecretPassage extends Item implements InteractiveObject {
     @Override
     public boolean isThisInteractiveObjectCurrentlyBeingFocusedOn(Cell cell) {
         return this.getCell().equals(cell);
+    }
+
+    @Override
+    public void activate() {
+            Main.cheatingMapGetter().getPlayer().teleport(destinationX, destinationY);
     }
 }
 

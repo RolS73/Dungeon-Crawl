@@ -53,6 +53,11 @@ public class OldMan extends NonPlayerCharacter implements InteractiveObject, Swi
     }
 
     @Override
+    public void setGroupName(String hiddenEnemyGroup1) {
+
+    }
+
+    @Override
     public boolean isThisFromTheSameGroup(String groupName) {
         return false;
     }
