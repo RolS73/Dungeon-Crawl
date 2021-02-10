@@ -16,8 +16,10 @@ public class Tiles {
     public static class Tile {
         public final int x, y, w, h;
         Tile(int i, int j) {
+
             x = i * (TILE_WIDTH + 1);
             y = j * (TILE_WIDTH + 1);
+
             w = TILE_WIDTH;
             h = TILE_WIDTH;
         }
@@ -139,8 +141,6 @@ public class Tiles {
         tileMap.put("staff2", new Tile(15, 2));
         tileMap.put("staff3", new Tile(15, 3));
         tileMap.put("staff4", new Tile(15, 4));
-
-
 
     }
 
