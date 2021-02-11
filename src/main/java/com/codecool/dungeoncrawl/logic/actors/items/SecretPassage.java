@@ -4,6 +4,7 @@ package com.codecool.dungeoncrawl.logic.actors.items;
 import com.codecool.dungeoncrawl.Main;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
+import com.codecool.dungeoncrawl.logic.actors.Sounds;
 
 public class SecretPassage extends Item implements InteractiveObject, StepOnActivatable {
 
@@ -23,6 +24,7 @@ public class SecretPassage extends Item implements InteractiveObject, StepOnActi
     public void interact() {
       if (!isAlreadyOpened) {
           this.anotherTileName = "stairwayDown";
+          Sounds.playSound("IllusioryWall");
           this.getCell().setCellType(CellType.FLOOR);
           isAlreadyOpened = true;
       }
@@ -67,7 +69,9 @@ public class SecretPassage extends Item implements InteractiveObject, StepOnActi
 
     @Override
     public void activate() {
-            Main.cheatingMapGetter().getPlayer().teleport(destinationX, destinationY);
+        Sounds.playSound("Move5");
+        Main.cheatingMapGetter().getPlayer().teleport(destinationX, destinationY);
+
     }
 }
 

@@ -2,6 +2,7 @@ package com.codecool.dungeoncrawl.logic.actors.items;
 
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
+import com.codecool.dungeoncrawl.logic.actors.Sounds;
 
 public class Breakable extends Item implements InteractiveObject {
     private String tileName = "breakable";
@@ -29,6 +30,13 @@ public class Breakable extends Item implements InteractiveObject {
         if (isThisObjectInteractive()) {
             this.getCell().setItem(new LootTable().getItemFromTable());
             this.getCell().setCellType(CellType.FLOOR);
+            if (tileName.equals("barrel")) {
+                Sounds.playSound("heavyBreak");
+            } else if (tileName.equals("crate")) {
+                Sounds.playSound("lightBreak");
+            } else if (tileName.equals("crate2")) {
+                Sounds.playSound("potBreak");
+            }
         }
     }
 

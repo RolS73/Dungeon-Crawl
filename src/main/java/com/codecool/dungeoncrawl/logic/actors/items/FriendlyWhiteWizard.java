@@ -2,7 +2,7 @@ package com.codecool.dungeoncrawl.logic.actors.items;
 
 import com.codecool.dungeoncrawl.logic.Cell;
 
-public class FriendlyWhiteWizard extends NonPlayerCharacter implements InteractiveObject, Switch {
+public class FriendlyWhiteWizard extends NonPlayerCharacter implements InteractiveObject, Switch,  Shopkeeper {
 
     String anotherTileName = "WhiteWizard";
     String groupName = "FriendlyWhiteWizardGroup1";

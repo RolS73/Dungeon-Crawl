@@ -367,7 +367,11 @@ public class Main extends Application {
 //                break;
 
             case F12:
-                map.getPlayer().setWallCheatOn(true);
+                if (!map.getPlayer().isWallCheatOn()) {
+                    map.getPlayer().setWallCheatOn(true);
+                } else {
+                    map.getPlayer().setWallCheatOn(false);
+                }
                 break;
         }
         if (map.getPlayer().getHealth() <= 0) {
