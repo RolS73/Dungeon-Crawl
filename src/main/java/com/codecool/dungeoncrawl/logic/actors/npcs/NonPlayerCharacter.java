@@ -1,7 +1,8 @@
-package com.codecool.dungeoncrawl.logic.actors.items;
+package com.codecool.dungeoncrawl.logic.actors.npcs;
 
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.actors.Actor;
+import com.codecool.dungeoncrawl.logic.actors.items.InteractiveObject;
 
 public class NonPlayerCharacter extends Actor implements Shopkeeper, InteractiveObject {
 
