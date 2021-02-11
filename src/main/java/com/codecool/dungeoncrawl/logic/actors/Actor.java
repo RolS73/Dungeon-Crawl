@@ -1,14 +1,11 @@
 package com.codecool.dungeoncrawl.logic.actors;
 
-import com.codecool.dungeoncrawl.Main;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.Drawable;
 import com.codecool.dungeoncrawl.logic.actors.boss.SpikeForBosses;
 import com.codecool.dungeoncrawl.logic.actors.items.Breakable;
-
-import java.util.Arrays;
-import java.util.List;
+import com.codecool.dungeoncrawl.logic.actors.items.NonPlayerCharacter;
 
 public abstract class Actor implements Drawable {
     private Cell cell;
@@ -38,7 +35,7 @@ public abstract class Actor implements Drawable {
         if (nextCell.getActor() instanceof SpikeForBosses){
             return;
         }
-        if (nextCell.getActor() != null) {
+        if (nextCell.getActor() != null && !(nextCell.getActor() instanceof NonPlayerCharacter)) {
             if (nextCell.getActor() instanceof Player) {
                 damageCalculation(nextCell);
             } else {
