@@ -1,5 +1,6 @@
 package com.codecool.dungeoncrawl.logic;
 
+import com.codecool.dungeoncrawl.logic.actors.Sounds;
 import com.codecool.dungeoncrawl.logic.actors.items.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -27,6 +28,7 @@ public class InventoryManager {
             removeItemFromGround(map);
         } else if (item instanceof LifeUpgrade) {
             pickUpLifeUpgrade(item, map);
+            Sounds.playSound("healthUp");
             removeItemFromGround(map);
         } else if (item instanceof ArmorUpgrade) {
             if (inventory.stream().anyMatch(i -> i instanceof ArmorUpgrade)) {
@@ -45,6 +47,7 @@ public class InventoryManager {
 
     private void pickUpLife(GameMap map) {
         map.getPlayer().restoreHealth(map.getPlayer().getCell().getItem().getHealth());
+        Sounds.playSound("Chewing");
     }
 
     private void pickUpLifeUpgrade(Item item, GameMap map) {
@@ -83,6 +86,7 @@ public class InventoryManager {
         inventory.add(item);
         map.getPlayer().setArmor(item.getHealth());
 //        map.getPlayer().setArmor(map.getPlayer().getCell().getItem().getHealth());
+        Sounds.playSound("armorEquip");
         removeItemFromGround(map);
     }
 
@@ -109,6 +113,7 @@ public class InventoryManager {
     private void equipWeapon(Item item, GameMap map) {
         map.getPlayer().raiseAttackPower(((Weapon) item).getAttackpowerIncrease());
         inventory.add(item);
+        Sounds.playSound("swordBling");
         removeItemFromGround(map);
     }
 }
