@@ -1,6 +1,7 @@
 package com.codecool.dungeoncrawl.logic.actors;
 
 import com.codecool.dungeoncrawl.logic.Cell;
+import com.codecool.dungeoncrawl.logic.RandomGenerator;
 
 public class Player extends Actor {
 
@@ -56,5 +57,15 @@ public class Player extends Actor {
 
     public void lowerHealth(int damageAmount) {
         super.setHealth(getHealth() - damageAmount);
+    }
+
+
+    public static void playHurtSound() {
+        int randomNum = RandomGenerator.nextInt(2);
+        if (randomNum == 0) {
+            Sounds.playSound("playerHit1");
+        } else {
+            Sounds.playSound("playerHit2");
+        }
     }
 }

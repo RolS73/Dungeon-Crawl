@@ -93,6 +93,9 @@ public abstract class Actor implements Drawable {
     }
 
     protected void damageCalculation(Cell nextCell) {
+        Sounds.playSound("DSdamage1");
+        Player.playHurtSound();
+
         if (attackPower - ((Player) nextCell.getActor()).getArmor() <= 0) {
             nextCell.getActor().health -= 1;
         } else {

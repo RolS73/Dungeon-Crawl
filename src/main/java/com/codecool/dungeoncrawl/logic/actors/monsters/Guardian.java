@@ -1,7 +1,9 @@
 package com.codecool.dungeoncrawl.logic.actors.monsters;
 
 import com.codecool.dungeoncrawl.logic.Cell;
+import com.codecool.dungeoncrawl.logic.RandomGenerator;
 import com.codecool.dungeoncrawl.logic.actors.Player;
+import com.codecool.dungeoncrawl.logic.actors.Sounds;
 
 public class Guardian extends Monster {
 
@@ -31,6 +33,7 @@ public class Guardian extends Monster {
             count++;
 //            System.out.println(count);
             if(count > 2){
+                playAttackSound();
                 damageCalculation(nextCell);
 //                nextCell.getActor().setHealth(nextCell.getActor().getHealth() - this.getAttackPower());
                 count = 0;
@@ -63,5 +66,18 @@ public class Guardian extends Monster {
 
         }
 //        System.out.println(count);
+    }
+
+    public void playDeathSound() {
+        Sounds.playSound("guardianDeath");
+    }
+
+    public void playAttackSound() {
+        int randomNum = RandomGenerator.nextInt(2);
+        if (randomNum == 0) {
+            Sounds.playSound("guardianAttack1");
+        } else {
+            Sounds.playSound("guardianAttack2");
+        }
     }
 }

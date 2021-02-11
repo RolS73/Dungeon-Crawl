@@ -2,6 +2,7 @@ package com.codecool.dungeoncrawl.logic.actors.monsters;
 
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
+import com.codecool.dungeoncrawl.logic.RandomGenerator;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.actors.Sounds;
 
@@ -18,10 +19,6 @@ public class Duck extends Monster {
     @Override
     public String getTileName() {
         return this.name;
-    }
-
-    public void playAttackSound() {
-        Sounds.playSound("Drready");
     }
 
     @Override
@@ -43,6 +40,7 @@ public class Duck extends Monster {
         if(nextCell.getCellType() == CellType.FLOOR){
             if(nextCell.getActor() instanceof Player){
                 playAttackSound();
+                //Player.playHurtSound();
                 damageCalculation(nextCell);
 //                nextCell.getActor().setHealth(nextCell.getActor().getHealth()- this.getAttackPower());
                 if(this.getHealth()<1){
@@ -55,6 +53,21 @@ public class Duck extends Monster {
                 this.setCell(nextCell);
             }
 
+        }
+    }
+
+    public void playDeathSound() {
+        Sounds.playSound("littleGizmoDeath");
+    }
+
+    public void playAttackSound() {
+        int randomNum = RandomGenerator.nextInt(11);
+        if (randomNum < 5) {
+            Sounds.playSound("littleGizmoAttack1");
+        } else if (randomNum > 5 && randomNum < 11) {
+            Sounds.playSound("littleGizmoAttack2");
+        } else {
+            Sounds.playSound("Drready");
         }
     }
 }

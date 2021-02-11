@@ -25,6 +25,7 @@ public class InventoryManager {
             }
         } else if (item instanceof Key) {
             inventory.add(item);
+            Sounds.playSound("Coins");
             removeItemFromGround(map);
         } else if (item instanceof LifeUpgrade) {
             pickUpLifeUpgrade(item, map);

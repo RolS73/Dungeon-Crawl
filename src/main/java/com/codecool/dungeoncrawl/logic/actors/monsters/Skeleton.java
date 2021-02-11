@@ -2,6 +2,7 @@ package com.codecool.dungeoncrawl.logic.actors.monsters;
 
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
+import com.codecool.dungeoncrawl.logic.RandomGenerator;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.actors.Sounds;
 
@@ -21,7 +22,12 @@ public class Skeleton extends Monster {
     }
 
     public void playAttackSound() {
-        Sounds.playSound("griffon1");
+        int randomNum = RandomGenerator.nextInt(2);
+        if (randomNum == 0) {
+            Sounds.playSound("ZombieAttack2");
+        } else {
+            Sounds.playSound("ZombieAttack1");
+        }
     }
 
     @Override

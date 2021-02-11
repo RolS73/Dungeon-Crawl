@@ -2,6 +2,7 @@ package com.codecool.dungeoncrawl.logic.actors.monsters;
 
 import com.codecool.dungeoncrawl.Main;
 import com.codecool.dungeoncrawl.logic.Cell;
+import com.codecool.dungeoncrawl.logic.actors.Sounds;
 import com.codecool.dungeoncrawl.logic.actors.items.InteractiveObject;
 import com.codecool.dungeoncrawl.logic.actors.items.Item;
 import com.codecool.dungeoncrawl.logic.actors.items.Switch;
@@ -33,6 +34,7 @@ public class HiddenEnemySpawner extends Item implements InteractiveObject, Switc
     @Override
     public void interact() {
         if (enemyType == null || enemyType.equals("skeleton")) {
+            Sounds.playSound("skeletonSummoned");
             Main.cheatingMapGetter().getMonsters().add(new Skeleton(this.getCell()));
         } else if (enemyType.equals("soulStealer")) {
             Main.cheatingMapGetter().getMonsters().add(new SoulStealer(this.getCell()));

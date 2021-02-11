@@ -2,7 +2,9 @@ package com.codecool.dungeoncrawl.logic.actors.monsters;
 
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
+import com.codecool.dungeoncrawl.logic.RandomGenerator;
 import com.codecool.dungeoncrawl.logic.actors.Player;
+import com.codecool.dungeoncrawl.logic.actors.Sounds;
 
 public class TheThing  extends Monster {
 
@@ -36,6 +38,7 @@ public class TheThing  extends Monster {
         Cell nextCell = this.getCell().getNeighbor(x, y);
         if(nextCell.getCellType() == CellType.FLOOR){
             if(nextCell.getActor() instanceof Player){
+                playAttackSound();
                 damageCalculation(nextCell);
 //                nextCell.getActor().setHealth(nextCell.getActor().getHealth()- this.getAttackPower());
                 if(this.getHealth()<1){
@@ -58,6 +61,19 @@ public class TheThing  extends Monster {
         nextCell.setActor(this);
         this.getCell().setActor(null);
         this.setCell(nextCell);
+    }
+
+    public void playDeathSound() {
+        Sounds.playSound("theThingDeath");
+    }
+
+    public void playAttackSound() {
+        int randomNum = RandomGenerator.nextInt(2);
+        if (randomNum == 0) {
+            Sounds.playSound("theThingAttack1");
+        } else {
+            Sounds.playSound("theThingAttack2");
+        }
     }
 
 }
