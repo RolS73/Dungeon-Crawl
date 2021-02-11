@@ -22,7 +22,7 @@ public class SecretPassage extends Item implements InteractiveObject, StepOnActi
     @Override
     public void interact() {
       if (!isAlreadyOpened) {
-          this.anotherTileName = "empty";
+          this.anotherTileName = "stairwayDown";
           this.getCell().setCellType(CellType.FLOOR);
           isAlreadyOpened = true;
       }

@@ -138,9 +138,9 @@ public class MapLoader {
                             break;
                         case 'M':
                             cell.setCellType(CellType.FLOOR);
-                            OldMan oldMan = new OldMan(cell);
-                            map.actorsCollection.add(oldMan);
-                            map.interactablesCollection.add(oldMan);
+                            FriendlyWhiteWizard friendlyWhiteWizard = new FriendlyWhiteWizard(cell);
+                            map.actorsCollection.add(friendlyWhiteWizard);
+                            map.interactablesCollection.add(friendlyWhiteWizard);
                             break;
                         /*case '§':
                             cell.setCellType(CellType.FIRESTAND);

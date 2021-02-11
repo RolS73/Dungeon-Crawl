@@ -128,26 +128,30 @@ public class Main extends Application {
         map.getHiddenItemsCollection().get(1).setGroupName("SuspiciousWallGroup2");
         map.getSuspiciousWallsCollection().get(1).setTileName("empty");
 
-        map.getSuspiciousWallsCollection().get(4).setGroupName("SuspiciousWallGroup3");  // Main Hall
+        map.getSuspiciousWallsCollection().get(3).setGroupName("SuspiciousWallGroup3");  // Main Hall
         map.getHiddenPassagesCollection().get(2).setGroupName("SuspiciousWallGroup3");
         map.getHiddenItemsCollection().get(3).setGroupName("SuspiciousWallGroup3");
 
-        map.getSuspiciousWallsCollection().get(3).setGroupName("SuspiciousWallGroup4"); // Under spawn room
+        for (int i = 3; i < 15; i++) {
+            map.getHiddenEnemySpawnersCollection().get(i).setGroupName("FriendlyWhiteWizardGroup1");
+        }
+
+        map.getSuspiciousWallsCollection().get(2).setGroupName("SuspiciousWallGroup4"); // Under spawn room
         map.getHiddenPassagesCollection().get(1).setGroupName("SuspiciousWallGroup4");
         map.getHiddenItemsCollection().get(2).setGroupName("SuspiciousWallGroup4");
-        map.getHiddenEnemySpawnersCollection().get(3).setGroupName("SuspiciousWallGroup4");
-        map.getHiddenEnemySpawnersCollection().get(4).setGroupName("SuspiciousWallGroup4");
+        map.getHiddenEnemySpawnersCollection().get(16).setGroupName("SuspiciousWallGroup4");
+        map.getHiddenEnemySpawnersCollection().get(15).setGroupName("SuspiciousWallGroup4");
 
-        map.getSuspiciousWallsCollection().get(5).setGroupName("SuspiciousWallGroup5");  // Hidden passage between gates
-        map.getSuspiciousWallsCollection().get(6).setGroupName("SuspiciousWallGroup5");
+        map.getSuspiciousWallsCollection().get(4).setGroupName("SuspiciousWallGroup5");  // Hidden passage between gates
+        map.getSuspiciousWallsCollection().get(5).setGroupName("SuspiciousWallGroup5");
         for (int i = 3; i < 14; i++) {
             map.getHiddenPassagesCollection().get(i).setGroupName("SuspiciousWallGroup5");
         }
 
-        map.getSuspiciousWallsCollection().get(7).setGroupName("SuspiciousWallGroup6");  // Left optional room
+        map.getSuspiciousWallsCollection().get(6).setGroupName("SuspiciousWallGroup6");  // Left optional room
         map.getHiddenItemsCollection().get(4).setGroupName("SuspiciousWallGroup6");
 
-        map.getSuspiciousWallsCollection().get(9).setGroupName("SuspiciousWallGroup7");  // Right optional room
+        map.getSuspiciousWallsCollection().get(8).setGroupName("SuspiciousWallGroup7");  // Right optional room
         map.getHiddenItemsCollection().get(5).setGroupName("SuspiciousWallGroup7");
 
         map.getMapQuickTravelPassages().get(0).setDestinationX(3);
@@ -308,8 +312,7 @@ public class Main extends Application {
                                         .filter(x -> x.getGroupName() != null)
                                         .filter(x -> x.isThisFromTheSameGroup(((Switch) currentlyProcessedInteractable).getGroupName()))
                                         .forEach(InteractiveObject::interact);
-                                //if(instance of HiddenEnemySpawner) { map.monsters.add(new Monster(ide kell cell ahova spawnol))}
-                                //System.out.println(((Switch) currentlyProcessedInteractable).getGroupName());
+                                System.out.println(((Switch) currentlyProcessedInteractable).getGroupName());
                             }
                             if (currentlyProcessedInteractable.isMoveOnPossibleAfterInteraction() && !(currentlyProcessedInteractable instanceof Switch)) {
                                 currentlyFocusedCell.setCellType(CellType.FLOOR);
@@ -353,6 +356,9 @@ public class Main extends Application {
                     refresh();
                     break;
                 }
+            case F12:
+                map.getPlayer().setWallCheatOn(true);
+                break;
         }
         if (map.getPlayer().getHealth() <= 0) {
             Sounds.playSound("Hdead");

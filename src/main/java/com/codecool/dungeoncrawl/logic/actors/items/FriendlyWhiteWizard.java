@@ -2,12 +2,12 @@ package com.codecool.dungeoncrawl.logic.actors.items;
 
 import com.codecool.dungeoncrawl.logic.Cell;
 
-public class OldMan extends NonPlayerCharacter implements InteractiveObject, Switch {
+public class FriendlyWhiteWizard extends NonPlayerCharacter implements InteractiveObject, Switch {
 
-    String anotherTileName = "friendlyOldMan";
-    String groupName = "oldManGroup";
+    String anotherTileName = "WhiteWizard";
+    String groupName = "FriendlyWhiteWizardGroup1";
 
-    public OldMan(Cell cell) {
+    public FriendlyWhiteWizard(Cell cell) {
         super(cell);
         super.setHealth(9999);
         super.setAttackPower(100);
@@ -23,13 +23,13 @@ public class OldMan extends NonPlayerCharacter implements InteractiveObject, Swi
     @Override
     public void interact() {
 
-        System.out.println("Talking");
+        // Talking choice box
 
     }
 
     @Override
     public boolean isThisObjectInteractive() {
-        return true;
+        return false;
     }
 
     @Override
