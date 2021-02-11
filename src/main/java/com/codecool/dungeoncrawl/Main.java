@@ -46,7 +46,7 @@ public class Main extends Application {
     private Stage stage;
     private final List<String> wallCheat = Arrays.asList("Laci", "Ricsi", "Roland", "Szabolcs", "George");
     InventoryManager inventoryManager = new InventoryManager();
-    GameDatabaseManager dbManager;
+    GameDatabaseManager dbManager; //Sprint 2-ből
 
     public static void main(String[] args) {
         launch(args);
