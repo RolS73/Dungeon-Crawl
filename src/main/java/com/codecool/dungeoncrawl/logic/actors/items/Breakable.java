@@ -31,9 +31,9 @@ public class Breakable extends Item implements InteractiveObject {
             this.getCell().setItem(new LootTable().getItemFromTable());
             this.getCell().setCellType(CellType.FLOOR);
             if (tileName.equals("barrel")) {
-                Sounds.playSound("heavyBreak");
-            } else if (tileName.equals("crate")) {
                 Sounds.playSound("lightBreak");
+            } else if (tileName.equals("crate")) {
+                Sounds.playSound("heavyBreak");
             } else if (tileName.equals("crate2")) {
                 Sounds.playSound("potBreak");
             }

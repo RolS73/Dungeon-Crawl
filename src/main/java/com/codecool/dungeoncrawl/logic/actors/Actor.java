@@ -45,8 +45,9 @@ public abstract class Actor implements Drawable {
 //            this.health = this.health - nextCell.getActor().getAttackPower();
 
             if (nextCell.getActor().health < 1 ) {
+                Sounds.playSound("kill1");
+                nextCell.getActor().playDeathSound();
                 nextCell.setActor(null);
-                Sounds.playSound("Damage3");
             } else {
                 Sounds.playSound("Sword1");
             }
@@ -144,4 +145,6 @@ public abstract class Actor implements Drawable {
         this.getCell().setActor(null);
         this.setCell(nextCell);
     }
+
+    public void playDeathSound() {}
 }

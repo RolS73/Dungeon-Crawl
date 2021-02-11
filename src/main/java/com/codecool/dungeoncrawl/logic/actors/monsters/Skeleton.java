@@ -3,6 +3,7 @@ package com.codecool.dungeoncrawl.logic.actors.monsters;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.actors.Player;
+import com.codecool.dungeoncrawl.logic.actors.Sounds;
 
 public class Skeleton extends Monster {
 
@@ -12,6 +13,11 @@ public class Skeleton extends Monster {
         super(cell);
         this.setAttackPower(2);
         this.setHealth(10);
+    }
+
+    @Override
+    public void playDeathSound() {
+        Sounds.playSound("SkeletonDeath");
     }
 
     @Override
