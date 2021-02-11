@@ -5,6 +5,8 @@ import com.codecool.dungeoncrawl.logic.actors.boss.SpikeBoss;
 import com.codecool.dungeoncrawl.logic.actors.boss.SpikeForBosses;
 import com.codecool.dungeoncrawl.logic.actors.items.*;
 import com.codecool.dungeoncrawl.logic.actors.monsters.*;
+import com.codecool.dungeoncrawl.logic.actors.npcs.FriendlyWhiteWizard;
+import com.codecool.dungeoncrawl.logic.actors.npcs.NonPlayerCharacter;
 
 import java.io.InputStream;
 import java.util.Scanner;

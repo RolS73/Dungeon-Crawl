@@ -1,8 +1,10 @@
-package com.codecool.dungeoncrawl.logic.actors.items;
+package com.codecool.dungeoncrawl.logic.actors.npcs;
 
 import com.codecool.dungeoncrawl.logic.Cell;
+import com.codecool.dungeoncrawl.logic.actors.items.InteractiveObject;
+import com.codecool.dungeoncrawl.logic.actors.items.Switch;
 
-public class FriendlyWhiteWizard extends NonPlayerCharacter implements InteractiveObject, Switch,  Shopkeeper {
+public class FriendlyWhiteWizard extends NonPlayerCharacter implements InteractiveObject, Switch, Shopkeeper {
 
     String anotherTileName = "WhiteWizard";
     String groupName = "FriendlyWhiteWizardGroup1";
