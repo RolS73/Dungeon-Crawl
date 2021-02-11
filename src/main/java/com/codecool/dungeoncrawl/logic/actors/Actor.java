@@ -48,6 +48,7 @@ public abstract class Actor implements Drawable {
                 Sounds.playSound("kill1");
                 nextCell.getActor().playDeathSound();
                 nextCell.setActor(null);
+                return;
             } else {
                 Sounds.playSound("Sword1");
             }

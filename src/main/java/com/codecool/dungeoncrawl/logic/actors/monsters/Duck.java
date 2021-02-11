@@ -3,6 +3,7 @@ package com.codecool.dungeoncrawl.logic.actors.monsters;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.actors.Player;
+import com.codecool.dungeoncrawl.logic.actors.Sounds;
 
 public class Duck extends Monster {
 
@@ -17,6 +18,10 @@ public class Duck extends Monster {
     @Override
     public String getTileName() {
         return this.name;
+    }
+
+    public void playAttackSound() {
+        Sounds.playSound("Drready");
     }
 
     @Override
@@ -37,6 +42,7 @@ public class Duck extends Monster {
 
         if(nextCell.getCellType() == CellType.FLOOR){
             if(nextCell.getActor() instanceof Player){
+                playAttackSound();
                 damageCalculation(nextCell);
 //                nextCell.getActor().setHealth(nextCell.getActor().getHealth()- this.getAttackPower());
                 if(this.getHealth()<1){

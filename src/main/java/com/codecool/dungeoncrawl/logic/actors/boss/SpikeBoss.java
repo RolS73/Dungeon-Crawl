@@ -2,6 +2,7 @@ package com.codecool.dungeoncrawl.logic.actors.boss;
 
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.actors.Actor;
+import com.codecool.dungeoncrawl.logic.actors.Sounds;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,14 +25,17 @@ public class SpikeBoss extends Actor {
 
     @Override
     public void move(int dx, int dy) {
-        for(SpikeForBosses s : spikes){
+        for (SpikeForBosses s : spikes) {
             s.remover();
         }
     }
 
-    public void spikeAdder(SpikeForBosses spike){
+    public void spikeAdder(SpikeForBosses spike) {
         spikes.add(spike);
     }
 
-
+    @Override
+    public void playDeathSound() {
+        Sounds.playSound("Odead");
+    }
 }
