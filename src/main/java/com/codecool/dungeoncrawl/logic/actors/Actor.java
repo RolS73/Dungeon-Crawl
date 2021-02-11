@@ -5,7 +5,7 @@ import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.Drawable;
 import com.codecool.dungeoncrawl.logic.actors.boss.SpikeForBosses;
 import com.codecool.dungeoncrawl.logic.actors.items.Breakable;
-import com.codecool.dungeoncrawl.logic.actors.items.NonPlayerCharacter;
+import com.codecool.dungeoncrawl.logic.actors.npcs.NonPlayerCharacter;
 
 public abstract class Actor implements Drawable {
     private Cell cell;
