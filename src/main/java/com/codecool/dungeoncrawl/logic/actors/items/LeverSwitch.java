@@ -3,6 +3,7 @@
 package com.codecool.dungeoncrawl.logic.actors.items;
 
 import com.codecool.dungeoncrawl.logic.Cell;
+import com.codecool.dungeoncrawl.logic.actors.Sounds;
 
 public class LeverSwitch extends Item implements Switch {
 
@@ -16,7 +17,8 @@ public class LeverSwitch extends Item implements Switch {
     @Override
     public void interact() {
         anotherTileName = "leverSwitchOn";
-        System.out.println("switch activated");
+        Sounds.playSound("magicalSwitch");
+        //System.out.println("switch activated");
     }
 
     @Override

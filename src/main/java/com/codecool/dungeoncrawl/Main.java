@@ -1,6 +1,7 @@
 package com.codecool.dungeoncrawl;
 
 import com.codecool.dungeoncrawl.logic.*;
+import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.actors.Sounds;
 import com.codecool.dungeoncrawl.logic.actors.items.*;
 import javafx.application.Application;
@@ -498,6 +499,8 @@ public class Main extends Application {
     }*/
 
     private void playerSuffersEnvironmentalDamage() {
+        Player.playHurtSound();
+        ((EnvironmentalDamage) map.getPlayer().getCell().getItem()).playDamageSound();
         map.getPlayer().lowerHealth(map.getPlayer().getCell().getItem().getAttackPower());
     }
 

@@ -5,4 +5,6 @@ public interface EnvironmentalDamage {
     int damageValue = 1;
 boolean isEnvironmentalDamageActive();
 
+void playDamageSound();
+
 }

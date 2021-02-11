@@ -1,6 +1,7 @@
 package com.codecool.dungeoncrawl.logic.actors.items;
 
 import com.codecool.dungeoncrawl.logic.Cell;
+import com.codecool.dungeoncrawl.logic.actors.Sounds;
 
 public class TrapPlain extends Item implements EnvironmentalDamage {
 
@@ -49,6 +50,11 @@ public class TrapPlain extends Item implements EnvironmentalDamage {
     @Override
     public boolean isEnvironmentalDamageActive() {
         return this.getTileName().equals("spikeTrapActive");
+    }
+
+    @Override
+    public void playDamageSound() {
+        Sounds.playSound("DSdamage1");
     }
 }
 
