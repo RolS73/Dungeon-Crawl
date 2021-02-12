@@ -63,9 +63,9 @@ public class Player extends Actor {
     public static void playHurtSound() {
         int randomNum = RandomGenerator.nextInt(2);
         if (randomNum == 0) {
-            Sounds.playSound("playerHit1");
+            Sounds.playSound("playerHurt1");
         } else {
-            Sounds.playSound("playerHit2");
+            Sounds.playSound("playerHurt2");
         }
     }
 }
