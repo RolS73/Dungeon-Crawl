@@ -7,7 +7,7 @@ import java.net.URL;
 
 public class Sounds {
     private static Clip bgMusic;
-    private static Clip eventMusic ;
+    private static Clip eventMusic;
 
     public static void playSound(String fileName) {
         try {
@@ -33,8 +33,8 @@ public class Sounds {
             bgMusic.open(ais);
             FloatControl gainControl =
                     (FloatControl) bgMusic.getControl(FloatControl.Type.MASTER_GAIN);
-            gainControl.setValue(-12.0f); // change volume by x decibels (max. +6dB to increase, no limit on min)
-            bgMusic.loop(-1);
+            gainControl.setValue(-12.0f);
+            bgMusic.loop(Clip.LOOP_CONTINUOUSLY);
         } catch (IOException | LineUnavailableException | UnsupportedAudioFileException ex)  {
             System.out.println("Valami nem stimmel a hanggal! :S");
         }
@@ -48,14 +48,14 @@ public class Sounds {
 
     public static void playEVSound(String fileName) {
         try {
-            stopBGsound();
+            stopEVsound();
             URL file = Sounds.class.getResource("/" + fileName + ".wav");
             eventMusic = AudioSystem.getClip();
             AudioInputStream ais = AudioSystem.getAudioInputStream(file);
             eventMusic.open(ais);
             FloatControl gainControl =
                     (FloatControl) eventMusic.getControl(FloatControl.Type.MASTER_GAIN);
-            gainControl.setValue(-12.0f); // change volume by x decibels (max. +6dB to increase, no limit on min)
+            gainControl.setValue(-12.0f);
             eventMusic.loop(Clip.LOOP_CONTINUOUSLY);
         } catch (IOException | LineUnavailableException | UnsupportedAudioFileException ex)  {
             System.out.println("Valami nem stimmel a hanggal! :S");
