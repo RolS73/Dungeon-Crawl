@@ -12,6 +12,7 @@ public class SoulStealer extends Monster {
         super(cell);
         this.setAttackPower(4);
         this.setHealth(40);
+        this.setAttackSoundFiles(new String[] {"Sword1"}); //PLACEHOLDER
     }
 
     @Override
@@ -37,7 +38,8 @@ public class SoulStealer extends Monster {
 
         if (nextCell.getCellType() == CellType.FLOOR && nextCell.getCellType() != CellType.OBJECT) {
             if (nextCell.getActor() instanceof Player) {
-                damageCalculation(nextCell);
+                attack(nextCell);
+//                damageCalculation(nextCell);
 //                nextCell.getActor().setHealth(nextCell.getActor().getHealth() - this.getAttackPower());
                 if (this.getHealth() < 1) {
                     this.getCell().setActor(null);

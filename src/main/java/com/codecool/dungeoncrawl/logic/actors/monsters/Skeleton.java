@@ -14,6 +14,7 @@ public class Skeleton extends Monster {
         super(cell);
         this.setAttackPower(2);
         this.setHealth(10);
+        this.setAttackSoundFiles(new String[] {"ZombieAttack2", "ZombieAttack1"});
     }
 
     @Override
@@ -53,12 +54,13 @@ public class Skeleton extends Monster {
 
         if (nextCell.getCellType() == CellType.FLOOR && nextCell.getCellType() != CellType.OBJECT) {
             if (nextCell.getActor() instanceof Player) {
-                damageCalculation(nextCell);
-                playAttackSound();
+//                damageCalculation(nextCell);
+                attack(nextCell);
+//                playAttackSound();
 //                nextCell.getActor().setHealth(nextCell.getActor().getHealth() - this.getAttackPower());
-                if (this.getHealth() < 1) {
-                    this.getCell().setActor(null);
-                }
+//                if (this.getHealth() < 1) {
+//                    this.getCell().setActor(null);
+//                }
             } else if (nextCell.getActor() != null) {
             } else {
                 nextCell.setActor(this);

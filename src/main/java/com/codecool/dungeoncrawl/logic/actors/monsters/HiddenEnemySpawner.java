@@ -85,4 +85,8 @@ public class HiddenEnemySpawner extends Item implements InteractiveObject, Switc
         return false;
     }
 
+    @Override
+    public void playDeathSound() {
+
+    }
 }

@@ -14,6 +14,7 @@ public class Duck extends Monster {
         super(cell);
         this.setAttackPower(1);
         this.setHealth(1);
+        this.setAttackSoundFiles(new String[] {"littleGizmoAttack1", "littleGizmoAttack2", "Drready"});
     }
 
     @Override
@@ -39,9 +40,10 @@ public class Duck extends Monster {
 
         if(nextCell.getCellType() == CellType.FLOOR){
             if(nextCell.getActor() instanceof Player){
-                playAttackSound();
+//                playAttackSound();
                 //Player.playHurtSound();
-                damageCalculation(nextCell);
+                attack(nextCell);
+//                damageCalculation(nextCell);
 //                nextCell.getActor().setHealth(nextCell.getActor().getHealth()- this.getAttackPower());
                 if(this.getHealth()<1){
                     this.getCell().setActor(null);
@@ -56,6 +58,7 @@ public class Duck extends Monster {
         }
     }
 
+    @Override
     public void playDeathSound() {
         Sounds.playSound("littleGizmoDeath");
     }

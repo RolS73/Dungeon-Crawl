@@ -1,6 +1,7 @@
 package com.codecool.dungeoncrawl.logic.actors.monsters;
 
 import com.codecool.dungeoncrawl.logic.Cell;
+import com.codecool.dungeoncrawl.logic.CombatEvent;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 
 public class CursedKing extends Monster {
@@ -17,6 +18,7 @@ public class CursedKing extends Monster {
         super(cell);
         this.setAttackPower(9);
         this.setHealth(20);
+        this.setAttackSoundFiles(new String[] {"Sword1"}); //PLACEHOLDER
     }
 
     @Override
@@ -35,13 +37,19 @@ public class CursedKing extends Monster {
             count++;
 //            System.out.println(count);
             if(count > 2){
-                damageCalculation(nextCell);
+                attack(nextCell);
+//                damageCalculation(nextCell);
 //                nextCell.getActor().setHealth(nextCell.getActor().getHealth() - this.getAttackPower());
                 count = 0;
             }
         } else {
             count = 0;
         }
+    }
+
+    @Override
+    public void playDeathSound() {
+
     }
 
     public void monsterLookat(int x, int y) {
@@ -68,5 +76,4 @@ public class CursedKing extends Monster {
         }
 //        System.out.println(count);
     }
-
 }

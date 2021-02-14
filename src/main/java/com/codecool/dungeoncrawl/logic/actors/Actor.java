@@ -1,8 +1,6 @@
 package com.codecool.dungeoncrawl.logic.actors;
 
-import com.codecool.dungeoncrawl.logic.Cell;
-import com.codecool.dungeoncrawl.logic.CellType;
-import com.codecool.dungeoncrawl.logic.Drawable;
+import com.codecool.dungeoncrawl.logic.*;
 import com.codecool.dungeoncrawl.logic.actors.boss.SpikeForBosses;
 import com.codecool.dungeoncrawl.logic.actors.items.Breakable;
 import com.codecool.dungeoncrawl.logic.actors.npcs.NonPlayerCharacter;
@@ -14,7 +12,9 @@ public abstract class Actor implements Drawable {
     private String tileName = getTileName();
     private boolean thisABossFight = false;
     private boolean wallCheatOn = false;
-
+    private int armor = 0;
+    private String attackSoundFile = "DSdamage1";
+    private String[] attackSoundFiles = new String[] {"DSdamage1", "DSdamage2", "DSdamage3"};
 
     public Actor(Cell cell) {
         this.cell = cell;
@@ -29,29 +29,27 @@ public abstract class Actor implements Drawable {
         Cell nextCell = cell.getNeighbor(dx, dy); // eredeti
 
 
-        if (nextCell == null) {
-            return;
-        }
-        if (nextCell.getActor() instanceof SpikeForBosses){
+        if (nextCell == null || nextCell.getActor() instanceof SpikeForBosses) {
             return;
         }
         if (nextCell.getActor() != null && !(nextCell.getActor() instanceof NonPlayerCharacter)) {
-            if (nextCell.getActor() instanceof Player) {
-                damageCalculation(nextCell);
-            } else {
-                nextCell.getActor().health = nextCell.getActor().health - attackPower;
-            }
+            attack(nextCell);
+//            if (nextCell.getActor() instanceof Player) {
+//                damageCalculation(nextCell);
+//            } else {
+//                nextCell.getActor().health = nextCell.getActor().health - attackPower;
+//            }
 
 //            this.health = this.health - nextCell.getActor().getAttackPower();
 
-            if (nextCell.getActor().health < 1 ) {
-                Sounds.playSound("kill1");
-                nextCell.getActor().playDeathSound();
-                nextCell.setActor(null);
-                return;
-            } else {
-                Sounds.playSound("Sword1");
-            }
+//            if (nextCell.getActor().health < 1 ) {
+////                Sounds.playSound("kill1");
+//                nextCell.getActor().playDeathSound();
+//                nextCell.setActor(null);
+//                return;
+//            } else {
+//                Sounds.playSound("Sword1");
+//            }
         }
 
         if (wallCheatOn && nextCell.getActor() == null) {
@@ -84,6 +82,13 @@ public abstract class Actor implements Drawable {
 
     }
 
+    protected void attack(Cell nextCell) {
+        setAttackSoundFile(attackSoundFiles);
+        CombatEvent combatEvent = new CombatEvent(this, nextCell.getActor());
+//        Sounds.playSound(attackSoundFile);
+        combatEvent.fight();
+    }
+
     public boolean isWallCheatOn() {
         return wallCheatOn;
     }
@@ -92,21 +97,21 @@ public abstract class Actor implements Drawable {
         this.wallCheatOn = wallCheatOn;
     }
 
-    protected void damageCalculation(Cell nextCell) {
-        try {
-            Sounds.playSound("DSdamage1");
-            Player.playHurtSound();
-        } catch (NullPointerException e) {
-//            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
-
-        if (attackPower - ((Player) nextCell.getActor()).getArmor() <= 0) {
-            nextCell.getActor().health -= 1;
-        } else {
-            nextCell.getActor().health = nextCell.getActor().health - (attackPower - ((Player) nextCell.getActor()).getArmor());
-        }
-    }
+//    protected void damageCalculation(Cell nextCell) {
+//        try {
+//            Sounds.playSound("DSdamage1");
+////            Player.playHurtSound();
+//        } catch (NullPointerException e) {
+////            System.out.println(e.getMessage());
+//            e.printStackTrace();
+//        }
+//
+//        if (attackPower - ((Player) nextCell.getActor()).getArmor() <= 0) {
+//            nextCell.getActor().health -= 1;
+//        } else {
+//            nextCell.getActor().health = nextCell.getActor().health - (attackPower - ((Player) nextCell.getActor()).getArmor());
+//        }
+//    }
 
     public int getHealth() {
         return health;
@@ -156,4 +161,33 @@ public abstract class Actor implements Drawable {
     }
 
     public void playDeathSound() {}
+
+    public int getArmor() {
+        return armor;
+    }
+
+    public void setArmor(int armor) {
+        this.armor = armor;
+    }
+
+    public String getAttackSoundFile() {
+        return attackSoundFile;
+    }
+
+    public void setAttackSoundFile(String attackSoundFile) {
+        this.attackSoundFile = attackSoundFile;
+    }
+
+    public void setAttackSoundFile(String[] attackSoundFiles) {
+        int i = RandomGenerator.nextInt(attackSoundFiles.length);
+        this.attackSoundFile = attackSoundFiles[i];
+    }
+
+    public String[] getAttackSoundFiles() {
+        return attackSoundFiles;
+    }
+
+    public void setAttackSoundFiles(String[] attackSoundFiles) {
+        this.attackSoundFiles = attackSoundFiles;
+    }
 }

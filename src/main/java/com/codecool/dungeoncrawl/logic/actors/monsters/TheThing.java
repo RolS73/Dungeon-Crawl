@@ -14,6 +14,7 @@ public class TheThing  extends Monster {
         super(cell);
         this.setAttackPower(3);
         this.setHealth(8);
+        this.setAttackSoundFiles(new String[] {"theThingAttack1", "theThingAttack2"});
     }
 
     @Override
@@ -38,8 +39,9 @@ public class TheThing  extends Monster {
         Cell nextCell = this.getCell().getNeighbor(x, y);
         if(nextCell.getCellType() == CellType.FLOOR){
             if(nextCell.getActor() instanceof Player){
-                playAttackSound();
-                damageCalculation(nextCell);
+                attack(nextCell);
+//                playAttackSound();
+//                damageCalculation(nextCell);
 //                nextCell.getActor().setHealth(nextCell.getActor().getHealth()- this.getAttackPower());
                 if(this.getHealth()<1){
                     this.getCell().setActor(null);

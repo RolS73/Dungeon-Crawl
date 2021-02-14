@@ -13,7 +13,8 @@ public class LockedDoor extends Item implements InteractiveObject {
             this.setName("Door to Doom");
         }
 
-        @Override
+
+    @Override
         public boolean isThisObjectInteractive(){
             for (Item item : InventoryManager.inventory) {
                 if (item.getName().equals("Key of Wisdom")) {

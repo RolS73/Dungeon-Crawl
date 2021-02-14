@@ -17,8 +17,7 @@ import com.codecool.dungeoncrawl.logic.Cell;
             this.armorUpgradeAmount = armorUpgradeAmount;
         }
 
-        @Override
-        public int getHealth() {
+        public int getArmorUpgradeAmount() {
             return armorUpgradeAmount;
         }
 
