@@ -14,10 +14,14 @@ public class CombatEvent {
         this.defender = defender;
     }
 
-    public void fight() {
-        playFightSoundEffects(attacker.getAttackSoundFile());
+    public void attack() {
+        playAttackSoundEffect();
         int damage = damageCalculation();
         defender.setHealth(defender.getHealth() - damage);
+        getConsequenceOfAttack();
+    }
+
+    private void getConsequenceOfAttack() {
         if (defender.getHealth() <= 0) {
             killDefender();
         } else {
@@ -27,15 +31,20 @@ public class CombatEvent {
         }
     }
 
+    private void playAttackSoundEffect() {
+        String attackSoundFile = attacker.setAttackSoundFile(attacker.getAttackSoundFiles());
+        playFightSoundEffects(attackSoundFile);
+    }
+
     private int damageCalculation() {
         int damage = attacker.getAttackPower() - defender.getArmor();
         int minimumDamage = 1;
         return damage <= 0 ? minimumDamage : damage;
     }
 
-    private void playFightSoundEffects(String attackSound) {
+    private void playFightSoundEffects(String soundFile) {
         try {
-            Sounds.playSound(attackSound);
+            Sounds.playSound(soundFile);
         } catch (NullPointerException e) {
             e.printStackTrace();
         }

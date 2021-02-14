@@ -13,7 +13,6 @@ public abstract class Actor implements Drawable {
     private boolean thisABossFight = false;
     private boolean wallCheatOn = false;
     private int armor = 0;
-    private String attackSoundFile = "DSdamage1";
     private String[] attackSoundFiles = new String[] {"DSdamage1", "DSdamage2", "DSdamage3"};
 
     public Actor(Cell cell) {
@@ -83,10 +82,8 @@ public abstract class Actor implements Drawable {
     }
 
     protected void attack(Cell nextCell) {
-        setAttackSoundFile(attackSoundFiles);
         CombatEvent combatEvent = new CombatEvent(this, nextCell.getActor());
-//        Sounds.playSound(attackSoundFile);
-        combatEvent.fight();
+        combatEvent.attack();
     }
 
     public boolean isWallCheatOn() {
@@ -170,17 +167,9 @@ public abstract class Actor implements Drawable {
         this.armor = armor;
     }
 
-    public String getAttackSoundFile() {
-        return attackSoundFile;
-    }
-
-    public void setAttackSoundFile(String attackSoundFile) {
-        this.attackSoundFile = attackSoundFile;
-    }
-
-    public void setAttackSoundFile(String[] attackSoundFiles) {
+    public String setAttackSoundFile(String[] attackSoundFiles) {
         int i = RandomGenerator.nextInt(attackSoundFiles.length);
-        this.attackSoundFile = attackSoundFiles[i];
+        return attackSoundFiles[i];
     }
 
     public String[] getAttackSoundFiles() {

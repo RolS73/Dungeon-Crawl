@@ -50,7 +50,7 @@ public class Player extends Actor {
 
     @Override
     public void playDeathSound() {
-        Sounds.playSound("Hdeath");
+        Sounds.playSound("Hdead");
     }
 
     public void playerHit() {
