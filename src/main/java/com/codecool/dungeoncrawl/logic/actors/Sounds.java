@@ -1,43 +1,25 @@
 package com.codecool.dungeoncrawl.logic.actors;
 
 import javax.sound.sampled.*;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
 public class Sounds {
-    private static Clip bgMusic;
-    private static Clip eventMusic;
-
-    public static void playSound(String fileName) {
-        try {
-            URL file = Sounds.class.getResource("/" + fileName + ".wav");
-            Clip clip = AudioSystem.getClip();
-            AudioInputStream ais = AudioSystem.getAudioInputStream(file);
-            clip.open(ais);
-            FloatControl gainControl =
-                    (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-            gainControl.setValue(-12.0f);
-            clip.loop(0);
-        } catch (IOException | LineUnavailableException | UnsupportedAudioFileException ex)  {
-            System.out.println("Valami nem stimmel a hanggal! :S");
-        }
-    }
+    private static Clip bgMusic; //ch0
+    private static Clip eventMusic; //ch1
 
     public static void playBGsound(String fileName) {
-        try {
-            stopBGsound();
-            URL file = Sounds.class.getResource("/" + fileName + ".wav");
-            bgMusic = AudioSystem.getClip();
-            AudioInputStream ais = AudioSystem.getAudioInputStream(file);
-            bgMusic.open(ais);
-            FloatControl gainControl =
-                    (FloatControl) bgMusic.getControl(FloatControl.Type.MASTER_GAIN);
-            gainControl.setValue(-12.0f);
-            bgMusic.loop(Clip.LOOP_CONTINUOUSLY);
-        } catch (IOException | LineUnavailableException | UnsupportedAudioFileException ex)  {
-            System.out.println("Valami nem stimmel a hanggal! :S");
-        }
+        stopBGsound();
+        play(fileName, 0);
+    }
+
+    public static void playEVSound(String fileName) {
+        stopEVsound();
+        play(fileName, 1);
+    }
+
+    public static void playSound(String fileName) {
+        play(fileName, 2);
     }
 
     public static void stopBGsound() {
@@ -46,25 +28,37 @@ public class Sounds {
         }
     }
 
-    public static void playEVSound(String fileName) {
-        try {
-            stopEVsound();
-            URL file = Sounds.class.getResource("/" + fileName + ".wav");
-            eventMusic = AudioSystem.getClip();
-            AudioInputStream ais = AudioSystem.getAudioInputStream(file);
-            eventMusic.open(ais);
-            FloatControl gainControl =
-                    (FloatControl) eventMusic.getControl(FloatControl.Type.MASTER_GAIN);
-            gainControl.setValue(-12.0f);
-            eventMusic.loop(Clip.LOOP_CONTINUOUSLY);
-        } catch (IOException | LineUnavailableException | UnsupportedAudioFileException ex)  {
-            System.out.println("Valami nem stimmel a hanggal! :S");
-        }
-    }
-
     public static void stopEVsound() {
         if (eventMusic != null && eventMusic.isOpen() && eventMusic.isRunning()) {
             eventMusic.stop();
+        }
+    }
+
+    private static void play(String fileName, int channel) { //0=bg(loop), 1=event(loop) else sfx)
+        try {
+            URL file = Sounds.class.getResource("/" + fileName + ".wav");
+            Clip clip = AudioSystem.getClip();
+            AudioInputStream ais = AudioSystem.getAudioInputStream(file);
+            clip.open(ais);
+            FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            switch (channel) {
+                case 0:
+                    gainControl.setValue(-18.0f);
+                    bgMusic = clip;
+                    bgMusic.loop(Clip.LOOP_CONTINUOUSLY);
+                    break;
+                case 1:
+                    gainControl.setValue(-15.0f);
+                    eventMusic = clip;
+                    eventMusic.loop(Clip.LOOP_CONTINUOUSLY);
+                    break;
+                default:
+                    gainControl.setValue(-12.0f);
+                    clip.start();
+                    break;
+            }
+        } catch (IOException | LineUnavailableException | UnsupportedAudioFileException ex) {
+            System.out.println("Valami nem stimmel a hanggal! :S");
         }
     }
 }

@@ -40,7 +40,7 @@ public class Tiles {
         tileMap.put("spikeforbossesR", new Tile(2,2));
         tileMap.put("stunner", new Tile(5, 0));
         tileMap.put("bossfloor", new Tile(4,0));
-        tileMap.put("WhiteWizard", new Tile(24, 6));
+        tileMap.put("WhiteWizard", new Tile(1, 1));
         tileMap.put("friendlyDwarf", new Tile(25, 6));
 
         tileMap.put("sealedFromOtherSideDoor", new Tile(8, 7));
