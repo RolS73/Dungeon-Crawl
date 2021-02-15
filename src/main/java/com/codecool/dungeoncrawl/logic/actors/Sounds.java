@@ -13,7 +13,7 @@ public class Sounds {
         play(fileName, 0);
     }
 
-    public static void playEVSound(String fileName) {
+    public static void playEVsound(String fileName) {
         stopEVsound();
         play(fileName, 1);
     }
