@@ -33,7 +33,9 @@ public class CombatEvent {
 
     private void playAttackSoundEffect() {
         String attackSoundFile = attacker.setAttackSoundFile(attacker.getAttackSoundFiles());
+        String hitSoundFile = attacker.setAttackSoundFile(attacker.getHitSoundFiles());
         playFightSoundEffects(attackSoundFile);
+        playFightSoundEffects(hitSoundFile);
     }
 
     private int damageCalculation() {
