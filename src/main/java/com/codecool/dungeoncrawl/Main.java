@@ -2,6 +2,7 @@ package com.codecool.dungeoncrawl;
 
 import com.codecool.dungeoncrawl.dao.GameDatabaseManager;
 import com.codecool.dungeoncrawl.logic.*;
+import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.actors.items.Weapon;
 import com.codecool.dungeoncrawl.logic.actors.items.enviromentalHazards.EnvironmentalDamage;
 import com.codecool.dungeoncrawl.logic.actors.items.enviromentalHazards.ProjectileCycle;
@@ -23,16 +24,15 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 
 import java.sql.SQLException;
@@ -204,6 +204,7 @@ public class Main extends Application {
                 break;
             case DOWN:
             case S:
+                if (!keyEvent.isControlDown()) {
                 map.getPlayer().setTileName("playerD");
                 map.getPlayer().move(0, 1);
                 AI.monsterMover();
@@ -217,6 +218,70 @@ public class Main extends Application {
                     ((StepOnActivatable) map.getPlayer().getCell().getItem()).activate();
                 }
                 refresh();
+                } else {
+                    BorderPane root = new BorderPane();
+                    Stage saveDialog = new Stage();
+                    saveDialog.setTitle("Save game");
+                    saveDialog.setAlwaysOnTop(true);
+                    saveDialog.initStyle(StageStyle.UNDECORATED);
+                    saveDialog.setResizable(false);
+
+                    TableView<String> saveTable = new TableView<>();
+                    TableColumn<String, String> col = new TableColumn<>("Saved games");
+                    saveTable.getColumns().add(col);
+                    saveTable.setPlaceholder(new Label("No saved game"));
+                    root.setCenter(saveTable);
+
+                    Button saveOkButton = new Button("Save");
+                    saveOkButton.setMinWidth(160);
+                    Button saveCancelButton = new Button("Cancel");
+                    saveCancelButton.setOnAction((e) -> saveDialog.close());
+                    saveCancelButton.setMinWidth(160);
+
+                    HBox saveButtons = new HBox();
+                    saveButtons.getChildren().addAll(saveOkButton, saveCancelButton);
+                    VBox inputField = new VBox();
+                    TextField saveInput = new TextField();
+                    inputField.getChildren().addAll(saveInput, saveButtons);
+                    root.setBottom(inputField);
+
+                    Scene saveScene = new Scene(root, 320, 640);
+                    saveDialog.setScene(saveScene);
+                    saveDialog.initModality(Modality.APPLICATION_MODAL);
+                    saveDialog.initOwner(stage);
+                    saveDialog.show();
+                }
+                break;
+            case L :
+                if (keyEvent.isControlDown()) {
+                    BorderPane root = new BorderPane();
+                    Stage loadDialog = new Stage();
+                    loadDialog.setTitle("Load game");
+                    loadDialog.setAlwaysOnTop(true);
+                    loadDialog.setResizable(false);
+                    loadDialog.initStyle(StageStyle.UNDECORATED);
+
+                    TableView<List<String>> loadTable = new TableView<>();
+                    TableColumn<List<String>, String> col = new TableColumn<>("Saved games");
+                    loadTable.getColumns().add(col);
+                    loadTable.setPlaceholder(new Label("No saved game"));
+                    root.setCenter(loadTable);
+
+                    Button loadOkButton = new Button("Load");
+                    loadOkButton.setMinWidth(160);
+                    Button loadCancelButton = new Button("Cancel");
+                    loadCancelButton.setOnAction((e) -> loadDialog.close());
+                    loadCancelButton.setMinWidth(160);
+                    HBox loadButtons = new HBox();
+                    loadButtons.getChildren().addAll(loadOkButton, loadCancelButton);
+                    root.setBottom(loadButtons);
+
+                    Scene loadScene = new Scene(root, 320, 640);
+                    loadDialog.setScene(loadScene);
+                    loadDialog.initModality(Modality.APPLICATION_MODAL);
+                    loadDialog.initOwner(stage);
+                    loadDialog.show();
+                }
                 break;
             case LEFT:
             case A:
