@@ -45,7 +45,7 @@ public class DartTurretProjectile extends Item implements EnvironmentalDamage, P
         Cell nextCell = this.getCell().getNeighbor(dx, dy);
 
         if (nextCell.getActor() instanceof Player) {
-            damageCalculation(nextCell);
+            attack(nextCell);
             this.getCell().setItem(null);
             isHit = true;
         } else if ((nextCell.getCellType() == CellType.FLOOR || nextCell.getCellType() == CellType.FLOORNOMONSTER) && nextCell.getActor() == null) {

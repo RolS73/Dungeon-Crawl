@@ -1,9 +1,11 @@
 package com.codecool.dungeoncrawl;
 
+import com.codecool.dungeoncrawl.dao.GameDatabaseManager;
 import com.codecool.dungeoncrawl.logic.*;
-import com.codecool.dungeoncrawl.logic.actors.Player;
-import com.codecool.dungeoncrawl.logic.actors.Sounds;
-import com.codecool.dungeoncrawl.logic.actors.items.*;
+import com.codecool.dungeoncrawl.logic.actors.items.Weapon;
+import com.codecool.dungeoncrawl.logic.actors.items.enviromentalHazards.EnvironmentalDamage;
+import com.codecool.dungeoncrawl.logic.actors.items.enviromentalHazards.ProjectileCycle;
+import com.codecool.dungeoncrawl.logic.actors.items.enviromentalHazards.TrapCycle;
 import com.codecool.dungeoncrawl.logic.actors.items.interactablilty.InteractiveObject;
 import com.codecool.dungeoncrawl.logic.actors.items.interactablilty.OpenedDoor;
 import com.codecool.dungeoncrawl.logic.actors.items.interactablilty.StepOnActivatable;
@@ -11,9 +13,6 @@ import com.codecool.dungeoncrawl.logic.actors.items.interactablilty.Switch;
 import com.codecool.dungeoncrawl.logic.actors.items.looting.Item;
 import com.codecool.dungeoncrawl.logic.actors.items.looting.LootTable;
 import com.codecool.dungeoncrawl.logic.actors.items.looting.PickupableItem;
-import com.codecool.dungeoncrawl.logic.actors.items.enviromentalHazards.EnvironmentalDamage;
-import com.codecool.dungeoncrawl.logic.actors.items.enviromentalHazards.ProjectileCycle;
-import com.codecool.dungeoncrawl.logic.actors.items.enviromentalHazards.TrapCycle;
 import javafx.application.Application;
 import javafx.beans.binding.Binding;
 import javafx.beans.binding.Bindings;
@@ -483,6 +482,9 @@ public class Main extends Application {
         map.getPlayer().playerHit();
         ((EnvironmentalDamage) map.getPlayer().getCell().getItem()).playDamageSound();
         map.getPlayer().lowerHealth(map.getPlayer().getCell().getItem().getAttackPower());
+        if (map.getPlayer().getHealth() < 1) {
+            map.getPlayer().playDeathSound();
+        }
     }
 
     public boolean isPlayerBeingAffectedByAnEnvironmentalDamageSource() {

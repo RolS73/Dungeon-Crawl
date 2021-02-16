@@ -68,6 +68,10 @@ public class Player extends Actor {
         Sounds.playSound("Hdead");
     }
 
+    /*public String[] getHitSoundFiles() {
+        return new String[0];
+    }*/
+
     public void playerHit() {
         int randomNum = RandomGenerator.nextInt(2);
         if (randomNum == 0) {

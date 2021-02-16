@@ -14,7 +14,8 @@ public abstract class Actor implements Drawable {
     private boolean thisABossFight = false;
     private boolean wallCheatOn = false;
     private int armor = 0;
-    private String[] attackSoundFiles = new String[] {"DSdamage1", "DSdamage2", "DSdamage3"};
+    private String[] attackSoundFiles = new String[] {"Sword1"};
+    private String[] hitSoundFiles = new String[] {"DSdamage1"};
 
     public Actor(Cell cell) {
         this.cell = cell;
@@ -178,6 +179,10 @@ public abstract class Actor implements Drawable {
 
     public String[] getAttackSoundFiles() {
         return attackSoundFiles;
+    }
+
+    public String[] getHitSoundFiles() {
+        return hitSoundFiles;
     }
 
     public void setAttackSoundFiles(String[] attackSoundFiles) {
