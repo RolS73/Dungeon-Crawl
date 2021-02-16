@@ -5,8 +5,11 @@ import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.actors.Sounds;
 import com.codecool.dungeoncrawl.logic.actors.items.*;
 import javafx.application.Application;
+import javafx.beans.binding.Binding;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import com.codecool.dungeoncrawl.dao.GameDatabaseManager;
+import javafx.collections.MapChangeListener;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -19,17 +22,17 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 
 public class Main extends Application {
 
-
-//    public static ObservableList<Item> inventory = FXCollections.observableArrayList();
     boolean isDeveloperStartingGearEnabled;
-
 
     static GameMap map = MapLoader.loadMap();
     AiMovement AI = new AiMovement(map);
@@ -56,13 +59,15 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         stage = primaryStage;
-        GridPane ui = new GridPane();
+//        GridPane ui = new GridPane();
+        VBox ui = new VBox();
         ui.setStyle("-fx-background-color: black;");
 
         ui.setPrefWidth(200);
         ui.setPadding(new Insets(10));
+        ui.setSpacing(10);
 
-        ui.add(name, 0, 0);
+//        ui.add(name, 0, 0);
 
         HBox lifeStatus = new HBox();
         lifeStatus.setSpacing(5);
@@ -71,28 +76,47 @@ public class Main extends Application {
         HBox attackPwStatus = new HBox();
         attackPwStatus.getChildren().addAll( new Label("Attackpw: "), attackPwLabel);
 
-        ui.setHgap(10);
-        ui.setVgap(10);
+//        ui.setHgap(10);
+//        ui.setVgap(10);
         ui.setPadding(new Insets(10, 10, 10, 10));
         ui.getStylesheets().add("Main.css");
 
-        ui.add(lifeStatus, 0, 1);
-        ui.add(attackPwStatus, 0, 2);
+//        ui.add(lifeStatus, 0, 1);
+//        ui.add(attackPwStatus, 0, 2);
 
 
         Label instructions = new Label();
         instructions.setText("Move with arrow keys or WASD.\nInteract: E key.\nPick up items with E key.");
-        ui.add(instructions, 0, 5);
+//        ui.add(instructions, 0, 5);
 
-        TableView<Item> inventoryTable = new TableView<>(InventoryManager.inventory);
-        TableColumn<Item, String> itemNames = new TableColumn<>("Inventory");
+        InventoryManager.inventory.addListener((MapChangeListener.Change<? extends Item, ? extends Integer> change) -> {
+            boolean removed = change.wasRemoved();
+            if (removed != change.wasAdded()) {
+                // no put for existing key
+                if (removed) {
+                    InventoryManager.keys.remove(change.getKey());
+                } else {
+                    InventoryManager.keys.add(change.getKey());
+                }
+            }
+        });
+//        TableView inventoryTable = new TableView<>(InventoryManager.inventory);
+        TableView<Item> inventoryTable = new TableView<>(InventoryManager.keys);
+        TableColumn<Item, String> inventoryLabel = new TableColumn<>("Inventory");
+        TableColumn<Item, String> itemNames = new TableColumn<>("Item");
+        TableColumn<Item, Integer> itemAmount = new TableColumn<>("Amount");
 
-        itemNames.setCellValueFactory(items -> new ReadOnlyStringWrapper(items.getValue().getName()));
-        inventoryTable.getColumns().add(itemNames);
-        inventoryTable.setMaxWidth(130);
+        itemNames.setCellValueFactory(names -> Bindings.createStringBinding(() -> names.getValue().getName()));
+        itemAmount.setCellValueFactory(amount -> Bindings.valueAt(InventoryManager.inventory, amount.getValue()));
+
+        inventoryLabel.getColumns().addAll(itemNames, itemAmount);
+        inventoryTable.getColumns().add(inventoryLabel);
+//        inventoryTable.getColumns().add(itemNames);
+//        inventoryTable.getColumns().add(itemAmount);
+        inventoryTable.setMaxWidth(180);
         inventoryTable.setMaxHeight(150);
         inventoryTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        ui.add(inventoryTable, 0, 4);
+//        ui.add(inventoryTable, 0, 4);
         inventoryTable.setFocusTraversable(false);
         inventoryTable.setPlaceholder(new Label("Inventory is empty!"));
 
@@ -111,8 +135,8 @@ public class Main extends Application {
         pickUpButton.setPrefWidth(130);
 
         lootButtons.getChildren().addAll(pickUpButton);
-        ui.add(lootButtons, 0, 3);
-
+//        ui.add(lootButtons, 0, 3);
+        ui.getChildren().addAll(name, lifeStatus, attackPwStatus, lootButtons, inventoryTable, instructions);
         setupDbManager(); //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< THIS IS NEW!
 
 
@@ -388,7 +412,7 @@ public class Main extends Application {
 
 
 
-        if (InventoryManager.inventory.stream().anyMatch(item -> item instanceof Weapon)) {
+        if (InventoryManager.inventory.keySet().stream().anyMatch(item -> item instanceof Weapon)) {
             attackPwLabel.setText(map.getPlayer().getStrength() + "+" + inventoryManager.getCurrentWeapon().getAttackpowerIncrease());
         } else {
             attackPwLabel.setText(String.valueOf(map.getPlayer().getStrength()));

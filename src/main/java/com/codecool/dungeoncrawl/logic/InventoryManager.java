@@ -4,16 +4,19 @@ import com.codecool.dungeoncrawl.logic.actors.Sounds;
 import com.codecool.dungeoncrawl.logic.actors.items.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 
 import java.util.NoSuchElementException;
 
 public class InventoryManager {
 
-    public static ObservableList<Item> inventory = FXCollections.observableArrayList();
+    public static ObservableMap<Item, Integer> inventory = FXCollections.observableHashMap();
+
+    public static ObservableList<Item> keys = FXCollections.observableArrayList();
 
     public void pickUpItem(Item item, GameMap map) {
         if (item instanceof Weapon) {
-            if (inventory.stream().anyMatch(i -> i instanceof Weapon)) {
+            if (inventory.keySet().stream().anyMatch(i -> i instanceof Weapon)) {
                 compareWithCurrentWeapon((Weapon) item, map);
             } else {
                 equipWeapon((Weapon) item, map);
@@ -24,7 +27,8 @@ public class InventoryManager {
                 removeItemFromGround(map);
             }
         } else if (item instanceof Key) {
-            inventory.add(item);
+            addItemToInventory(item);
+//            inventory.add(item);
             Sounds.playSound("Coins");
             removeItemFromGround(map);
         } else if (item instanceof LifeUpgrade) {
@@ -32,11 +36,29 @@ public class InventoryManager {
             Sounds.playSound("healthUp");
             removeItemFromGround(map);
         } else if (item instanceof ArmorUpgrade) {
-            if (inventory.stream().anyMatch(i -> i instanceof ArmorUpgrade)) {
+            if (inventory.keySet().stream().anyMatch(i -> i instanceof ArmorUpgrade)) {
                 compareWithCurrentArmor((ArmorUpgrade) item, map);
             } else {
                 equipArmor((ArmorUpgrade) item, map);
             }
+        }
+    }
+
+    private void addItemToInventory(Item item) {
+        if (!inventory.containsKey(item)) {
+            inventory.put(item, 1);
+        } else {
+            int newAmount = inventory.get(item) + 1;
+            inventory.put(item, newAmount);
+        }
+    }
+
+    private void removeItemFromInventory(Item item) {
+        if (inventory.get(item) > 1) {
+            int newAmount = inventory.get(item) - 1;
+            inventory.put(item, newAmount);
+        } else {
+            inventory.remove(item);
         }
     }
 
@@ -64,10 +86,31 @@ public class InventoryManager {
     }
 
     public Weapon getCurrentWeapon() {
-        return inventory.stream().filter(Weapon.class::isInstance)
+        return inventory.keySet().stream().filter(Weapon.class::isInstance)
                 .map(Weapon.class::cast)
                 .findFirst()
                 .orElseThrow(() -> new NoSuchElementException("No Weapon found"));
+    }
+
+    private void unequipArmor(ArmorUpgrade currentArmor, GameMap map) {
+//        inventory.remove(currentArmor);
+        removeItemFromInventory(currentArmor);
+        map.getPlayer().setArmor(0);
+    }
+
+    private void equipArmor(ArmorUpgrade newArmor, GameMap map) {
+//        inventory.add(newArmor);
+        addItemToInventory(newArmor);
+        map.getPlayer().setArmor(newArmor.getArmorUpgradeAmount());
+        Sounds.playSound("armorEquip");
+        removeItemFromGround(map);
+    }
+
+    private ArmorUpgrade getCurrentArmor() {
+        return inventory.keySet().stream().filter(ArmorUpgrade.class::isInstance)
+                .map(ArmorUpgrade.class::cast)
+                .findFirst()
+                .orElseThrow(() -> new NoSuchElementException("No Armor found"));
     }
 
     private void compareWithCurrentArmor(ArmorUpgrade newArmor, GameMap map) {
@@ -76,26 +119,6 @@ public class InventoryManager {
             unequipArmor(currentArmor, map);
             equipArmor(newArmor, map);
         }
-    }
-
-    private void unequipArmor(ArmorUpgrade currentArmor, GameMap map) {
-        inventory.remove(currentArmor);
-        map.getPlayer().setArmor(0);
-    }
-
-    private void equipArmor(ArmorUpgrade newArmor, GameMap map) {
-        inventory.add(newArmor);
-        map.getPlayer().setArmor(newArmor.getArmorUpgradeAmount());
-//        map.getPlayer().setArmor(map.getPlayer().getCell().getItem().getHealth());
-        Sounds.playSound("armorEquip");
-        removeItemFromGround(map);
-    }
-
-    private ArmorUpgrade getCurrentArmor() {
-        return inventory.stream().filter(ArmorUpgrade.class::isInstance)
-                .map(ArmorUpgrade.class::cast)
-                .findFirst()
-                .orElseThrow(() -> new NoSuchElementException("No Armor found"));
     }
 
     private void compareWithCurrentWeapon(Weapon weapon, GameMap map) {
@@ -107,13 +130,15 @@ public class InventoryManager {
     }
 
     private void unequipCurrentWeapon(Weapon currentWeapon, GameMap map) {
-        inventory.remove(currentWeapon);
+//        inventory.remove(currentWeapon);
+        removeItemFromInventory(currentWeapon);
         map.getPlayer().setAttackPower(map.getPlayer().getAttackPower() - currentWeapon.getAttackpowerIncrease());
     }
 
     private void equipWeapon(Weapon weapon, GameMap map) {
         map.getPlayer().raiseAttackPower(weapon.getAttackpowerIncrease());
-        inventory.add(weapon);
+        addItemToInventory(weapon);
+//        inventory.add(weapon);
         Sounds.playSound("swordBling");
         removeItemFromGround(map);
     }

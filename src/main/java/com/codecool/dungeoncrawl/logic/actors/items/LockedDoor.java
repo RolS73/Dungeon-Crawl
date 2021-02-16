@@ -16,7 +16,7 @@ public class LockedDoor extends Item implements InteractiveObject {
 
     @Override
         public boolean isThisObjectInteractive(){
-            for (Item item : InventoryManager.inventory) {
+            for (Item item : InventoryManager.inventory.keySet()) {
                 if (item.getName().equals("Key of Wisdom")) {
                     return true;
                 }
@@ -28,7 +28,7 @@ public class LockedDoor extends Item implements InteractiveObject {
         public void interact() {
             if (isThisObjectInteractive()) {
                 this.getCell().setItem(new OpenedDoor(getCell()));
-                InventoryManager.inventory.removeIf(item -> item.getName().equals("Key of Wisdom"));
+                InventoryManager.inventory.keySet().removeIf(item -> item.getName().equals("Key of Wisdom"));
                 Sounds.playSound("Door5b");
             }
         }
