@@ -100,14 +100,21 @@ public class Main extends Application {
                 }
             }
         });
-//        TableView inventoryTable = new TableView<>(InventoryManager.inventory);
+
         TableView<Item> inventoryTable = new TableView<>(InventoryManager.keys);
         TableColumn<Item, String> inventoryLabel = new TableColumn<>("Inventory");
-        TableColumn<Item, String> itemNames = new TableColumn<>("Item");
-        TableColumn<Item, Integer> itemAmount = new TableColumn<>("Amount");
+        TableColumn<Item, String> itemNames = new TableColumn<>("Items");
+        TableColumn<Item, Integer> itemAmount = new TableColumn<>("Amt");
+
+        itemAmount.setStyle("-fx-alignment: CENTER;");
 
         itemNames.setCellValueFactory(names -> Bindings.createStringBinding(() -> names.getValue().getName()));
         itemAmount.setCellValueFactory(amount -> Bindings.valueAt(InventoryManager.inventory, amount.getValue()));
+
+        itemNames.prefWidthProperty().bind(inventoryTable.widthProperty().multiply(0.75));
+        itemAmount.prefWidthProperty().bind(inventoryTable.widthProperty().multiply(0.235));
+        itemNames.setResizable(false);
+        itemAmount.setResizable(false);
 
         inventoryLabel.getColumns().addAll(itemNames, itemAmount);
         inventoryTable.getColumns().add(inventoryLabel);
