@@ -1,8 +1,8 @@
 package com.codecool.dungeoncrawl.logic.actors.npcs;
 
 import com.codecool.dungeoncrawl.logic.Cell;
-import com.codecool.dungeoncrawl.logic.actors.items.InteractiveObject;
-import com.codecool.dungeoncrawl.logic.actors.items.Switch;
+import com.codecool.dungeoncrawl.logic.actors.items.interactablilty.InteractiveObject;
+import com.codecool.dungeoncrawl.logic.actors.items.interactablilty.Switch;
 
 public class FriendlyWhiteWizard extends NonPlayerCharacter implements InteractiveObject, Switch, Shopkeeper {
 

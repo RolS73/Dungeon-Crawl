@@ -56,6 +56,7 @@ public class Tiles {
         tileMap.put("spikeTrapActive", new Tile(11, 0));
         tileMap.put("spikeTrapBloodyResting", new Tile(10, 0));
         tileMap.put("spikeTrapBloodyActive", new Tile(12, 0));
+        tileMap.put("dartTurret", new Tile(4, 6));
 
         tileMap.put("gateOpenableByASwitch", new Tile(15, 0));
 
@@ -73,6 +74,8 @@ public class Tiles {
         tileMap.put("fish", new Tile(15, 5));
         tileMap.put("steak", new Tile(12, 6));
         tileMap.put("ham", new Tile(13, 6));
+
+        tileMap.put("Money", new Tile(7, 5));
 
         tileMap.put("lifeUpgrade1", new Tile(9, 4));
         tileMap.put("lifeUpgrade2", new Tile(9, 3));

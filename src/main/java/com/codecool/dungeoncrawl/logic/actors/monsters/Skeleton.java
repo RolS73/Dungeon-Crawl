@@ -1,10 +1,12 @@
 package com.codecool.dungeoncrawl.logic.actors.monsters;
 
+import com.codecool.dungeoncrawl.Main;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.RandomGenerator;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.actors.Sounds;
+import com.codecool.dungeoncrawl.logic.actors.items.looting.LootTable;
 
 public class Skeleton extends Monster {
 
@@ -38,16 +40,16 @@ public class Skeleton extends Monster {
 
     @Override
     public void monsterMove(int x, int y) {
-        if (y<0) {
+        if (y < 0) {
             this.name = "skeletonU";
         }
-        if (y>0) {
+        if (y > 0) {
             this.name = "skeletonD";
         }
-        if (x<0) {
+        if (x < 0) {
             this.name = "skeletonL";
         }
-        if (x>0) {
+        if (x > 0) {
             this.name = "skeletonR";
         }
         Cell nextCell = this.getCell().getNeighbor(x, y);
@@ -68,6 +70,27 @@ public class Skeleton extends Monster {
                 this.setCell(nextCell);
             }
 
+        }
+
+    }
+
+    @Override
+    public void rollForMonsterLoot() {
+        int tableRoll = RandomGenerator.nextInt(100);
+        if (tableRoll > 37) {
+        } else if (tableRoll > 3 && tableRoll < 37) {
+            if (this.getCell().getItem() == null) {
+                this.getCell().setItem(new LootTable().getMonsterCommonLoot().get(0));
+            } else {
+                Main.cheatingMapGetter().getPlayer().getCell().setItem(new LootTable().getMonsterCommonLoot().get(0));
+            }
+
+        } else {
+            if (this.getCell().getItem() == null) {
+                this.getCell().setItem(new LootTable().getMonsterUniqueLoot().get(0));
+            } else {
+                Main.cheatingMapGetter().getPlayer().getCell().setItem(new LootTable().getMonsterUniqueLoot().get(0));
+            }
         }
     }
 }

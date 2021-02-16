@@ -4,6 +4,16 @@ import com.codecool.dungeoncrawl.logic.*;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.actors.Sounds;
 import com.codecool.dungeoncrawl.logic.actors.items.*;
+import com.codecool.dungeoncrawl.logic.actors.items.interactablilty.InteractiveObject;
+import com.codecool.dungeoncrawl.logic.actors.items.interactablilty.OpenedDoor;
+import com.codecool.dungeoncrawl.logic.actors.items.interactablilty.StepOnActivatable;
+import com.codecool.dungeoncrawl.logic.actors.items.interactablilty.Switch;
+import com.codecool.dungeoncrawl.logic.actors.items.looting.Item;
+import com.codecool.dungeoncrawl.logic.actors.items.looting.LootTable;
+import com.codecool.dungeoncrawl.logic.actors.items.looting.PickupableItem;
+import com.codecool.dungeoncrawl.logic.actors.items.enviromentalHazards.EnvironmentalDamage;
+import com.codecool.dungeoncrawl.logic.actors.items.enviromentalHazards.ProjectileCycle;
+import com.codecool.dungeoncrawl.logic.actors.items.enviromentalHazards.TrapCycle;
 import javafx.application.Application;
 import javafx.beans.binding.Binding;
 import javafx.beans.binding.Bindings;
@@ -179,7 +189,9 @@ public class Main extends Application {
                 map.getPlayer().setTileName("playerU");
                 map.getPlayer().move(0, -1);
                 AI.monsterMover();
-                map.getTrapsCollection().forEach(TrapPlain::activate);
+                map.getEndlessCycleTraps().forEach(TrapCycle::trapCycle);
+                map.getProjectilesCollection().forEach(ProjectileCycle::projectileCycle);
+                map.getProjectilesCollection().removeIf(ProjectileCycle::isHit);
                 if (isPlayerBeingAffectedByAnEnvironmentalDamageSource()) {
                     playerSuffersEnvironmentalDamage();
                 }
@@ -193,7 +205,9 @@ public class Main extends Application {
                 map.getPlayer().setTileName("playerD");
                 map.getPlayer().move(0, 1);
                 AI.monsterMover();
-                map.getTrapsCollection().forEach(TrapPlain::activate);
+                map.getEndlessCycleTraps().forEach(TrapCycle::trapCycle);
+                map.getProjectilesCollection().forEach(ProjectileCycle::projectileCycle);
+                map.getProjectilesCollection().removeIf(ProjectileCycle::isHit);
                 if (isPlayerBeingAffectedByAnEnvironmentalDamageSource()) {
                     playerSuffersEnvironmentalDamage();
                 }
@@ -207,7 +221,9 @@ public class Main extends Application {
                 map.getPlayer().setTileName("playerL");
                 map.getPlayer().move(-1, 0);
                 AI.monsterMover();
-                map.getTrapsCollection().forEach(TrapPlain::activate);
+                map.getEndlessCycleTraps().forEach(TrapCycle::trapCycle);
+                map.getProjectilesCollection().forEach(ProjectileCycle::projectileCycle);
+                map.getProjectilesCollection().removeIf(ProjectileCycle::isHit);
                 if (isPlayerBeingAffectedByAnEnvironmentalDamageSource()) {
                     playerSuffersEnvironmentalDamage();
                 }
@@ -221,7 +237,9 @@ public class Main extends Application {
                 map.getPlayer().setTileName("playerR");
                 map.getPlayer().move(1, 0);
                 AI.monsterMover();
-                map.getTrapsCollection().forEach(TrapPlain::activate);
+                map.getEndlessCycleTraps().forEach(TrapCycle::trapCycle);
+                map.getProjectilesCollection().forEach(ProjectileCycle::projectileCycle);
+                map.getProjectilesCollection().removeIf(ProjectileCycle::isHit);
                 if (isPlayerBeingAffectedByAnEnvironmentalDamageSource()) {
                     playerSuffersEnvironmentalDamage();
                 }
@@ -232,15 +250,17 @@ public class Main extends Application {
                 break;
             case SPACE:
                 AI.monsterMover();
-                map.getTrapsCollection().forEach(TrapPlain::activate);
+                map.getEndlessCycleTraps().forEach(TrapCycle::trapCycle);
+                map.getProjectilesCollection().forEach(ProjectileCycle::projectileCycle);
+                map.getProjectilesCollection().removeIf(ProjectileCycle::isHit);
                 if (isPlayerBeingAffectedByAnEnvironmentalDamageSource()) {
                     playerSuffersEnvironmentalDamage();
                 }
-                System.out.println("Player X Coordinate: " + map.getPlayer().getX() + "\n" + "Player Y Coordinate: " + map.getPlayer().getY());
                 if (map.getPlayer().getCell().getItem() instanceof StepOnActivatable) {
                     ((StepOnActivatable) map.getPlayer().getCell().getItem()).activate();
                 }
                 refresh();
+                //System.out.println("Player X Coordinate: " + map.getPlayer().getX() + "\n" + "Player Y Coordinate: " + map.getPlayer().getY());
                 break;
             case F4:
                 map.getPlayer().teleport(94,20);
@@ -251,7 +271,9 @@ public class Main extends Application {
                 refresh();
                 break;
             case E:
-                map.getTrapsCollection().forEach(TrapPlain::activate);
+                map.getEndlessCycleTraps().forEach(TrapCycle::trapCycle);
+                map.getProjectilesCollection().forEach(ProjectileCycle::projectileCycle);
+                map.getProjectilesCollection().removeIf(ProjectileCycle::isHit);
                 if (isPlayerBeingAffectedByAnEnvironmentalDamageSource()) {
                     playerSuffersEnvironmentalDamage();
                 }
@@ -276,7 +298,7 @@ public class Main extends Application {
                                         .filter(x -> x.getGroupName() != null)
                                         .filter(x -> x.isThisFromTheSameGroup(((Switch) currentlyProcessedInteractable).getGroupName()))
                                         .forEach(InteractiveObject::interact);
-                                System.out.println(((Switch) currentlyProcessedInteractable).getGroupName());
+                                //System.out.println(((Switch) currentlyProcessedInteractable).getGroupName());
                             }
                             if (currentlyProcessedInteractable.isMoveOnPossibleAfterInteraction() && !(currentlyProcessedInteractable instanceof Switch)) {
                                 currentlyFocusedCell.setCellType(CellType.FLOOR);

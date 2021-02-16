@@ -3,9 +3,9 @@ package com.codecool.dungeoncrawl.logic.actors.monsters;
 import com.codecool.dungeoncrawl.Main;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.actors.Sounds;
-import com.codecool.dungeoncrawl.logic.actors.items.InteractiveObject;
-import com.codecool.dungeoncrawl.logic.actors.items.Item;
-import com.codecool.dungeoncrawl.logic.actors.items.Switch;
+import com.codecool.dungeoncrawl.logic.actors.items.interactablilty.InteractiveObject;
+import com.codecool.dungeoncrawl.logic.actors.items.looting.Item;
+import com.codecool.dungeoncrawl.logic.actors.items.interactablilty.Switch;
 
 public class HiddenEnemySpawner extends Item implements InteractiveObject, Switch {
 

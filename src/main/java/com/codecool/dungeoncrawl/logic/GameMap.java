@@ -1,12 +1,17 @@
 package com.codecool.dungeoncrawl.logic;
 
-import com.codecool.dungeoncrawl.logic.actors.npcs.NonPlayerCharacter;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.actors.boss.SpikeBoss;
 import com.codecool.dungeoncrawl.logic.actors.boss.SpikeForBosses;
-import com.codecool.dungeoncrawl.logic.actors.items.*;
+import com.codecool.dungeoncrawl.logic.actors.items.enviromentalHazards.ProjectileCycle;
+import com.codecool.dungeoncrawl.logic.actors.items.enviromentalHazards.TrapCycle;
+import com.codecool.dungeoncrawl.logic.actors.items.interactablilty.*;
+import com.codecool.dungeoncrawl.logic.actors.items.looting.Chest;
+import com.codecool.dungeoncrawl.logic.actors.items.looting.HiddenItem;
+import com.codecool.dungeoncrawl.logic.actors.items.looting.Item;
 import com.codecool.dungeoncrawl.logic.actors.monsters.HiddenEnemySpawner;
 import com.codecool.dungeoncrawl.logic.actors.monsters.Monster;
+import com.codecool.dungeoncrawl.logic.actors.npcs.NonPlayerCharacter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,8 +30,11 @@ public class GameMap {
     List<InteractiveObject> interactablesCollection = new ArrayList<>();
     List<DoorSealedFromOtherSide> doorsSealedFromOtherSideCollection = new ArrayList<>();
     List<Chest> chestsCollection = new ArrayList<>();
-    List<TrapPlain> trapsCollection = new ArrayList<>();
-    List<TrapBloody> trapBloodyCollection = new ArrayList<>();
+    List<TrapCycle> endlessCycleTraps = new ArrayList<>();
+    List<ProjectileCycle> projectilesCollection = new ArrayList<>();
+    //List<TrapBloody> trapBloodyCollection = new ArrayList<>();
+    //List<DartTurret> dartTurretsCollection = new ArrayList<>();
+    //List<DartTurretProjectile> dartTurretProjectilesCollection = new ArrayList<>();
     List<LeverSwitch> leverSwitchCollection = new ArrayList<>();
     List<GateOpenableByASwitch> GateOpenableByASwitchCollection = new ArrayList<>();
     List<Switch> switchablesCollection = new ArrayList<>();
@@ -41,6 +49,7 @@ public class GameMap {
     List<NonPlayerCharacter> actorsCollection = new ArrayList<>();
 
 
+
     public GameMap(int width, int height, CellType defaultCellType) {
         this.width = width;
         this.height = height;
@@ -51,6 +60,18 @@ public class GameMap {
             }
         }
     }
+
+    public List<ProjectileCycle> getProjectilesCollection() {
+        return projectilesCollection;
+    }
+
+    /*public List<DartTurret> getDartTurretsCollection() {
+        return dartTurretsCollection;
+    }*/
+
+   /* public List<DartTurretProjectile> getDartTurretProjectilesCollection() {
+        return dartTurretProjectilesCollection;
+    }*/
 
     public List<Switch> getMapStateSwitchers() {
         return mapStateSwitchers;
@@ -105,13 +126,13 @@ public class GameMap {
         return chestsCollection;
     }
 
-    public List<TrapPlain> getTrapsCollection() {
-        return trapsCollection;
+    public List<TrapCycle> getEndlessCycleTraps() {
+        return endlessCycleTraps;
     }
 
-    public List<TrapBloody> getTrapBloodyCollection() {
+    /*public List<TrapBloody> getTrapBloodyCollection() {
         return trapBloodyCollection;
-    }
+    }*/
 
     public List<Monster> getMonsters() {
         return monsters;
