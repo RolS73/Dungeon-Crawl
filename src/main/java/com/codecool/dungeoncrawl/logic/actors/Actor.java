@@ -35,6 +35,7 @@ public abstract class Actor implements Drawable {
         }
         if (nextCell.getActor() != null && !(nextCell.getActor() instanceof NonPlayerCharacter)) {
             attack(nextCell);
+            return;
 //            if (nextCell.getActor() instanceof Player) {
 //                damageCalculation(nextCell);
 //            } else {
@@ -43,17 +44,17 @@ public abstract class Actor implements Drawable {
 
 //            this.health = this.health - nextCell.getActor().getAttackPower();
 
-            if (nextCell.getActor().health < 1 ) {
-                Sounds.playSound("kill1");
-                nextCell.getActor().playDeathSound();
-                if (nextCell.getActor() instanceof Monster) {
-                    ((Monster) nextCell.getActor()).rollForMonsterLoot();
-                }
-                nextCell.setActor(null);
-                return;
-            } else {
-                Sounds.playSound("Sword1");
-            }
+//            if (nextCell.getActor().health < 1 ) {
+//                Sounds.playSound("kill1");
+//                nextCell.getActor().playDeathSound();
+//                if (nextCell.getActor() instanceof Monster) {
+//                    ((Monster) nextCell.getActor()).rollForMonsterLoot();
+//                }
+//                nextCell.setActor(null);
+//                return;
+//            } else {
+//                Sounds.playSound("Sword1");
+//            }
         }
 
         if (wallCheatOn && nextCell.getActor() == null) {

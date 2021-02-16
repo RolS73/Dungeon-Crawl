@@ -3,6 +3,7 @@ package com.codecool.dungeoncrawl.logic;
 import com.codecool.dungeoncrawl.logic.actors.Actor;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.actors.Sounds;
+import com.codecool.dungeoncrawl.logic.actors.monsters.Monster;
 
 public class CombatEvent {
 
@@ -24,6 +25,9 @@ public class CombatEvent {
     private void getConsequenceOfAttack() {
         if (defender.getHealth() <= 0) {
             killDefender();
+            if (defender instanceof Monster) {
+                ((Monster) defender).rollForMonsterLoot();
+            }
         } else {
             if (defender instanceof Player) {
                 ((Player) defender).playerHit();
@@ -54,6 +58,7 @@ public class CombatEvent {
 
     private void killDefender() {
         if (defender.getHealth() <= 0) {
+            Sounds.playSound("kill1");
             defender.playDeathSound();
             defender.getCell().setActor(null);
         }

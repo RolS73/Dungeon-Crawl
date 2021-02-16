@@ -52,6 +52,7 @@ public class Main extends Application {
     Label healthLabel = new Label();
     Label attackPwLabel = new Label();
     Label armorLabel = new Label();
+    Label moneyLabel = new Label("0");
     Menu menu = new Menu();
     private Label name = new Label("");
     Button pickUpButton = new Button("Pick up!");
@@ -84,6 +85,9 @@ public class Main extends Application {
 
         HBox attackPwStatus = new HBox();
         attackPwStatus.getChildren().addAll( new Label("Attackpw: "), attackPwLabel);
+
+        HBox fiancialStatus = new HBox();
+        fiancialStatus.getChildren().addAll( new Label("Coins: "), moneyLabel);
 
 //        ui.setHgap(10);
 //        ui.setVgap(10);
@@ -127,8 +131,7 @@ public class Main extends Application {
 
         inventoryLabel.getColumns().addAll(itemNames, itemAmount);
         inventoryTable.getColumns().add(inventoryLabel);
-//        inventoryTable.getColumns().add(itemNames);
-//        inventoryTable.getColumns().add(itemAmount);
+
         inventoryTable.setMaxWidth(180);
         inventoryTable.setMaxHeight(150);
         inventoryTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
@@ -151,9 +154,9 @@ public class Main extends Application {
         pickUpButton.setFocusTraversable(false);
         pickUpButton.setPrefWidth(130);
 
-        lootButtons.getChildren().addAll(pickUpButton);
+        lootButtons.getChildren().addAll(pickUpButton, fiancialStatus);
 //        ui.add(lootButtons, 0, 3);
-        ui.getChildren().addAll(name, lifeStatus, attackPwStatus, lootButtons, inventoryTable, instructions);
+        ui.getChildren().addAll(name, lifeStatus, attackPwStatus, lootButtons, inventoryTable, /*fiancialStatus,*/ instructions);
         setupDbManager(); //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< THIS IS NEW!
 
 
@@ -448,6 +451,7 @@ public class Main extends Application {
         }
         healthLabel.setText("" + map.getPlayer().getHealth() + "/" + map.getPlayer().getMaxHealth());
         armorLabel.setText("" + map.getPlayer().getArmor());
+        moneyLabel.setText("" + map.getPlayer().getMoneyAmount());
     }
 
     private boolean isThereAnInteractiveObjectAroundThePlayer() {
