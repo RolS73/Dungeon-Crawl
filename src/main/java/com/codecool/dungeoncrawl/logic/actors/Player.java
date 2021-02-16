@@ -11,6 +11,7 @@ public class Player extends Actor {
     private int strength = 1;
     private int armor;
     private int moneyAmount;
+    private String[] hitSoundFiles = new String[] {"Blank"};
 
     public Player(Cell cell) {
         super(cell);
@@ -68,9 +69,9 @@ public class Player extends Actor {
         Sounds.playSound("Hdead");
     }
 
-    /*public String[] getHitSoundFiles() {
-        return new String[0];
-    }*/
+    public String[] getHitSoundFiles() {
+        return hitSoundFiles;
+    }
 
     public void playerHit() {
         int randomNum = RandomGenerator.nextInt(2);
