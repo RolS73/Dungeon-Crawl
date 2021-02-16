@@ -112,7 +112,7 @@ public class Main extends Application {
         itemAmount.setCellValueFactory(amount -> Bindings.valueAt(InventoryManager.inventory, amount.getValue()));
 
         itemNames.prefWidthProperty().bind(inventoryTable.widthProperty().multiply(0.75));
-        itemAmount.prefWidthProperty().bind(inventoryTable.widthProperty().multiply(0.235));
+        itemAmount.prefWidthProperty().bind(inventoryTable.widthProperty().multiply(0.238));
         itemNames.setResizable(false);
         itemAmount.setResizable(false);
 
@@ -129,6 +129,7 @@ public class Main extends Application {
 
         SetInteractableItems.setStuff(map); //Map1 interactables
 
+        pickUpButton.setMaxWidth(90);
         pickUpButton.setDisable(true);
         pickUpButton.setOnAction(pickUp -> {
             Item item = (Item) map.getPlayer().getCell().getItem();
