@@ -20,4 +20,6 @@ public abstract class Monster extends Actor {
     public void playAttackSound() {}
 
     public void playDeathSound() {}
+
+    public void rollForMonsterLoot() {}
 }

@@ -10,6 +10,7 @@ public class Player extends Actor {
     private int maxHealth = 15;
     private int strength = 1;
     private int armor;
+    private int moneyAmount;
 
     public Player(Cell cell) {
         super(cell);
@@ -46,6 +47,18 @@ public class Player extends Actor {
 //        this.armor = this.armor + armorUpgrade;
 //    }
 
+
+    public int getMoneyAmount() {
+        return moneyAmount;
+    }
+
+    public void setMoneyAmount(int moneyAmount) {
+        this.moneyAmount = moneyAmount;
+    }
+
+    public void raiseMoneyAmount(int moneyAmount) {
+        this.moneyAmount += moneyAmount;
+    }
 
     public int getStrength() {
         return strength;

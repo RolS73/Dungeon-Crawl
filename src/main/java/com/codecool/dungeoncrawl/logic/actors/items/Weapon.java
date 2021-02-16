@@ -1,6 +1,8 @@
 package com.codecool.dungeoncrawl.logic.actors.items;
 
 import com.codecool.dungeoncrawl.logic.Cell;
+import com.codecool.dungeoncrawl.logic.actors.items.looting.Item;
+import com.codecool.dungeoncrawl.logic.actors.items.looting.PickupableItem;
 
 public class Weapon extends Item implements PickupableItem {
 

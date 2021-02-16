@@ -4,7 +4,8 @@ import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.Drawable;
 import com.codecool.dungeoncrawl.logic.actors.boss.SpikeForBosses;
-import com.codecool.dungeoncrawl.logic.actors.items.Breakable;
+import com.codecool.dungeoncrawl.logic.actors.items.looting.Breakable;
+import com.codecool.dungeoncrawl.logic.actors.monsters.Monster;
 import com.codecool.dungeoncrawl.logic.actors.npcs.NonPlayerCharacter;
 
 public abstract class Actor implements Drawable {
@@ -47,6 +48,9 @@ public abstract class Actor implements Drawable {
             if (nextCell.getActor().health < 1 ) {
                 Sounds.playSound("kill1");
                 nextCell.getActor().playDeathSound();
+                if (nextCell.getActor() instanceof Monster) {
+                    ((Monster) nextCell.getActor()).rollForMonsterLoot();
+                }
                 nextCell.setActor(null);
                 return;
             } else {
@@ -63,7 +67,7 @@ public abstract class Actor implements Drawable {
                 thisABossFight = true;
             }
         } else if ((nextCell.getCellType() == CellType.BOSSFLOOR || nextCell.getCellType() == CellType.STUNNER ||
-                nextCell.getCellType() == CellType.FLOOR) && nextCell.getActor() == null) {
+                nextCell.getCellType() == CellType.FLOOR || nextCell.getCellType() == CellType.FLOORNOMONSTER) && nextCell.getActor() == null) {
             Sounds.playSound("Move5b");
 
             // eredeti

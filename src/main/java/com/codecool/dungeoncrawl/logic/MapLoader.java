@@ -1,9 +1,15 @@
 package com.codecool.dungeoncrawl.logic;
 
-import com.codecool.dungeoncrawl.logic.actors.*;
+import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.actors.boss.SpikeBoss;
 import com.codecool.dungeoncrawl.logic.actors.boss.SpikeForBosses;
 import com.codecool.dungeoncrawl.logic.actors.items.*;
+import com.codecool.dungeoncrawl.logic.actors.items.interactablilty.*;
+import com.codecool.dungeoncrawl.logic.actors.items.looting.*;
+import com.codecool.dungeoncrawl.logic.actors.items.enviromentalHazards.DartTurret;
+import com.codecool.dungeoncrawl.logic.actors.items.enviromentalHazards.FlameTrap;
+import com.codecool.dungeoncrawl.logic.actors.items.enviromentalHazards.TrapBloody;
+import com.codecool.dungeoncrawl.logic.actors.items.enviromentalHazards.TrapPlain;
 import com.codecool.dungeoncrawl.logic.actors.monsters.*;
 import com.codecool.dungeoncrawl.logic.actors.npcs.FriendlyWhiteWizard;
 import com.codecool.dungeoncrawl.logic.actors.npcs.NonPlayerCharacter;
@@ -50,6 +56,9 @@ public class MapLoader {
                             break;
                         case '#':
                             cell.setCellType(CellType.WALL);
+                            break;
+                        case ',':
+                            cell.setCellType(CellType.FLOORNOMONSTER);
                             break;
                         case '.':
                             cell.setCellType(CellType.FLOOR);
@@ -132,11 +141,19 @@ public class MapLoader {
                             break;
                         case 't':
                             cell.setCellType(CellType.FLOOR);
-                            map.trapsCollection.add(new TrapPlain(cell, "spikeTrapResting", 2, 3));
+                            map.endlessCycleTraps.add(new TrapPlain(cell, "spikeTrapResting", 2, 3));
                             break;
                         case 'T':
                             cell.setCellType(CellType.FLOOR);
-                            map.trapsCollection.add(new TrapPlain(cell, "spikeTrapActive", 1, 3));
+                            map.endlessCycleTraps.add(new TrapPlain(cell, "spikeTrapActive", 1, 3));
+                            break;
+                        case '+':
+                            cell.setCellType(CellType.OBJECT);
+                            map.endlessCycleTraps.add(new DartTurret(cell, "DartTurret", 6, 4, Direction.DOWN));
+                            break;
+                        case '!':
+                            cell.setCellType(CellType.OBJECT);
+                            map.endlessCycleTraps.add(new FlameTrap(cell, "FlameTurret", 8, 3, 5, Direction.LEFT));
                             break;
                         case 'M':
                             cell.setCellType(CellType.FLOOR);
@@ -155,7 +172,8 @@ public class MapLoader {
                             break;
                         case 'B':
                             cell.setCellType(CellType.FLOOR);
-                            map.trapBloodyCollection.add(new TrapBloody(cell, "spikeTrapBloodyActive", 5));
+                            new TrapBloody(cell, "spikeTrapBloodyActive", 5);
+                            //map.trapBloodyCollection.add(new TrapBloody(cell, "spikeTrapBloodyActive", 5));
                             break;
                         case 'b':
                             cell.setCellType(CellType.OBJECT);

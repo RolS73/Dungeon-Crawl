@@ -2,6 +2,7 @@ package com.codecool.dungeoncrawl.logic;
 
 import com.codecool.dungeoncrawl.logic.actors.Sounds;
 import com.codecool.dungeoncrawl.logic.actors.items.*;
+import com.codecool.dungeoncrawl.logic.actors.items.looting.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -25,9 +26,15 @@ public class InventoryManager {
             }
         } else if (item instanceof Key) {
             inventory.add(item);
-            Sounds.playSound("Coins");
+            Sounds.playSound("keyGet");
             removeItemFromGround(map);
-        } else if (item instanceof LifeUpgrade) {
+        } else if (item instanceof Money) {
+            map.getPlayer().raiseMoneyAmount(((Money) item).getMoneyAmount());
+            Sounds.playSound("Coins");
+            System.out.println(map.getPlayer().getMoneyAmount());
+            removeItemFromGround(map);
+        }
+        else if (item instanceof LifeUpgrade) {
             pickUpLifeUpgrade(item, map);
             Sounds.playSound("healthUp");
             removeItemFromGround(map);
