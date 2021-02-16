@@ -19,6 +19,7 @@ public class SpikeForBosses extends Monster {
        // mainBody = Main.cheatingMapGetter().getBoss1();
         setAttackPower(7);
         setHealth(100000);
+        this.setAttackSoundFiles(new String[] {"Sword1"}); //PLACEHOLDER
     }
 
     @Override
@@ -64,7 +65,8 @@ public class SpikeForBosses extends Monster {
 
         if (nextCell.getCellType() == CellType.BOSSFLOOR || nextCell.getCellType() == CellType.STUNNER) {
             if (nextCell.getActor() instanceof Player) {
-                damageCalculation(nextCell);
+                attack(nextCell);
+//                damageCalculation(nextCell);
 //                nextCell.getActor().setHealth(nextCell.getActor().getHealth() - this.getAttackPower());
                 if (this.getHealth() < 1) {
                     this.getCell().setActor(null);

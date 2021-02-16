@@ -15,9 +15,9 @@ public class InventoryManager {
     public void pickUpItem(Item item, GameMap map) {
         if (item instanceof Weapon) {
             if (inventory.stream().anyMatch(i -> i instanceof Weapon)) {
-                compareWithCurrentWeapon(item, map);
+                compareWithCurrentWeapon((Weapon) item, map);
             } else {
-                equipWeapon(item, map);
+                equipWeapon((Weapon) item, map);
             }
         } else if (item instanceof Life) {
             if (!(map.getPlayer().getHealth() == map.getPlayer().getMaxHealth())) {
@@ -40,9 +40,9 @@ public class InventoryManager {
             removeItemFromGround(map);
         } else if (item instanceof ArmorUpgrade) {
             if (inventory.stream().anyMatch(i -> i instanceof ArmorUpgrade)) {
-                compareWithCurrentArmor(item, map);
+                compareWithCurrentArmor((ArmorUpgrade) item, map);
             } else {
-                equipArmor(item, map);
+                equipArmor((ArmorUpgrade) item, map);
             }
         }
     }
@@ -77,11 +77,11 @@ public class InventoryManager {
                 .orElseThrow(() -> new NoSuchElementException("No Weapon found"));
     }
 
-    private void compareWithCurrentArmor(Item item, GameMap map) {
+    private void compareWithCurrentArmor(ArmorUpgrade newArmor, GameMap map) {
         ArmorUpgrade currentArmor = getCurrentArmor();
-        if (currentArmor.getHealth() < item.getHealth()) {
+        if (currentArmor.getArmorUpgradeAmount() < newArmor.getArmorUpgradeAmount()) {
             unequipArmor(currentArmor, map);
-            equipArmor(item, map);
+            equipArmor(newArmor, map);
         }
     }
 
@@ -90,9 +90,9 @@ public class InventoryManager {
         map.getPlayer().setArmor(0);
     }
 
-    private void equipArmor(Item item, GameMap map) {
-        inventory.add(item);
-        map.getPlayer().setArmor(item.getHealth());
+    private void equipArmor(ArmorUpgrade newArmor, GameMap map) {
+        inventory.add(newArmor);
+        map.getPlayer().setArmor(newArmor.getArmorUpgradeAmount());
 //        map.getPlayer().setArmor(map.getPlayer().getCell().getItem().getHealth());
         Sounds.playSound("armorEquip");
         removeItemFromGround(map);
@@ -105,11 +105,11 @@ public class InventoryManager {
                 .orElseThrow(() -> new NoSuchElementException("No Armor found"));
     }
 
-    private void compareWithCurrentWeapon(Item item, GameMap map) {
+    private void compareWithCurrentWeapon(Weapon weapon, GameMap map) {
         Weapon currentWeapon = getCurrentWeapon();
-        if (currentWeapon.getAttackpowerIncrease() < ((Weapon) item).getAttackpowerIncrease()) {
+        if (currentWeapon.getAttackpowerIncrease() < weapon.getAttackpowerIncrease()) {
             unequipCurrentWeapon(currentWeapon, map);
-            equipWeapon(item, map);
+            equipWeapon(weapon, map);
         }
     }
 
@@ -118,9 +118,9 @@ public class InventoryManager {
         map.getPlayer().setAttackPower(map.getPlayer().getAttackPower() - currentWeapon.getAttackpowerIncrease());
     }
 
-    private void equipWeapon(Item item, GameMap map) {
-        map.getPlayer().raiseAttackPower(((Weapon) item).getAttackpowerIncrease());
-        inventory.add(item);
+    private void equipWeapon(Weapon weapon, GameMap map) {
+        map.getPlayer().raiseAttackPower(weapon.getAttackpowerIncrease());
+        inventory.add(weapon);
         Sounds.playSound("swordBling");
         removeItemFromGround(map);
     }

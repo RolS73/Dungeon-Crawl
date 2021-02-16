@@ -16,7 +16,6 @@ public class Player extends Actor {
         super(cell);
         this.setAttackPower(1); // ez új
         this.setHealth(maxHealth);
-        this.armor = 0;
     }
 
     public String getTileName() {
@@ -33,14 +32,6 @@ public class Player extends Actor {
 
     public void setTileName(String newName) {
         this.name = newName;
-    }
-
-    public int getArmor() {
-        return armor;
-    }
-
-    public void setArmor(int armor) {
-        this.armor = armor;
     }
 
 //    public void raiseArmor(int armorUpgrade) {
@@ -72,8 +63,12 @@ public class Player extends Actor {
         super.setHealth(getHealth() - damageAmount);
     }
 
+    @Override
+    public void playDeathSound() {
+        Sounds.playSound("Hdead");
+    }
 
-    public static void playHurtSound() {
+    public void playerHit() {
         int randomNum = RandomGenerator.nextInt(2);
         if (randomNum == 0) {
             Sounds.playSound("playerHurt1");
@@ -81,4 +76,8 @@ public class Player extends Actor {
             Sounds.playSound("playerHurt2");
         }
     }
+
+//    public void playHurtSound() {
+//
+//    }
 }

@@ -17,8 +17,7 @@ public class ArmorUpgrade extends Item implements PickupableItem {
             this.armorUpgradeAmount = armorUpgradeAmount;
         }
 
-        @Override
-        public int getHealth() {
+        public int getArmorUpgradeAmount() {
             return armorUpgradeAmount;
         }
 

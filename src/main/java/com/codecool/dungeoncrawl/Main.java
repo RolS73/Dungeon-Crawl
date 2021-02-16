@@ -324,7 +324,7 @@ public class Main extends Application {
                 break;
         }
         if (map.getPlayer().getHealth() <= 0) {
-            Sounds.playSound("Hdead");
+//            Sounds.playSound("Hdead");
 
             stage.setScene(gameOver.getGameOverScene());
         }
@@ -447,7 +447,8 @@ public class Main extends Application {
     }*/
 
     private void playerSuffersEnvironmentalDamage() {
-        Player.playHurtSound();
+//        Player.playHurtSound();
+        map.getPlayer().playerHit();
         ((EnvironmentalDamage) map.getPlayer().getCell().getItem()).playDamageSound();
         map.getPlayer().lowerHealth(map.getPlayer().getCell().getItem().getAttackPower());
     }

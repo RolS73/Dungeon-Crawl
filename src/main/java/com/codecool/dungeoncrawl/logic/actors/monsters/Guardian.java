@@ -15,6 +15,7 @@ public class Guardian extends Monster {
         super(cell);
         this.setAttackPower(9);
         this.setHealth(20);
+        this.setAttackSoundFiles(new String[] {"guardianAttack1", "guardianAttack2"});
     }
 
     @Override
@@ -33,8 +34,9 @@ public class Guardian extends Monster {
             count++;
 //            System.out.println(count);
             if(count > 2){
-                playAttackSound();
-                damageCalculation(nextCell);
+//                playAttackSound();
+                attack(nextCell);
+//                damageCalculation(nextCell);
 //                nextCell.getActor().setHealth(nextCell.getActor().getHealth() - this.getAttackPower());
                 count = 0;
             }
@@ -68,9 +70,13 @@ public class Guardian extends Monster {
 //        System.out.println(count);
     }
 
+    @Override
     public void playDeathSound() {
         Sounds.playSound("guardianDeath");
     }
+
+
+
 
     public void playAttackSound() {
         int randomNum = RandomGenerator.nextInt(2);
