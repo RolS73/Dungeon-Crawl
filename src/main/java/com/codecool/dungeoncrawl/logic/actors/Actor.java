@@ -188,4 +188,9 @@ public abstract class Actor implements Drawable {
     public void setAttackSoundFiles(String[] attackSoundFiles) {
         this.attackSoundFiles = attackSoundFiles;
     }
+
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName();
+    }
 }

@@ -31,7 +31,7 @@ public class CombatEvent {
             if (defender instanceof Monster) {
                 ((Monster) defender).rollForMonsterLoot();
                 log.append(defender)
-                        .append(" dies.\n");
+                        .append(" dies!\n");
             }
         } else {
             if (defender instanceof Player) {
@@ -75,6 +75,7 @@ public class CombatEvent {
                 .append(damage)
                 .append(" damage to ")
                 .append(defender)
+                .append(".")
                 .append("\n");
     }
 

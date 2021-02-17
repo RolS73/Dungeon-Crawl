@@ -63,6 +63,7 @@ public class Duck extends Monster {
         Sounds.playSound("littleGizmoDeath");
     }
 
+
     public void playAttackSound() {
         int randomNum = RandomGenerator.nextInt(11);
         if (randomNum < 5) {

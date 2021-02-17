@@ -52,6 +52,7 @@ public class CursedKing extends Monster {
 
     }
 
+
     public void monsterLookat(int x, int y) {
         if (Math.abs(x)>Math.abs(y)) {
             if (x<0) {
