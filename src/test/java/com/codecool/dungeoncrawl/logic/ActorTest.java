@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ActorTest {
-    GameMap gameMap = new GameMap(3, 3, CellType.FLOOR);
+    GameMap gameMap = new GameMap(3, 3, CellType.BOSSFLOOR);
 
     @Test
     void moveUpdatesCells() {
@@ -76,14 +76,31 @@ class ActorTest {
         player.move(1, 0);
         assertEquals(2, player.getX());
         assertEquals(1, player.getY());
-
+        gameMap = new GameMap(4, 4, CellType.BOSSFLOOR);
+        player.move(1, 0);
+        gameMap = new GameMap(3, 3, CellType.EMPTY);
+        player.move(-1, 0);
+        assertEquals(1, player.getX());
+        assertEquals(1, player.getY());
     }
 
-//    @Test
-//    void bossFightOn() {
-//    }
-//
-//    @Test
-//    void vegyesUseless() {
-//    }
+    @Test
+    void bossFightOn() {
+        Player player = new Player(gameMap.getCell(1,1));
+        gameMap = new GameMap(3, 3, CellType.BOSSFLOOR);
+        player.move(1, 0);
+        assertEquals(2, player.getX());
+        assertEquals(1, player.getY());
+        player.move(1, 1);
+        player.move(-1, -1);
+        assertTrue(player.isThisABossFight());
+    }
+
+    @Test
+    void vegyesUseless() {
+        Player player = new Player(gameMap.getCell(1,1));
+        //player.playDeathSound();
+        player.setArmor(1);
+        assertEquals(player.getArmor(), 1);
+    }
 }
