@@ -10,7 +10,7 @@ public enum CellType {
     BOSSFLOOR("bossfloor"),
     STUNNER("stunner");
 
-    private final String tileName;
+    private String tileName;
 
     CellType(String tileName) {
         this.tileName = tileName;

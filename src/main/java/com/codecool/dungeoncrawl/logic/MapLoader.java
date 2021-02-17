@@ -3,13 +3,13 @@ package com.codecool.dungeoncrawl.logic;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.actors.boss.SpikeBoss;
 import com.codecool.dungeoncrawl.logic.actors.boss.SpikeForBosses;
-import com.codecool.dungeoncrawl.logic.actors.items.*;
-import com.codecool.dungeoncrawl.logic.actors.items.interactablilty.*;
-import com.codecool.dungeoncrawl.logic.actors.items.looting.*;
+import com.codecool.dungeoncrawl.logic.actors.items.Weapon;
 import com.codecool.dungeoncrawl.logic.actors.items.enviromentalHazards.DartTurret;
 import com.codecool.dungeoncrawl.logic.actors.items.enviromentalHazards.FlameTrap;
 import com.codecool.dungeoncrawl.logic.actors.items.enviromentalHazards.TrapBloody;
 import com.codecool.dungeoncrawl.logic.actors.items.enviromentalHazards.TrapPlain;
+import com.codecool.dungeoncrawl.logic.actors.items.interactablilty.*;
+import com.codecool.dungeoncrawl.logic.actors.items.looting.*;
 import com.codecool.dungeoncrawl.logic.actors.monsters.*;
 import com.codecool.dungeoncrawl.logic.actors.npcs.FriendlyWhiteWizard;
 import com.codecool.dungeoncrawl.logic.actors.npcs.NonPlayerCharacter;
@@ -17,7 +17,9 @@ import com.codecool.dungeoncrawl.logic.actors.npcs.NonPlayerCharacter;
 import java.io.InputStream;
 import java.util.Scanner;
 
+
 public class MapLoader {
+
     public static GameMap loadMap(int mapNumber) {
 
         InputStream is = null;
@@ -30,7 +32,6 @@ public class MapLoader {
             is = MapLoader.class.getResourceAsStream("/map3.txt");
         }
 
-        //InputStream is = MapLoader.class.getResourceAsStream("/map.txt");
         Scanner scanner = new Scanner(is);
         int width = scanner.nextInt();
         int height = scanner.nextInt();
@@ -38,6 +39,7 @@ public class MapLoader {
         scanner.nextLine(); // empty line
 
         GameMap map = new GameMap(width, height, CellType.EMPTY);
+        map.setMapNumber(mapNumber);
         for (int y = 0; y < height; y++) {
             String line = scanner.nextLine();
             for (int x = 0; x < width; x++) {
@@ -67,6 +69,9 @@ public class MapLoader {
                             break;
                         case '#':
                             cell.setCellType(CellType.WALL);
+                            if (mapNumber == 1) {
+                                // cell.setTileName();
+                            }
                             break;
                         case ',':
                             cell.setCellType(CellType.FLOORNOMONSTER);
@@ -257,5 +262,12 @@ public class MapLoader {
         }
         return map;
     }
+
+    /*public void setUpCellType(Cell cell, CellType celltype) {
+        cell.setCellType(celltype);
+        if (celltype.equals(CellType.FLOOR) && Main.getCurrentMapIndex() == 1) {
+            cell.setNewTypeTileName("bossfloor");
+        }
+    }*/
 
 }

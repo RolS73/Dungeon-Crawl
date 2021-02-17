@@ -21,7 +21,7 @@ public class SuspiciousWall extends Item implements InteractiveObject, Switch {
 
     @Override
     public boolean isThisObjectInteractive() {
-        return this.anotherTileName.equals("suspiciousWall") || this.anotherTileName.equals("empty");
+        return this.getCell().getCellType().equals(CellType.WALL); //|| this.anotherTileName.equals("empty");
     }
 
 

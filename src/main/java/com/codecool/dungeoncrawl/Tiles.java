@@ -122,6 +122,11 @@ public class Tiles {
         tileMap.put("thethingR", new Tile(7,3));
         tileMap.put("thethingU", new Tile(7,4));
 
+        tileMap.put("cursedKingD", new Tile(8,1));
+        tileMap.put("cursedKingL", new Tile(8,2));
+        tileMap.put("cursedKingR", new Tile(8,3));
+        tileMap.put("cursedKingU", new Tile(8,4));
+
         tileMap.put("key", new Tile(1, 7));
         tileMap.put("life", new Tile(9, 1));
         tileMap.put("weapon", new Tile(12, 1));
