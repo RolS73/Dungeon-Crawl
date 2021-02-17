@@ -179,6 +179,7 @@ public class Main extends Application {
         menu.getPlayButton().setOnAction(play -> {
             primaryStage.setScene(scene);
             name.setText(menu.getPlayerName().getText());
+            mapsArray[currentMapIndex].getPlayer().setNameGivenByPlayer(menu.getPlayerName().getText());
             if (wallCheat.contains(name.getText())) {
                 mapsArray[currentMapIndex].getPlayer().setWallCheatOn(true);
             }
@@ -429,6 +430,7 @@ public class Main extends Application {
                     currentAiNumber++;
                     MapLoader.loadMap(currentMapIndex);
                     mapsArray[currentMapIndex].getPlayer().loadStats();
+                    mapsArray[currentMapIndex].getPlayer().setNameGivenByPlayer(menu.getPlayerName().getText());
                     //SetInteractableItems.setStuff(currentMapNumber);
                     refresh();
                     break;
@@ -442,6 +444,7 @@ public class Main extends Application {
                     currentAiNumber--;
                     MapLoader.loadMap(currentMapIndex);
                     mapsArray[currentMapIndex].getPlayer().loadStats();
+                    mapsArray[currentMapIndex].getPlayer().setNameGivenByPlayer(menu.getPlayerName().getText());
                     //SetInteractableItems.setStuff(currentMapNumber);
                     refresh();
                     break;
