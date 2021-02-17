@@ -29,8 +29,8 @@ public class SuspiciousWall extends Item implements InteractiveObject, Switch {
     public void interact() {
         if (isThisObjectInteractive()) {
             Sounds.playSound("IllusioryWall");
-            this.anotherTileName = "floor";
             this.getCell().setCellType(CellType.FLOOR);
+            this.anotherTileName = this.getCell().getTileName();
         }
     }
 
