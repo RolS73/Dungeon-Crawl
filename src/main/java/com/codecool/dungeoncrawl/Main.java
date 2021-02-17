@@ -16,7 +16,9 @@ import com.codecool.dungeoncrawl.logic.actors.items.looting.LootTable;
 import com.codecool.dungeoncrawl.logic.actors.items.looting.PickupableItem;
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
+import javafx.collections.FXCollections;
 import javafx.collections.MapChangeListener;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -64,6 +66,8 @@ public class Main extends Application {
     private Stage stage;
     private final List<String> wallCheat = Arrays.asList("Laci", "Ricsi", "Roland", "Szabolcs", "George");
     InventoryManager inventoryManager = new InventoryManager();
+    public static ObservableList<CombatEvent> combatEvents = FXCollections.observableArrayList();
+    Label combatLog = new Label("Combat Log: \n");
     GameDatabaseManager dbManager; //Sprint 2-ből
 
     public static void main(String[] args) {
@@ -163,7 +167,7 @@ public class Main extends Application {
 
         lootButtons.getChildren().addAll(pickUpButton, fiancialStatus);
 //        ui.add(lootButtons, 0, 3);
-        ui.getChildren().addAll(name, lifeStatus, attackPwStatus, lootButtons, inventoryTable, /*fiancialStatus,*/ instructions);
+        ui.getChildren().addAll(name, lifeStatus, attackPwStatus, lootButtons, inventoryTable, combatLog /*fiancialStatus, instructions*/);
         setupDbManager(); //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< THIS IS NEW!
 
 
@@ -179,6 +183,7 @@ public class Main extends Application {
         menu.getPlayButton().setOnAction(play -> {
             primaryStage.setScene(scene);
             name.setText(menu.getPlayerName().getText());
+            mapsArray[currentMapIndex].getPlayer().setNameGivenByPlayer(menu.getPlayerName().getText());
             if (wallCheat.contains(name.getText())) {
                 mapsArray[currentMapIndex].getPlayer().setWallCheatOn(true);
             }
@@ -429,6 +434,7 @@ public class Main extends Application {
                     currentAiNumber++;
                     MapLoader.loadMap(currentMapIndex);
                     mapsArray[currentMapIndex].getPlayer().loadStats();
+                    mapsArray[currentMapIndex].getPlayer().setNameGivenByPlayer(menu.getPlayerName().getText());
                     //SetInteractableItems.setStuff(currentMapNumber);
                     refresh();
                     break;
@@ -442,6 +448,7 @@ public class Main extends Application {
                     currentAiNumber--;
                     MapLoader.loadMap(currentMapIndex);
                     mapsArray[currentMapIndex].getPlayer().loadStats();
+                    mapsArray[currentMapIndex].getPlayer().setNameGivenByPlayer(menu.getPlayerName().getText());
                     //SetInteractableItems.setStuff(currentMapNumber);
                     refresh();
                     break;
@@ -532,16 +539,31 @@ public class Main extends Application {
             }
         }
         // Tiles.drawTile(context, map.getPlayer().getCell().getActor(), map.getPlayer().getX() + dx, map.getPlayer().getY() + dy);
+        managePlayerStatistics();
+    }
 
-
-        if (InventoryManager.inventory.keySet().stream().anyMatch(item -> item instanceof Weapon)) {
-            attackPwLabel.setText(mapsArray[currentMapIndex].getPlayer().getStrength() + "+" + inventoryManager.getCurrentWeapon().getAttackpowerIncrease());
-        } else {
-            attackPwLabel.setText(String.valueOf(mapsArray[currentMapIndex].getPlayer().getStrength()));
-        }
+    private void managePlayerStatistics() {
+        manageAttackPw();
         healthLabel.setText("" + mapsArray[currentMapIndex].getPlayer().getHealth() + "/" + mapsArray[currentMapIndex].getPlayer().getMaxHealth());
         armorLabel.setText("" + mapsArray[currentMapIndex].getPlayer().getArmor());
         moneyLabel.setText("" + mapsArray[currentMapIndex].getPlayer().getMoneyAmount());
+        manageCombatLog();
+    }
+
+    private void manageAttackPw() {
+        if (InventoryManager.inventory.keySet().stream().anyMatch(item -> item instanceof Weapon)) {
+            attackPwLabel.setText(mapsArray[currentMapIndex].getPlayer().getAttackPower() + "+" + inventoryManager.getCurrentWeapon().getAttackpowerIncrease());
+        } else {
+            attackPwLabel.setText(String.valueOf(mapsArray[currentMapIndex].getPlayer().getAttackPower()));
+        }
+    }
+
+    private void manageCombatLog() {
+        combatLog.setText("Combat Log:\n");
+        for (CombatEvent combatEvent : combatEvents) {
+            combatLog.setText(combatLog.getText() + combatEvent.getLog().toString());
+        }
+        combatEvents.clear();
     }
 
     private boolean isThereAnInteractiveObjectAroundThePlayer() {
