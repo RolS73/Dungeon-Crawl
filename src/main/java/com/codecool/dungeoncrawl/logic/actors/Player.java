@@ -7,6 +7,7 @@ public class Player extends Actor {
 
 
     private String name = "playerD";
+    private String nameGivenByPlayer;
     private int maxHealth = 15;
     private int strength = 1;
     private int armor;
@@ -81,7 +82,16 @@ public class Player extends Actor {
             Sounds.playSound("playerHurt2");
         }
     }
-    
+
+    public void setNameGivenByPlayer(String nameGivenByPlayer) {
+        this.nameGivenByPlayer = nameGivenByPlayer;
+    }
+
+    @Override
+    public String toString() {
+        return nameGivenByPlayer;
+    }
+
     //    public void playHurtSound() {
 //
 //    }
