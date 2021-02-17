@@ -18,8 +18,19 @@ import java.io.InputStream;
 import java.util.Scanner;
 
 public class MapLoader {
-    public static GameMap loadMap() {
-        InputStream is = MapLoader.class.getResourceAsStream("/map.txt");
+    public static GameMap loadMap(int mapNumber) {
+
+        InputStream is = null;
+
+        if (mapNumber == 0) {
+             is = MapLoader.class.getResourceAsStream("/map.txt");
+        } else if (mapNumber == 1) {
+            is = MapLoader.class.getResourceAsStream("/map2.txt");
+        } else if (mapNumber == 2) {
+            is = MapLoader.class.getResourceAsStream("/map3.txt");
+        }
+
+        //InputStream is = MapLoader.class.getResourceAsStream("/map.txt");
         Scanner scanner = new Scanner(is);
         int width = scanner.nextInt();
         int height = scanner.nextInt();

@@ -11,7 +11,8 @@ public class Player extends Actor {
     private int strength = 1;
     private int armor;
     private int moneyAmount;
-    private String[] hitSoundFiles = new String[] {"Blank"};
+    private final String[] attackSoundFiles = new String[] {"Sword1"};
+    private final String[] hitSoundFiles = new String[] {"Blank"};
 
     public Player(Cell cell) {
         super(cell);
@@ -67,6 +68,10 @@ public class Player extends Actor {
     @Override
     public void playDeathSound() {
         Sounds.playSound("Hdead");
+    }
+
+    public String[] getAttackSoundFiles() {
+        return attackSoundFiles;
     }
 
     public String[] getHitSoundFiles() {
