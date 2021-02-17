@@ -424,9 +424,11 @@ public class Main extends Application {
                 if (currentMapNumber == 2) {
                     break;
                 } else {
+                    mapsArray[currentMapNumber].getPlayer().saveStats();
                     currentMapNumber++;
                     currentAiNumber++;
                     MapLoader.loadMap(currentMapNumber);
+                    mapsArray[currentMapNumber].getPlayer().loadStats();
                     //SetInteractableItems.setStuff(currentMapNumber);
                     refresh();
                     break;
@@ -435,9 +437,11 @@ public class Main extends Application {
                 if (currentMapNumber == 0) {
                     break;
                 } else {
+                    mapsArray[currentMapNumber].getPlayer().saveStats();
                     currentMapNumber--;
                     currentAiNumber--;
                     MapLoader.loadMap(currentMapNumber);
+                    mapsArray[currentMapNumber].getPlayer().loadStats();
                     //SetInteractableItems.setStuff(currentMapNumber);
                     refresh();
                     break;

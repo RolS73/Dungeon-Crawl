@@ -5,6 +5,7 @@ import com.codecool.dungeoncrawl.logic.RandomGenerator;
 
 public class Player extends Actor {
 
+    public static int[] stats = {15 , 15, 0, 1, 0};
 
     private String name = "playerD";
     private int maxHealth = 15;
@@ -16,8 +17,31 @@ public class Player extends Actor {
 
     public Player(Cell cell) {
         super(cell);
-        this.setAttackPower(1); // ez új
-        this.setHealth(maxHealth);
+        this.setAttackPower(stats[3]); // ez új
+        this.setHealth(stats[0]);
+        this.setMaxHealth(stats[1]);
+        this.setArmor(stats[2]);
+        this.setMoneyAmount(stats[4]);
+    }
+
+    public void saveStats() {
+        stats[0] = this.getHealth();
+        stats[1] = this.maxHealth;
+        stats[2] = this.armor;
+        stats[3] = this.getAttackPower();
+        stats[4] = this.moneyAmount;
+    }
+
+    public void loadStats() {
+        this.setHealth(stats[0]);
+        this.setMaxHealth(stats[1]);
+        this.setArmor(stats[2]);
+        this.setAttackPower(stats[3]);
+        this.setMoneyAmount(stats[4]);
+    }
+
+    public void setMaxHealth(int maxHealth) {
+        this.maxHealth = maxHealth;
     }
 
     public String getTileName() {
