@@ -29,6 +29,8 @@ public class Cell implements Drawable {
             this.setNewTypeTileName("bossfloor");
         } else if (type.equals(CellType.OBJECT) && this.gameMap.getMapNumber() == 1) {
             this.setNewTypeTileName("bossfloor");
+        } else if (type.equals(CellType.WALL) &&  this.gameMap.getMapNumber() == 1) {
+            this.setNewTypeTileName("stairwayDown");
         }
     }
 

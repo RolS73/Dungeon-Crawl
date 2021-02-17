@@ -8,7 +8,7 @@ import com.codecool.dungeoncrawl.logic.actors.items.looting.Item;
 
 public class SuspiciousWall extends Item implements InteractiveObject, Switch {
 
-    private String anotherTileName = "suspiciousWall";
+    private String anotherTileName = this.getCell().getTileName();
     private String groupName;
 
     int[] coordinates;
