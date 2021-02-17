@@ -37,7 +37,7 @@ import java.util.List;
 public class Main extends Application {
 
     boolean isDeveloperStartingGearEnabled;
-    private static int currentMapNumber = 0;
+    private static int currentMapIndex = 0;
     static GameMap map1 = MapLoader.loadMap(0);
     static GameMap map2 = MapLoader.loadMap(1);
     static GameMap map3 = MapLoader.loadMap(2);
@@ -143,7 +143,7 @@ public class Main extends Application {
         inventoryTable.setFocusTraversable(false);
         inventoryTable.setPlaceholder(new Label("Inventory is empty!"));
 
-        if (currentMapNumber == 0) {
+        if (currentMapIndex == 0) {
             SetInteractableItems.setStuff(0); //Map1 interactables
         }
 
@@ -151,8 +151,8 @@ public class Main extends Application {
         pickUpButton.setMaxWidth(90);
         pickUpButton.setDisable(true);
         pickUpButton.setOnAction(pickUp -> {
-            Item item = (Item) mapsArray[currentMapNumber].getPlayer().getCell().getItem();
-            inventoryManager.pickUpItem(item, mapsArray[currentMapNumber]);
+            Item item = (Item) mapsArray[currentMapIndex].getPlayer().getCell().getItem();
+            inventoryManager.pickUpItem(item, mapsArray[currentMapIndex]);
             refresh();
             pickUpButton.setDisable(true);
         });
@@ -180,7 +180,7 @@ public class Main extends Application {
             primaryStage.setScene(scene);
             name.setText(menu.getPlayerName().getText());
             if (wallCheat.contains(name.getText())) {
-                mapsArray[currentMapNumber].getPlayer().setWallCheatOn(true);
+                mapsArray[currentMapIndex].getPlayer().setWallCheatOn(true);
             }
         });
 
@@ -195,34 +195,34 @@ public class Main extends Application {
         switch (keyEvent.getCode()) {
             case UP:
             case W:
-                mapsArray[currentMapNumber].getPlayer().setTileName("playerU");
-                mapsArray[currentMapNumber].getPlayer().move(0, -1);
+                mapsArray[currentMapIndex].getPlayer().setTileName("playerU");
+                mapsArray[currentMapIndex].getPlayer().move(0, -1);
                 AiArray[currentAiNumber].monsterMover();
-                mapsArray[currentMapNumber].getEndlessCycleTraps().forEach(TrapCycle::trapCycle);
-                mapsArray[currentMapNumber].getProjectilesCollection().forEach(ProjectileCycle::projectileCycle);
-                mapsArray[currentMapNumber].getProjectilesCollection().removeIf(ProjectileCycle::isHit);
+                mapsArray[currentMapIndex].getEndlessCycleTraps().forEach(TrapCycle::trapCycle);
+                mapsArray[currentMapIndex].getProjectilesCollection().forEach(ProjectileCycle::projectileCycle);
+                mapsArray[currentMapIndex].getProjectilesCollection().removeIf(ProjectileCycle::isHit);
                 if (isPlayerBeingAffectedByAnEnvironmentalDamageSource()) {
                     playerSuffersEnvironmentalDamage();
                 }
-                if (mapsArray[currentMapNumber].getPlayer().getCell().getItem() instanceof StepOnActivatable) {
-                    ((StepOnActivatable) mapsArray[currentMapNumber].getPlayer().getCell().getItem()).activate();
+                if (mapsArray[currentMapIndex].getPlayer().getCell().getItem() instanceof StepOnActivatable) {
+                    ((StepOnActivatable) mapsArray[currentMapIndex].getPlayer().getCell().getItem()).activate();
                 }
                 refresh();
                 break;
             case DOWN:
             case S:
                 if (!keyEvent.isControlDown()) {
-                    mapsArray[currentMapNumber].getPlayer().setTileName("playerD");
-                    mapsArray[currentMapNumber].getPlayer().move(0, 1);
+                    mapsArray[currentMapIndex].getPlayer().setTileName("playerD");
+                    mapsArray[currentMapIndex].getPlayer().move(0, 1);
                     AiArray[currentAiNumber].monsterMover();
-                    mapsArray[currentMapNumber].getEndlessCycleTraps().forEach(TrapCycle::trapCycle);
-                    mapsArray[currentMapNumber].getProjectilesCollection().forEach(ProjectileCycle::projectileCycle);
-                    mapsArray[currentMapNumber].getProjectilesCollection().removeIf(ProjectileCycle::isHit);
+                    mapsArray[currentMapIndex].getEndlessCycleTraps().forEach(TrapCycle::trapCycle);
+                    mapsArray[currentMapIndex].getProjectilesCollection().forEach(ProjectileCycle::projectileCycle);
+                    mapsArray[currentMapIndex].getProjectilesCollection().removeIf(ProjectileCycle::isHit);
                     if (isPlayerBeingAffectedByAnEnvironmentalDamageSource()) {
                         playerSuffersEnvironmentalDamage();
                     }
-                    if (mapsArray[currentMapNumber].getPlayer().getCell().getItem() instanceof StepOnActivatable) {
-                        ((StepOnActivatable) mapsArray[currentMapNumber].getPlayer().getCell().getItem()).activate();
+                    if (mapsArray[currentMapIndex].getPlayer().getCell().getItem() instanceof StepOnActivatable) {
+                        ((StepOnActivatable) mapsArray[currentMapIndex].getPlayer().getCell().getItem()).activate();
                     }
                     refresh();
                 } else {
@@ -292,82 +292,82 @@ public class Main extends Application {
                 break;
             case LEFT:
             case A:
-                mapsArray[currentMapNumber].getPlayer().setTileName("playerL");
-                mapsArray[currentMapNumber].getPlayer().move(-1, 0);
+                mapsArray[currentMapIndex].getPlayer().setTileName("playerL");
+                mapsArray[currentMapIndex].getPlayer().move(-1, 0);
                 AiArray[currentAiNumber].monsterMover();
-                mapsArray[currentMapNumber].getEndlessCycleTraps().forEach(TrapCycle::trapCycle);
-                mapsArray[currentMapNumber].getProjectilesCollection().forEach(ProjectileCycle::projectileCycle);
-                mapsArray[currentMapNumber].getProjectilesCollection().removeIf(ProjectileCycle::isHit);
+                mapsArray[currentMapIndex].getEndlessCycleTraps().forEach(TrapCycle::trapCycle);
+                mapsArray[currentMapIndex].getProjectilesCollection().forEach(ProjectileCycle::projectileCycle);
+                mapsArray[currentMapIndex].getProjectilesCollection().removeIf(ProjectileCycle::isHit);
                 if (isPlayerBeingAffectedByAnEnvironmentalDamageSource()) {
                     playerSuffersEnvironmentalDamage();
                 }
-                if (mapsArray[currentMapNumber].getPlayer().getCell().getItem() instanceof StepOnActivatable) {
-                    ((StepOnActivatable) mapsArray[currentMapNumber].getPlayer().getCell().getItem()).activate();
+                if (mapsArray[currentMapIndex].getPlayer().getCell().getItem() instanceof StepOnActivatable) {
+                    ((StepOnActivatable) mapsArray[currentMapIndex].getPlayer().getCell().getItem()).activate();
                 }
                 refresh();
                 break;
             case RIGHT:
             case D:
-                mapsArray[currentMapNumber].getPlayer().setTileName("playerR");
-                mapsArray[currentMapNumber].getPlayer().move(1, 0);
+                mapsArray[currentMapIndex].getPlayer().setTileName("playerR");
+                mapsArray[currentMapIndex].getPlayer().move(1, 0);
                 AiArray[currentAiNumber].monsterMover();
-                mapsArray[currentMapNumber].getEndlessCycleTraps().forEach(TrapCycle::trapCycle);
-                mapsArray[currentMapNumber].getProjectilesCollection().forEach(ProjectileCycle::projectileCycle);
-                mapsArray[currentMapNumber].getProjectilesCollection().removeIf(ProjectileCycle::isHit);
+                mapsArray[currentMapIndex].getEndlessCycleTraps().forEach(TrapCycle::trapCycle);
+                mapsArray[currentMapIndex].getProjectilesCollection().forEach(ProjectileCycle::projectileCycle);
+                mapsArray[currentMapIndex].getProjectilesCollection().removeIf(ProjectileCycle::isHit);
                 if (isPlayerBeingAffectedByAnEnvironmentalDamageSource()) {
                     playerSuffersEnvironmentalDamage();
                 }
-                if (mapsArray[currentMapNumber].getPlayer().getCell().getItem() instanceof StepOnActivatable) {
-                    ((StepOnActivatable) mapsArray[currentMapNumber].getPlayer().getCell().getItem()).activate();
+                if (mapsArray[currentMapIndex].getPlayer().getCell().getItem() instanceof StepOnActivatable) {
+                    ((StepOnActivatable) mapsArray[currentMapIndex].getPlayer().getCell().getItem()).activate();
                 }
                 refresh();
                 break;
             case SPACE:
                 AiArray[currentAiNumber].monsterMover();
-                mapsArray[currentMapNumber].getEndlessCycleTraps().forEach(TrapCycle::trapCycle);
-                mapsArray[currentMapNumber].getProjectilesCollection().forEach(ProjectileCycle::projectileCycle);
-                mapsArray[currentMapNumber].getProjectilesCollection().removeIf(ProjectileCycle::isHit);
+                mapsArray[currentMapIndex].getEndlessCycleTraps().forEach(TrapCycle::trapCycle);
+                mapsArray[currentMapIndex].getProjectilesCollection().forEach(ProjectileCycle::projectileCycle);
+                mapsArray[currentMapIndex].getProjectilesCollection().removeIf(ProjectileCycle::isHit);
                 if (isPlayerBeingAffectedByAnEnvironmentalDamageSource()) {
                     playerSuffersEnvironmentalDamage();
                 }
-                if (mapsArray[currentMapNumber].getPlayer().getCell().getItem() instanceof StepOnActivatable) {
-                    ((StepOnActivatable) mapsArray[currentMapNumber].getPlayer().getCell().getItem()).activate();
+                if (mapsArray[currentMapIndex].getPlayer().getCell().getItem() instanceof StepOnActivatable) {
+                    ((StepOnActivatable) mapsArray[currentMapIndex].getPlayer().getCell().getItem()).activate();
                 }
                 refresh();
                 //System.out.println("Player X Coordinate: " + map.getPlayer().getX() + "\n" + "Player Y Coordinate: " + map.getPlayer().getY());
                 break;
             case F4:
-                mapsArray[currentMapNumber].getPlayer().teleport(94, 20);
+                mapsArray[currentMapIndex].getPlayer().teleport(94, 20);
                 refresh();
                 break;
             case F9:
-                mapsArray[currentMapNumber].getPlayer().teleport(62, 38);
+                mapsArray[currentMapIndex].getPlayer().teleport(62, 38);
                 refresh();
                 break;
             case E:
-                mapsArray[currentMapNumber].getEndlessCycleTraps().forEach(TrapCycle::trapCycle);
-                mapsArray[currentMapNumber].getProjectilesCollection().forEach(ProjectileCycle::projectileCycle);
-                mapsArray[currentMapNumber].getProjectilesCollection().removeIf(ProjectileCycle::isHit);
+                mapsArray[currentMapIndex].getEndlessCycleTraps().forEach(TrapCycle::trapCycle);
+                mapsArray[currentMapIndex].getProjectilesCollection().forEach(ProjectileCycle::projectileCycle);
+                mapsArray[currentMapIndex].getProjectilesCollection().removeIf(ProjectileCycle::isHit);
                 if (isPlayerBeingAffectedByAnEnvironmentalDamageSource()) {
                     playerSuffersEnvironmentalDamage();
                 }
-                if (mapsArray[currentMapNumber].getPlayer().getCell().getItem() != null && mapsArray[currentMapNumber].getPlayer().getCell().getItem() instanceof PickupableItem) {
-                    Item item = (Item) mapsArray[currentMapNumber].getPlayer().getCell().getItem();
-                    inventoryManager.pickUpItem(item, mapsArray[currentMapNumber]);
+                if (mapsArray[currentMapIndex].getPlayer().getCell().getItem() != null && mapsArray[currentMapIndex].getPlayer().getCell().getItem() instanceof PickupableItem) {
+                    Item item = (Item) mapsArray[currentMapIndex].getPlayer().getCell().getItem();
+                    inventoryManager.pickUpItem(item, mapsArray[currentMapIndex]);
 
                 } else if (isThereAnInteractiveObjectAroundThePlayer()) {
                     int[] interactableDirection = getTheInteractiveEntityDirection();
                     int interactablesArrayCurrentIndex = 0;
-                    Cell currentlyFocusedCell = mapsArray[currentMapNumber].getPlayer().getCell().getNeighbor(interactableDirection[0], interactableDirection[1]);
-                    while (mapsArray[currentMapNumber].getInteractablesArray().size() > interactablesArrayCurrentIndex) {
-                        InteractiveObject currentlyProcessedInteractable = mapsArray[currentMapNumber].getInteractablesArray().get(interactablesArrayCurrentIndex);
+                    Cell currentlyFocusedCell = mapsArray[currentMapIndex].getPlayer().getCell().getNeighbor(interactableDirection[0], interactableDirection[1]);
+                    while (mapsArray[currentMapIndex].getInteractablesArray().size() > interactablesArrayCurrentIndex) {
+                        InteractiveObject currentlyProcessedInteractable = mapsArray[currentMapIndex].getInteractablesArray().get(interactablesArrayCurrentIndex);
                         //System.out.println(currentlyProcessedInteractable);
                         if (currentlyProcessedInteractable.isThisObjectInteractive() &&
                                 currentlyProcessedInteractable.isThisInteractiveObjectCurrentlyBeingFocusedOn(currentlyFocusedCell) &&
-                                currentlyProcessedInteractable.isPlayerInteractingFromLegalDirection(mapsArray[currentMapNumber].getPlayer().getCell())) {
+                                currentlyProcessedInteractable.isPlayerInteractingFromLegalDirection(mapsArray[currentMapIndex].getPlayer().getCell())) {
                             currentlyProcessedInteractable.interact();
                             if (currentlyProcessedInteractable instanceof Switch && ((Switch) currentlyProcessedInteractable).getGroupName() != null) {
-                                mapsArray[currentMapNumber].getSwitchablesCollection()
+                                mapsArray[currentMapIndex].getSwitchablesCollection()
                                         .stream()
                                         .filter(x -> x.getGroupName() != null)
                                         .filter(x -> x.isThisFromTheSameGroup(((Switch) currentlyProcessedInteractable).getGroupName()))
@@ -384,8 +384,8 @@ public class Main extends Application {
                         }
                     }
                 }
-                if (mapsArray[currentMapNumber].getPlayer().getCell().getItem() instanceof StepOnActivatable) {
-                    ((StepOnActivatable) mapsArray[currentMapNumber].getPlayer().getCell().getItem()).activate();
+                if (mapsArray[currentMapIndex].getPlayer().getCell().getItem() instanceof StepOnActivatable) {
+                    ((StepOnActivatable) mapsArray[currentMapIndex].getPlayer().getCell().getItem()).activate();
                 }
                 /*else if (isThereAPickupableItemUnderThePlayer()) {
                     map.getPlayer().getCell().getItem().
@@ -394,20 +394,20 @@ public class Main extends Application {
                 break;
             case F5:
                 if (!isDeveloperStartingGearEnabled) {
-                    mapsArray[currentMapNumber].getPlayer().raiseMaxHealth(17);
-                    mapsArray[currentMapNumber].getPlayer().setHealth(mapsArray[currentMapNumber].getPlayer().getMaxHealth());
-                    inventoryManager.pickUpItem(new LootTable().getWeaponRareLoot().get(1), mapsArray[currentMapNumber]);
-                    inventoryManager.pickUpItem(new LootTable().getItemRareLoot().get(3), mapsArray[currentMapNumber]);
+                    mapsArray[currentMapIndex].getPlayer().raiseMaxHealth(17);
+                    mapsArray[currentMapIndex].getPlayer().setHealth(mapsArray[currentMapIndex].getPlayer().getMaxHealth());
+                    inventoryManager.pickUpItem(new LootTable().getWeaponRareLoot().get(1), mapsArray[currentMapIndex]);
+                    inventoryManager.pickUpItem(new LootTable().getItemRareLoot().get(3), mapsArray[currentMapIndex]);
                     isDeveloperStartingGearEnabled = true;
                     refresh();
                     break;
                 }
             case F6:
                 if (!isDeveloperStartingGearEnabled) {
-                    mapsArray[currentMapNumber].getPlayer().raiseMaxHealth(35);
-                    mapsArray[currentMapNumber].getPlayer().setHealth(mapsArray[currentMapNumber].getPlayer().getMaxHealth());
-                    inventoryManager.pickUpItem(new LootTable().getItemLegendaryLoot().get(3), mapsArray[currentMapNumber]);
-                    inventoryManager.pickUpItem(new LootTable().getWeaponLegendaryLoot().get(1), mapsArray[currentMapNumber]);
+                    mapsArray[currentMapIndex].getPlayer().raiseMaxHealth(35);
+                    mapsArray[currentMapIndex].getPlayer().setHealth(mapsArray[currentMapIndex].getPlayer().getMaxHealth());
+                    inventoryManager.pickUpItem(new LootTable().getItemLegendaryLoot().get(3), mapsArray[currentMapIndex]);
+                    inventoryManager.pickUpItem(new LootTable().getWeaponLegendaryLoot().get(1), mapsArray[currentMapIndex]);
                     isDeveloperStartingGearEnabled = true;
                     refresh();
                     break;
@@ -418,30 +418,30 @@ public class Main extends Application {
 //                break;
 
             case F12:
-                mapsArray[currentMapNumber].getPlayer().setWallCheatOn(!mapsArray[currentMapNumber].getPlayer().isWallCheatOn());
+                mapsArray[currentMapIndex].getPlayer().setWallCheatOn(!mapsArray[currentMapIndex].getPlayer().isWallCheatOn());
                 break;
             case F11:
-                if (currentMapNumber == 2) {
+                if (currentMapIndex == 2) {
                     break;
                 } else {
-                    mapsArray[currentMapNumber].getPlayer().saveStats();
-                    currentMapNumber++;
+                    mapsArray[currentMapIndex].getPlayer().saveStats();
+                    currentMapIndex++;
                     currentAiNumber++;
-                    MapLoader.loadMap(currentMapNumber);
-                    mapsArray[currentMapNumber].getPlayer().loadStats();
+                    MapLoader.loadMap(currentMapIndex);
+                    mapsArray[currentMapIndex].getPlayer().loadStats();
                     //SetInteractableItems.setStuff(currentMapNumber);
                     refresh();
                     break;
                 }
             case F10:
-                if (currentMapNumber == 0) {
+                if (currentMapIndex == 0) {
                     break;
                 } else {
-                    mapsArray[currentMapNumber].getPlayer().saveStats();
-                    currentMapNumber--;
+                    mapsArray[currentMapIndex].getPlayer().saveStats();
+                    currentMapIndex--;
                     currentAiNumber--;
-                    MapLoader.loadMap(currentMapNumber);
-                    mapsArray[currentMapNumber].getPlayer().loadStats();
+                    MapLoader.loadMap(currentMapIndex);
+                    mapsArray[currentMapIndex].getPlayer().loadStats();
                     //SetInteractableItems.setStuff(currentMapNumber);
                     refresh();
                     break;
@@ -449,16 +449,16 @@ public class Main extends Application {
         }
 
 
-        if (mapsArray[currentMapNumber].getPlayer().getHealth() <= 0) {
+        if (mapsArray[currentMapIndex].getPlayer().getHealth() <= 0) {
 //            Sounds.playSound("Hdead");
 
             stage.setScene(gameOver.getGameOverScene());
         }
-        if (mapsArray[currentMapNumber].getPlayer().getCell().getItem() instanceof OpenedDoor || mapsArray[currentMapNumber].getPlayer().getCell().getItem() instanceof Switch
-                || mapsArray[currentMapNumber].getPlayer().getCell().getItem() instanceof InteractiveObject || mapsArray[currentMapNumber].getPlayer().getCell().getItem() instanceof EnvironmentalDamage) {
+        if (mapsArray[currentMapIndex].getPlayer().getCell().getItem() instanceof OpenedDoor || mapsArray[currentMapIndex].getPlayer().getCell().getItem() instanceof Switch
+                || mapsArray[currentMapIndex].getPlayer().getCell().getItem() instanceof InteractiveObject || mapsArray[currentMapIndex].getPlayer().getCell().getItem() instanceof EnvironmentalDamage) {
             pickUpButton.setDisable(true);
         } else {
-            pickUpButton.setDisable(mapsArray[currentMapNumber].getPlayer().getCell().getItem() == null);
+            pickUpButton.setDisable(mapsArray[currentMapIndex].getPlayer().getCell().getItem() == null);
         }
         /*if (map.getBoss1() == null) {
             Sounds.playSound("Odead");
@@ -480,11 +480,11 @@ public class Main extends Application {
         // context.setFill(Color.BLACK);
         // context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
-        Tiles.drawParalaxx(context, mapsArray[currentMapNumber].getPlayer().getX(), mapsArray[currentMapNumber].getPlayer().getY());
+        Tiles.drawParalaxx(context, mapsArray[currentMapIndex].getPlayer().getX(), mapsArray[currentMapIndex].getPlayer().getY());
 
 
-        int dx = 7 - mapsArray[currentMapNumber].getPlayer().getX(); // 0;
-        int dy = 7 - mapsArray[currentMapNumber].getPlayer().getY(); // 0;
+        int dx = 7 - mapsArray[currentMapIndex].getPlayer().getX(); // 0;
+        int dy = 7 - mapsArray[currentMapIndex].getPlayer().getY(); // 0;
 /*
         if (map.getWidth()<16) {
             dx = (15-map.getWidth())/2;
@@ -499,16 +499,16 @@ public class Main extends Application {
             dy = Math.max(15 - map.getHeight() , dy);
         }
 */
-        for (int x = 0; x < mapsArray[currentMapNumber].getWidth(); x++) {
-            for (int y = 0; y < mapsArray[currentMapNumber].getHeight(); y++) {
-                Cell cell = mapsArray[currentMapNumber].getCell(x, y);
+        for (int x = 0; x < mapsArray[currentMapIndex].getWidth(); x++) {
+            for (int y = 0; y < mapsArray[currentMapIndex].getHeight(); y++) {
+                Cell cell = mapsArray[currentMapIndex].getCell(x, y);
                 Tiles.drawTile(context, cell, x + dx, y + dy);
 
             }
         }
-        for (int x = 0; x < mapsArray[currentMapNumber].getWidth(); x++) {
-            for (int y = 0; y < mapsArray[currentMapNumber].getHeight(); y++) {
-                Cell cell = mapsArray[currentMapNumber].getCell(x, y);
+        for (int x = 0; x < mapsArray[currentMapIndex].getWidth(); x++) {
+            for (int y = 0; y < mapsArray[currentMapIndex].getHeight(); y++) {
+                Cell cell = mapsArray[currentMapIndex].getCell(x, y);
                 if (cell.getItem() != null) {
                     Tiles.drawTile(context, cell.getItem(), x + dx, y + dy);
                 }
@@ -521,11 +521,11 @@ public class Main extends Application {
                 }
 
 
-                if (!(mapsArray[currentMapNumber].getPlayer().getTileName().equals("playerArmored2")) && mapsArray[currentMapNumber].getPlayer().getArmor() > 6) {
-                    mapsArray[currentMapNumber].getPlayer().setTileName("playerArmored1");
+                if (!(mapsArray[currentMapIndex].getPlayer().getTileName().equals("playerArmored2")) && mapsArray[currentMapIndex].getPlayer().getArmor() > 6) {
+                    mapsArray[currentMapIndex].getPlayer().setTileName("playerArmored1");
                 }
-                if (mapsArray[currentMapNumber].getPlayer().getArmor() >= 13) {
-                    mapsArray[currentMapNumber].getPlayer().setTileName("playerArmored2");
+                if (mapsArray[currentMapIndex].getPlayer().getArmor() >= 13) {
+                    mapsArray[currentMapIndex].getPlayer().setTileName("playerArmored2");
                 }
 
 
@@ -535,20 +535,20 @@ public class Main extends Application {
 
 
         if (InventoryManager.inventory.keySet().stream().anyMatch(item -> item instanceof Weapon)) {
-            attackPwLabel.setText(mapsArray[currentMapNumber].getPlayer().getStrength() + "+" + inventoryManager.getCurrentWeapon().getAttackpowerIncrease());
+            attackPwLabel.setText(mapsArray[currentMapIndex].getPlayer().getStrength() + "+" + inventoryManager.getCurrentWeapon().getAttackpowerIncrease());
         } else {
-            attackPwLabel.setText(String.valueOf(mapsArray[currentMapNumber].getPlayer().getStrength()));
+            attackPwLabel.setText(String.valueOf(mapsArray[currentMapIndex].getPlayer().getStrength()));
         }
-        healthLabel.setText("" + mapsArray[currentMapNumber].getPlayer().getHealth() + "/" + mapsArray[currentMapNumber].getPlayer().getMaxHealth());
-        armorLabel.setText("" + mapsArray[currentMapNumber].getPlayer().getArmor());
-        moneyLabel.setText("" + mapsArray[currentMapNumber].getPlayer().getMoneyAmount());
+        healthLabel.setText("" + mapsArray[currentMapIndex].getPlayer().getHealth() + "/" + mapsArray[currentMapIndex].getPlayer().getMaxHealth());
+        armorLabel.setText("" + mapsArray[currentMapIndex].getPlayer().getArmor());
+        moneyLabel.setText("" + mapsArray[currentMapIndex].getPlayer().getMoneyAmount());
     }
 
     private boolean isThereAnInteractiveObjectAroundThePlayer() {
-        if (mapsArray[currentMapNumber].getPlayer().getCell().getNeighbor(1, 0).getItem() instanceof InteractiveObject ||
-                mapsArray[currentMapNumber].getPlayer().getCell().getNeighbor(-1, 0).getItem() instanceof InteractiveObject ||
-                mapsArray[currentMapNumber].getPlayer().getCell().getNeighbor(0, 1).getItem() instanceof InteractiveObject ||
-                mapsArray[currentMapNumber].getPlayer().getCell().getNeighbor(0, -1).getItem() instanceof InteractiveObject) {
+        if (mapsArray[currentMapIndex].getPlayer().getCell().getNeighbor(1, 0).getItem() instanceof InteractiveObject ||
+                mapsArray[currentMapIndex].getPlayer().getCell().getNeighbor(-1, 0).getItem() instanceof InteractiveObject ||
+                mapsArray[currentMapIndex].getPlayer().getCell().getNeighbor(0, 1).getItem() instanceof InteractiveObject ||
+                mapsArray[currentMapIndex].getPlayer().getCell().getNeighbor(0, -1).getItem() instanceof InteractiveObject) {
             return true;
         } else {
             return false;
@@ -556,11 +556,11 @@ public class Main extends Application {
     }
 
     private int[] getTheInteractiveEntityDirection() {
-        if (mapsArray[currentMapNumber].getPlayer().getCell().getNeighbor(1, 0).getItem() instanceof InteractiveObject) {
+        if (mapsArray[currentMapIndex].getPlayer().getCell().getNeighbor(1, 0).getItem() instanceof InteractiveObject) {
             return new int[]{1, 0};
-        } else if (mapsArray[currentMapNumber].getPlayer().getCell().getNeighbor(-1, 0).getItem() instanceof InteractiveObject) {
+        } else if (mapsArray[currentMapIndex].getPlayer().getCell().getNeighbor(-1, 0).getItem() instanceof InteractiveObject) {
             return new int[]{-1, 0};
-        } else if (mapsArray[currentMapNumber].getPlayer().getCell().getNeighbor(0, 1).getItem() instanceof InteractiveObject) {
+        } else if (mapsArray[currentMapIndex].getPlayer().getCell().getNeighbor(0, 1).getItem() instanceof InteractiveObject) {
             return new int[]{0, 1};
         } else {
             return new int[]{0, -1};
@@ -573,20 +573,20 @@ public class Main extends Application {
 
     private void playerSuffersEnvironmentalDamage() {
 //        Player.playHurtSound();
-        mapsArray[currentMapNumber].getPlayer().playerHit();
-        ((EnvironmentalDamage) mapsArray[currentMapNumber].getPlayer().getCell().getItem()).playDamageSound();
-        mapsArray[currentMapNumber].getPlayer().lowerHealth(mapsArray[currentMapNumber].getPlayer().getCell().getItem().getAttackPower());
-        if (mapsArray[currentMapNumber].getPlayer().getHealth() < 1) {
-            mapsArray[currentMapNumber].getPlayer().playDeathSound();
+        mapsArray[currentMapIndex].getPlayer().playerHit();
+        ((EnvironmentalDamage) mapsArray[currentMapIndex].getPlayer().getCell().getItem()).playDamageSound();
+        mapsArray[currentMapIndex].getPlayer().lowerHealth(mapsArray[currentMapIndex].getPlayer().getCell().getItem().getAttackPower());
+        if (mapsArray[currentMapIndex].getPlayer().getHealth() < 1) {
+            mapsArray[currentMapIndex].getPlayer().playDeathSound();
         }
     }
 
     public boolean isPlayerBeingAffectedByAnEnvironmentalDamageSource() {
-        return mapsArray[currentMapNumber].getPlayer().getCell().getItem() instanceof EnvironmentalDamage && mapsArray[currentMapNumber].getPlayer().getCell().getItem().getAttackPower() > 0;
+        return mapsArray[currentMapIndex].getPlayer().getCell().getItem() instanceof EnvironmentalDamage && mapsArray[currentMapIndex].getPlayer().getCell().getItem().getAttackPower() > 0;
     }
 
     public static GameMap cheatingMapGetter() {
-        return mapsArray[currentMapNumber];
+        return mapsArray[currentMapIndex];
     }
 
     public static AiMovement aiGetter() {
