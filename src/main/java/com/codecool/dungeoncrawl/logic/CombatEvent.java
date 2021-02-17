@@ -27,16 +27,11 @@ public class CombatEvent {
 
     private void getConsequenceOfAttack() {
         if (defender.getHealth() <= 0) {
-            killDefender();
-            if (defender instanceof Monster) {
-                ((Monster) defender).rollForMonsterLoot();
-                log.append(defender)
-                        .append(" dies!\n");
-            }
+            defender.onDeath();
+            log.append(defender)
+                    .append(" dies!\n");
         } else {
-            if (defender instanceof Player) {
-                ((Player) defender).playerHit();
-            }
+            defender.onHit();
         }
     }
 
@@ -58,14 +53,6 @@ public class CombatEvent {
             Sounds.playSound(soundFile);
         } catch (NullPointerException e) {
             e.printStackTrace();
-        }
-    }
-
-    private void killDefender() {
-        if (defender.getHealth() <= 0) {
-            Sounds.playSound("kill1");
-            defender.playDeathSound();
-            defender.getCell().setActor(null);
         }
     }
 

@@ -112,6 +112,12 @@ public class Player extends Actor {
         }
     }
 
+    @Override
+    public void onHit() {
+        super.onHit();
+        playerHit();
+    }
+
     public void setNameGivenByPlayer(String nameGivenByPlayer) {
         this.nameGivenByPlayer = nameGivenByPlayer;
     }

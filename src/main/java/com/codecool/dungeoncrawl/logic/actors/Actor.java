@@ -193,4 +193,12 @@ public abstract class Actor implements Drawable {
     public String toString() {
         return this.getClass().getSimpleName();
     }
+
+    public void onHit() {}
+
+    public void onDeath() {
+        Sounds.playSound("kill1");
+        playDeathSound();
+        this.getCell().setActor(null);
+    }
 }
