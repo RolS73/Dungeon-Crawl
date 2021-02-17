@@ -23,7 +23,7 @@ public class MapLoader {
         InputStream is = null;
 
         if (mapNumber == 0) {
-             is = MapLoader.class.getResourceAsStream("/map.txt");
+            is = MapLoader.class.getResourceAsStream("/map.txt");
         } else if (mapNumber == 1) {
             is = MapLoader.class.getResourceAsStream("/map2.txt");
         } else if (mapNumber == 2) {
@@ -53,9 +53,9 @@ public class MapLoader {
                             map.spikeForBossesList.add(new SpikeForBosses(cell));
                             break;
                         case '&':
-                        cell.setCellType(CellType.BOSSFLOOR);
-                        map.monsters.add(new CursedKing(cell));
-                        break;
+                            cell.setCellType(CellType.BOSSFLOOR);
+                            map.monsters.add(new CursedKing(cell));
+                            break;
                         case 'n':
                             cell.setCellType(CellType.STUNNER);
                             break;
@@ -101,6 +101,16 @@ public class MapLoader {
                             SecretPassage secretPassage = new SecretPassage(cell, 70, 11);
                             map.interactablesCollection.add(secretPassage);
                             map.secretPassagesCollection.add(secretPassage);
+                            break;
+                        case 'j':
+                            cell.setCellType(CellType.FLOOR);
+                            MapChangePassage mapPassageDOWN = new MapChangePassage(cell, "MapTraversalPassage", Direction.DOWN);
+                            map.interactablesCollection.add(mapPassageDOWN);
+                            break;
+                        case 'J':
+                            cell.setCellType(CellType.FLOOR);
+                            MapChangePassage mapPassageUP = new MapChangePassage(cell, "MapTraversalPassage", Direction.UP);
+                            map.interactablesCollection.add(mapPassageUP);
                             break;
                         case 'P':
                             cell.setCellType(CellType.FLOOR);

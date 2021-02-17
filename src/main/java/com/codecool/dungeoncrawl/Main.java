@@ -585,6 +585,22 @@ public class Main extends Application {
         return mapsArray[currentMapIndex].getPlayer().getCell().getItem() instanceof EnvironmentalDamage && mapsArray[currentMapIndex].getPlayer().getCell().getItem().getAttackPower() > 0;
     }
 
+    public static int getCurrentMapIndex() {
+        return currentMapIndex;
+    }
+
+    public static int getCurrentAiNumber() {
+        return currentAiNumber;
+    }
+
+    public static void setCurrentMapIndex(int currentMapIndex) {
+        Main.currentMapIndex = currentMapIndex;
+    }
+
+    public static void setCurrentAiNumber(int currentAiNumber) {
+        Main.currentAiNumber = currentAiNumber;
+    }
+
     public static GameMap cheatingMapGetter() {
         return mapsArray[currentMapIndex];
     }
