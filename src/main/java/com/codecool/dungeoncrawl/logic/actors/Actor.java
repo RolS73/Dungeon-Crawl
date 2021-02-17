@@ -3,7 +3,6 @@ package com.codecool.dungeoncrawl.logic.actors;
 import com.codecool.dungeoncrawl.logic.*;
 import com.codecool.dungeoncrawl.logic.actors.boss.SpikeForBosses;
 import com.codecool.dungeoncrawl.logic.actors.items.looting.Breakable;
-import com.codecool.dungeoncrawl.logic.actors.monsters.Monster;
 import com.codecool.dungeoncrawl.logic.actors.npcs.NonPlayerCharacter;
 
 public abstract class Actor implements Drawable {
@@ -14,7 +13,7 @@ public abstract class Actor implements Drawable {
     private boolean thisABossFight = false;
     private boolean wallCheatOn = false;
     private int armor = 0;
-    private String[] attackSoundFiles = new String[] {"Sword1"};
+    private String[] attackSoundFiles = new String[] {"genericSwing"};
     private String[] hitSoundFiles = new String[] {"DSdamage1"};
 
     public Actor(Cell cell) {

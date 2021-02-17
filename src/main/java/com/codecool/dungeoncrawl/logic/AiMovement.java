@@ -1,5 +1,6 @@
 package com.codecool.dungeoncrawl.logic;
 
+import com.codecool.dungeoncrawl.Main;
 import com.codecool.dungeoncrawl.logic.actors.*;
 import com.codecool.dungeoncrawl.logic.actors.boss.SpikeForBosses;
 import com.codecool.dungeoncrawl.logic.actors.monsters.Duck;
@@ -9,7 +10,7 @@ import com.codecool.dungeoncrawl.logic.actors.monsters.TheThing;
 
 public class AiMovement {
 
-    private GameMap map;
+    private GameMap map = Main.cheatingMapGetter();
     private int x;
     private int y;
     private int count;

@@ -16,7 +16,7 @@ class ActorTest {
 
         assertEquals(2, player.getX());
         assertEquals(1, player.getY());
-        assertEquals(null, gameMap.getCell(1, 1).getActor());
+        assertNull(gameMap.getCell(1, 1).getActor());
         assertEquals(player, gameMap.getCell(2, 1).getActor());
     }
 
@@ -51,4 +51,39 @@ class ActorTest {
         assertEquals(1, skeleton.getY());
         assertEquals(skeleton, gameMap.getCell(2, 1).getActor());
     }
+
+    @Test
+    void attackPowerGrowth() {
+        Player player = new Player(gameMap.getCell(1,1));
+        player.raiseAttackPower(3);
+        assertEquals(player.getAttackPower(), 4);
+    }
+
+    @Test
+    void teleportTest() {
+        Player player = new Player(gameMap.getCell(1,1));
+        player.teleport(2,2);
+        assertEquals(player.getY(), 2);
+        assertEquals(player.getX(), 2);
+    }
+
+    @Test
+    void wallCheat() {
+        Player player = new Player(gameMap.getCell(1,1));
+        player.setWallCheatOn(true);
+        assertTrue(player.isWallCheatOn());
+        gameMap = new GameMap(3, 3, CellType.EMPTY);
+        player.move(1, 0);
+        assertEquals(2, player.getX());
+        assertEquals(1, player.getY());
+
+    }
+
+//    @Test
+//    void bossFightOn() {
+//    }
+//
+//    @Test
+//    void vegyesUseless() {
+//    }
 }
