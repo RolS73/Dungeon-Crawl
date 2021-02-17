@@ -9,6 +9,7 @@ public class CombatEvent {
 
     private final Actor attacker;
     private final Actor defender;
+    private StringBuilder log = new StringBuilder();
 
     public CombatEvent(Actor attacker, Actor defender) {
         this.attacker = attacker;
@@ -19,7 +20,9 @@ public class CombatEvent {
         playAttackSoundEffect();
         int damage = damageCalculation();
         defender.setHealth(defender.getHealth() - damage);
+        logBuilder(damage);
         getConsequenceOfAttack();
+        System.out.println(log.toString());
     }
 
     private void getConsequenceOfAttack() {
@@ -27,6 +30,8 @@ public class CombatEvent {
             killDefender();
             if (defender instanceof Monster) {
                 ((Monster) defender).rollForMonsterLoot();
+                log.append(defender)
+                        .append(" dies.\n");
             }
         } else {
             if (defender instanceof Player) {
@@ -63,4 +68,18 @@ public class CombatEvent {
             defender.getCell().setActor(null);
         }
     }
+
+    private void logBuilder(int damage) {
+        log.append(attacker.toString())
+                .append(" deals ")
+                .append(damage)
+                .append(" damage to ")
+                .append(defender)
+                .append("\n");
+    }
+
+    public StringBuilder getLog() {
+        return log;
+    }
+
 }

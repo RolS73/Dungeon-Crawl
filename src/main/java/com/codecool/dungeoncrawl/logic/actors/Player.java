@@ -81,8 +81,8 @@ public class Player extends Actor {
             Sounds.playSound("playerHurt2");
         }
     }
-
-//    public void playHurtSound() {
+    
+    //    public void playHurtSound() {
 //
 //    }
 }
