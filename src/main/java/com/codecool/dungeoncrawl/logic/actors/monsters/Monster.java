@@ -23,7 +23,14 @@ public abstract class Monster extends Actor {
     public void playDeathSound() {}
 
     public void rollForMonsterLoot() {}
-//    @Override
+
+    @Override
+    public void onDeath() {
+        super.onDeath();
+        rollForMonsterLoot();
+    }
+
+    //    @Override
 //    protected void attack(Cell nextCell) {
 //        super.attack(nextCell);
 //        if (nextCell.getActor() != null && nextCell.getActor() instanceof Player) {
