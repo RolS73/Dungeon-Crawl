@@ -539,16 +539,26 @@ public class Main extends Application {
             }
         }
         // Tiles.drawTile(context, map.getPlayer().getCell().getActor(), map.getPlayer().getX() + dx, map.getPlayer().getY() + dy);
+        managePlayerStatistics();
+    }
 
-
-        if (InventoryManager.inventory.keySet().stream().anyMatch(item -> item instanceof Weapon)) {
-            attackPwLabel.setText(mapsArray[currentMapIndex].getPlayer().getStrength() + "+" + inventoryManager.getCurrentWeapon().getAttackpowerIncrease());
-        } else {
-            attackPwLabel.setText(String.valueOf(mapsArray[currentMapIndex].getPlayer().getStrength()));
-        }
+    private void managePlayerStatistics() {
+        manageAttackPw();
         healthLabel.setText("" + mapsArray[currentMapIndex].getPlayer().getHealth() + "/" + mapsArray[currentMapIndex].getPlayer().getMaxHealth());
         armorLabel.setText("" + mapsArray[currentMapIndex].getPlayer().getArmor());
         moneyLabel.setText("" + mapsArray[currentMapIndex].getPlayer().getMoneyAmount());
+        manageCombatLog();
+    }
+
+    private void manageAttackPw() {
+        if (InventoryManager.inventory.keySet().stream().anyMatch(item -> item instanceof Weapon)) {
+            attackPwLabel.setText(mapsArray[currentMapIndex].getPlayer().getAttackPower() + "+" + inventoryManager.getCurrentWeapon().getAttackpowerIncrease());
+        } else {
+            attackPwLabel.setText(String.valueOf(mapsArray[currentMapIndex].getPlayer().getAttackPower()));
+        }
+    }
+
+    private void manageCombatLog() {
         combatLog.setText("Combat Log:\n");
         for (CombatEvent combatEvent : combatEvents) {
             combatLog.setText(combatLog.getText() + combatEvent.getLog().toString());

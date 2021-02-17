@@ -22,7 +22,6 @@ public class CombatEvent {
         defender.setHealth(defender.getHealth() - damage);
         logBuilder(damage);
         getConsequenceOfAttack();
-        System.out.println(log.toString());
     }
 
     private void getConsequenceOfAttack() {
