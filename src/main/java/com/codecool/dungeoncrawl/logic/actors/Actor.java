@@ -1,5 +1,6 @@
 package com.codecool.dungeoncrawl.logic.actors;
 
+import com.codecool.dungeoncrawl.Main;
 import com.codecool.dungeoncrawl.logic.*;
 import com.codecool.dungeoncrawl.logic.actors.boss.SpikeForBosses;
 import com.codecool.dungeoncrawl.logic.actors.items.looting.Breakable;
@@ -89,6 +90,7 @@ public abstract class Actor implements Drawable {
     protected void attack(Cell nextCell) {
         CombatEvent combatEvent = new CombatEvent(this, nextCell.getActor());
         combatEvent.attack();
+        Main.combatEvents.add(combatEvent);
     }
 
     public boolean isWallCheatOn() {

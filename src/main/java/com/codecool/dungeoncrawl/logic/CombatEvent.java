@@ -60,7 +60,7 @@ public class CombatEvent {
         log.append(attacker.toString())
                 .append(" deals ")
                 .append(damage)
-                .append(" damage to ")
+                .append(" damage\nto ")
                 .append(defender)
                 .append(".")
                 .append("\n");

@@ -16,7 +16,9 @@ import com.codecool.dungeoncrawl.logic.actors.items.looting.LootTable;
 import com.codecool.dungeoncrawl.logic.actors.items.looting.PickupableItem;
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
+import javafx.collections.FXCollections;
 import javafx.collections.MapChangeListener;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -64,6 +66,8 @@ public class Main extends Application {
     private Stage stage;
     private final List<String> wallCheat = Arrays.asList("Laci", "Ricsi", "Roland", "Szabolcs", "George");
     InventoryManager inventoryManager = new InventoryManager();
+    public static ObservableList<CombatEvent> combatEvents = FXCollections.observableArrayList();
+    Label combatLog = new Label("Combat Log: \n");
     GameDatabaseManager dbManager; //Sprint 2-ből
 
     public static void main(String[] args) {
@@ -163,7 +167,7 @@ public class Main extends Application {
 
         lootButtons.getChildren().addAll(pickUpButton, fiancialStatus);
 //        ui.add(lootButtons, 0, 3);
-        ui.getChildren().addAll(name, lifeStatus, attackPwStatus, lootButtons, inventoryTable, /*fiancialStatus,*/ instructions);
+        ui.getChildren().addAll(name, lifeStatus, attackPwStatus, lootButtons, inventoryTable, combatLog /*fiancialStatus, instructions*/);
         setupDbManager(); //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< THIS IS NEW!
 
 
@@ -545,6 +549,11 @@ public class Main extends Application {
         healthLabel.setText("" + mapsArray[currentMapIndex].getPlayer().getHealth() + "/" + mapsArray[currentMapIndex].getPlayer().getMaxHealth());
         armorLabel.setText("" + mapsArray[currentMapIndex].getPlayer().getArmor());
         moneyLabel.setText("" + mapsArray[currentMapIndex].getPlayer().getMoneyAmount());
+        combatLog.setText("Combat Log:\n");
+        for (CombatEvent combatEvent : combatEvents) {
+            combatLog.setText(combatLog.getText() + combatEvent.getLog().toString());
+        }
+        combatEvents.clear();
     }
 
     private boolean isThereAnInteractiveObjectAroundThePlayer() {
