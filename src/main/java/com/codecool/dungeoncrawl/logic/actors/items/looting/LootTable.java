@@ -29,11 +29,13 @@ public class LootTable {
         itemRareLoot.add(new Life("Hearty Cheese", 5));
         itemRareLoot.add(new LifeUpgrade("Yearning Heart", 3));
         itemRareLoot.add(new ArmorUpgrade("Iron Mail", 2));
+        itemRareLoot.add(new HealthPotion("Potion of Life"));
 
         itemRareLoot.get(0).setTileName("fish");
         itemRareLoot.get(1).setTileName("cheese");
         itemRareLoot.get(2).setTileName("lifeUpgrade2");
         itemRareLoot.get(3).setTileName("armorUpgrade1");
+
     }
     private List<Item> itemLegendaryLoot = new ArrayList<>();
     {
