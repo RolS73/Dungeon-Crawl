@@ -21,6 +21,9 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -30,7 +33,9 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.FileChooser;
 
-import java.io.*;
+import java.awt.*;
+import java.io.File;
+
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
@@ -194,6 +199,15 @@ public class Main extends Application {
 
         primaryStage.setTitle("Dungeon Crawl");
         primaryStage.show();
+    }
+
+    public static void installFont(String fontName) {
+        try {
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File(fontName)));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void onKeyPressed(KeyEvent keyEvent) {
