@@ -188,19 +188,29 @@ public class Main extends Application {
 
         Label combatLogLabel = new Label("Combat Log");
         combatLog.setFocusTraversable(false);
+
+        BorderPane borderPane = new BorderPane();
+
+        Scene scene = new Scene(borderPane);
+
+        menu.getImportButton().setOnAction(i -> {
+            importMap();
+            primaryStage.setScene(scene);
+        });
+
 //        ui.add(lootButtons, 0, 3);
         ui.getChildren().addAll(name, lifeStatus, attackPwStatus, pickUpAndMoney, inventoryTable, r, combatLogLabel, combatLog /*fiancialStatus, instructions*/);
         setupDbManager(); //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< THIS IS NEW!
 
 
-        BorderPane borderPane = new BorderPane();
+
 
         borderPane.setCenter(canvas);
         borderPane.setRight(ui);
 
         primaryStage.setScene(menu.getMenuScreen());
 
-        Scene scene = new Scene(borderPane);
+
 
         menu.getPlayButton().setOnAction(play -> {
             primaryStage.setScene(scene);
