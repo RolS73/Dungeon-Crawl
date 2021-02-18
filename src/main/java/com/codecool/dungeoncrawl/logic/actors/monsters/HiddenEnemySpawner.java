@@ -13,10 +13,6 @@ public class HiddenEnemySpawner extends Item implements InteractiveObject, Switc
     private String enemyType;
     private String anotherTileName = "floor";
 
-    public Cell getCellForSpawn() {
-        return this.getCell();
-    }
-
     public HiddenEnemySpawner(Cell cell, String name) {
         super(cell, name);
     }
