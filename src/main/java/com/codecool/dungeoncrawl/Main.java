@@ -26,9 +26,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -80,8 +83,8 @@ public class Main extends Application {
     private final List<String> wallCheat = Arrays.asList("Laci", "Ricsi", "Roland", "Szabolcs", "George");
     InventoryManager inventoryManager = new InventoryManager();
     public static ObservableList<CombatEvent> combatEvents = FXCollections.observableArrayList();
-    Label combatLog = new Label("Combat Log: \n");
-//    TextArea combatLog = new TextArea("Combat Log: \n");
+//    Label combatLog = new Label("Combat Log: \n");
+    TextArea combatLog = new TextArea();
     GameDatabaseManager dbManager; //Sprint 2-ből
 
     public static void main(String[] args) {
@@ -174,14 +177,19 @@ public class Main extends Application {
             refresh();
             pickUpButton.setDisable(true);
         });
-        HBox lootButtons = new HBox();
-        lootButtons.setSpacing(10);
+        HBox pickUpAndMoney = new HBox();
+        pickUpAndMoney.setSpacing(10);
         pickUpButton.setFocusTraversable(false);
         pickUpButton.setPrefWidth(130);
 
-        lootButtons.getChildren().addAll(pickUpButton, fiancialStatus);
+        pickUpAndMoney.getChildren().addAll(pickUpButton, fiancialStatus);
+
+        Region r = new Region();
+
+        Label combatLogLabel = new Label("Combat Log");
+        combatLog.setFocusTraversable(false);
 //        ui.add(lootButtons, 0, 3);
-        ui.getChildren().addAll(name, lifeStatus, attackPwStatus, lootButtons, inventoryTable, combatLog /*fiancialStatus, instructions*/);
+        ui.getChildren().addAll(name, lifeStatus, attackPwStatus, pickUpAndMoney, inventoryTable, r, combatLogLabel, combatLog /*fiancialStatus, instructions*/);
         setupDbManager(); //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< THIS IS NEW!
 
 
@@ -593,7 +601,8 @@ public class Main extends Application {
 
     private void managePlayerStatistics() {
         manageAttackPw();
-        healthLabel.setText("" + mapsArray[currentMapIndex].getPlayer().getHealth() + "/" + mapsArray[currentMapIndex].getPlayer().getMaxHealth());
+        healthLabel.setText("" + mapsArray[currentMapIndex].getPlayer().getHealth() + "/" +
+                mapsArray[currentMapIndex].getPlayer().getMaxHealth());
         armorLabel.setText("" + mapsArray[currentMapIndex].getPlayer().getArmor());
         moneyLabel.setText("" + mapsArray[currentMapIndex].getPlayer().getMoneyAmount());
         manageCombatLog();
@@ -601,16 +610,19 @@ public class Main extends Application {
 
     private void manageAttackPw() {
         if (InventoryManager.inventory.keySet().stream().anyMatch(item -> item instanceof Weapon)) {
-            attackPwLabel.setText(mapsArray[currentMapIndex].getPlayer().getAttackPower() + "+" + inventoryManager.getCurrentWeapon().getAttackpowerIncrease());
+            attackPwLabel.setText((mapsArray[currentMapIndex].getPlayer().getAttackPower()
+                    - inventoryManager.getCurrentWeapon().getAttackpowerIncrease()) + "+"
+                    + inventoryManager.getCurrentWeapon().getAttackpowerIncrease());
         } else {
             attackPwLabel.setText(String.valueOf(mapsArray[currentMapIndex].getPlayer().getAttackPower()));
         }
     }
 
     private void manageCombatLog() {
-        combatLog.setText("Combat Log:\n");
+//        combatLog.setText("Combat Log:\n");
         for (CombatEvent combatEvent : combatEvents) {
             combatLog.setText(combatLog.getText() + combatEvent.getLog().toString());
+            combatLog.positionCaret(combatLog.getText().length());
         }
         combatEvents.clear();
     }
