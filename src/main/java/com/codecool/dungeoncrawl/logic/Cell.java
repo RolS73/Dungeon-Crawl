@@ -30,12 +30,19 @@ public class Cell implements Drawable, Serializable {
 
     public void setCellType(CellType type) {
         this.type = type;
-        if (type.equals(CellType.FLOOR) &&  this.gameMap.getMapNumber() == 1) {
-            this.setNewTypeTileName("bossfloor");
-        } else if (type.equals(CellType.OBJECT) && this.gameMap.getMapNumber() == 1) {
-            this.setNewTypeTileName("bossfloor");
+        if ((type.equals(CellType.FLOOR) || type.equals(CellType.FLOORNOMONSTER) || type.equals(CellType.OBJECT)) &&  this.gameMap.getMapNumber() == 1) {
+            this.setNewTypeTileName("forestPath");
         } else if (type.equals(CellType.WALL) &&  this.gameMap.getMapNumber() == 1) {
-            this.setNewTypeTileName("stairwayDown");
+            this.setNewTypeTileName("bushes");
+        } else if (type.equals(CellType.EMPTY) &&  this.gameMap.getMapNumber() == 1) {
+            this.setNewTypeTileName("trees");
+        }
+        if ((type.equals(CellType.FLOOR) || type.equals(CellType.FLOORNOMONSTER) || type.equals(CellType.OBJECT)) &&  this.gameMap.getMapNumber() == 2) {
+            this.setNewTypeTileName("floor");
+        } else if (type.equals(CellType.WALL) &&  this.gameMap.getMapNumber() == 2) {
+            this.setNewTypeTileName("palaceWall");
+        } else if (type.equals(CellType.EMPTY) &&  this.gameMap.getMapNumber() == 2) {
+            this.setNewTypeTileName("empty");
         }
     }
 

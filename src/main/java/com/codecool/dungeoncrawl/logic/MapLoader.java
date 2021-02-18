@@ -102,7 +102,7 @@ public class MapLoader {
                             map.leverSwitchCollection.add(leverSwitch);
                             break;
                         case '*':
-                            cell.setCellType(CellType.OBJECT);
+                            cell.setCellType(CellType.WALL);
                             SecretPassage secretPassage = new SecretPassage(cell, 70, 11);
                             map.interactablesCollection.add(secretPassage);
                             map.secretPassagesCollection.add(secretPassage);
