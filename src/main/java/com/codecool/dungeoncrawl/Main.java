@@ -8,6 +8,7 @@ import com.codecool.dungeoncrawl.logic.actors.items.enviromentalHazards.Environm
 import com.codecool.dungeoncrawl.logic.actors.items.enviromentalHazards.ProjectileCycle;
 import com.codecool.dungeoncrawl.logic.actors.items.enviromentalHazards.TrapCycle;
 import com.codecool.dungeoncrawl.logic.actors.items.interactablilty.*;
+import com.codecool.dungeoncrawl.logic.actors.items.looting.HealthPotion;
 import com.codecool.dungeoncrawl.logic.actors.items.looting.Item;
 import com.codecool.dungeoncrawl.logic.actors.items.looting.LootTable;
 import com.codecool.dungeoncrawl.logic.actors.items.looting.PickupableItem;
@@ -396,6 +397,16 @@ public class Main extends Application {
                 refresh();
                 //System.out.println("Player X Coordinate: " + map.getPlayer().getX() + "\n" + "Player Y Coordinate: " + map.getPlayer().getY());
                 break;
+            case Q:
+                if (InventoryManager.inventory.containsKey(inventoryManager.getPotion())) {
+                    mapsArray[currentMapIndex].getPlayer().setHealth(mapsArray[currentMapIndex].getPlayer().getHealth() +
+                            (mapsArray[currentMapIndex].getPlayer().getMaxHealth() / 2));
+                    if (mapsArray[currentMapIndex].getPlayer().getHealth() > mapsArray[currentMapIndex].getPlayer().getMaxHealth()) {
+                        mapsArray[currentMapIndex].getPlayer().setHealth(mapsArray[currentMapIndex].getPlayer().getMaxHealth());
+                    }
+                    inventoryManager.removeItemFromInventory(inventoryManager.getPotion());
+                }
+
             case NUMPAD0:
                 exportMap();
                 break;

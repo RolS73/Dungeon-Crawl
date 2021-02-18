@@ -47,7 +47,18 @@ public class InventoryManager {
             } else {
                 equipArmor((ArmorUpgrade) item, map);
             }
+        } else if (item instanceof HealthPotion) {
+            if (!inventory.containsKey(item) || inventory.get(item) < HealthPotion.LIMIT) {
+                addItemToInventory(item);
+            }
         }
+    }
+
+    public HealthPotion getPotion() {
+        return inventory.keySet().stream().filter(HealthPotion.class::isInstance)
+                .map(HealthPotion.class::cast)
+                .findFirst()
+                .orElseThrow(() -> new NoSuchElementException("No Weapon found"));
     }
 
     private void addItemToInventory(Item item) {
@@ -59,7 +70,7 @@ public class InventoryManager {
         }
     }
 
-    private void removeItemFromInventory(Item item) {
+    public void removeItemFromInventory(Item item) {
         if (inventory.get(item) > 1) {
             int newAmount = inventory.get(item) - 1;
             inventory.put(item, newAmount);
