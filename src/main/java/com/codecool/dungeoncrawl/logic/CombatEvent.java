@@ -30,6 +30,7 @@ public class CombatEvent {
             log.append(defender)
                     .append(" dies!\n");
         } else {
+            log.append(defender).append(" has " + defender.getHealth()).append(" remaining.\n");
             defender.onHit();
         }
     }
