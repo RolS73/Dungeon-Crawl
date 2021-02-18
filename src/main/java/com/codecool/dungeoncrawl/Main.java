@@ -21,11 +21,11 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
@@ -39,6 +39,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.awt.*;
+import java.io.*;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -472,6 +473,10 @@ public class Main extends Application {
                 if (mapsArray[currentMapIndex].getPlayer().getCellInFrontOfPlayer().getItem() instanceof Switch) {
                     System.out.println(((Switch) mapsArray[currentMapIndex].getPlayer().getCellInFrontOfPlayer().getItem()).getGroupName());
                 }
+                break;
+            case N:
+                mapsArray[currentMapIndex].getPlayer().getCellInFrontOfPlayer().setItem(new LootTable().getMonsterCommonLoot().get(0));
+                refresh();
                 break;
             case F5:
                 if (!isDeveloperStartingGearEnabled) {

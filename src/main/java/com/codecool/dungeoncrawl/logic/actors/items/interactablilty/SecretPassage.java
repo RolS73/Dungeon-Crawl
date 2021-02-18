@@ -9,7 +9,7 @@ import com.codecool.dungeoncrawl.logic.actors.items.looting.Item;
 
 public class SecretPassage extends Item implements InteractiveObject, StepOnActivatable {
 
-    private String anotherTileName = "wall";
+    private String anotherTileName = this.getCell().getTileName();
     private boolean isAlreadyOpened;
     private int destinationX;
     private int destinationY;
@@ -24,7 +24,7 @@ public class SecretPassage extends Item implements InteractiveObject, StepOnActi
     @Override
     public void interact() {
       if (!isAlreadyOpened) {
-          this.anotherTileName = "stairwayDown";
+          this.anotherTileName = "secretPassageDown";
           Sounds.playSound("IllusioryWall");
           this.getCell().setCellType(CellType.FLOOR);
           isAlreadyOpened = true;

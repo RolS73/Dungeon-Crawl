@@ -9,7 +9,7 @@ import com.codecool.dungeoncrawl.logic.actors.items.looting.Item;
 
 public class Passage extends Item implements InteractiveObject, StepOnActivatable {
 
-    private String anotherTileName = "stairwayUp";
+    private String anotherTileName = "passage";
     private String groupName;
     private int destinationX;
     private int destinationY;
