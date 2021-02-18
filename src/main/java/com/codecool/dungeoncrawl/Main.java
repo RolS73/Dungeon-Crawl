@@ -7,10 +7,7 @@ import com.codecool.dungeoncrawl.logic.actors.items.Weapon;
 import com.codecool.dungeoncrawl.logic.actors.items.enviromentalHazards.EnvironmentalDamage;
 import com.codecool.dungeoncrawl.logic.actors.items.enviromentalHazards.ProjectileCycle;
 import com.codecool.dungeoncrawl.logic.actors.items.enviromentalHazards.TrapCycle;
-import com.codecool.dungeoncrawl.logic.actors.items.interactablilty.InteractiveObject;
-import com.codecool.dungeoncrawl.logic.actors.items.interactablilty.OpenedDoor;
-import com.codecool.dungeoncrawl.logic.actors.items.interactablilty.StepOnActivatable;
-import com.codecool.dungeoncrawl.logic.actors.items.interactablilty.Switch;
+import com.codecool.dungeoncrawl.logic.actors.items.interactablilty.*;
 import com.codecool.dungeoncrawl.logic.actors.items.looting.Item;
 import com.codecool.dungeoncrawl.logic.actors.items.looting.LootTable;
 import com.codecool.dungeoncrawl.logic.actors.items.looting.PickupableItem;
@@ -34,12 +31,15 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.FileChooser;
 
 import java.awt.*;
 import java.io.File;
+
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Base64;
 
 public class Main extends Application {
 
@@ -50,7 +50,7 @@ public class Main extends Application {
     static GameMap map3 = MapLoader.loadMap(2);
     static GameMap[] mapsArray = new GameMap[]{map1, map2, map3};
 
-    private static int currentAiNumber = 0;
+    private static int currentAiIndex = 0;
     static AiMovement AI1 = new AiMovement(mapsArray[0]);
     static AiMovement AI2 = new AiMovement(mapsArray[1]);
     static AiMovement AI3 = new AiMovement(mapsArray[2]);
@@ -216,7 +216,8 @@ public class Main extends Application {
             case W:
                 mapsArray[currentMapIndex].getPlayer().setTileName("playerU");
                 mapsArray[currentMapIndex].getPlayer().move(0, -1);
-                AiArray[currentAiNumber].monsterMover();
+                mapsArray[currentMapIndex].getPlayer().updateFacingDirection();
+                AiArray[currentAiIndex].monsterMover();
                 mapsArray[currentMapIndex].getEndlessCycleTraps().forEach(TrapCycle::trapCycle);
                 mapsArray[currentMapIndex].getProjectilesCollection().forEach(ProjectileCycle::projectileCycle);
                 mapsArray[currentMapIndex].getProjectilesCollection().removeIf(ProjectileCycle::isHit);
@@ -233,7 +234,8 @@ public class Main extends Application {
                 if (!keyEvent.isControlDown()) {
                     mapsArray[currentMapIndex].getPlayer().setTileName("playerD");
                     mapsArray[currentMapIndex].getPlayer().move(0, 1);
-                    AiArray[currentAiNumber].monsterMover();
+                    mapsArray[currentMapIndex].getPlayer().updateFacingDirection();
+                    AiArray[currentAiIndex].monsterMover();
                     mapsArray[currentMapIndex].getEndlessCycleTraps().forEach(TrapCycle::trapCycle);
                     mapsArray[currentMapIndex].getProjectilesCollection().forEach(ProjectileCycle::projectileCycle);
                     mapsArray[currentMapIndex].getProjectilesCollection().removeIf(ProjectileCycle::isHit);
@@ -245,6 +247,7 @@ public class Main extends Application {
                     }
                     refresh();
                 } else {
+                    stage.setOpacity(0.5);
                     BorderPane root = new BorderPane();
                     Stage saveDialog = new Stage();
                     saveDialog.setTitle("Save game");
@@ -254,6 +257,7 @@ public class Main extends Application {
 
                     TableView<String> saveTable = new TableView<>();
                     TableColumn<String, String> col = new TableColumn<>("Saved games");
+                    col.setMinWidth(320);
                     saveTable.getColumns().add(col);
                     saveTable.setPlaceholder(new Label("No saved game"));
                     root.setCenter(saveTable);
@@ -261,7 +265,10 @@ public class Main extends Application {
                     Button saveOkButton = new Button("Save");
                     saveOkButton.setMinWidth(160);
                     Button saveCancelButton = new Button("Cancel");
-                    saveCancelButton.setOnAction((e) -> saveDialog.close());
+                    saveCancelButton.setOnAction((e) -> {
+                        stage.setOpacity(1);
+                        saveDialog.close();
+                    });
                     saveCancelButton.setMinWidth(160);
 
                     HBox saveButtons = new HBox();
@@ -280,6 +287,7 @@ public class Main extends Application {
                 break;
             case L:
                 if (keyEvent.isControlDown()) {
+                    stage.setOpacity(0.5);
                     BorderPane root = new BorderPane();
                     Stage loadDialog = new Stage();
                     loadDialog.setTitle("Load game");
@@ -289,6 +297,7 @@ public class Main extends Application {
 
                     TableView<List<String>> loadTable = new TableView<>();
                     TableColumn<List<String>, String> col = new TableColumn<>("Saved games");
+                    col.setMinWidth(320);
                     loadTable.getColumns().add(col);
                     loadTable.setPlaceholder(new Label("No saved game"));
                     root.setCenter(loadTable);
@@ -296,7 +305,10 @@ public class Main extends Application {
                     Button loadOkButton = new Button("Load");
                     loadOkButton.setMinWidth(160);
                     Button loadCancelButton = new Button("Cancel");
-                    loadCancelButton.setOnAction((e) -> loadDialog.close());
+                    loadCancelButton.setOnAction((e) -> {
+                        stage.setOpacity(1);
+                        loadDialog.close();
+                    });
                     loadCancelButton.setMinWidth(160);
                     HBox loadButtons = new HBox();
                     loadButtons.getChildren().addAll(loadOkButton, loadCancelButton);
@@ -313,7 +325,8 @@ public class Main extends Application {
             case A:
                 mapsArray[currentMapIndex].getPlayer().setTileName("playerL");
                 mapsArray[currentMapIndex].getPlayer().move(-1, 0);
-                AiArray[currentAiNumber].monsterMover();
+                mapsArray[currentMapIndex].getPlayer().updateFacingDirection();
+                AiArray[currentAiIndex].monsterMover();
                 mapsArray[currentMapIndex].getEndlessCycleTraps().forEach(TrapCycle::trapCycle);
                 mapsArray[currentMapIndex].getProjectilesCollection().forEach(ProjectileCycle::projectileCycle);
                 mapsArray[currentMapIndex].getProjectilesCollection().removeIf(ProjectileCycle::isHit);
@@ -329,7 +342,8 @@ public class Main extends Application {
             case D:
                 mapsArray[currentMapIndex].getPlayer().setTileName("playerR");
                 mapsArray[currentMapIndex].getPlayer().move(1, 0);
-                AiArray[currentAiNumber].monsterMover();
+                mapsArray[currentMapIndex].getPlayer().updateFacingDirection();
+                AiArray[currentAiIndex].monsterMover();
                 mapsArray[currentMapIndex].getEndlessCycleTraps().forEach(TrapCycle::trapCycle);
                 mapsArray[currentMapIndex].getProjectilesCollection().forEach(ProjectileCycle::projectileCycle);
                 mapsArray[currentMapIndex].getProjectilesCollection().removeIf(ProjectileCycle::isHit);
@@ -342,7 +356,7 @@ public class Main extends Application {
                 refresh();
                 break;
             case SPACE:
-                AiArray[currentAiNumber].monsterMover();
+                AiArray[currentAiIndex].monsterMover();
                 mapsArray[currentMapIndex].getEndlessCycleTraps().forEach(TrapCycle::trapCycle);
                 mapsArray[currentMapIndex].getProjectilesCollection().forEach(ProjectileCycle::projectileCycle);
                 mapsArray[currentMapIndex].getProjectilesCollection().removeIf(ProjectileCycle::isHit);
@@ -354,6 +368,12 @@ public class Main extends Application {
                 }
                 refresh();
                 //System.out.println("Player X Coordinate: " + map.getPlayer().getX() + "\n" + "Player Y Coordinate: " + map.getPlayer().getY());
+                break;
+            case NUMPAD0:
+                exportMap();
+                break;
+            case NUMPAD1:
+                importMap();
                 break;
             case F4:
                 mapsArray[currentMapIndex].getPlayer().teleport(94, 20);
@@ -411,6 +431,12 @@ public class Main extends Application {
                 }*/
                 refresh();
                 break;
+            case C:
+                System.out.println(mapsArray[currentMapIndex].getPlayer().getCellInFrontOfPlayer().getCellType());
+                if (mapsArray[currentMapIndex].getPlayer().getCellInFrontOfPlayer().getItem() instanceof Switch) {
+                    System.out.println(((Switch) mapsArray[currentMapIndex].getPlayer().getCellInFrontOfPlayer().getItem()).getGroupName());
+                }
+                break;
             case F5:
                 if (!isDeveloperStartingGearEnabled) {
                     mapsArray[currentMapIndex].getPlayer().raiseMaxHealth(17);
@@ -445,11 +471,10 @@ public class Main extends Application {
                 } else {
                     mapsArray[currentMapIndex].getPlayer().saveStats();
                     currentMapIndex++;
-                    currentAiNumber++;
+                    currentAiIndex++;
                     MapLoader.loadMap(currentMapIndex);
                     mapsArray[currentMapIndex].getPlayer().loadStats();
                     mapsArray[currentMapIndex].getPlayer().setNameGivenByPlayer(menu.getPlayerName().getText());
-                    //SetInteractableItems.setStuff(currentMapNumber);
                     refresh();
                     break;
                 }
@@ -459,14 +484,17 @@ public class Main extends Application {
                 } else {
                     mapsArray[currentMapIndex].getPlayer().saveStats();
                     currentMapIndex--;
-                    currentAiNumber--;
+                    currentAiIndex--;
                     MapLoader.loadMap(currentMapIndex);
                     mapsArray[currentMapIndex].getPlayer().loadStats();
                     mapsArray[currentMapIndex].getPlayer().setNameGivenByPlayer(menu.getPlayerName().getText());
-                    //SetInteractableItems.setStuff(currentMapNumber);
                     refresh();
                     break;
                 }
+            case F2:
+                mapsArray[currentMapIndex].getMapStateSwitchers().stream().filter(x -> x instanceof TorchPuzzle).forEach(InteractiveObject::interact);
+                refresh();
+                break;
         }
 
 
@@ -625,16 +653,16 @@ public class Main extends Application {
         return currentMapIndex;
     }
 
-    public static int getCurrentAiNumber() {
-        return currentAiNumber;
+    public static int getCurrentAiIndex() {
+        return currentAiIndex;
     }
 
     public static void setCurrentMapIndex(int currentMapIndex) {
         Main.currentMapIndex = currentMapIndex;
     }
 
-    public static void setCurrentAiNumber(int currentAiNumber) {
-        Main.currentAiNumber = currentAiNumber;
+    public static void setCurrentAiIndex(int currentAiIndex) {
+        Main.currentAiIndex = currentAiIndex;
     }
 
     public static GameMap cheatingMapGetter() {
@@ -642,7 +670,7 @@ public class Main extends Application {
     }
 
     public static AiMovement aiGetter() {
-        return AiArray[currentAiNumber];
+        return AiArray[currentAiIndex];
     }
 
    /* private boolean isPlayerSufferingEnvironmentalDamage() {
@@ -688,4 +716,105 @@ public class Main extends Application {
         System.exit(0);
     }NEW STUFF!!!!!!!!!!!!!*/
 
+    public void exportMap() {
+        System.out.println("export game");
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Export game");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Saved game file (*.sre)", "*.sre"));
+        File file = fileChooser.showSaveDialog(stage);
+        if (file != null) {
+            String fileName = file.getAbsolutePath();
+            System.out.println(fileName);
+            try {
+                FileOutputStream fileOut = new FileOutputStream(fileName);
+                ObjectOutputStream out = new ObjectOutputStream(fileOut);
+                out.writeObject(mapsArray);
+                out.close();
+                fileOut.close();
+            } catch (IOException i) {
+                i.printStackTrace();
+            }
+        }
+    }
+
+    public void importMap() {
+        System.out.println("import game");
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Import game");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Saved game file (*.sre)", "*.sre"));
+        File file = fileChooser.showOpenDialog(stage);
+        if (file != null) {
+            String fileName = file.getAbsolutePath();
+            System.out.println(fileName);
+            try {
+                FileInputStream fileIn = new FileInputStream(fileName);
+                ObjectInputStream in = new ObjectInputStream(fileIn);
+                mapsArray = (GameMap[]) in.readObject();
+                in.close();
+                fileIn.close();
+            } catch (IOException i) {
+                i.printStackTrace();
+            } catch (ClassNotFoundException c) {
+                System.out.println("Load class not found");
+                c.printStackTrace();
+            }
+        }
+
+        // fix actors,items
+        for (GameMap map : mapsArray) {
+            for (int y = 0; y < map.getHeight(); y++) {
+                for (int x = 0; x < map.getWidth(); x++) {
+                    if (map.getCell(x, y).getActor() != null) {
+                        map.getCell(x, y).getActor().setCell(map.getCell(x, y));
+                    }
+                    if (map.getCell(x, y).getItem() != null) {
+                        map.getCell(x, y).getItem().setCell(map.getCell(x, y));
+                    }
+                }
+            }
+        }
+        // fix cells
+        for (GameMap map : mapsArray) {
+            for (int y = 0; y < map.getHeight(); y++) {
+                for (int x = 0; x < map.getWidth(); x++) {
+                    map.getCell(x, y).setMap(map);
+                }
+            }
+        }
+        // fix AI
+        for (int id = 0; id < mapsArray.length; id++) {
+            AiArray[id] = new AiMovement(mapsArray[id]);
+        }
+        refresh();
+    }
+
+    public String maptoString(GameMap[] maps) {
+        System.out.println("map2string");
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream( baos );
+            oos.writeObject(maps);
+            oos.close();
+            return Base64.getEncoder().encodeToString(baos.toByteArray());
+        } catch (IOException i) {
+            i.printStackTrace();
+        }
+        return null;
+    }
+
+    public GameMap[] stringtoMap(String mapString) {
+        System.out.println("string2str");
+        try {
+            byte [] mapData = Base64.getDecoder().decode( mapString );
+            ObjectInputStream ois = new ObjectInputStream( new ByteArrayInputStream(  mapData ) );
+            GameMap[] maps  = (GameMap[]) ois.readObject();
+            ois.close();
+            return maps;
+        } catch (IOException i) {
+            i.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

@@ -6,13 +6,13 @@ import com.codecool.dungeoncrawl.logic.actors.Player;
 
 public class SoulStealer extends Monster {
 
-    private String name = "guardianD";
+    private String name = "soulStealerD";
 
     public SoulStealer(Cell cell) {
         super(cell);
-        this.setAttackPower(4);
-        this.setHealth(40);
-        this.setAttackSoundFiles(new String[] {"Sword1"}); //PLACEHOLDER
+        this.setAttackPower(6);
+        this.setHealth(66);
+        this.setAttackSoundFiles(new String[] {"genericSwing"}); //PLACEHOLDER
     }
 
     @Override
@@ -23,27 +23,28 @@ public class SoulStealer extends Monster {
     @Override
     public void monsterMove(int x, int y) {
         if (y < 0) {
-            this.name = "guardianU";
+            this.name = "soulStealerU";
         }
         if (y > 0) {
-            this.name = "guardianD";
+            this.name = "soulStealerD";
         }
         if (x < 0) {
-            this.name = "guardianL";
+            this.name = "soulStealerL";
         }
         if (x > 0) {
-            this.name = "guardianR";
+            this.name = "soulStealerR";
         }
         Cell nextCell = this.getCell().getNeighbor(x, y);
 
         if (nextCell.getCellType() == CellType.FLOOR && nextCell.getCellType() != CellType.OBJECT) {
             if (nextCell.getActor() instanceof Player) {
-                attack(nextCell);
 //                damageCalculation(nextCell);
+                attack(nextCell);
+//                playAttackSound();
 //                nextCell.getActor().setHealth(nextCell.getActor().getHealth() - this.getAttackPower());
-                if (this.getHealth() < 1) {
-                    this.getCell().setActor(null);
-                }
+//                if (this.getHealth() < 1) {
+//                    this.getCell().setActor(null);
+//                }
             } else if (nextCell.getActor() != null) {
             } else {
                 nextCell.setActor(this);
@@ -52,6 +53,7 @@ public class SoulStealer extends Monster {
             }
 
         }
+
     }
 }
 

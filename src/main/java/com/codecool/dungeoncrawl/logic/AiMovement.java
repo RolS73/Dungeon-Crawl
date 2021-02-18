@@ -3,10 +3,7 @@ package com.codecool.dungeoncrawl.logic;
 import com.codecool.dungeoncrawl.Main;
 import com.codecool.dungeoncrawl.logic.actors.*;
 import com.codecool.dungeoncrawl.logic.actors.boss.SpikeForBosses;
-import com.codecool.dungeoncrawl.logic.actors.monsters.Duck;
-import com.codecool.dungeoncrawl.logic.actors.monsters.Guardian;
-import com.codecool.dungeoncrawl.logic.actors.monsters.Skeleton;
-import com.codecool.dungeoncrawl.logic.actors.monsters.TheThing;
+import com.codecool.dungeoncrawl.logic.actors.monsters.*;
 
 public class AiMovement {
 
@@ -50,7 +47,7 @@ public class AiMovement {
                     count++;
                 }
                 map.monsters.get(i).monsterMove(getPlayerXDifference(map.monsters.get(i)), getPlayerYDifference(map.monsters.get(i)));
-            } else if (map.monsters.get(i) instanceof Skeleton) {
+            } else if (map.monsters.get(i) instanceof Skeleton || map.monsters.get(i) instanceof SoulStealer) {
                 setRandom();
                 map.monsters.get(i).monsterMove(x, y);
             } else if (map.monsters.get(i) instanceof Duck) {

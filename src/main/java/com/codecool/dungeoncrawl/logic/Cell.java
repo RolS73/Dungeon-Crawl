@@ -2,12 +2,13 @@ package com.codecool.dungeoncrawl.logic;
 
 import com.codecool.dungeoncrawl.logic.actors.Actor;
 import com.codecool.dungeoncrawl.logic.actors.items.looting.Item;
+import java.io.Serializable;
 
-public class Cell implements Drawable {
+public class Cell implements Drawable, Serializable {
     private CellType type;
     private Actor actor;
     private Actor item;
-    private GameMap gameMap;
+    private transient GameMap gameMap;
     private int x, y;
     private boolean isTypeTileNameHijacked;
     private String newTypeTileName;
@@ -17,6 +18,10 @@ public class Cell implements Drawable {
         this.x = x;
         this.y = y;
         this.type = type;
+    }
+
+    public void setMap(GameMap gameMap) {
+        this.gameMap = gameMap;
     }
 
     public CellType getCellType() {
