@@ -50,7 +50,7 @@ public class Tiles {
 
         tileMap.put("firestand", new Tile(5, 7));
         tileMap.put("puzzleFireStandInActive", new Tile(4, 7));
-        tileMap.put("puzzleFireStandActive", new Tile(7, 7));
+        tileMap.put("puzzleFireStandActive", new Tile(6, 7));
 
         tileMap.put("spikeTrapResting", new Tile(9, 0));
         tileMap.put("spikeTrapActive", new Tile(11, 0));

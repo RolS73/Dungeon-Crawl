@@ -25,16 +25,16 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.stage.FileChooser;
 
 import java.io.*;
 import java.sql.SQLException;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Base64;
+import java.util.List;
 
 public class Main extends Application {
 
@@ -376,17 +376,11 @@ public class Main extends Application {
                 if (isPlayerBeingAffectedByAnEnvironmentalDamageSource()) {
                     playerSuffersEnvironmentalDamage();
                 }
-                if (mapsArray[currentMapIndex].getPlayer().getCell().getItem() != null && mapsArray[currentMapIndex].getPlayer().getCell().getItem() instanceof PickupableItem) {
-                    Item item = (Item) mapsArray[currentMapIndex].getPlayer().getCell().getItem();
-                    inventoryManager.pickUpItem(item, mapsArray[currentMapIndex]);
-
-                } else if (isThereAnInteractiveObjectAroundThePlayer()) {
-                    int[] interactableDirection = getTheInteractiveEntityDirection();
+                if (mapsArray[currentMapIndex].getPlayer().getCellInFrontOfPlayer().getItem() instanceof InteractiveObject) {
                     int interactablesArrayCurrentIndex = 0;
-                    Cell currentlyFocusedCell = mapsArray[currentMapIndex].getPlayer().getCell().getNeighbor(interactableDirection[0], interactableDirection[1]);
+                    Cell currentlyFocusedCell = mapsArray[currentMapIndex].getPlayer().getCellInFrontOfPlayer();
                     while (mapsArray[currentMapIndex].getInteractablesArray().size() > interactablesArrayCurrentIndex) {
                         InteractiveObject currentlyProcessedInteractable = mapsArray[currentMapIndex].getInteractablesArray().get(interactablesArrayCurrentIndex);
-                        //System.out.println(currentlyProcessedInteractable);
                         if (currentlyProcessedInteractable.isThisObjectInteractive() &&
                                 currentlyProcessedInteractable.isThisInteractiveObjectCurrentlyBeingFocusedOn(currentlyFocusedCell) &&
                                 currentlyProcessedInteractable.isPlayerInteractingFromLegalDirection(mapsArray[currentMapIndex].getPlayer().getCell())) {
@@ -408,6 +402,10 @@ public class Main extends Application {
                             interactablesArrayCurrentIndex++;
                         }
                     }
+                } else if (mapsArray[currentMapIndex].getPlayer().getCell().getItem() != null && mapsArray[currentMapIndex].getPlayer().getCell().getItem() instanceof PickupableItem) {
+                    Item item = (Item) mapsArray[currentMapIndex].getPlayer().getCell().getItem();
+                    inventoryManager.pickUpItem(item, mapsArray[currentMapIndex]);
+
                 }
                 if (mapsArray[currentMapIndex].getPlayer().getCell().getItem() instanceof StepOnActivatable) {
                     ((StepOnActivatable) mapsArray[currentMapIndex].getPlayer().getCell().getItem()).activate();
@@ -594,7 +592,7 @@ public class Main extends Application {
         combatEvents.clear();
     }
 
-    private boolean isThereAnInteractiveObjectAroundThePlayer() {
+/*    private boolean isThereAnInteractiveObjectAroundThePlayer() {
         if (mapsArray[currentMapIndex].getPlayer().getCell().getNeighbor(1, 0).getItem() instanceof InteractiveObject ||
                 mapsArray[currentMapIndex].getPlayer().getCell().getNeighbor(-1, 0).getItem() instanceof InteractiveObject ||
                 mapsArray[currentMapIndex].getPlayer().getCell().getNeighbor(0, 1).getItem() instanceof InteractiveObject ||
@@ -615,7 +613,7 @@ public class Main extends Application {
         } else {
             return new int[]{0, -1};
         }
-    }
+    }*/
 
     /*private boolean isThereAPickupableItemUnderThePlayer() {
         return map.getPlayer().getCell().getItem() instanceof PickupableItem;
