@@ -80,8 +80,8 @@ public class Main extends Application {
     private final List<String> wallCheat = Arrays.asList("Laci", "Ricsi", "Roland", "Szabolcs", "George");
     InventoryManager inventoryManager = new InventoryManager();
     public static ObservableList<CombatEvent> combatEvents = FXCollections.observableArrayList();
-//    Label combatLog = new Label("Combat Log: \n");
-    TextArea combatLog = new TextArea("Combat Log: \n");
+    Label combatLog = new Label("Combat Log: \n");
+//    TextArea combatLog = new TextArea("Combat Log: \n");
     GameDatabaseManager dbManager; //Sprint 2-ből
 
     public static void main(String[] args) {
