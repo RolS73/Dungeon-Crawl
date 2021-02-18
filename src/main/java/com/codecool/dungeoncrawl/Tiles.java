@@ -38,6 +38,7 @@ public class Tiles {
         tileMap.put("forestPath", new Tile(4, 12));
         tileMap.put("hiddenEnemySpawner", new Tile(2, 0));
         tileMap.put("stairwayUp", new Tile(3, 0));
+        tileMap.put("stairwayUpMap2", new Tile(0, 13));
         tileMap.put("stairwayDown", new Tile(6, 0));
         tileMap.put("secretPassageDown", new Tile(7, 0));
 

@@ -33,7 +33,8 @@ public class MapChangePassage extends Item implements InteractiveObject, StepOnA
 
     @Override
     public void interact() {
-        if (Main.getCurrentMapIndex() < 2 && this.anotherTileName.equals("stairwayUp")) {
+        if (Main.getCurrentMapIndex() < 2 && this.anotherTileName.equals("stairwayUp")
+                || Main.getCurrentMapIndex() < 2 && this.anotherTileName.equals("stairwayUpMap2")) {
             Main.cheatingMapGetter().getPlayer().saveStats();
             Main.setCurrentMapIndex(Main.getCurrentMapIndex() + 1);
             Main.setCurrentAiIndex(Main.getCurrentAiIndex() + 1);

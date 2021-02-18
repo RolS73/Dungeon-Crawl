@@ -9,6 +9,7 @@ import com.codecool.dungeoncrawl.logic.actors.items.enviromentalHazards.TrapBloo
 import com.codecool.dungeoncrawl.logic.actors.items.enviromentalHazards.TrapPlain;
 import com.codecool.dungeoncrawl.logic.actors.items.interactablilty.*;
 import com.codecool.dungeoncrawl.logic.actors.items.looting.*;
+import com.codecool.dungeoncrawl.logic.actors.items.mapdecoration.Firestand;
 import com.codecool.dungeoncrawl.logic.actors.monsters.*;
 import com.codecool.dungeoncrawl.logic.actors.npcs.FriendlyWhiteWizard;
 import com.codecool.dungeoncrawl.logic.actors.npcs.NonPlayerCharacter;
@@ -115,6 +116,9 @@ public class MapLoader {
                         case 'J':
                             cell.setCellType(CellType.FLOOR);
                             MapChangePassage mapPassageUP = new MapChangePassage(cell, "MapTraversalPassage", Direction.UP);
+                            if (mapNumber == 1) {
+                                mapPassageUP.setAnotherTileName("stairwayUpMap2");
+                            }
                             map.interactablesCollection.add(mapPassageUP);
                             break;
                         case 'P':
@@ -160,7 +164,8 @@ public class MapLoader {
                             map.chestsCollection.add(chest);
                             break;
                         case 'f':
-                            cell.setCellType(CellType.FIRESTAND);
+                            cell.setCellType(CellType.OBJECT);
+                            cell.setItem(new Firestand(cell, "firestand"));
                             break;
                         case 'F':
                             cell.setCellType(CellType.OBJECT);
