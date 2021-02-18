@@ -18,6 +18,7 @@ public class Menu {
     private final Scene menuScreen = new Scene(menuLayout, 490, 300);
     private final Button playButton = new Button("Play!");
     private  final TextField playerName = new TextField();
+    private final Button importButton = new Button("Import game");
 
     public Scene getMenuScreen() {
         return menuScreen;
@@ -46,11 +47,11 @@ public class Menu {
         titledPane.setAlignment(Pos.CENTER);
         titledPane.getChildren().add(title);
         menuLayout.setTop(titledPane);
-        menuLayout.setPadding(new Insets(10, 10, 10, 10));
+        menuLayout.setPadding(new Insets(10, 10, 20, 10));
         title.setStyle("-fx-font-weight: bold; -fx-text-fill: #FFFFFF; -fx-font-size: 20pt");
 
         VBox menu = new VBox();
-        menu.setAlignment(Pos.CENTER);
+        menu.setAlignment(Pos.BOTTOM_CENTER);
         menu.setSpacing(10);
 
         Label askForName = new Label("Please enter your name!");
@@ -61,6 +62,7 @@ public class Menu {
 
 
         playButton.setStyle("-fx-font-weight: bold; -fx-text-fill: #000000");
+        importButton.setStyle("-fx-font-weight: bold; -fx-text-fill: #000000");
 
         playButton.setDisable(true);
 
@@ -68,15 +70,7 @@ public class Menu {
             playButton.setDisable(newValue.isEmpty());
         });
 
-//        playButton.setOnAction(play -> {
-//            Main.stage.setScene(Main.gameScene);
-//            Main.name.setText(playerName.getText());
-//
-//
-////            System.out.println(Player.getPlayerName());
-//        });
-
-        menu.getChildren().addAll(askForName, playerName, playButton);
+        menu.getChildren().addAll(askForName, playerName, playButton, importButton);
         menuLayout.setCenter(menu);
     }
 
