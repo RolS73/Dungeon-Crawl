@@ -162,6 +162,8 @@ public class Tiles {
         tileMap.put("staff3", new Tile(15, 3));
         tileMap.put("staff4", new Tile(15, 4));
 
+        tileMap.put("healthPoti", new Tile(14, 6));
+
     }
 
     public static void drawTile(GraphicsContext context, Drawable d, int x, int y) {

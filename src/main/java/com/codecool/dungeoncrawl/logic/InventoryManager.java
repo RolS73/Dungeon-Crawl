@@ -50,6 +50,7 @@ public class InventoryManager {
         } else if (item instanceof HealthPotion) {
             if (!inventory.containsKey(item) || inventory.get(item) < HealthPotion.LIMIT) {
                 addItemToInventory(item);
+                removeItemFromGround(map);
             }
         }
     }
@@ -58,7 +59,7 @@ public class InventoryManager {
         return inventory.keySet().stream().filter(HealthPotion.class::isInstance)
                 .map(HealthPotion.class::cast)
                 .findFirst()
-                .orElseThrow(() -> new NoSuchElementException("No Weapon found"));
+                .orElseThrow(() -> new NoSuchElementException("No Potion found"));
     }
 
     private void addItemToInventory(Item item) {

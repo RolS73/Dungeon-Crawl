@@ -53,6 +53,7 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class Main extends Application {
 
@@ -399,15 +400,21 @@ public class Main extends Application {
                 //System.out.println("Player X Coordinate: " + map.getPlayer().getX() + "\n" + "Player Y Coordinate: " + map.getPlayer().getY());
                 break;
             case Q:
-                if (InventoryManager.inventory.containsKey(inventoryManager.getPotion())) {
-                    mapsArray[currentMapIndex].getPlayer().setHealth(mapsArray[currentMapIndex].getPlayer().getHealth() +
-                            (mapsArray[currentMapIndex].getPlayer().getMaxHealth() / 2));
-                    if (mapsArray[currentMapIndex].getPlayer().getHealth() > mapsArray[currentMapIndex].getPlayer().getMaxHealth()) {
-                        mapsArray[currentMapIndex].getPlayer().setHealth(mapsArray[currentMapIndex].getPlayer().getMaxHealth());
+                try {
+                    if (InventoryManager.inventory.containsKey(inventoryManager.getPotion()) &&
+                            !(mapsArray[currentMapIndex].getPlayer().getHealth() == mapsArray[currentMapIndex].getPlayer().getMaxHealth())) {
+                        mapsArray[currentMapIndex].getPlayer().setHealth(mapsArray[currentMapIndex].getPlayer().getHealth() +
+                                (mapsArray[currentMapIndex].getPlayer().getMaxHealth() / 2));
+                        if (mapsArray[currentMapIndex].getPlayer().getHealth() > mapsArray[currentMapIndex].getPlayer().getMaxHealth()) {
+                            mapsArray[currentMapIndex].getPlayer().setHealth(mapsArray[currentMapIndex].getPlayer().getMaxHealth());
+                        }
+                        inventoryManager.removeItemFromInventory(inventoryManager.getPotion());
                     }
-                    inventoryManager.removeItemFromInventory(inventoryManager.getPotion());
+                } catch (NoSuchElementException e) {
+                    System.out.println("You have no potion!");
                 }
-
+                refresh();
+                break;
             case NUMPAD0:
                 exportMap();
                 break;
@@ -475,7 +482,7 @@ public class Main extends Application {
                 }
                 break;
             case N:
-                mapsArray[currentMapIndex].getPlayer().getCellInFrontOfPlayer().setItem(new LootTable().getMonsterCommonLoot().get(0));
+                mapsArray[currentMapIndex].getPlayer().getCellInFrontOfPlayer().setItem(new LootTable().getItemRareLoot().get(4));/*getMonsterCommonLoot().get(0));*/
                 refresh();
                 break;
             case F5:

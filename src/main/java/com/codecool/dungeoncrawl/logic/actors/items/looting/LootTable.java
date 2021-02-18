@@ -35,7 +35,7 @@ public class LootTable {
         itemRareLoot.get(1).setTileName("cheese");
         itemRareLoot.get(2).setTileName("lifeUpgrade2");
         itemRareLoot.get(3).setTileName("armorUpgrade1");
-
+        itemRareLoot.get(4).setTileName("healthPoti");
     }
     private List<Item> itemLegendaryLoot = new ArrayList<>();
     {
