@@ -20,6 +20,7 @@ public class GameMap {
     private int width;
     private int height;
     private Cell[][] cells;
+    private int mapNumber;
 
     Player player;
 
@@ -72,6 +73,14 @@ public class GameMap {
    /* public List<DartTurretProjectile> getDartTurretProjectilesCollection() {
         return dartTurretProjectilesCollection;
     }*/
+
+    public int getMapNumber() {
+        return mapNumber;
+    }
+
+    public void setMapNumber(int mapNumber) {
+        this.mapNumber = mapNumber;
+    }
 
     public List<Switch> getMapStateSwitchers() {
         return mapStateSwitchers;

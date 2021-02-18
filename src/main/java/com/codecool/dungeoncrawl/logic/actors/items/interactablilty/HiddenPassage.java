@@ -19,9 +19,9 @@ public class HiddenPassage extends Item implements InteractiveObject, Switch {
 
         @Override
         public void interact() {
-            this.anotherTileName = "floor";
             this.setGroupName("activated");
             this.getCell().setCellType(CellType.FLOOR);
+            this.anotherTileName = this.getCell().getTileName();
         }
 
         @Override

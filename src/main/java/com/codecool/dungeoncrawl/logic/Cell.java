@@ -9,6 +9,8 @@ public class Cell implements Drawable {
     private Actor item;
     private GameMap gameMap;
     private int x, y;
+    private boolean isTypeTileNameHijacked;
+    private String newTypeTileName;
 
     Cell(GameMap gameMap, int x, int y, CellType type) {
         this.gameMap = gameMap;
@@ -23,7 +25,23 @@ public class Cell implements Drawable {
 
     public void setCellType(CellType type) {
         this.type = type;
+        if (type.equals(CellType.FLOOR) &&  this.gameMap.getMapNumber() == 1) {
+            this.setNewTypeTileName("bossfloor");
+        } else if (type.equals(CellType.OBJECT) && this.gameMap.getMapNumber() == 1) {
+            this.setNewTypeTileName("bossfloor");
+        } else if (type.equals(CellType.WALL) &&  this.gameMap.getMapNumber() == 1) {
+            this.setNewTypeTileName("stairwayDown");
+        }
     }
+
+   /* public void setCellType(CellType type, int mapNumber) {
+        this.type = type;
+        if (type.equals(CellType.FLOOR) &&  gameMap.getMapNumber() == 1) {
+            this.setNewTypeTileName("bossfloor");
+        } else if (type.equals(CellType.OBJECT) &&  gameMap.getMapNumber() == 1) {
+            this.setNewTypeTileName("bossfloor");
+        }
+    }*/
 
     public void setActor(Actor actor) {
         if (actor instanceof Item) {
@@ -45,7 +63,16 @@ public class Cell implements Drawable {
 
     @Override
     public String getTileName() {
-        return type.getTileName();
+        if (isTypeTileNameHijacked) {
+            return newTypeTileName;
+        } else {
+            return type.getTileName();
+        }
+    }
+
+    public void setNewTypeTileName(String newName) {
+        this.isTypeTileNameHijacked = true;
+        this.newTypeTileName = newName;
     }
 
     public int getX() {
