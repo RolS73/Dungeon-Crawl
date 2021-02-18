@@ -32,6 +32,10 @@ public class Menu {
         return playerName;
     }
 
+    public Button getImportButton() {
+        return importButton;
+    }
+
     {
         BackgroundSize bSize = new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, false);
         Image gameOver = new Image("/tunnel.jpg");
