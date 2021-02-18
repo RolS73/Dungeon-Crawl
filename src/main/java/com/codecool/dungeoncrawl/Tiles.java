@@ -33,7 +33,7 @@ public class Tiles {
         tileMap.put("palaceWall", new Tile(1, 14));
         tileMap.put("suspiciousWall", new Tile(1, 0));
         tileMap.put("secretPassage", new Tile(2, 0));
-        tileMap.put("passage", new Tile(8, 8));
+        tileMap.put("passage", new Tile(10, 8));
         tileMap.put("floor", new Tile(2, 0));
         tileMap.put("forestPath", new Tile(4, 12));
         tileMap.put("hiddenEnemySpawner", new Tile(2, 0));
@@ -81,7 +81,7 @@ public class Tiles {
         tileMap.put("steak", new Tile(12, 6));
         tileMap.put("ham", new Tile(13, 6));
 
-        tileMap.put("Money", new Tile(7, 5));
+        tileMap.put("Money", new Tile(0, 8));
 
         tileMap.put("lifeUpgrade1", new Tile(9, 4));
         tileMap.put("lifeUpgrade2", new Tile(9, 3));
