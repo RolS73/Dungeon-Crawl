@@ -11,6 +11,7 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 public class Menu {
 
@@ -44,29 +45,30 @@ public class Menu {
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundPosition.CENTER,
                 bSize)));
-        menuLayout.setStyle("-fx-border-color : black; -fx-border-width : 0 5 ");
+        menuLayout.getStylesheets().add("menu.css");
+//        menuLayout.getStylesheets().add(getClass().getResource("/fontstyle.css").toExternalForm());
 
+//        Font font = Font.loadFont(getClass().getResource("/blackjack.otf").toExternalForm(), 10);
+//        Main.installFont("/blackjack.otf");
         Label title = new Label("Dungeon Crawl");
         HBox titledPane = new HBox();
         titledPane.setAlignment(Pos.CENTER);
         titledPane.getChildren().add(title);
         menuLayout.setTop(titledPane);
         menuLayout.setPadding(new Insets(10, 10, 20, 10));
-        title.setStyle("-fx-font-weight: bold; -fx-text-fill: #FFFFFF; -fx-font-size: 20pt");
+//        title.setStyle("-fx-font-weight: bold; -fx-text-fill: #FFFFFF; -fx-font-size: 30pt");
+//        title.setFont(font);
+        title.setStyle("-fx-font-weight: bold; -fx-text-fill: #FFFFFF; -fx-font-size: 30pt; -fx-font-family: 'Brush Script MT', Brush Script Std, cursive");
+//        title.setStyle("-fx-font-weight: bold; -fx-text-fill: #FFFFFF; -fx-font-size: 20pt; -fx-font-family: 'BlackJack'");
+//        title.setStyle("-fx-font-weight: bold; -fx-text-fill: #FFFFFF; -fx-font-size: 20pt; -fx-font-family: 'BlackJack'");
 
         VBox menu = new VBox();
         menu.setAlignment(Pos.BOTTOM_CENTER);
         menu.setSpacing(10);
 
         Label askForName = new Label("Please enter your name!");
-        askForName.setStyle("-fx-font-weight: bold; -fx-text-fill: #FFFFFF");
-
 
         playerName.setMaxWidth(100);
-
-
-        playButton.setStyle("-fx-font-weight: bold; -fx-text-fill: #000000");
-        importButton.setStyle("-fx-font-weight: bold; -fx-text-fill: #000000");
 
         playButton.setDisable(true);
 
