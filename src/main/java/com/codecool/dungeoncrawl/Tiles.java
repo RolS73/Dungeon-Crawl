@@ -112,6 +112,11 @@ public class Tiles {
         tileMap.put("skeletonR", new Tile(5, 3));
         tileMap.put("skeletonU", new Tile(5, 4));
 
+        tileMap.put("soulStealerD", new Tile(16, 1));
+        tileMap.put("soulStealerL", new Tile(16, 2));
+        tileMap.put("soulStealerR", new Tile(16, 3));
+        tileMap.put("soulStealerU", new Tile(16, 4));
+
         tileMap.put("guardianD", new Tile(6,1));
         tileMap.put("guardianL", new Tile(6,2));
         tileMap.put("guardianR", new Tile(6,3));

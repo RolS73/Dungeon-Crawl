@@ -48,6 +48,8 @@ public class GameMap {
     List<Passage> mapQuickTravelPassages = new ArrayList<>();
     List<SecretPassage> secretPassagesCollection = new ArrayList<>();
     List<NonPlayerCharacter> actorsCollection = new ArrayList<>();
+    List<LockedDoor> lockedDoorsCollection = new ArrayList<>();
+    List<DoorOpenableByASwitch> doorsOpenableBySwitches = new ArrayList<>();
 
 
 
@@ -80,6 +82,14 @@ public class GameMap {
 
     public void setMapNumber(int mapNumber) {
         this.mapNumber = mapNumber;
+    }
+
+    public List<LockedDoor> getLockedDoorsCollection() {
+        return lockedDoorsCollection;
+    }
+
+    public List<DoorOpenableByASwitch> getDoorsOpenableBySwitches() {
+        return doorsOpenableBySwitches;
     }
 
     public List<Switch> getMapStateSwitchers() {

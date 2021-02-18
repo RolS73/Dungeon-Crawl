@@ -3,7 +3,6 @@ package com.codecool.dungeoncrawl.logic;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.actors.boss.SpikeBoss;
 import com.codecool.dungeoncrawl.logic.actors.boss.SpikeForBosses;
-import com.codecool.dungeoncrawl.logic.actors.items.Weapon;
 import com.codecool.dungeoncrawl.logic.actors.items.enviromentalHazards.DartTurret;
 import com.codecool.dungeoncrawl.logic.actors.items.enviromentalHazards.FlameTrap;
 import com.codecool.dungeoncrawl.logic.actors.items.enviromentalHazards.TrapBloody;
@@ -69,9 +68,6 @@ public class MapLoader {
                             break;
                         case '#':
                             cell.setCellType(CellType.WALL);
-                            if (mapNumber == 1) {
-                                // cell.setTileName();
-                            }
                             break;
                         case ',':
                             cell.setCellType(CellType.FLOORNOMONSTER);
@@ -82,6 +78,10 @@ public class MapLoader {
                         case 's':
                             cell.setCellType(CellType.FLOOR);
                             map.monsters.add(new Skeleton(cell));
+                            break;
+                        case '$':
+                            cell.setCellType(CellType.FLOOR);
+                            map.monsters.add(new SoulStealer(cell));
                             break;
                         case '@':
                             cell.setCellType(CellType.FLOOR);
@@ -134,15 +134,18 @@ public class MapLoader {
                         case 'L':
                             cell.setCellType(CellType.FLOOR);
                             Item placedItem = new Life(cell, 2);
-                            cell.setItem(placedItem);
+                            //cell.setItem(placedItem);
                             map.placedItemsCollection.add(placedItem);
-                        case 'w':
+                            break;
+                        /*case 'w':
                             cell.setCellType(CellType.FLOOR);
                             new Weapon(cell, "Skelie Choppa", 5);
-                            break;
+                            break;*/
                         case 'D':
                             cell.setCellType(CellType.OBJECT);
-                            map.interactablesCollection.add(new LockedDoor(cell));
+                            LockedDoor lockedDoor = new LockedDoor(cell);
+                            map.interactablesCollection.add(lockedDoor);
+                            map.lockedDoorsCollection.add(lockedDoor);
                             break;
                         case 'O':
                             cell.setCellType(CellType.OBJECT);
@@ -175,7 +178,7 @@ public class MapLoader {
                             break;
                         case '+':
                             cell.setCellType(CellType.OBJECT);
-                            map.endlessCycleTraps.add(new DartTurret(cell, "DartTurret", 6, 4, Direction.DOWN));
+                            map.endlessCycleTraps.add(new DartTurret(cell, "DartTurret", 6, 4, Direction.UP));
                             break;
                         case '!':
                             cell.setCellType(CellType.OBJECT);
@@ -232,6 +235,13 @@ public class MapLoader {
                             map.interactablesCollection.add(suspiciousWall);
                             map.suspiciousWallsCollection.add(suspiciousWall);
                             map.switchablesCollection.add(suspiciousWall);
+                            break;
+                        case 'w':
+                            cell.setCellType(CellType.WALL);
+                            DoorOpenableByASwitch verySuspiciousWall = new DoorOpenableByASwitch(cell, "sealedWall");
+                            map.interactablesCollection.add(verySuspiciousWall);
+                            map.doorsOpenableBySwitches.add(verySuspiciousWall);
+                            map.switchablesCollection.add(verySuspiciousWall);
                             break;
                         case 'h':
                             cell.setCellType(CellType.EMPTY);

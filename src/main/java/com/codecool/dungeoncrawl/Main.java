@@ -7,10 +7,7 @@ import com.codecool.dungeoncrawl.logic.actors.items.Weapon;
 import com.codecool.dungeoncrawl.logic.actors.items.enviromentalHazards.EnvironmentalDamage;
 import com.codecool.dungeoncrawl.logic.actors.items.enviromentalHazards.ProjectileCycle;
 import com.codecool.dungeoncrawl.logic.actors.items.enviromentalHazards.TrapCycle;
-import com.codecool.dungeoncrawl.logic.actors.items.interactablilty.InteractiveObject;
-import com.codecool.dungeoncrawl.logic.actors.items.interactablilty.OpenedDoor;
-import com.codecool.dungeoncrawl.logic.actors.items.interactablilty.StepOnActivatable;
-import com.codecool.dungeoncrawl.logic.actors.items.interactablilty.Switch;
+import com.codecool.dungeoncrawl.logic.actors.items.interactablilty.*;
 import com.codecool.dungeoncrawl.logic.actors.items.looting.Item;
 import com.codecool.dungeoncrawl.logic.actors.items.looting.LootTable;
 import com.codecool.dungeoncrawl.logic.actors.items.looting.PickupableItem;
@@ -45,7 +42,7 @@ public class Main extends Application {
     static GameMap map3 = MapLoader.loadMap(2);
     static GameMap[] mapsArray = new GameMap[]{map1, map2, map3};
 
-    private static int currentAiNumber = 0;
+    private static int currentAiIndex = 0;
     static AiMovement AI1 = new AiMovement(mapsArray[0]);
     static AiMovement AI2 = new AiMovement(mapsArray[1]);
     static AiMovement AI3 = new AiMovement(mapsArray[2]);
@@ -202,7 +199,8 @@ public class Main extends Application {
             case W:
                 mapsArray[currentMapIndex].getPlayer().setTileName("playerU");
                 mapsArray[currentMapIndex].getPlayer().move(0, -1);
-                AiArray[currentAiNumber].monsterMover();
+                mapsArray[currentMapIndex].getPlayer().updateFacingDirection();
+                AiArray[currentAiIndex].monsterMover();
                 mapsArray[currentMapIndex].getEndlessCycleTraps().forEach(TrapCycle::trapCycle);
                 mapsArray[currentMapIndex].getProjectilesCollection().forEach(ProjectileCycle::projectileCycle);
                 mapsArray[currentMapIndex].getProjectilesCollection().removeIf(ProjectileCycle::isHit);
@@ -219,7 +217,8 @@ public class Main extends Application {
                 if (!keyEvent.isControlDown()) {
                     mapsArray[currentMapIndex].getPlayer().setTileName("playerD");
                     mapsArray[currentMapIndex].getPlayer().move(0, 1);
-                    AiArray[currentAiNumber].monsterMover();
+                    mapsArray[currentMapIndex].getPlayer().updateFacingDirection();
+                    AiArray[currentAiIndex].monsterMover();
                     mapsArray[currentMapIndex].getEndlessCycleTraps().forEach(TrapCycle::trapCycle);
                     mapsArray[currentMapIndex].getProjectilesCollection().forEach(ProjectileCycle::projectileCycle);
                     mapsArray[currentMapIndex].getProjectilesCollection().removeIf(ProjectileCycle::isHit);
@@ -299,7 +298,8 @@ public class Main extends Application {
             case A:
                 mapsArray[currentMapIndex].getPlayer().setTileName("playerL");
                 mapsArray[currentMapIndex].getPlayer().move(-1, 0);
-                AiArray[currentAiNumber].monsterMover();
+                mapsArray[currentMapIndex].getPlayer().updateFacingDirection();
+                AiArray[currentAiIndex].monsterMover();
                 mapsArray[currentMapIndex].getEndlessCycleTraps().forEach(TrapCycle::trapCycle);
                 mapsArray[currentMapIndex].getProjectilesCollection().forEach(ProjectileCycle::projectileCycle);
                 mapsArray[currentMapIndex].getProjectilesCollection().removeIf(ProjectileCycle::isHit);
@@ -315,7 +315,8 @@ public class Main extends Application {
             case D:
                 mapsArray[currentMapIndex].getPlayer().setTileName("playerR");
                 mapsArray[currentMapIndex].getPlayer().move(1, 0);
-                AiArray[currentAiNumber].monsterMover();
+                mapsArray[currentMapIndex].getPlayer().updateFacingDirection();
+                AiArray[currentAiIndex].monsterMover();
                 mapsArray[currentMapIndex].getEndlessCycleTraps().forEach(TrapCycle::trapCycle);
                 mapsArray[currentMapIndex].getProjectilesCollection().forEach(ProjectileCycle::projectileCycle);
                 mapsArray[currentMapIndex].getProjectilesCollection().removeIf(ProjectileCycle::isHit);
@@ -328,7 +329,7 @@ public class Main extends Application {
                 refresh();
                 break;
             case SPACE:
-                AiArray[currentAiNumber].monsterMover();
+                AiArray[currentAiIndex].monsterMover();
                 mapsArray[currentMapIndex].getEndlessCycleTraps().forEach(TrapCycle::trapCycle);
                 mapsArray[currentMapIndex].getProjectilesCollection().forEach(ProjectileCycle::projectileCycle);
                 mapsArray[currentMapIndex].getProjectilesCollection().removeIf(ProjectileCycle::isHit);
@@ -397,6 +398,12 @@ public class Main extends Application {
                 }*/
                 refresh();
                 break;
+            case C:
+                System.out.println(mapsArray[currentMapIndex].getPlayer().getCellInFrontOfPlayer().getCellType());
+                if (mapsArray[currentMapIndex].getPlayer().getCellInFrontOfPlayer().getItem() instanceof Switch) {
+                    System.out.println(((Switch) mapsArray[currentMapIndex].getPlayer().getCellInFrontOfPlayer().getItem()).getGroupName());
+                }
+                break;
             case F5:
                 if (!isDeveloperStartingGearEnabled) {
                     mapsArray[currentMapIndex].getPlayer().raiseMaxHealth(17);
@@ -431,11 +438,10 @@ public class Main extends Application {
                 } else {
                     mapsArray[currentMapIndex].getPlayer().saveStats();
                     currentMapIndex++;
-                    currentAiNumber++;
+                    currentAiIndex++;
                     MapLoader.loadMap(currentMapIndex);
                     mapsArray[currentMapIndex].getPlayer().loadStats();
                     mapsArray[currentMapIndex].getPlayer().setNameGivenByPlayer(menu.getPlayerName().getText());
-                    //SetInteractableItems.setStuff(currentMapNumber);
                     refresh();
                     break;
                 }
@@ -445,14 +451,17 @@ public class Main extends Application {
                 } else {
                     mapsArray[currentMapIndex].getPlayer().saveStats();
                     currentMapIndex--;
-                    currentAiNumber--;
+                    currentAiIndex--;
                     MapLoader.loadMap(currentMapIndex);
                     mapsArray[currentMapIndex].getPlayer().loadStats();
                     mapsArray[currentMapIndex].getPlayer().setNameGivenByPlayer(menu.getPlayerName().getText());
-                    //SetInteractableItems.setStuff(currentMapNumber);
                     refresh();
                     break;
                 }
+            case F2:
+                mapsArray[currentMapIndex].getMapStateSwitchers().stream().filter(x -> x instanceof TorchPuzzle).forEach(InteractiveObject::interact);
+                refresh();
+                break;
         }
 
 
@@ -611,16 +620,16 @@ public class Main extends Application {
         return currentMapIndex;
     }
 
-    public static int getCurrentAiNumber() {
-        return currentAiNumber;
+    public static int getCurrentAiIndex() {
+        return currentAiIndex;
     }
 
     public static void setCurrentMapIndex(int currentMapIndex) {
         Main.currentMapIndex = currentMapIndex;
     }
 
-    public static void setCurrentAiNumber(int currentAiNumber) {
-        Main.currentAiNumber = currentAiNumber;
+    public static void setCurrentAiIndex(int currentAiIndex) {
+        Main.currentAiIndex = currentAiIndex;
     }
 
     public static GameMap cheatingMapGetter() {
@@ -628,7 +637,7 @@ public class Main extends Application {
     }
 
     public static AiMovement aiGetter() {
-        return AiArray[currentAiNumber];
+        return AiArray[currentAiIndex];
     }
 
    /* private boolean isPlayerSufferingEnvironmentalDamage() {

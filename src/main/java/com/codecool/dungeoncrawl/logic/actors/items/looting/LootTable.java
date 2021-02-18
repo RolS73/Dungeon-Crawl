@@ -96,6 +96,14 @@ public class LootTable {
         monsterUniqueLoot.get(0).setTileName("sword2");
     }
 
+    private List<Item> uniqueLoot = new ArrayList<>();
+    {
+        uniqueLoot.add(new LifeUpgrade("Radiant Heart", 5));
+
+        uniqueLoot.get(0).setTileName("lifeUpgrade4");
+    }
+
+
 
 
 
