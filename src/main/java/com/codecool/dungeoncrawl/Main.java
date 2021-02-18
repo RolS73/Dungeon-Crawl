@@ -23,6 +23,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
@@ -34,8 +35,15 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.awt.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Base64;
@@ -72,7 +80,8 @@ public class Main extends Application {
     private final List<String> wallCheat = Arrays.asList("Laci", "Ricsi", "Roland", "Szabolcs", "George");
     InventoryManager inventoryManager = new InventoryManager();
     public static ObservableList<CombatEvent> combatEvents = FXCollections.observableArrayList();
-    Label combatLog = new Label("Combat Log: \n");
+//    Label combatLog = new Label("Combat Log: \n");
+    TextArea combatLog = new TextArea("Combat Log: \n");
     GameDatabaseManager dbManager; //Sprint 2-ből
 
     public static void main(String[] args) {
