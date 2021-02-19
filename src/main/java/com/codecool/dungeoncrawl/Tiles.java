@@ -27,19 +27,19 @@ public class Tiles {
 
     static {
         tileMap.put("empty", new Tile(0, 0));
-        tileMap.put("trees", new Tile(0, 12));
+        tileMap.put("trees", new Tile(0, 13));
         tileMap.put("treeTop", new Tile(1, 13));
         tileMap.put("wall", new Tile(1, 0));
-        tileMap.put("bushes", new Tile(1, 12));
+        tileMap.put("bushes", new Tile(2, 13));
         tileMap.put("palaceWall", new Tile(1, 14));
         tileMap.put("suspiciousWall", new Tile(1, 0));
         tileMap.put("secretPassage", new Tile(2, 0));
         tileMap.put("passage", new Tile(3, 0));
         tileMap.put("floor", new Tile(2, 0));
-        tileMap.put("forestPath", new Tile(4, 12));
+        tileMap.put("forestPath", new Tile(4, 13));
         tileMap.put("hiddenEnemySpawner", new Tile(2, 0));
         tileMap.put("stairwayUp", new Tile(3, 0));
-        tileMap.put("stairwayUpMap2", new Tile(0, 13));
+        tileMap.put("stairwayUpMap2", new Tile(0, 12));
         tileMap.put("stairwayDown", new Tile(6, 0));
         tileMap.put("secretPassageDown", new Tile(7, 0));
 
