@@ -3,13 +3,13 @@ package com.codecool.dungeoncrawl.logic;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.actors.boss.SpikeBoss;
 import com.codecool.dungeoncrawl.logic.actors.boss.SpikeForBosses;
-import com.codecool.dungeoncrawl.logic.actors.items.*;
-import com.codecool.dungeoncrawl.logic.actors.items.interactablilty.*;
-import com.codecool.dungeoncrawl.logic.actors.items.looting.*;
 import com.codecool.dungeoncrawl.logic.actors.items.enviromentalHazards.DartTurret;
 import com.codecool.dungeoncrawl.logic.actors.items.enviromentalHazards.FlameTrap;
 import com.codecool.dungeoncrawl.logic.actors.items.enviromentalHazards.TrapBloody;
 import com.codecool.dungeoncrawl.logic.actors.items.enviromentalHazards.TrapPlain;
+import com.codecool.dungeoncrawl.logic.actors.items.interactablilty.*;
+import com.codecool.dungeoncrawl.logic.actors.items.looting.*;
+import com.codecool.dungeoncrawl.logic.actors.items.mapdecoration.Firestand;
 import com.codecool.dungeoncrawl.logic.actors.monsters.*;
 import com.codecool.dungeoncrawl.logic.actors.npcs.FriendlyWhiteWizard;
 import com.codecool.dungeoncrawl.logic.actors.npcs.NonPlayerCharacter;
@@ -17,20 +17,21 @@ import com.codecool.dungeoncrawl.logic.actors.npcs.NonPlayerCharacter;
 import java.io.InputStream;
 import java.util.Scanner;
 
+
 public class MapLoader {
+
     public static GameMap loadMap(int mapNumber) {
 
         InputStream is = null;
 
         if (mapNumber == 0) {
-             is = MapLoader.class.getResourceAsStream("/map.txt");
+            is = MapLoader.class.getResourceAsStream("/map.txt");
         } else if (mapNumber == 1) {
             is = MapLoader.class.getResourceAsStream("/map2.txt");
         } else if (mapNumber == 2) {
             is = MapLoader.class.getResourceAsStream("/map3.txt");
         }
 
-        //InputStream is = MapLoader.class.getResourceAsStream("/map.txt");
         Scanner scanner = new Scanner(is);
         int width = scanner.nextInt();
         int height = scanner.nextInt();
@@ -38,6 +39,7 @@ public class MapLoader {
         scanner.nextLine(); // empty line
 
         GameMap map = new GameMap(width, height, CellType.EMPTY);
+        map.setMapNumber(mapNumber);
         for (int y = 0; y < height; y++) {
             String line = scanner.nextLine();
             for (int x = 0; x < width; x++) {
@@ -53,9 +55,9 @@ public class MapLoader {
                             map.spikeForBossesList.add(new SpikeForBosses(cell));
                             break;
                         case '&':
-                        cell.setCellType(CellType.BOSSFLOOR);
-                        map.monsters.add(new CursedKing(cell));
-                        break;
+                            cell.setCellType(CellType.BOSSFLOOR);
+                            map.monsters.add(new CursedKing(cell));
+                            break;
                         case 'n':
                             cell.setCellType(CellType.STUNNER);
                             break;
@@ -78,6 +80,10 @@ public class MapLoader {
                             cell.setCellType(CellType.FLOOR);
                             map.monsters.add(new Skeleton(cell));
                             break;
+                        case '$':
+                            cell.setCellType(CellType.FLOOR);
+                            map.monsters.add(new SoulStealer(cell));
+                            break;
                         case '@':
                             cell.setCellType(CellType.FLOOR);
                             map.setPlayer(new Player(cell));
@@ -97,10 +103,23 @@ public class MapLoader {
                             map.leverSwitchCollection.add(leverSwitch);
                             break;
                         case '*':
-                            cell.setCellType(CellType.OBJECT);
+                            cell.setCellType(CellType.WALL);
                             SecretPassage secretPassage = new SecretPassage(cell, 70, 11);
                             map.interactablesCollection.add(secretPassage);
                             map.secretPassagesCollection.add(secretPassage);
+                            break;
+                        case 'j':
+                            cell.setCellType(CellType.FLOOR);
+                            MapChangePassage mapPassageDOWN = new MapChangePassage(cell, "MapTraversalPassage", Direction.DOWN);
+                            map.interactablesCollection.add(mapPassageDOWN);
+                            break;
+                        case 'J':
+                            cell.setCellType(CellType.FLOOR);
+                            MapChangePassage mapPassageUP = new MapChangePassage(cell, "MapTraversalPassage", Direction.UP);
+                            if (mapNumber == 1) {
+                                mapPassageUP.setAnotherTileName("stairwayUpMap2");
+                            }
+                            map.interactablesCollection.add(mapPassageUP);
                             break;
                         case 'P':
                             cell.setCellType(CellType.FLOOR);
@@ -119,15 +138,18 @@ public class MapLoader {
                         case 'L':
                             cell.setCellType(CellType.FLOOR);
                             Item placedItem = new Life(cell, 2);
-                            cell.setItem(placedItem);
+                            //cell.setItem(placedItem);
                             map.placedItemsCollection.add(placedItem);
-                        case 'w':
+                            break;
+                        /*case 'w':
                             cell.setCellType(CellType.FLOOR);
                             new Weapon(cell, "Skelie Choppa", 5);
-                            break;
+                            break;*/
                         case 'D':
                             cell.setCellType(CellType.OBJECT);
-                            map.interactablesCollection.add(new LockedDoor(cell));
+                            LockedDoor lockedDoor = new LockedDoor(cell);
+                            map.interactablesCollection.add(lockedDoor);
+                            map.lockedDoorsCollection.add(lockedDoor);
                             break;
                         case 'O':
                             cell.setCellType(CellType.OBJECT);
@@ -142,7 +164,8 @@ public class MapLoader {
                             map.chestsCollection.add(chest);
                             break;
                         case 'f':
-                            cell.setCellType(CellType.FIRESTAND);
+                            cell.setCellType(CellType.OBJECT);
+                            cell.setItem(new Firestand(cell, "firestand"));
                             break;
                         case 'F':
                             cell.setCellType(CellType.OBJECT);
@@ -160,7 +183,7 @@ public class MapLoader {
                             break;
                         case '+':
                             cell.setCellType(CellType.OBJECT);
-                            map.endlessCycleTraps.add(new DartTurret(cell, "DartTurret", 6, 4, Direction.DOWN));
+                            map.endlessCycleTraps.add(new DartTurret(cell, "DartTurret", 6, 4, Direction.UP));
                             break;
                         case '!':
                             cell.setCellType(CellType.OBJECT);
@@ -218,6 +241,13 @@ public class MapLoader {
                             map.suspiciousWallsCollection.add(suspiciousWall);
                             map.switchablesCollection.add(suspiciousWall);
                             break;
+                        case 'w':
+                            cell.setCellType(CellType.WALL);
+                            DoorOpenableByASwitch verySuspiciousWall = new DoorOpenableByASwitch(cell, "sealedWall");
+                            map.interactablesCollection.add(verySuspiciousWall);
+                            map.doorsOpenableBySwitches.add(verySuspiciousWall);
+                            map.switchablesCollection.add(verySuspiciousWall);
+                            break;
                         case 'h':
                             cell.setCellType(CellType.EMPTY);
                             HiddenPassage hiddenPassage = new HiddenPassage(cell, "hiddenPassage");
@@ -247,5 +277,12 @@ public class MapLoader {
         }
         return map;
     }
+
+    /*public void setUpCellType(Cell cell, CellType celltype) {
+        cell.setCellType(celltype);
+        if (celltype.equals(CellType.FLOOR) && Main.getCurrentMapIndex() == 1) {
+            cell.setNewTypeTileName("bossfloor");
+        }
+    }*/
 
 }

@@ -1,0 +1,14 @@
+.root {
+    -fx-border-color : black; -fx-border-width : 0 5;
+}
+
+.label {
+    -fx-font-weight: bold;
+    -fx-text-fill: #FFFFFF;
+}
+
+.button {
+    -fx-font-weight: bold;
+    -fx-text-fill: #000000;
+}
+

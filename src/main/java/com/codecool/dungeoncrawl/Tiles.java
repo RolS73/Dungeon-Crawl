@@ -27,13 +27,20 @@ public class Tiles {
 
     static {
         tileMap.put("empty", new Tile(0, 0));
+        tileMap.put("trees", new Tile(0, 12));
         tileMap.put("wall", new Tile(1, 0));
+        tileMap.put("bushes", new Tile(1, 12));
+        tileMap.put("palaceWall", new Tile(1, 14));
         tileMap.put("suspiciousWall", new Tile(1, 0));
         tileMap.put("secretPassage", new Tile(2, 0));
+        tileMap.put("passage", new Tile(3, 0));
         tileMap.put("floor", new Tile(2, 0));
+        tileMap.put("forestPath", new Tile(4, 12));
         tileMap.put("hiddenEnemySpawner", new Tile(2, 0));
         tileMap.put("stairwayUp", new Tile(3, 0));
-        tileMap.put("stairwayDown", new Tile(5, 0));
+        tileMap.put("stairwayUpMap2", new Tile(0, 13));
+        tileMap.put("stairwayDown", new Tile(6, 0));
+        tileMap.put("secretPassageDown", new Tile(7, 0));
 
         tileMap.put("spikeboss", new Tile(2,3));
         tileMap.put("spikeforbossesL", new Tile(3,2));
@@ -50,7 +57,7 @@ public class Tiles {
 
         tileMap.put("firestand", new Tile(5, 7));
         tileMap.put("puzzleFireStandInActive", new Tile(4, 7));
-        tileMap.put("puzzleFireStandActive", new Tile(7, 7));
+        tileMap.put("puzzleFireStandActive", new Tile(6, 7));
 
         tileMap.put("spikeTrapResting", new Tile(9, 0));
         tileMap.put("spikeTrapActive", new Tile(11, 0));
@@ -75,7 +82,7 @@ public class Tiles {
         tileMap.put("steak", new Tile(12, 6));
         tileMap.put("ham", new Tile(13, 6));
 
-        tileMap.put("Money", new Tile(7, 5));
+        tileMap.put("Money", new Tile(0, 8));
 
         tileMap.put("lifeUpgrade1", new Tile(9, 4));
         tileMap.put("lifeUpgrade2", new Tile(9, 3));
@@ -112,6 +119,11 @@ public class Tiles {
         tileMap.put("skeletonR", new Tile(5, 3));
         tileMap.put("skeletonU", new Tile(5, 4));
 
+        tileMap.put("soulStealerD", new Tile(16, 1));
+        tileMap.put("soulStealerL", new Tile(16, 2));
+        tileMap.put("soulStealerR", new Tile(16, 3));
+        tileMap.put("soulStealerU", new Tile(16, 4));
+
         tileMap.put("guardianD", new Tile(6,1));
         tileMap.put("guardianL", new Tile(6,2));
         tileMap.put("guardianR", new Tile(6,3));
@@ -121,6 +133,11 @@ public class Tiles {
         tileMap.put("thethingL", new Tile(7,2));
         tileMap.put("thethingR", new Tile(7,3));
         tileMap.put("thethingU", new Tile(7,4));
+
+        tileMap.put("cursedKingD", new Tile(8,1));
+        tileMap.put("cursedKingL", new Tile(8,2));
+        tileMap.put("cursedKingR", new Tile(8,3));
+        tileMap.put("cursedKingU", new Tile(8,4));
 
         tileMap.put("key", new Tile(1, 7));
         tileMap.put("life", new Tile(9, 1));
@@ -145,6 +162,8 @@ public class Tiles {
         tileMap.put("staff2", new Tile(15, 2));
         tileMap.put("staff3", new Tile(15, 3));
         tileMap.put("staff4", new Tile(15, 4));
+
+        tileMap.put("healthPoti", new Tile(14, 6));
 
     }
 

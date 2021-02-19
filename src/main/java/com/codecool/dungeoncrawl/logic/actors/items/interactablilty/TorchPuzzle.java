@@ -11,7 +11,6 @@ public class TorchPuzzle extends Item implements InteractiveObject, Switch {
     private String groupName;
 
     public TorchPuzzle(Cell cell) {
-
         super(cell, "Door to Secrets");
         this.setName("Trigger for Secrets");
     }
@@ -26,10 +25,19 @@ public class TorchPuzzle extends Item implements InteractiveObject, Switch {
         if (isThisObjectInteractive()) {
             this.name = "puzzleFireStandActive";
             totalTorchesActivated++;
-            if (totalTorchesActivated == 3) {
-                Main.cheatingMapGetter().getHiddenEnemySpawnersCollection().get(5).interact();
+            System.out.println(totalTorchesActivated);
+            if (isConditionForSecretMet()) {
+                Main.cheatingMapGetter().getSwitchablesCollection()
+                        .stream()
+                        .filter(x -> x.getGroupName() != null)
+                        .filter(x -> x.isThisFromTheSameGroup("hiddenRoomGroup"))
+                        .forEach(InteractiveObject::interact);
             }
         }
+    }
+
+    private static boolean isConditionForSecretMet() {
+        return totalTorchesActivated == 3;
     }
 
     @Override

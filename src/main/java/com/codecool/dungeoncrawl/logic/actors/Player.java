@@ -1,6 +1,7 @@
 package com.codecool.dungeoncrawl.logic.actors;
 
 import com.codecool.dungeoncrawl.logic.Cell;
+import com.codecool.dungeoncrawl.logic.Direction;
 import com.codecool.dungeoncrawl.logic.RandomGenerator;
 
 public class Player extends Actor {
@@ -8,12 +9,15 @@ public class Player extends Actor {
     public static int[] stats = {15 , 15, 0, 1, 0};
 
     private String name = "playerD";
+    private String nameGivenByPlayer;
     private int maxHealth = 15;
     private int strength = 1;
     private int armor;
     private int moneyAmount;
     private final String[] attackSoundFiles = new String[] {"Sword1"};
     private final String[] hitSoundFiles = new String[] {"Blank"};
+    private Direction entityFacingDirection = Direction.DOWN;
+    private Cell cellInFrontOfPlayer = this.getCell().getNeighbor(0,1);
 
     public Player(Cell cell) {
         super(cell);
@@ -111,7 +115,64 @@ public class Player extends Actor {
         }
     }
 
-//    public void playHurtSound() {
+    public Cell getCellInFrontOfPlayer() {
+        return cellInFrontOfPlayer;
+    }
+
+    public void updateFacingDirection() {
+        switch (name) {
+            case "playerU":
+                entityFacingDirection = Direction.UP;
+                updateNextCell();
+                break;
+            case "playerR":
+                entityFacingDirection = Direction.RIGHT;
+                updateNextCell();
+                break;
+            case "playerD":
+                entityFacingDirection = Direction.DOWN;
+                updateNextCell();
+                break;
+            case "playerL":
+                entityFacingDirection = Direction.LEFT;
+                updateNextCell();
+                break;
+        }
+    }
+
+    private void updateNextCell() {
+        switch (entityFacingDirection) {
+            case UP:
+                cellInFrontOfPlayer = this.getCell().getNeighbor(0,-1);
+                break;
+            case RIGHT:
+                cellInFrontOfPlayer = this.getCell().getNeighbor(1,0);
+                break;
+            case DOWN:
+                cellInFrontOfPlayer = this.getCell().getNeighbor(0,1);
+                break;
+            case LEFT:
+                cellInFrontOfPlayer = this.getCell().getNeighbor(-1,0);
+                break;
+        }
+    }
+
+    @Override
+    public void onHit() {
+        super.onHit();
+        playerHit();
+    }
+
+    public void setNameGivenByPlayer(String nameGivenByPlayer) {
+        this.nameGivenByPlayer = nameGivenByPlayer;
+    }
+
+    @Override
+    public String toString() {
+        return nameGivenByPlayer;
+    }
+
+    //    public void playHurtSound() {
 //
 //    }
 }

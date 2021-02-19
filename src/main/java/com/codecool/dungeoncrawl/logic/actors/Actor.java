@@ -1,12 +1,14 @@
 package com.codecool.dungeoncrawl.logic.actors;
 
+import com.codecool.dungeoncrawl.Main;
 import com.codecool.dungeoncrawl.logic.*;
 import com.codecool.dungeoncrawl.logic.actors.boss.SpikeForBosses;
 import com.codecool.dungeoncrawl.logic.actors.items.looting.Breakable;
 import com.codecool.dungeoncrawl.logic.actors.npcs.NonPlayerCharacter;
+import java.io.Serializable;
 
-public abstract class Actor implements Drawable {
-    private Cell cell;
+public abstract class Actor implements Drawable, Serializable {
+    private transient Cell cell;
     private int health = 10;
     private int attackPower = 1;
     private String tileName = getTileName();
@@ -16,12 +18,11 @@ public abstract class Actor implements Drawable {
     private String[] attackSoundFiles = new String[] {"genericSwing"};
     private String[] hitSoundFiles = new String[] {"DSdamage1"};
 
+    public Actor() {}
+
     public Actor(Cell cell) {
         this.cell = cell;
         this.cell.setActor(this);
-    }
-
-    public Actor() {
     }
 
     public void move(int dx, int dy) {
@@ -89,6 +90,7 @@ public abstract class Actor implements Drawable {
     protected void attack(Cell nextCell) {
         CombatEvent combatEvent = new CombatEvent(this, nextCell.getActor());
         combatEvent.attack();
+        Main.combatEvents.add(combatEvent);
     }
 
     public boolean isWallCheatOn() {
@@ -188,5 +190,18 @@ public abstract class Actor implements Drawable {
 
     public void setAttackSoundFiles(String[] attackSoundFiles) {
         this.attackSoundFiles = attackSoundFiles;
+    }
+
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName();
+    }
+
+    public void onHit() {}
+
+    public void onDeath() {
+        Sounds.playSound("kill1");
+        playDeathSound();
+        this.getCell().setActor(null);
     }
 }

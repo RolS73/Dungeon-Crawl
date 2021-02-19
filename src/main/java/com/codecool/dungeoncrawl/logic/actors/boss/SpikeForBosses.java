@@ -19,7 +19,7 @@ public class SpikeForBosses extends Monster {
        // mainBody = Main.cheatingMapGetter().getBoss1();
         setAttackPower(7);
         setHealth(100000);
-        this.setAttackSoundFiles(new String[] {"Sword1"}); //PLACEHOLDER
+        this.setAttackSoundFiles(new String[] {"genericSwing"}); //PLACEHOLDER
     }
 
     @Override

@@ -12,14 +12,16 @@ import com.codecool.dungeoncrawl.logic.actors.items.looting.Item;
 import com.codecool.dungeoncrawl.logic.actors.monsters.HiddenEnemySpawner;
 import com.codecool.dungeoncrawl.logic.actors.monsters.Monster;
 import com.codecool.dungeoncrawl.logic.actors.npcs.NonPlayerCharacter;
+import java.io.Serializable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameMap {
+public class GameMap implements Serializable {
     private int width;
     private int height;
     private Cell[][] cells;
+    private int mapNumber;
 
     Player player;
 
@@ -47,6 +49,8 @@ public class GameMap {
     List<Passage> mapQuickTravelPassages = new ArrayList<>();
     List<SecretPassage> secretPassagesCollection = new ArrayList<>();
     List<NonPlayerCharacter> actorsCollection = new ArrayList<>();
+    List<LockedDoor> lockedDoorsCollection = new ArrayList<>();
+    List<DoorOpenableByASwitch> doorsOpenableBySwitches = new ArrayList<>();
 
 
 
@@ -72,6 +76,22 @@ public class GameMap {
    /* public List<DartTurretProjectile> getDartTurretProjectilesCollection() {
         return dartTurretProjectilesCollection;
     }*/
+
+    public int getMapNumber() {
+        return mapNumber;
+    }
+
+    public void setMapNumber(int mapNumber) {
+        this.mapNumber = mapNumber;
+    }
+
+    public List<LockedDoor> getLockedDoorsCollection() {
+        return lockedDoorsCollection;
+    }
+
+    public List<DoorOpenableByASwitch> getDoorsOpenableBySwitches() {
+        return doorsOpenableBySwitches;
+    }
 
     public List<Switch> getMapStateSwitchers() {
         return mapStateSwitchers;

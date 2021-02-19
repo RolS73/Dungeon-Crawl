@@ -77,6 +77,16 @@ public class SetInteractableItems {
             Main.cheatingMapGetter().getMapQuickTravelPassages().get(3).setDestinationY(20);
             Main.cheatingMapGetter().getMapQuickTravelPassages().get(4).setDestinationX(21);
             Main.cheatingMapGetter().getMapQuickTravelPassages().get(4).setDestinationY(20);
+
+            Main.cheatingMapGetter().getDoorsOpenableBySwitches().get(0).setGroupName("hiddenRoomGroup");
+            Main.cheatingMapGetter().getDoorsOpenableBySwitches().get(1).setGroupName("hiddenRoomGroup");
+
+            for (int i = 14; i < 26; i++) {
+                Main.cheatingMapGetter().getHiddenPassagesCollection().get(i).setGroupName("hiddenRoomGroup");
+            }
+
+            Main.cheatingMapGetter().getChestsCollection().get(3).setAnotherTilename("chest2");
+            Main.cheatingMapGetter().getChestsCollection().get(4).setAnotherTilename("chest2");
         }
 
 

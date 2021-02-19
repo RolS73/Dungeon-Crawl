@@ -8,7 +8,7 @@ import com.codecool.dungeoncrawl.logic.actors.items.looting.Item;
 
 public class SuspiciousWall extends Item implements InteractiveObject, Switch {
 
-    private String anotherTileName = "suspiciousWall";
+    private String anotherTileName = this.getCell().getTileName();
     private String groupName;
 
     int[] coordinates;
@@ -21,7 +21,7 @@ public class SuspiciousWall extends Item implements InteractiveObject, Switch {
 
     @Override
     public boolean isThisObjectInteractive() {
-        return this.anotherTileName.equals("suspiciousWall") || this.anotherTileName.equals("empty");
+        return this.getCell().getCellType().equals(CellType.WALL); //|| this.anotherTileName.equals("empty");
     }
 
 
@@ -29,8 +29,8 @@ public class SuspiciousWall extends Item implements InteractiveObject, Switch {
     public void interact() {
         if (isThisObjectInteractive()) {
             Sounds.playSound("IllusioryWall");
-            this.anotherTileName = "floor";
             this.getCell().setCellType(CellType.FLOOR);
+            this.anotherTileName = this.getCell().getTileName();
         }
     }
 

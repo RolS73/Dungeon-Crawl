@@ -2,13 +2,16 @@ package com.codecool.dungeoncrawl.logic;
 
 import com.codecool.dungeoncrawl.logic.actors.Actor;
 import com.codecool.dungeoncrawl.logic.actors.items.looting.Item;
+import java.io.Serializable;
 
-public class Cell implements Drawable {
+public class Cell implements Drawable, Serializable {
     private CellType type;
     private Actor actor;
     private Actor item;
-    private GameMap gameMap;
+    private transient GameMap gameMap;
     private int x, y;
+    private boolean isTypeTileNameHijacked;
+    private String newTypeTileName;
 
     Cell(GameMap gameMap, int x, int y, CellType type) {
         this.gameMap = gameMap;
@@ -17,13 +20,40 @@ public class Cell implements Drawable {
         this.type = type;
     }
 
+    public void setMap(GameMap gameMap) {
+        this.gameMap = gameMap;
+    }
+
     public CellType getCellType() {
         return type;
     }
 
     public void setCellType(CellType type) {
         this.type = type;
+        if ((type.equals(CellType.FLOOR) || type.equals(CellType.FLOORNOMONSTER) || type.equals(CellType.OBJECT)) &&  this.gameMap.getMapNumber() == 1) {
+            this.setNewTypeTileName("forestPath");
+        } else if (type.equals(CellType.WALL) &&  this.gameMap.getMapNumber() == 1) {
+            this.setNewTypeTileName("bushes");
+        } else if (type.equals(CellType.EMPTY) &&  this.gameMap.getMapNumber() == 1) {
+            this.setNewTypeTileName("trees");
+        }
+        if ((type.equals(CellType.FLOOR) || type.equals(CellType.FLOORNOMONSTER) || type.equals(CellType.OBJECT)) &&  this.gameMap.getMapNumber() == 2) {
+            this.setNewTypeTileName("floor");
+        } else if (type.equals(CellType.WALL) &&  this.gameMap.getMapNumber() == 2) {
+            this.setNewTypeTileName("palaceWall");
+        } else if (type.equals(CellType.EMPTY) &&  this.gameMap.getMapNumber() == 2) {
+            this.setNewTypeTileName("empty");
+        }
     }
+
+   /* public void setCellType(CellType type, int mapNumber) {
+        this.type = type;
+        if (type.equals(CellType.FLOOR) &&  gameMap.getMapNumber() == 1) {
+            this.setNewTypeTileName("bossfloor");
+        } else if (type.equals(CellType.OBJECT) &&  gameMap.getMapNumber() == 1) {
+            this.setNewTypeTileName("bossfloor");
+        }
+    }*/
 
     public void setActor(Actor actor) {
         if (actor instanceof Item) {
@@ -48,7 +78,16 @@ public class Cell implements Drawable {
 
     @Override
     public String getTileName() {
-        return type.getTileName();
+        if (isTypeTileNameHijacked) {
+            return newTypeTileName;
+        } else {
+            return type.getTileName();
+        }
+    }
+
+    public void setNewTypeTileName(String newName) {
+        this.isTypeTileNameHijacked = true;
+        this.newTypeTileName = newName;
     }
 
     public int getX() {

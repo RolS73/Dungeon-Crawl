@@ -1,7 +1,6 @@
 package com.codecool.dungeoncrawl.logic.actors.monsters;
 
 import com.codecool.dungeoncrawl.logic.Cell;
-import com.codecool.dungeoncrawl.logic.CombatEvent;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 
 public class CursedKing extends Monster {
@@ -10,14 +9,14 @@ public class CursedKing extends Monster {
     kell random spawnoló krisztályok aktiválásával, ezután bele tudunk ütni 3-4-et majd kezdődik a rota előröl.
     a projectil támadások lényegében random elhelyezett trapok lesznek kicserélt tile-al, annak a rendszerét még majd kidolgozom - Roland*/
 
-    private String name = "guardianD";
+    private String name = "cursedKingD";
 
     private int count = 0;
 
     public CursedKing(Cell cell) {
         super(cell);
-        this.setAttackPower(9);
-        this.setHealth(20);
+        this.setAttackPower(10);
+        this.setHealth(999);
         this.setAttackSoundFiles(new String[] {"Sword1"}); //PLACEHOLDER
     }
 
@@ -52,21 +51,22 @@ public class CursedKing extends Monster {
 
     }
 
+
     public void monsterLookat(int x, int y) {
         if (Math.abs(x)>Math.abs(y)) {
             if (x<0) {
-                this.name = "guardianL";
+                this.name = "cursedKingL";
             }
             if (x>0) {
-                this.name = "guardianR";
+                this.name = "cursedKingR";
             }
 
         } else {
             if (y<0) {
-                this.name = "guardianU";
+                this.name = "cursedKingU";
             }
             if (y>0) {
-                this.name = "guardianD";
+                this.name = "cursedKingD";
             }
 
         }

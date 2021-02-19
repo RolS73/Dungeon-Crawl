@@ -78,7 +78,7 @@ public class Skeleton extends Monster {
     public void rollForMonsterLoot() {
         int tableRoll = RandomGenerator.nextInt(100);
         if (tableRoll > 37) {
-        } else if (tableRoll > 3 && tableRoll < 37) {
+        } else if (tableRoll > 2 && tableRoll < 37) {
             if (this.getCell().getItem() == null) {
                 this.getCell().setItem(new LootTable().getMonsterCommonLoot().get(0));
             } else {

@@ -19,4 +19,20 @@ public abstract class Monster extends Actor {
 
     public void rollForMonsterLoot() {}
 
+
+
+    @Override
+    public void onDeath() {
+        super.onDeath();
+        rollForMonsterLoot();
+    }
+
+    //    @Override
+//    protected void attack(Cell nextCell) {
+//        super.attack(nextCell);
+//        if (nextCell.getActor() != null && nextCell.getActor() instanceof Player) {
+//            ((Player) nextCell.getActor()).playerHit();
+//        }
+//    }
+
 }

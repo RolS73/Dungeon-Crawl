@@ -7,32 +7,53 @@ import com.codecool.dungeoncrawl.logic.actors.items.Weapon;
 import com.codecool.dungeoncrawl.logic.actors.items.enviromentalHazards.EnvironmentalDamage;
 import com.codecool.dungeoncrawl.logic.actors.items.enviromentalHazards.ProjectileCycle;
 import com.codecool.dungeoncrawl.logic.actors.items.enviromentalHazards.TrapCycle;
-import com.codecool.dungeoncrawl.logic.actors.items.interactablilty.InteractiveObject;
-import com.codecool.dungeoncrawl.logic.actors.items.interactablilty.OpenedDoor;
-import com.codecool.dungeoncrawl.logic.actors.items.interactablilty.StepOnActivatable;
-import com.codecool.dungeoncrawl.logic.actors.items.interactablilty.Switch;
+import com.codecool.dungeoncrawl.logic.actors.items.interactablilty.*;
+import com.codecool.dungeoncrawl.logic.actors.items.looting.HealthPotion;
 import com.codecool.dungeoncrawl.logic.actors.items.looting.Item;
 import com.codecool.dungeoncrawl.logic.actors.items.looting.LootTable;
 import com.codecool.dungeoncrawl.logic.actors.items.looting.PickupableItem;
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
+import javafx.collections.FXCollections;
 import javafx.collections.MapChangeListener;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.awt.*;
+import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class Main extends Application {
 
@@ -43,7 +64,7 @@ public class Main extends Application {
     static GameMap map3 = MapLoader.loadMap(2);
     static GameMap[] mapsArray = new GameMap[]{map1, map2, map3};
 
-    private static int currentAiNumber = 0;
+    private static int currentAiIndex = 0;
     static AiMovement AI1 = new AiMovement(mapsArray[0]);
     static AiMovement AI2 = new AiMovement(mapsArray[1]);
     static AiMovement AI3 = new AiMovement(mapsArray[2]);
@@ -64,6 +85,9 @@ public class Main extends Application {
     private Stage stage;
     private final List<String> wallCheat = Arrays.asList("Laci", "Ricsi", "Roland", "Szabolcs", "George");
     InventoryManager inventoryManager = new InventoryManager();
+    public static ObservableList<CombatEvent> combatEvents = FXCollections.observableArrayList();
+//    Label combatLog = new Label("Combat Log: \n");
+    TextArea combatLog = new TextArea();
     GameDatabaseManager dbManager; //Sprint 2-ből
 
     public static void main(String[] args) {
@@ -156,29 +180,45 @@ public class Main extends Application {
             refresh();
             pickUpButton.setDisable(true);
         });
-        HBox lootButtons = new HBox();
-        lootButtons.setSpacing(10);
+        HBox pickUpAndMoney = new HBox();
+        pickUpAndMoney.setSpacing(10);
         pickUpButton.setFocusTraversable(false);
         pickUpButton.setPrefWidth(130);
 
-        lootButtons.getChildren().addAll(pickUpButton, fiancialStatus);
+        pickUpAndMoney.getChildren().addAll(pickUpButton, fiancialStatus);
+
+        Region r = new Region();
+
+        Label combatLogLabel = new Label("Combat Log");
+        combatLog.setFocusTraversable(false);
+
+        BorderPane borderPane = new BorderPane();
+
+        Scene scene = new Scene(borderPane);
+
+        menu.getImportButton().setOnAction(i -> {
+            importMap();
+            primaryStage.setScene(scene);
+        });
+
 //        ui.add(lootButtons, 0, 3);
-        ui.getChildren().addAll(name, lifeStatus, attackPwStatus, lootButtons, inventoryTable, /*fiancialStatus,*/ instructions);
+        ui.getChildren().addAll(name, lifeStatus, attackPwStatus, pickUpAndMoney, inventoryTable, r, combatLogLabel, combatLog /*fiancialStatus, instructions*/);
         setupDbManager(); //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< THIS IS NEW!
 
 
-        BorderPane borderPane = new BorderPane();
+
 
         borderPane.setCenter(canvas);
         borderPane.setRight(ui);
 
         primaryStage.setScene(menu.getMenuScreen());
 
-        Scene scene = new Scene(borderPane);
+
 
         menu.getPlayButton().setOnAction(play -> {
             primaryStage.setScene(scene);
             name.setText(menu.getPlayerName().getText());
+            mapsArray[currentMapIndex].getPlayer().setNameGivenByPlayer(menu.getPlayerName().getText());
             if (wallCheat.contains(name.getText())) {
                 mapsArray[currentMapIndex].getPlayer().setWallCheatOn(true);
             }
@@ -191,13 +231,23 @@ public class Main extends Application {
         primaryStage.show();
     }
 
+    public static void installFont(String fontName) {
+        try {
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File(fontName)));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private void onKeyPressed(KeyEvent keyEvent) {
         switch (keyEvent.getCode()) {
             case UP:
             case W:
                 mapsArray[currentMapIndex].getPlayer().setTileName("playerU");
                 mapsArray[currentMapIndex].getPlayer().move(0, -1);
-                AiArray[currentAiNumber].monsterMover();
+                mapsArray[currentMapIndex].getPlayer().updateFacingDirection();
+                AiArray[currentAiIndex].monsterMover();
                 mapsArray[currentMapIndex].getEndlessCycleTraps().forEach(TrapCycle::trapCycle);
                 mapsArray[currentMapIndex].getProjectilesCollection().forEach(ProjectileCycle::projectileCycle);
                 mapsArray[currentMapIndex].getProjectilesCollection().removeIf(ProjectileCycle::isHit);
@@ -214,7 +264,8 @@ public class Main extends Application {
                 if (!keyEvent.isControlDown()) {
                     mapsArray[currentMapIndex].getPlayer().setTileName("playerD");
                     mapsArray[currentMapIndex].getPlayer().move(0, 1);
-                    AiArray[currentAiNumber].monsterMover();
+                    mapsArray[currentMapIndex].getPlayer().updateFacingDirection();
+                    AiArray[currentAiIndex].monsterMover();
                     mapsArray[currentMapIndex].getEndlessCycleTraps().forEach(TrapCycle::trapCycle);
                     mapsArray[currentMapIndex].getProjectilesCollection().forEach(ProjectileCycle::projectileCycle);
                     mapsArray[currentMapIndex].getProjectilesCollection().removeIf(ProjectileCycle::isHit);
@@ -226,6 +277,7 @@ public class Main extends Application {
                     }
                     refresh();
                 } else {
+                    stage.setOpacity(0.5);
                     BorderPane root = new BorderPane();
                     Stage saveDialog = new Stage();
                     saveDialog.setTitle("Save game");
@@ -235,6 +287,7 @@ public class Main extends Application {
 
                     TableView<String> saveTable = new TableView<>();
                     TableColumn<String, String> col = new TableColumn<>("Saved games");
+                    col.setMinWidth(320);
                     saveTable.getColumns().add(col);
                     saveTable.setPlaceholder(new Label("No saved game"));
                     root.setCenter(saveTable);
@@ -242,7 +295,10 @@ public class Main extends Application {
                     Button saveOkButton = new Button("Save");
                     saveOkButton.setMinWidth(160);
                     Button saveCancelButton = new Button("Cancel");
-                    saveCancelButton.setOnAction((e) -> saveDialog.close());
+                    saveCancelButton.setOnAction((e) -> {
+                        stage.setOpacity(1);
+                        saveDialog.close();
+                    });
                     saveCancelButton.setMinWidth(160);
 
                     HBox saveButtons = new HBox();
@@ -261,6 +317,7 @@ public class Main extends Application {
                 break;
             case L:
                 if (keyEvent.isControlDown()) {
+                    stage.setOpacity(0.5);
                     BorderPane root = new BorderPane();
                     Stage loadDialog = new Stage();
                     loadDialog.setTitle("Load game");
@@ -270,6 +327,7 @@ public class Main extends Application {
 
                     TableView<List<String>> loadTable = new TableView<>();
                     TableColumn<List<String>, String> col = new TableColumn<>("Saved games");
+                    col.setMinWidth(320);
                     loadTable.getColumns().add(col);
                     loadTable.setPlaceholder(new Label("No saved game"));
                     root.setCenter(loadTable);
@@ -277,7 +335,10 @@ public class Main extends Application {
                     Button loadOkButton = new Button("Load");
                     loadOkButton.setMinWidth(160);
                     Button loadCancelButton = new Button("Cancel");
-                    loadCancelButton.setOnAction((e) -> loadDialog.close());
+                    loadCancelButton.setOnAction((e) -> {
+                        stage.setOpacity(1);
+                        loadDialog.close();
+                    });
                     loadCancelButton.setMinWidth(160);
                     HBox loadButtons = new HBox();
                     loadButtons.getChildren().addAll(loadOkButton, loadCancelButton);
@@ -294,7 +355,8 @@ public class Main extends Application {
             case A:
                 mapsArray[currentMapIndex].getPlayer().setTileName("playerL");
                 mapsArray[currentMapIndex].getPlayer().move(-1, 0);
-                AiArray[currentAiNumber].monsterMover();
+                mapsArray[currentMapIndex].getPlayer().updateFacingDirection();
+                AiArray[currentAiIndex].monsterMover();
                 mapsArray[currentMapIndex].getEndlessCycleTraps().forEach(TrapCycle::trapCycle);
                 mapsArray[currentMapIndex].getProjectilesCollection().forEach(ProjectileCycle::projectileCycle);
                 mapsArray[currentMapIndex].getProjectilesCollection().removeIf(ProjectileCycle::isHit);
@@ -310,7 +372,8 @@ public class Main extends Application {
             case D:
                 mapsArray[currentMapIndex].getPlayer().setTileName("playerR");
                 mapsArray[currentMapIndex].getPlayer().move(1, 0);
-                AiArray[currentAiNumber].monsterMover();
+                mapsArray[currentMapIndex].getPlayer().updateFacingDirection();
+                AiArray[currentAiIndex].monsterMover();
                 mapsArray[currentMapIndex].getEndlessCycleTraps().forEach(TrapCycle::trapCycle);
                 mapsArray[currentMapIndex].getProjectilesCollection().forEach(ProjectileCycle::projectileCycle);
                 mapsArray[currentMapIndex].getProjectilesCollection().removeIf(ProjectileCycle::isHit);
@@ -323,7 +386,7 @@ public class Main extends Application {
                 refresh();
                 break;
             case SPACE:
-                AiArray[currentAiNumber].monsterMover();
+                AiArray[currentAiIndex].monsterMover();
                 mapsArray[currentMapIndex].getEndlessCycleTraps().forEach(TrapCycle::trapCycle);
                 mapsArray[currentMapIndex].getProjectilesCollection().forEach(ProjectileCycle::projectileCycle);
                 mapsArray[currentMapIndex].getProjectilesCollection().removeIf(ProjectileCycle::isHit);
@@ -335,6 +398,28 @@ public class Main extends Application {
                 }
                 refresh();
                 //System.out.println("Player X Coordinate: " + map.getPlayer().getX() + "\n" + "Player Y Coordinate: " + map.getPlayer().getY());
+                break;
+            case Q:
+                try {
+                    if (InventoryManager.inventory.containsKey(inventoryManager.getPotion()) &&
+                            !(mapsArray[currentMapIndex].getPlayer().getHealth() == mapsArray[currentMapIndex].getPlayer().getMaxHealth())) {
+                        mapsArray[currentMapIndex].getPlayer().setHealth(mapsArray[currentMapIndex].getPlayer().getHealth() +
+                                (mapsArray[currentMapIndex].getPlayer().getMaxHealth() / 2));
+                        if (mapsArray[currentMapIndex].getPlayer().getHealth() > mapsArray[currentMapIndex].getPlayer().getMaxHealth()) {
+                            mapsArray[currentMapIndex].getPlayer().setHealth(mapsArray[currentMapIndex].getPlayer().getMaxHealth());
+                        }
+                        inventoryManager.removeItemFromInventory(inventoryManager.getPotion());
+                    }
+                } catch (NoSuchElementException e) {
+                    System.out.println("You have no potion!");
+                }
+                refresh();
+                break;
+            case NUMPAD0:
+                exportMap();
+                break;
+            case NUMPAD1:
+                importMap();
                 break;
             case F4:
                 mapsArray[currentMapIndex].getPlayer().teleport(94, 20);
@@ -351,17 +436,11 @@ public class Main extends Application {
                 if (isPlayerBeingAffectedByAnEnvironmentalDamageSource()) {
                     playerSuffersEnvironmentalDamage();
                 }
-                if (mapsArray[currentMapIndex].getPlayer().getCell().getItem() != null && mapsArray[currentMapIndex].getPlayer().getCell().getItem() instanceof PickupableItem) {
-                    Item item = (Item) mapsArray[currentMapIndex].getPlayer().getCell().getItem();
-                    inventoryManager.pickUpItem(item, mapsArray[currentMapIndex]);
-
-                } else if (isThereAnInteractiveObjectAroundThePlayer()) {
-                    int[] interactableDirection = getTheInteractiveEntityDirection();
+                if (mapsArray[currentMapIndex].getPlayer().getCellInFrontOfPlayer().getItem() instanceof InteractiveObject) {
                     int interactablesArrayCurrentIndex = 0;
-                    Cell currentlyFocusedCell = mapsArray[currentMapIndex].getPlayer().getCell().getNeighbor(interactableDirection[0], interactableDirection[1]);
+                    Cell currentlyFocusedCell = mapsArray[currentMapIndex].getPlayer().getCellInFrontOfPlayer();
                     while (mapsArray[currentMapIndex].getInteractablesArray().size() > interactablesArrayCurrentIndex) {
                         InteractiveObject currentlyProcessedInteractable = mapsArray[currentMapIndex].getInteractablesArray().get(interactablesArrayCurrentIndex);
-                        //System.out.println(currentlyProcessedInteractable);
                         if (currentlyProcessedInteractable.isThisObjectInteractive() &&
                                 currentlyProcessedInteractable.isThisInteractiveObjectCurrentlyBeingFocusedOn(currentlyFocusedCell) &&
                                 currentlyProcessedInteractable.isPlayerInteractingFromLegalDirection(mapsArray[currentMapIndex].getPlayer().getCell())) {
@@ -383,6 +462,10 @@ public class Main extends Application {
                             interactablesArrayCurrentIndex++;
                         }
                     }
+                } else if (mapsArray[currentMapIndex].getPlayer().getCell().getItem() != null && mapsArray[currentMapIndex].getPlayer().getCell().getItem() instanceof PickupableItem) {
+                    Item item = (Item) mapsArray[currentMapIndex].getPlayer().getCell().getItem();
+                    inventoryManager.pickUpItem(item, mapsArray[currentMapIndex]);
+
                 }
                 if (mapsArray[currentMapIndex].getPlayer().getCell().getItem() instanceof StepOnActivatable) {
                     ((StepOnActivatable) mapsArray[currentMapIndex].getPlayer().getCell().getItem()).activate();
@@ -390,6 +473,16 @@ public class Main extends Application {
                 /*else if (isThereAPickupableItemUnderThePlayer()) {
                     map.getPlayer().getCell().getItem().
                 }*/
+                refresh();
+                break;
+            case C:
+                System.out.println(mapsArray[currentMapIndex].getPlayer().getCellInFrontOfPlayer().getCellType());
+                if (mapsArray[currentMapIndex].getPlayer().getCellInFrontOfPlayer().getItem() instanceof Switch) {
+                    System.out.println(((Switch) mapsArray[currentMapIndex].getPlayer().getCellInFrontOfPlayer().getItem()).getGroupName());
+                }
+                break;
+            case N:
+                mapsArray[currentMapIndex].getPlayer().getCellInFrontOfPlayer().setItem(new LootTable().getItemRareLoot().get(4));/*getMonsterCommonLoot().get(0));*/
                 refresh();
                 break;
             case F5:
@@ -426,10 +519,10 @@ public class Main extends Application {
                 } else {
                     mapsArray[currentMapIndex].getPlayer().saveStats();
                     currentMapIndex++;
-                    currentAiNumber++;
+                    currentAiIndex++;
                     MapLoader.loadMap(currentMapIndex);
                     mapsArray[currentMapIndex].getPlayer().loadStats();
-                    //SetInteractableItems.setStuff(currentMapNumber);
+                    mapsArray[currentMapIndex].getPlayer().setNameGivenByPlayer(menu.getPlayerName().getText());
                     refresh();
                     break;
                 }
@@ -439,13 +532,17 @@ public class Main extends Application {
                 } else {
                     mapsArray[currentMapIndex].getPlayer().saveStats();
                     currentMapIndex--;
-                    currentAiNumber--;
+                    currentAiIndex--;
                     MapLoader.loadMap(currentMapIndex);
                     mapsArray[currentMapIndex].getPlayer().loadStats();
-                    //SetInteractableItems.setStuff(currentMapNumber);
+                    mapsArray[currentMapIndex].getPlayer().setNameGivenByPlayer(menu.getPlayerName().getText());
                     refresh();
                     break;
                 }
+            case F2:
+                mapsArray[currentMapIndex].getMapStateSwitchers().stream().filter(x -> x instanceof TorchPuzzle).forEach(InteractiveObject::interact);
+                refresh();
+                break;
         }
 
 
@@ -532,19 +629,38 @@ public class Main extends Application {
             }
         }
         // Tiles.drawTile(context, map.getPlayer().getCell().getActor(), map.getPlayer().getX() + dx, map.getPlayer().getY() + dy);
-
-
-        if (InventoryManager.inventory.keySet().stream().anyMatch(item -> item instanceof Weapon)) {
-            attackPwLabel.setText(mapsArray[currentMapIndex].getPlayer().getStrength() + "+" + inventoryManager.getCurrentWeapon().getAttackpowerIncrease());
-        } else {
-            attackPwLabel.setText(String.valueOf(mapsArray[currentMapIndex].getPlayer().getStrength()));
-        }
-        healthLabel.setText("" + mapsArray[currentMapIndex].getPlayer().getHealth() + "/" + mapsArray[currentMapIndex].getPlayer().getMaxHealth());
-        armorLabel.setText("" + mapsArray[currentMapIndex].getPlayer().getArmor());
-        moneyLabel.setText("" + mapsArray[currentMapIndex].getPlayer().getMoneyAmount());
+        managePlayerStatistics();
     }
 
-    private boolean isThereAnInteractiveObjectAroundThePlayer() {
+    private void managePlayerStatistics() {
+        manageAttackPw();
+        healthLabel.setText("" + mapsArray[currentMapIndex].getPlayer().getHealth() + "/" +
+                mapsArray[currentMapIndex].getPlayer().getMaxHealth());
+        armorLabel.setText("" + mapsArray[currentMapIndex].getPlayer().getArmor());
+        moneyLabel.setText("" + mapsArray[currentMapIndex].getPlayer().getMoneyAmount());
+        manageCombatLog();
+    }
+
+    private void manageAttackPw() {
+        if (InventoryManager.inventory.keySet().stream().anyMatch(item -> item instanceof Weapon)) {
+            attackPwLabel.setText((mapsArray[currentMapIndex].getPlayer().getAttackPower()
+                    - inventoryManager.getCurrentWeapon().getAttackpowerIncrease()) + "+"
+                    + inventoryManager.getCurrentWeapon().getAttackpowerIncrease());
+        } else {
+            attackPwLabel.setText(String.valueOf(mapsArray[currentMapIndex].getPlayer().getAttackPower()));
+        }
+    }
+
+    private void manageCombatLog() {
+//        combatLog.setText("Combat Log:\n");
+        for (CombatEvent combatEvent : combatEvents) {
+            combatLog.setText(combatLog.getText() + combatEvent.getLog().toString());
+            combatLog.positionCaret(combatLog.getText().length());
+        }
+        combatEvents.clear();
+    }
+
+/*    private boolean isThereAnInteractiveObjectAroundThePlayer() {
         if (mapsArray[currentMapIndex].getPlayer().getCell().getNeighbor(1, 0).getItem() instanceof InteractiveObject ||
                 mapsArray[currentMapIndex].getPlayer().getCell().getNeighbor(-1, 0).getItem() instanceof InteractiveObject ||
                 mapsArray[currentMapIndex].getPlayer().getCell().getNeighbor(0, 1).getItem() instanceof InteractiveObject ||
@@ -565,7 +681,7 @@ public class Main extends Application {
         } else {
             return new int[]{0, -1};
         }
-    }
+    }*/
 
     /*private boolean isThereAPickupableItemUnderThePlayer() {
         return map.getPlayer().getCell().getItem() instanceof PickupableItem;
@@ -585,12 +701,28 @@ public class Main extends Application {
         return mapsArray[currentMapIndex].getPlayer().getCell().getItem() instanceof EnvironmentalDamage && mapsArray[currentMapIndex].getPlayer().getCell().getItem().getAttackPower() > 0;
     }
 
+    public static int getCurrentMapIndex() {
+        return currentMapIndex;
+    }
+
+    public static int getCurrentAiIndex() {
+        return currentAiIndex;
+    }
+
+    public static void setCurrentMapIndex(int currentMapIndex) {
+        Main.currentMapIndex = currentMapIndex;
+    }
+
+    public static void setCurrentAiIndex(int currentAiIndex) {
+        Main.currentAiIndex = currentAiIndex;
+    }
+
     public static GameMap cheatingMapGetter() {
         return mapsArray[currentMapIndex];
     }
 
     public static AiMovement aiGetter() {
-        return AiArray[currentAiNumber];
+        return AiArray[currentAiIndex];
     }
 
    /* private boolean isPlayerSufferingEnvironmentalDamage() {
@@ -636,4 +768,105 @@ public class Main extends Application {
         System.exit(0);
     }NEW STUFF!!!!!!!!!!!!!*/
 
+    public void exportMap() {
+        System.out.println("export game");
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Export game");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Saved game file (*.sre)", "*.sre"));
+        File file = fileChooser.showSaveDialog(stage);
+        if (file != null) {
+            String fileName = file.getAbsolutePath();
+            System.out.println(fileName);
+            try {
+                FileOutputStream fileOut = new FileOutputStream(fileName);
+                ObjectOutputStream out = new ObjectOutputStream(fileOut);
+                out.writeObject(mapsArray);
+                out.close();
+                fileOut.close();
+            } catch (IOException i) {
+                i.printStackTrace();
+            }
+        }
+    }
+
+    public void importMap() {
+        System.out.println("import game");
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Import game");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Saved game file (*.sre)", "*.sre"));
+        File file = fileChooser.showOpenDialog(stage);
+        if (file != null) {
+            String fileName = file.getAbsolutePath();
+            System.out.println(fileName);
+            try {
+                FileInputStream fileIn = new FileInputStream(fileName);
+                ObjectInputStream in = new ObjectInputStream(fileIn);
+                mapsArray = (GameMap[]) in.readObject();
+                in.close();
+                fileIn.close();
+            } catch (IOException i) {
+                i.printStackTrace();
+            } catch (ClassNotFoundException c) {
+                System.out.println("Load class not found");
+                c.printStackTrace();
+            }
+        }
+
+        // fix actors,items
+        for (GameMap map : mapsArray) {
+            for (int y = 0; y < map.getHeight(); y++) {
+                for (int x = 0; x < map.getWidth(); x++) {
+                    if (map.getCell(x, y).getActor() != null) {
+                        map.getCell(x, y).getActor().setCell(map.getCell(x, y));
+                    }
+                    if (map.getCell(x, y).getItem() != null) {
+                        map.getCell(x, y).getItem().setCell(map.getCell(x, y));
+                    }
+                }
+            }
+        }
+        // fix cells
+        for (GameMap map : mapsArray) {
+            for (int y = 0; y < map.getHeight(); y++) {
+                for (int x = 0; x < map.getWidth(); x++) {
+                    map.getCell(x, y).setMap(map);
+                }
+            }
+        }
+        // fix AI
+        for (int id = 0; id < mapsArray.length; id++) {
+            AiArray[id] = new AiMovement(mapsArray[id]);
+        }
+        refresh();
+    }
+
+    public String maptoString(GameMap[] maps) {
+        System.out.println("map2string");
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream( baos );
+            oos.writeObject(maps);
+            oos.close();
+            return Base64.getEncoder().encodeToString(baos.toByteArray());
+        } catch (IOException i) {
+            i.printStackTrace();
+        }
+        return null;
+    }
+
+    public GameMap[] stringtoMap(String mapString) {
+        System.out.println("string2str");
+        try {
+            byte [] mapData = Base64.getDecoder().decode( mapString );
+            ObjectInputStream ois = new ObjectInputStream( new ByteArrayInputStream(  mapData ) );
+            GameMap[] maps  = (GameMap[]) ois.readObject();
+            ois.close();
+            return maps;
+        } catch (IOException i) {
+            i.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
