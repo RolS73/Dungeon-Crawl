@@ -8,7 +8,6 @@ import com.codecool.dungeoncrawl.logic.actors.items.enviromentalHazards.Environm
 import com.codecool.dungeoncrawl.logic.actors.items.enviromentalHazards.ProjectileCycle;
 import com.codecool.dungeoncrawl.logic.actors.items.enviromentalHazards.TrapCycle;
 import com.codecool.dungeoncrawl.logic.actors.items.interactablilty.*;
-import com.codecool.dungeoncrawl.logic.actors.items.looting.HealthPotion;
 import com.codecool.dungeoncrawl.logic.actors.items.looting.Item;
 import com.codecool.dungeoncrawl.logic.actors.items.looting.LootTable;
 import com.codecool.dungeoncrawl.logic.actors.items.looting.PickupableItem;
@@ -27,12 +26,10 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -40,15 +37,6 @@ import javafx.stage.StageStyle;
 
 import java.awt.*;
 import java.io.*;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Base64;
@@ -397,7 +385,7 @@ public class Main extends Application {
                     ((StepOnActivatable) mapsArray[currentMapIndex].getPlayer().getCell().getItem()).activate();
                 }
                 refresh();
-                //System.out.println("Player X Coordinate: " + map.getPlayer().getX() + "\n" + "Player Y Coordinate: " + map.getPlayer().getY());
+                //System.out.println("Player X Coordinate: " + mapsArray[currentMapIndex].getPlayer().getX() + "\n" + "Player Y Coordinate: " + mapsArray[currentMapIndex].getPlayer().getY());
                 break;
             case Q:
                 try {
