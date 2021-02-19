@@ -76,7 +76,9 @@ public class Guardian extends Monster {
     }
 
 
-
+    public int getCount() {
+        return count;
+    }
 
     public void playAttackSound() {
         int randomNum = RandomGenerator.nextInt(2);
