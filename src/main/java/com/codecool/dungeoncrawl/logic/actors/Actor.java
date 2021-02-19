@@ -157,6 +157,7 @@ public abstract class Actor implements Drawable, Serializable {
         return thisABossFight;
     }
 
+
     public void  teleport(int x, int y){
         Cell nextCell = this.getCell().getQagbmpoibmCell(x,y);
         nextCell.setActor(this);

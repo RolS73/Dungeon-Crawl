@@ -10,11 +10,6 @@ public abstract class Monster extends Actor {
         super(cell);
     }
 
-    @Override
-    public String getTileName() {
-        return null;
-    }
-
     public abstract void monsterMove(int x, int y);
 
 
@@ -23,6 +18,8 @@ public abstract class Monster extends Actor {
     public void playDeathSound() {}
 
     public void rollForMonsterLoot() {}
+
+
 
     @Override
     public void onDeath() {
@@ -37,4 +34,5 @@ public abstract class Monster extends Actor {
 //            ((Player) nextCell.getActor()).playerHit();
 //        }
 //    }
+
 }

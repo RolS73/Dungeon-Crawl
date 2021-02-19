@@ -8,10 +8,6 @@ public class Key extends Item implements PickupableItem {
         super(cell, "Key of Wisdom");
     }
 
-    public Key(String name) {
-        super(name);
-    }
-
     @Override
     public String getTileName() {
         return "key";
