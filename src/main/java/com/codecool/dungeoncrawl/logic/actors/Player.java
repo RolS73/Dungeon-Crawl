@@ -17,7 +17,7 @@ public class Player extends Actor {
     private final String[] attackSoundFiles = new String[] {"Sword1"};
     private final String[] hitSoundFiles = new String[] {"Blank"};
     private Direction entityFacingDirection = Direction.DOWN;
-    private Cell cellInFrontOfPlayer = this.getCell().getNeighbor(0,1);;
+    private Cell cellInFrontOfPlayer = this.getCell().getNeighbor(0,1);
 
     public Player(Cell cell) {
         super(cell);

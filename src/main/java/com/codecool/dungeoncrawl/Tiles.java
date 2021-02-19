@@ -33,7 +33,7 @@ public class Tiles {
         tileMap.put("palaceWall", new Tile(1, 14));
         tileMap.put("suspiciousWall", new Tile(1, 0));
         tileMap.put("secretPassage", new Tile(2, 0));
-        tileMap.put("passage", new Tile(10, 8));
+        tileMap.put("passage", new Tile(3, 0));
         tileMap.put("floor", new Tile(2, 0));
         tileMap.put("forestPath", new Tile(4, 12));
         tileMap.put("hiddenEnemySpawner", new Tile(2, 0));
