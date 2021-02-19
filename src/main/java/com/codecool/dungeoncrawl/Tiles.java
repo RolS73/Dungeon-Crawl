@@ -28,6 +28,7 @@ public class Tiles {
     static {
         tileMap.put("empty", new Tile(0, 0));
         tileMap.put("trees", new Tile(0, 12));
+        tileMap.put("treeTop", new Tile(1, 13));
         tileMap.put("wall", new Tile(1, 0));
         tileMap.put("bushes", new Tile(1, 12));
         tileMap.put("palaceWall", new Tile(1, 14));

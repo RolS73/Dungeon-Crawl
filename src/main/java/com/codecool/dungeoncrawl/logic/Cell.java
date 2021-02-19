@@ -35,9 +35,12 @@ public class Cell implements Drawable, Serializable {
         } else if (type.equals(CellType.WALL) &&  this.gameMap.getMapNumber() == 1) {
             this.setNewTypeTileName("bushes");
         } else if (type.equals(CellType.EMPTY) &&  this.gameMap.getMapNumber() == 1) {
-            this.setNewTypeTileName("trees");
-        }
-        if ((type.equals(CellType.FLOOR) || type.equals(CellType.FLOORNOMONSTER) || type.equals(CellType.OBJECT)) &&  this.gameMap.getMapNumber() == 2) {
+            if (this.getNeighbor(0, -1).getCellType() != CellType.EMPTY) {
+                this.setNewTypeTileName("treeTop");
+            } else {
+                this.setNewTypeTileName("trees");
+            }
+        } else if ((type.equals(CellType.FLOOR) || type.equals(CellType.FLOORNOMONSTER) || type.equals(CellType.OBJECT)) &&  this.gameMap.getMapNumber() == 2) {
             this.setNewTypeTileName("floor");
         } else if (type.equals(CellType.WALL) &&  this.gameMap.getMapNumber() == 2) {
             this.setNewTypeTileName("palaceWall");
