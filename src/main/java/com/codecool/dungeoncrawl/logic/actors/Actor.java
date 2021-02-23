@@ -5,6 +5,7 @@ import com.codecool.dungeoncrawl.logic.*;
 import com.codecool.dungeoncrawl.logic.actors.boss.SpikeForBosses;
 import com.codecool.dungeoncrawl.logic.actors.items.looting.Breakable;
 import com.codecool.dungeoncrawl.logic.actors.npcs.NonPlayerCharacter;
+
 import java.io.Serializable;
 
 public abstract class Actor implements Drawable, Serializable {
@@ -12,13 +13,16 @@ public abstract class Actor implements Drawable, Serializable {
     private int health = 10;
     private int attackPower = 1;
     private String tileName = getTileName();
+    protected Cell cellInFrontOfActor;
+    protected Direction actorFacingDirection;
     private boolean thisABossFight = false;
     private boolean wallCheatOn = false;
     private int armor = 0;
-    private String[] attackSoundFiles = new String[] {"genericSwing"};
-    private String[] hitSoundFiles = new String[] {"DSdamage1"};
+    private String[] attackSoundFiles = new String[]{"genericSwing"};
+    private String[] hitSoundFiles = new String[]{"DSdamage1"};
 
-    public Actor() {}
+    public Actor() {
+    }
 
     public Actor(Cell cell) {
         this.cell = cell;
@@ -62,7 +66,7 @@ public abstract class Actor implements Drawable, Serializable {
             cell.setActor(null);
             nextCell.setActor(this);
             cell = nextCell;
-            if(this.getCell().getCellType() == CellType.BOSSFLOOR){
+            if (this.getCell().getCellType() == CellType.BOSSFLOOR) {
                 thisABossFight = true;
             }
         } else if ((nextCell.getCellType() == CellType.BOSSFLOOR || nextCell.getCellType() == CellType.STUNNER ||
@@ -75,9 +79,9 @@ public abstract class Actor implements Drawable, Serializable {
             cell = nextCell;
             // eredeti
 
-           if(this.getCell().getCellType() == CellType.BOSSFLOOR){
-               thisABossFight = true;
-           }
+            if (this.getCell().getCellType() == CellType.BOSSFLOOR) {
+                thisABossFight = true;
+            }
 
         }
 
@@ -91,6 +95,14 @@ public abstract class Actor implements Drawable, Serializable {
         CombatEvent combatEvent = new CombatEvent(this, nextCell.getActor());
         combatEvent.attack();
         Main.combatEvents.add(combatEvent);
+    }
+
+    protected void setCellInFrontOfActor(Cell cell) {
+        this.cellInFrontOfActor = cell;
+    }
+
+    public Cell getCellInFrontOfActor() {
+        return cellInFrontOfActor;
     }
 
     public boolean isWallCheatOn() {
@@ -158,14 +170,15 @@ public abstract class Actor implements Drawable, Serializable {
     }
 
 
-    public void  teleport(int x, int y){
-        Cell nextCell = this.getCell().getQagbmpoibmCell(x,y);
+    public void teleport(int x, int y) {
+        Cell nextCell = this.getCell().getQagbmpoibmCell(x, y);
         nextCell.setActor(this);
         this.getCell().setActor(null);
         this.setCell(nextCell);
     }
 
-    public void playDeathSound() {}
+    public void playDeathSound() {
+    }
 
     public int getArmor() {
         return armor;
@@ -197,7 +210,8 @@ public abstract class Actor implements Drawable, Serializable {
         return this.getClass().getSimpleName();
     }
 
-    public void onHit() {}
+    public void onHit() {
+    }
 
     public void onDeath() {
         Sounds.playSound("kill1");

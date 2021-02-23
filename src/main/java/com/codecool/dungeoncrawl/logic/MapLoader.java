@@ -80,6 +80,10 @@ public class MapLoader {
                             cell.setCellType(CellType.FLOOR);
                             map.monsters.add(new Skeleton(cell));
                             break;
+                        case 'p':
+                            cell.setCellType(CellType.FLOOR);
+                            map.monsters.add(new GoblinPig(cell));
+                            break;
                         case '$':
                             cell.setCellType(CellType.FLOOR);
                             map.monsters.add(new SoulStealer(cell));
@@ -183,7 +187,7 @@ public class MapLoader {
                             break;
                         case '+':
                             cell.setCellType(CellType.OBJECT);
-                            map.endlessCycleTraps.add(new DartTurret(cell, "DartTurret", 6, 4, Direction.UP));
+                            map.endlessCycleTraps.add(new DartTurret(cell, "DartTurret", 6, 4, Direction.DOWN));
                             break;
                         case '!':
                             cell.setCellType(CellType.OBJECT);

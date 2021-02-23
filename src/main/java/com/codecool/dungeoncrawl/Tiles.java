@@ -120,6 +120,11 @@ public class Tiles {
         tileMap.put("skeletonR", new Tile(5, 3));
         tileMap.put("skeletonU", new Tile(5, 4));
 
+        tileMap.put("goblinPigD", new Tile(17, 1));
+        tileMap.put("goblinPigL", new Tile(17, 2));
+        tileMap.put("goblinPigR", new Tile(17, 3));
+        tileMap.put("goblinPigU", new Tile(17, 4));
+
         tileMap.put("soulStealerD", new Tile(16, 1));
         tileMap.put("soulStealerL", new Tile(16, 2));
         tileMap.put("soulStealerR", new Tile(16, 3));
@@ -148,21 +153,25 @@ public class Tiles {
         tileMap.put("sword2", new Tile(12, 2));
         tileMap.put("sword3", new Tile(12, 3));
         tileMap.put("sword4", new Tile(12, 4));
+        tileMap.put("sword5", new Tile(12, 5));
 
         tileMap.put("axe1", new Tile(13, 1));
         tileMap.put("axe2", new Tile(13, 2));
         tileMap.put("axe3", new Tile(13, 3));
         tileMap.put("axe4", new Tile(13, 4));
+        tileMap.put("axe5", new Tile(13, 5));
 
         tileMap.put("hammer1", new Tile(14, 1));
         tileMap.put("hammer2", new Tile(14, 2));
         tileMap.put("hammer3", new Tile(14, 3));
         tileMap.put("hammer4", new Tile(14, 4));
+        tileMap.put("hammer5", new Tile(14, 5));
 
         tileMap.put("staff1", new Tile(15, 1));
         tileMap.put("staff2", new Tile(15, 2));
         tileMap.put("staff3", new Tile(15, 3));
         tileMap.put("staff4", new Tile(15, 4));
+        tileMap.put("staff5", new Tile(15, 5));
 
         tileMap.put("healthPoti", new Tile(14, 6));
 

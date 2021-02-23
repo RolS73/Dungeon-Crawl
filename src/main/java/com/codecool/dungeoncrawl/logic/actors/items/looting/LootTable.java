@@ -52,22 +52,22 @@ public class LootTable {
 
     private List<Item> weaponCommonLoot = new ArrayList<>();
     {
-        weaponCommonLoot.add(new Weapon("Backscratcher", 3));
-        weaponCommonLoot.add(new Weapon("Stick of Truth", 4));
-        weaponCommonLoot.add(new Weapon("Rustbringer", 5));
+        weaponCommonLoot.add(new Weapon("Stick of Truth", 3));
+        weaponCommonLoot.add(new Weapon("Rustbringer", 4));
+        weaponCommonLoot.add(new Weapon("Backscratcher", 5));
         weaponCommonLoot.add(new Weapon("Smiling Hammer", 6));
 
-        weaponCommonLoot.get(0).setTileName("axe1");
-        weaponCommonLoot.get(1).setTileName("staff1");
-        weaponCommonLoot.get(2).setTileName("sword1");
+        weaponCommonLoot.get(0).setTileName("staff1");
+        weaponCommonLoot.get(1).setTileName("sword1");
+        weaponCommonLoot.get(2).setTileName("axe1");
         weaponCommonLoot.get(3).setTileName("hammer1");
     }
     private List<Item> weaponRareLoot = new ArrayList<>();
     {
-        weaponRareLoot.add(new Weapon("Scepter of Silverport", 8));
-        weaponRareLoot.add(new Weapon("Shining Sword", 9));
-        weaponRareLoot.add(new Weapon("The Hungry Axe", 10));
-        weaponRareLoot.add(new Weapon("Smile Crusher", 11));
+        weaponRareLoot.add(new Weapon("Scepter of Silverport", 7));
+        weaponRareLoot.add(new Weapon("Shining Sword", 8));
+        weaponRareLoot.add(new Weapon("The Hungry Axe", 9));
+        weaponRareLoot.add(new Weapon("Smile Crusher", 10));
 
         weaponRareLoot.get(0).setTileName("staff2");
         weaponRareLoot.get(1).setTileName("sword2");
@@ -76,15 +76,29 @@ public class LootTable {
     }
     private List<Item> weaponLegendaryLoot = new ArrayList<>();
     {
-        weaponLegendaryLoot.add(new Weapon("Sword of Reckoning", 18));
-        weaponLegendaryLoot.add(new Weapon("Solarsong", 19));
-        weaponLegendaryLoot.add(new Weapon("Hydra's Cry", 20));
-        weaponLegendaryLoot.add(new Weapon("Judgement", 21));
+        weaponLegendaryLoot.add(new Weapon("Solarsong", 15));
+        weaponLegendaryLoot.add(new Weapon("Reckoning", 17));
+        weaponLegendaryLoot.add(new Weapon("Hydra's Cry", 19));
+        weaponLegendaryLoot.add(new Weapon("The Judge", 20));
 
-        weaponLegendaryLoot.get(0).setTileName("sword3");
-        weaponLegendaryLoot.get(1).setTileName("staff3");
+        weaponLegendaryLoot.get(0).setTileName("staff3");
+        weaponLegendaryLoot.get(1).setTileName("sword3");
         weaponLegendaryLoot.get(2).setTileName("axe3");
         weaponLegendaryLoot.get(3).setTileName("hammer3");
+    }
+
+    private List<Item> weaponMythicalLoot = new ArrayList<>();
+    {
+        weaponMythicalLoot.add(new Weapon("Arhat's Legacy", 25));
+        weaponMythicalLoot.add(new Weapon("Claíomh Solais", 27));
+        weaponMythicalLoot.add(new Weapon("Wrath of Nul", 29));
+        weaponMythicalLoot.add(new Weapon("Ragnarok", 30));
+
+        weaponMythicalLoot.get(0).setTileName("staff4");
+        weaponMythicalLoot.get(1).setTileName("sword4");
+        weaponMythicalLoot.get(2).setTileName("axe4");
+        weaponMythicalLoot.get(3).setTileName("hammer4");
+
     }
     private List<Item> monsterCommonLoot = new ArrayList<>();
     {
@@ -166,10 +180,12 @@ public class LootTable {
 
     private List<Item> calculateRollForWeaponLootTable() {
         int randomNumber = RandomGenerator.RANDOM.nextInt(100);
-        if (randomNumber > 7 && randomNumber < 27) {
+        if (randomNumber > 8 && randomNumber < 28) {
             return weaponRareLoot;
-        } else if (randomNumber < 7) {
+        } else if (randomNumber < 8 && randomNumber > 0) {
             return weaponLegendaryLoot;
+        } else if (randomNumber == 0) {
+            return weaponMythicalLoot;
         } else {
             return weaponCommonLoot;
         }
@@ -197,9 +213,12 @@ public class LootTable {
 
     private List<Item> calculateRollForWeaponLootTableAtleastRare() {
         int randomNumber = RandomGenerator.RANDOM.nextInt(100);
-        if (randomNumber < 7) {
+        if (randomNumber < 8 && randomNumber > 0) {
             return weaponLegendaryLoot;
-        } else {
+        } else if (randomNumber == 0) {
+            return weaponMythicalLoot;
+        }
+        else {
             return weaponRareLoot;
         }
     }

@@ -47,7 +47,7 @@ public class AiMovement {
                     count++;
                 }
                 map.monsters.get(i).monsterMove(getPlayerXDifference(map.monsters.get(i)), getPlayerYDifference(map.monsters.get(i)));
-            } else if (map.monsters.get(i) instanceof Skeleton || map.monsters.get(i) instanceof SoulStealer) {
+            } else if (map.monsters.get(i) instanceof Skeleton || map.monsters.get(i) instanceof SoulStealer || map.monsters.get(i) instanceof GoblinPig) {
                 setRandom();
                 map.monsters.get(i).monsterMove(x, y);
             } else if (map.monsters.get(i) instanceof Duck) {

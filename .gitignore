@@ -4,3 +4,4 @@ target
 /src/main/resources/backup/
 /src/main/resources/mapBackup/
 /src/main/resources/selection/
+/src/main/resources/mazeFactory.txt

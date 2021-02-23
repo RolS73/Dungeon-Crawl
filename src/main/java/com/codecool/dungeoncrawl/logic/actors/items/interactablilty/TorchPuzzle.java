@@ -9,6 +9,8 @@ public class TorchPuzzle extends Item implements InteractiveObject, Switch {
     private String name = "puzzleFireStandInActive";
     private static int totalTorchesActivated = 0;
     private String groupName;
+    private boolean isAlreadyActivated;
+
 
     public TorchPuzzle(Cell cell) {
         super(cell, "Door to Secrets");
@@ -17,7 +19,7 @@ public class TorchPuzzle extends Item implements InteractiveObject, Switch {
 
     @Override
     public boolean isThisObjectInteractive() {
-        return true;
+        return !isAlreadyActivated;
     }
 
     @Override
@@ -26,6 +28,7 @@ public class TorchPuzzle extends Item implements InteractiveObject, Switch {
             this.name = "puzzleFireStandActive";
             totalTorchesActivated++;
             System.out.println(totalTorchesActivated);
+            isAlreadyActivated = true;
             if (isConditionForSecretMet()) {
                 Main.cheatingMapGetter().getSwitchablesCollection()
                         .stream()

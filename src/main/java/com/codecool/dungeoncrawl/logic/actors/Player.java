@@ -16,8 +16,6 @@ public class Player extends Actor {
     private int moneyAmount;
     private final String[] attackSoundFiles = new String[] {"Sword1"};
     private final String[] hitSoundFiles = new String[] {"Blank"};
-    private Direction entityFacingDirection = Direction.DOWN;
-    private Cell cellInFrontOfPlayer = this.getCell().getNeighbor(0,1);
 
     public Player(Cell cell) {
         super(cell);
@@ -26,6 +24,8 @@ public class Player extends Actor {
         this.setMaxHealth(stats[1]);
         this.setArmor(stats[2]);
         this.setMoneyAmount(stats[4]);
+        super.actorFacingDirection = Direction.DOWN;
+        super.cellInFrontOfActor = this.getCell().getNeighbor(0, 1);
     }
 
     public void saveStats() {
@@ -115,44 +115,23 @@ public class Player extends Actor {
         }
     }
 
-    public Cell getCellInFrontOfPlayer() {
-        return cellInFrontOfPlayer;
-    }
-
-    public void updateFacingDirection() {
+    public void updateActorOrientation() {
         switch (name) {
             case "playerU":
-                entityFacingDirection = Direction.UP;
-                updateNextCell();
+                setCellInFrontOfActor(this.getCell().getNeighbor(0,-1));
+                super.actorFacingDirection = Direction.UP;
                 break;
             case "playerR":
-                entityFacingDirection = Direction.RIGHT;
-                updateNextCell();
+                setCellInFrontOfActor(this.getCell().getNeighbor(1,0));
+                super.actorFacingDirection = Direction.RIGHT;
                 break;
             case "playerD":
-                entityFacingDirection = Direction.DOWN;
-                updateNextCell();
+                setCellInFrontOfActor(this.getCell().getNeighbor(0,1));
+                super.actorFacingDirection = Direction.DOWN;
                 break;
             case "playerL":
-                entityFacingDirection = Direction.LEFT;
-                updateNextCell();
-                break;
-        }
-    }
-
-    private void updateNextCell() {
-        switch (entityFacingDirection) {
-            case UP:
-                cellInFrontOfPlayer = this.getCell().getNeighbor(0,-1);
-                break;
-            case RIGHT:
-                cellInFrontOfPlayer = this.getCell().getNeighbor(1,0);
-                break;
-            case DOWN:
-                cellInFrontOfPlayer = this.getCell().getNeighbor(0,1);
-                break;
-            case LEFT:
-                cellInFrontOfPlayer = this.getCell().getNeighbor(-1,0);
+                setCellInFrontOfActor(this.getCell().getNeighbor(-1,0));
+                super.actorFacingDirection = Direction.LEFT;
                 break;
         }
     }

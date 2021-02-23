@@ -11,7 +11,7 @@ public class SoulStealer extends Monster {
     public SoulStealer(Cell cell) {
         super(cell);
         this.setAttackPower(6);
-        this.setHealth(66);
+        this.setHealth(6 * 6 + 6);
         this.setAttackSoundFiles(new String[] {"genericSwing"}); //PLACEHOLDER
     }
 

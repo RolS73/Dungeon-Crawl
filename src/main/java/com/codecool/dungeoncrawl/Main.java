@@ -234,7 +234,7 @@ public class Main extends Application {
             case W:
                 mapsArray[currentMapIndex].getPlayer().setTileName("playerU");
                 mapsArray[currentMapIndex].getPlayer().move(0, -1);
-                mapsArray[currentMapIndex].getPlayer().updateFacingDirection();
+                mapsArray[currentMapIndex].getPlayer().updateActorOrientation();
                 AiArray[currentAiIndex].monsterMover();
                 mapsArray[currentMapIndex].getEndlessCycleTraps().forEach(TrapCycle::trapCycle);
                 mapsArray[currentMapIndex].getProjectilesCollection().forEach(ProjectileCycle::projectileCycle);
@@ -252,7 +252,7 @@ public class Main extends Application {
                 if (!keyEvent.isControlDown()) {
                     mapsArray[currentMapIndex].getPlayer().setTileName("playerD");
                     mapsArray[currentMapIndex].getPlayer().move(0, 1);
-                    mapsArray[currentMapIndex].getPlayer().updateFacingDirection();
+                    mapsArray[currentMapIndex].getPlayer().updateActorOrientation();
                     AiArray[currentAiIndex].monsterMover();
                     mapsArray[currentMapIndex].getEndlessCycleTraps().forEach(TrapCycle::trapCycle);
                     mapsArray[currentMapIndex].getProjectilesCollection().forEach(ProjectileCycle::projectileCycle);
@@ -343,7 +343,7 @@ public class Main extends Application {
             case A:
                 mapsArray[currentMapIndex].getPlayer().setTileName("playerL");
                 mapsArray[currentMapIndex].getPlayer().move(-1, 0);
-                mapsArray[currentMapIndex].getPlayer().updateFacingDirection();
+                mapsArray[currentMapIndex].getPlayer().updateActorOrientation();
                 AiArray[currentAiIndex].monsterMover();
                 mapsArray[currentMapIndex].getEndlessCycleTraps().forEach(TrapCycle::trapCycle);
                 mapsArray[currentMapIndex].getProjectilesCollection().forEach(ProjectileCycle::projectileCycle);
@@ -360,7 +360,7 @@ public class Main extends Application {
             case D:
                 mapsArray[currentMapIndex].getPlayer().setTileName("playerR");
                 mapsArray[currentMapIndex].getPlayer().move(1, 0);
-                mapsArray[currentMapIndex].getPlayer().updateFacingDirection();
+                mapsArray[currentMapIndex].getPlayer().updateActorOrientation();
                 AiArray[currentAiIndex].monsterMover();
                 mapsArray[currentMapIndex].getEndlessCycleTraps().forEach(TrapCycle::trapCycle);
                 mapsArray[currentMapIndex].getProjectilesCollection().forEach(ProjectileCycle::projectileCycle);
@@ -424,9 +424,9 @@ public class Main extends Application {
                 if (isPlayerBeingAffectedByAnEnvironmentalDamageSource()) {
                     playerSuffersEnvironmentalDamage();
                 }
-                if (mapsArray[currentMapIndex].getPlayer().getCellInFrontOfPlayer().getItem() instanceof InteractiveObject) {
+                if (mapsArray[currentMapIndex].getPlayer().getCellInFrontOfActor().getItem() instanceof InteractiveObject) {
                     int interactablesArrayCurrentIndex = 0;
-                    Cell currentlyFocusedCell = mapsArray[currentMapIndex].getPlayer().getCellInFrontOfPlayer();
+                    Cell currentlyFocusedCell = mapsArray[currentMapIndex].getPlayer().getCellInFrontOfActor();
                     while (mapsArray[currentMapIndex].getInteractablesArray().size() > interactablesArrayCurrentIndex) {
                         InteractiveObject currentlyProcessedInteractable = mapsArray[currentMapIndex].getInteractablesArray().get(interactablesArrayCurrentIndex);
                         if (currentlyProcessedInteractable.isThisObjectInteractive() &&
@@ -464,13 +464,13 @@ public class Main extends Application {
                 refresh();
                 break;
             case C:
-                System.out.println(mapsArray[currentMapIndex].getPlayer().getCellInFrontOfPlayer().getCellType());
-                if (mapsArray[currentMapIndex].getPlayer().getCellInFrontOfPlayer().getItem() instanceof Switch) {
-                    System.out.println(((Switch) mapsArray[currentMapIndex].getPlayer().getCellInFrontOfPlayer().getItem()).getGroupName());
+                System.out.println(mapsArray[currentMapIndex].getPlayer().getCellInFrontOfActor().getCellType());
+                if (mapsArray[currentMapIndex].getPlayer().getCellInFrontOfActor().getItem() instanceof Switch) {
+                    System.out.println(((Switch) mapsArray[currentMapIndex].getPlayer().getCellInFrontOfActor().getItem()).getGroupName());
                 }
                 break;
             case N:
-                mapsArray[currentMapIndex].getPlayer().getCellInFrontOfPlayer().setItem(new LootTable().getItemRareLoot().get(4));/*getMonsterCommonLoot().get(0));*/
+                mapsArray[currentMapIndex].getPlayer().getCellInFrontOfActor().setItem(new LootTable().getItemRareLoot().get(4));/*getMonsterCommonLoot().get(0));*/
                 refresh();
                 break;
             case F5:

@@ -14,7 +14,7 @@ public class TheThing  extends Monster {
         super(cell);
         this.setAttackPower(3);
         this.setHealth(8);
-        this.setAttackSoundFiles(new String[] {"theThingAttack1", "theThingAttack2"});
+        this.setAttackSoundFiles(new String[] {"spectre1", "spectre2"});
     }
 
     @Override
@@ -66,7 +66,7 @@ public class TheThing  extends Monster {
     }
 
     public void playDeathSound() {
-        Sounds.playSound("theThingDeath");
+        Sounds.playSound("spectreDeath");
     }
 
     public void playAttackSound() {

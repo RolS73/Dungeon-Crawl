@@ -20,6 +20,11 @@ public abstract class Item extends Actor {
         setAttackPower(0);
     }
 
+    /*public Item(Cell cell) {
+        super(cell);
+        setAttackPower(0);
+    }*/
+
     public void setName(String name) {
         this.name = name;
     }

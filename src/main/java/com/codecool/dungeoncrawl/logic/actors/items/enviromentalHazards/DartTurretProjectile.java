@@ -14,6 +14,7 @@ public class DartTurretProjectile extends Item implements EnvironmentalDamage, P
     private int moveCoordinateX;
     private int moveCoordinateY;
     private boolean isHit = false;
+    private boolean isFirstCycle = true;
 
     public DartTurretProjectile(Cell cell, String name, int damageValue, Direction projectileDirection) {
         super(cell, name);
@@ -59,7 +60,9 @@ public class DartTurretProjectile extends Item implements EnvironmentalDamage, P
     }
 
     public void projectileCycle() {
-        if (!isHit) {
+        if (isFirstCycle) {
+            isFirstCycle = false;
+        } else if (!isHit) {
             this.move(moveCoordinateX,moveCoordinateY);
         }
     }

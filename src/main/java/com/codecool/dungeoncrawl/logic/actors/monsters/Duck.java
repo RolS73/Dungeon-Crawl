@@ -2,7 +2,6 @@ package com.codecool.dungeoncrawl.logic.actors.monsters;
 
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
-import com.codecool.dungeoncrawl.logic.RandomGenerator;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.actors.Sounds;
 
@@ -14,7 +13,7 @@ public class Duck extends Monster {
         super(cell);
         this.setAttackPower(1);
         this.setHealth(1);
-        this.setAttackSoundFiles(new String[] {"littleGizmoAttack1", "littleGizmoAttack2", "Drready"});
+        this.setAttackSoundFiles(new String[] {"duck1", "duck2", "duck1", "duck2", "duck1", "duck2", "duck1", "duck2", "duck1", "duck2", "duck1", "duck2", "Drready"});
     }
 
     @Override
@@ -60,11 +59,11 @@ public class Duck extends Monster {
 
     @Override
     public void playDeathSound() {
-        Sounds.playSound("littleGizmoDeath");
+        Sounds.playSound("genericBloodSplashDeath2");
     }
 
 
-    public void playAttackSound() {
+    /*public void playAttackSound() {
         int randomNum = RandomGenerator.nextInt(11);
         if (randomNum < 5) {
             Sounds.playSound("littleGizmoAttack1");
@@ -73,5 +72,5 @@ public class Duck extends Monster {
         } else {
             Sounds.playSound("Drready");
         }
-    }
+    }*/
 }
