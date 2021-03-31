@@ -1,8 +1,9 @@
 
-package com.codecool.dungeoncrawl.logic.actors.items.looting;
+package com.codecool.dungeoncrawl.logic.actors.items.looting.lootTable;
 
 import com.codecool.dungeoncrawl.logic.RandomGenerator;
 import com.codecool.dungeoncrawl.logic.actors.items.Weapon;
+import com.codecool.dungeoncrawl.logic.actors.items.looting.*;
 
 import java.util.ArrayList;
 import java.util.List;

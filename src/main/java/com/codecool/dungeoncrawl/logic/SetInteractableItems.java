@@ -1,7 +1,7 @@
 package com.codecool.dungeoncrawl.logic;
 
 import com.codecool.dungeoncrawl.Main;
-import com.codecool.dungeoncrawl.logic.actors.items.looting.LootTable;
+import com.codecool.dungeoncrawl.logic.actors.items.looting.lootTable.LootTable;
 
 public class SetInteractableItems {
 

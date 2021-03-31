@@ -3,6 +3,7 @@ import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.actors.items.interactablilty.InteractiveObject;
 import com.codecool.dungeoncrawl.logic.actors.items.interactablilty.Switch;
+import com.codecool.dungeoncrawl.logic.actors.items.looting.lootTable.LootTable;
 
 
 public class HiddenItem extends Item implements InteractiveObject, Switch {

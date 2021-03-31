@@ -6,7 +6,7 @@ import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.RandomGenerator;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.actors.Sounds;
-import com.codecool.dungeoncrawl.logic.actors.items.looting.LootTable;
+import com.codecool.dungeoncrawl.logic.actors.items.looting.lootTable.LootTable;
 
 public class Skeleton extends Monster {
 

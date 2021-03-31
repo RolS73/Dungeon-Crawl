@@ -1,16 +1,16 @@
 package com.codecool.dungeoncrawl.logic.actors.monsters;
 
-import com.codecool.dungeoncrawl.Main;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
-import com.codecool.dungeoncrawl.logic.RandomGenerator;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.actors.Sounds;
-import com.codecool.dungeoncrawl.logic.actors.items.looting.LootTable;
+import com.codecool.dungeoncrawl.logic.actors.items.looting.lootTable.LootTableCalculator;
+import com.codecool.dungeoncrawl.logic.actors.items.looting.lootTable.MonsterLootList;
 
 public class GoblinPig extends Monster {
 
     private String name = "goblinPigD";
+    private MonsterLootList = new MonsterLootList();
 
     public GoblinPig(Cell cell) {
         super(cell);
@@ -76,7 +76,7 @@ public class GoblinPig extends Monster {
 
     @Override
     public void rollForMonsterLoot() {
-        int tableRoll = RandomGenerator.nextInt(100);
+        /*int tableRoll = RandomGenerator.nextInt(100);
         if (tableRoll > 37) {
         } else if (tableRoll > 2 && tableRoll < 37) {
             if (this.getCell().getItem() == null) {
@@ -91,7 +91,9 @@ public class GoblinPig extends Monster {
             } else {
                 Main.cheatingMapGetter().getPlayer().getCell().setItem(new LootTable().getMonsterUniqueLoot().get(0));
             }
-        }
+        }*/
+
+        LootTableCalculator.calculateLootRarity(0, 8, 29, 70);
     }
 
 }

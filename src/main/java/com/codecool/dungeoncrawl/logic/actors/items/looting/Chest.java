@@ -2,6 +2,7 @@ package com.codecool.dungeoncrawl.logic.actors.items.looting;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.actors.items.interactablilty.InteractiveObject;
+import com.codecool.dungeoncrawl.logic.actors.items.looting.lootTable.LootTable;
 
 public class Chest extends Item implements InteractiveObject {
     private String anotherTilename;

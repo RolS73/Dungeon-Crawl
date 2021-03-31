@@ -4,6 +4,7 @@ import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.actors.Sounds;
 import com.codecool.dungeoncrawl.logic.actors.items.interactablilty.InteractiveObject;
+import com.codecool.dungeoncrawl.logic.actors.items.looting.lootTable.LootTable;
 
 public class Breakable extends Item implements InteractiveObject {
     private String tileName = "breakable";
