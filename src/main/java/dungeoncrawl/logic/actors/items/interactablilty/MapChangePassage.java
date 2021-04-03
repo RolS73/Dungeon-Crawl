@@ -37,13 +37,11 @@ public class MapChangePassage extends Item implements InteractiveObject, StepOnA
                 || Main.getCurrentMapIndex() < 2 && this.anotherTileName.equals("stairwayUpMap2")) {
             Main.cheatingMapGetter().getPlayer().saveStats();
             Main.setCurrentMapIndex(Main.getCurrentMapIndex() + 1);
-            Main.setCurrentAiIndex(Main.getCurrentAiIndex() + 1);
             MapLoader.loadMap(Main.getCurrentMapIndex());
             Main.cheatingMapGetter().getPlayer().loadStats();
         } else if (Main.getCurrentMapIndex() > 0 && this.anotherTileName.equals("stairwayDown")) {
             Main.cheatingMapGetter().getPlayer().saveStats();
             Main.setCurrentMapIndex(Main.getCurrentMapIndex() - 1);
-            Main.setCurrentAiIndex(Main.getCurrentAiIndex() - 1);
             MapLoader.loadMap(Main.getCurrentMapIndex());
             Main.cheatingMapGetter().getPlayer().loadStats();
         }
@@ -54,13 +52,11 @@ public class MapChangePassage extends Item implements InteractiveObject, StepOnA
         if (Main.getCurrentMapIndex() < 2 && this.anotherTileName.equals("stairwayUp")) {
             Main.cheatingMapGetter().getPlayer().saveStats();
             Main.setCurrentMapIndex(Main.getCurrentMapIndex() + 1);
-            Main.setCurrentAiIndex(Main.getCurrentAiIndex() + 1);
             MapLoader.loadMap(Main.getCurrentMapIndex());
             Main.cheatingMapGetter().getPlayer().loadStats();
         } else if (Main.getCurrentMapIndex() > 0 && this.anotherTileName.equals("stairwayDown")) {
             Main.cheatingMapGetter().getPlayer().saveStats();
             Main.setCurrentMapIndex(Main.getCurrentMapIndex() - 1);
-            Main.setCurrentAiIndex(Main.getCurrentAiIndex() - 1);
             MapLoader.loadMap(Main.getCurrentMapIndex());
             Main.cheatingMapGetter().getPlayer().loadStats();
         }

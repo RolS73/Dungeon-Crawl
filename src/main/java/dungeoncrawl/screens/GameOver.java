@@ -1,4 +1,4 @@
-package dungeoncrawl;
+package dungeoncrawl.screens;
 
 import javafx.scene.Scene;
 import javafx.scene.image.Image;

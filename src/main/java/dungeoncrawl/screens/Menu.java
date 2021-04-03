@@ -1,4 +1,4 @@
-package dungeoncrawl;
+package dungeoncrawl.screens;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;

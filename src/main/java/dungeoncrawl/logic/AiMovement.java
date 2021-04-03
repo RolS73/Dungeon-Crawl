@@ -7,7 +7,7 @@ import dungeoncrawl.logic.actors.monsters.*;
 
 public class AiMovement {
 
-    private GameMap map = Main.cheatingMapGetter();
+    private final GameMap map;
     private int x;
     private int y;
     private int count;
