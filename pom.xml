@@ -50,13 +50,13 @@
           <execution>
             <id>run</id>
             <configuration>
-              <mainClass>com.codecool.dungeoncrawl.Main</mainClass>
+              <mainClass>dungeoncrawl.Main</mainClass>
             </configuration>
           </execution>
           <execution>
             <id>debug</id>
             <configuration>
-              <mainClass>com.codecool.dungeoncrawl.Main</mainClass>
+              <mainClass>dungeoncrawl.Main</mainClass>
               <options>
                 <option>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=*:8000</option>
               </options>
@@ -77,7 +77,7 @@
               <archive>
                 <manifest>
                   <mainClass>
-                    com.codecool.dungeoncrawl.App
+                    dungeoncrawl.App
                   </mainClass>
                 </manifest>
               </archive>
