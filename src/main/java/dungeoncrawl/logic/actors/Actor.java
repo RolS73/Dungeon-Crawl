@@ -94,7 +94,7 @@ public abstract class Actor implements Drawable, Serializable {
     protected void attack(Cell nextCell) {
         CombatEvent combatEvent = new CombatEvent(this, nextCell.getActor());
         combatEvent.attack();
-        Main.combatEvents.add(combatEvent);
+        Main.getUI().getCombatEvents().add(combatEvent);
     }
 
     protected void setCellInFrontOfActor(Cell cell) {

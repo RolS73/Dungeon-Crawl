@@ -2,7 +2,6 @@ package dungeoncrawl;
 
 import dungeoncrawl.dao.GameDatabaseManager;
 import dungeoncrawl.logic.Cell;
-import dungeoncrawl.logic.actors.items.Weapon;
 import dungeoncrawl.logic.actors.items.enviromentalHazards.EnvironmentalDamage;
 import dungeoncrawl.logic.actors.items.enviromentalHazards.ProjectileCycle;
 import dungeoncrawl.logic.actors.items.enviromentalHazards.TrapCycle;
@@ -12,26 +11,20 @@ import dungeoncrawl.logic.actors.items.looting.LootTable;
 import dungeoncrawl.logic.actors.items.looting.PickupableItem;
 import dungeoncrawl.logic.*;
 import dungeoncrawl.maps.Maps;
+import dungeoncrawl.screens.game.ui.UserInterface;
 import dungeoncrawl.screens.gameover.GameOver;
 import dungeoncrawl.screens.startmenu.Menu;
 import javafx.application.Application;
-import javafx.beans.binding.Bindings;
-import javafx.collections.FXCollections;
-import javafx.collections.MapChangeListener;
-import javafx.collections.ObservableList;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
@@ -50,26 +43,23 @@ public class Main extends Application {
     boolean isDeveloperStartingGearEnabled;
 
     @Getter @Setter private static int currentMapIndex = 0;
-    private static Maps maps = new Maps();
+    @Getter private static Maps maps = new Maps();
+    @Getter private static final InventoryManager INVENTORY_MANAGER = new InventoryManager();
+
+    private final Menu menu = new Menu();
+    private final GameOver gameOver = new GameOver();
+
+    @Getter private static final UserInterface UI = new UserInterface();
 
     Canvas canvas = new Canvas(
             15 * Tiles.TILE_WIDTH,
             15 * Tiles.TILE_WIDTH);
     GraphicsContext context = canvas.getGraphicsContext2D();
-    Label healthLabel = new Label();
-    Label attackPwLabel = new Label();
-    Label armorLabel = new Label();
-    Label moneyLabel = new Label("0");
-    Menu menu = new Menu();
-    private Label name = new Label("");
-    Button pickUpButton = new Button("Pick up!");
-    GameOver gameOver = new GameOver();
+
     private Stage stage;
+
     private final List<String> wallCheat = Arrays.asList("Laci", "Ricsi", "Roland", "Szabolcs", "George");
-    InventoryManager inventoryManager = new InventoryManager();
-    public static ObservableList<CombatEvent> combatEvents = FXCollections.observableArrayList();
-//    Label combatLog = new Label("Combat Log: \n");
-    TextArea combatLog = new TextArea();
+
     GameDatabaseManager dbManager; //Sprint 2-ből
 
     public static void main(String[] args) {
@@ -80,88 +70,9 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         stage = primaryStage;
 
-        VBox ui = new VBox();
-        ui.setStyle("-fx-background-color: black;");
-
-        ui.setPrefWidth(200);
-        ui.setPadding(new Insets(10));
-        ui.setSpacing(10);
-
-        HBox lifeStatus = new HBox();
-        lifeStatus.setSpacing(5);
-        lifeStatus.getChildren().addAll(new Label("Health:"), healthLabel, new Label("Armor:"), armorLabel);
-
-        HBox attackPwStatus = new HBox();
-        attackPwStatus.getChildren().addAll(new Label("Attackpw: "), attackPwLabel);
-
-        HBox fiancialStatus = new HBox();
-        fiancialStatus.getChildren().addAll(new Label("Coins: "), moneyLabel);
-
-        ui.setPadding(new Insets(10, 10, 10, 10));
-        ui.getStylesheets().add("Main.css");
-
-        Label instructions = new Label();
-        instructions.setText("Move with arrow keys or WASD.\nInteract: E key.\nPick up items with E key.");
-
-        InventoryManager.inventory.addListener((MapChangeListener.Change<? extends Item, ? extends Integer> change) -> {
-            boolean removed = change.wasRemoved();
-            if (removed != change.wasAdded()) {
-                if (removed) {
-                    InventoryManager.keys.remove(change.getKey());
-                } else {
-                    InventoryManager.keys.add(change.getKey());
-                }
-            }
-        });
-
-        TableView<Item> inventoryTable = new TableView<>(InventoryManager.keys);
-        TableColumn<Item, String> inventoryLabel = new TableColumn<>("Inventory");
-        TableColumn<Item, String> itemNames = new TableColumn<>("Items");
-        TableColumn<Item, Integer> itemAmount = new TableColumn<>("Amt");
-
-        itemAmount.setStyle("-fx-alignment: CENTER;");
-
-        itemNames.setCellValueFactory(names -> Bindings.createStringBinding(() -> names.getValue().getName()));
-        itemAmount.setCellValueFactory(amount -> Bindings.valueAt(InventoryManager.inventory, amount.getValue()));
-
-        itemNames.prefWidthProperty().bind(inventoryTable.widthProperty().multiply(0.75));
-        itemAmount.prefWidthProperty().bind(inventoryTable.widthProperty().multiply(0.238));
-        itemNames.setResizable(false);
-        itemAmount.setResizable(false);
-
-        inventoryLabel.getColumns().addAll(itemNames, itemAmount);
-        inventoryTable.getColumns().add(inventoryLabel);
-
-        inventoryTable.setMaxWidth(180);
-        inventoryTable.setMaxHeight(150);
-        inventoryTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        inventoryTable.setFocusTraversable(false);
-        inventoryTable.setPlaceholder(new Label("Inventory is empty!"));
-
         if (currentMapIndex == 0) {
             SetInteractableItems.setStuff(0); //Map1 interactables
         }
-
-        pickUpButton.setMaxWidth(90);
-        pickUpButton.setDisable(true);
-        pickUpButton.setOnAction(pickUp -> {
-            Item item = (Item) maps.getMapList().get(currentMapIndex).getPlayer().getCell().getItem();
-            inventoryManager.pickUpItem(item, maps.getMapList().get(currentMapIndex));
-            refresh();
-            pickUpButton.setDisable(true);
-        });
-
-        HBox pickUpAndMoney = new HBox();
-        pickUpAndMoney.setSpacing(10);
-        pickUpButton.setFocusTraversable(false);
-        pickUpButton.setPrefWidth(130);
-
-        pickUpAndMoney.getChildren().addAll(pickUpButton, fiancialStatus);
-
-        Region r = new Region();
-
-        Label combatLogLabel = new Label("Combat Log");
-        combatLog.setFocusTraversable(false);
 
         BorderPane borderPane = new BorderPane();
 
@@ -172,23 +83,18 @@ public class Main extends Application {
             primaryStage.setScene(scene);
         });
 
-        ui.getChildren().addAll(name, lifeStatus, attackPwStatus, pickUpAndMoney, inventoryTable, r, combatLogLabel,
-                combatLog /*fiancialStatus, instructions*/);
-
         setupDbManager(); //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< THIS IS NEW!
 
         borderPane.setCenter(canvas);
-        borderPane.setRight(ui);
+        borderPane.setRight(UI.getUi());
 
         primaryStage.setScene(menu.getMenuScreen());
 
-
-
         menu.getPlayButton().setOnAction(play -> {
             primaryStage.setScene(scene);
-            name.setText(menu.getPlayerName().getText());
+            UI.getName().setText(menu.getPlayerName().getText());
             maps.getMapList().get(currentMapIndex).getPlayer().setNameGivenByPlayer(menu.getPlayerName().getText());
-            if (wallCheat.contains(name.getText())) {
+            if (wallCheat.contains(UI.getName().getText())) {
                 maps.getMapList().get(currentMapIndex).getPlayer().setWallCheatOn(true);
             }
         });
@@ -361,14 +267,14 @@ public class Main extends Application {
                 break;
             case Q:
                 try {
-                    if (InventoryManager.inventory.containsKey(inventoryManager.getPotion()) &&
+                    if (InventoryManager.inventory.containsKey(INVENTORY_MANAGER.getPotion()) &&
                             !(maps.getMapList().get(currentMapIndex).getPlayer().getHealth() == maps.getMapList().get(currentMapIndex).getPlayer().getMaxHealth())) {
                         maps.getMapList().get(currentMapIndex).getPlayer().setHealth(maps.getMapList().get(currentMapIndex).getPlayer().getHealth() +
                                 (maps.getMapList().get(currentMapIndex).getPlayer().getMaxHealth() / 2));
                         if (maps.getMapList().get(currentMapIndex).getPlayer().getHealth() > maps.getMapList().get(currentMapIndex).getPlayer().getMaxHealth()) {
                             maps.getMapList().get(currentMapIndex).getPlayer().setHealth(maps.getMapList().get(currentMapIndex).getPlayer().getMaxHealth());
                         }
-                        inventoryManager.removeItemFromInventory(inventoryManager.getPotion());
+                        INVENTORY_MANAGER.removeItemFromInventory(INVENTORY_MANAGER.getPotion());
                     }
                 } catch (NoSuchElementException e) {
                     System.out.println("You have no potion!");
@@ -424,7 +330,7 @@ public class Main extends Application {
                     }
                 } else if (maps.getMapList().get(currentMapIndex).getPlayer().getCell().getItem() != null && maps.getMapList().get(currentMapIndex).getPlayer().getCell().getItem() instanceof PickupableItem) {
                     Item item = (Item) maps.getMapList().get(currentMapIndex).getPlayer().getCell().getItem();
-                    inventoryManager.pickUpItem(item, maps.getMapList().get(currentMapIndex));
+                    INVENTORY_MANAGER.pickUpItem(item, maps.getMapList().get(currentMapIndex));
 
                 }
                 if (maps.getMapList().get(currentMapIndex).getPlayer().getCell().getItem() instanceof StepOnActivatable) {
@@ -449,8 +355,8 @@ public class Main extends Application {
                 if (!isDeveloperStartingGearEnabled) {
                     maps.getMapList().get(currentMapIndex).getPlayer().raiseMaxHealth(17);
                     maps.getMapList().get(currentMapIndex).getPlayer().setHealth(maps.getMapList().get(currentMapIndex).getPlayer().getMaxHealth());
-                    inventoryManager.pickUpItem(new LootTable().getWeaponRareLoot().get(1), maps.getMapList().get(currentMapIndex));
-                    inventoryManager.pickUpItem(new LootTable().getItemRareLoot().get(3), maps.getMapList().get(currentMapIndex));
+                    INVENTORY_MANAGER.pickUpItem(new LootTable().getWeaponRareLoot().get(1), maps.getMapList().get(currentMapIndex));
+                    INVENTORY_MANAGER.pickUpItem(new LootTable().getItemRareLoot().get(3), maps.getMapList().get(currentMapIndex));
                     isDeveloperStartingGearEnabled = true;
                     refresh();
                     break;
@@ -459,8 +365,8 @@ public class Main extends Application {
                 if (!isDeveloperStartingGearEnabled) {
                     maps.getMapList().get(currentMapIndex).getPlayer().raiseMaxHealth(35);
                     maps.getMapList().get(currentMapIndex).getPlayer().setHealth(maps.getMapList().get(currentMapIndex).getPlayer().getMaxHealth());
-                    inventoryManager.pickUpItem(new LootTable().getItemLegendaryLoot().get(3), maps.getMapList().get(currentMapIndex));
-                    inventoryManager.pickUpItem(new LootTable().getWeaponLegendaryLoot().get(1), maps.getMapList().get(currentMapIndex));
+                    INVENTORY_MANAGER.pickUpItem(new LootTable().getItemLegendaryLoot().get(3), maps.getMapList().get(currentMapIndex));
+                    INVENTORY_MANAGER.pickUpItem(new LootTable().getWeaponLegendaryLoot().get(1), maps.getMapList().get(currentMapIndex));
                     isDeveloperStartingGearEnabled = true;
                     refresh();
                     break;
@@ -509,26 +415,11 @@ public class Main extends Application {
 
             stage.setScene(gameOver.getGameOverScene());
         }
-        if (maps.getMapList().get(currentMapIndex).getPlayer().getCell().getItem() instanceof OpenedDoor || maps.getMapList().get(currentMapIndex).getPlayer().getCell().getItem() instanceof Switch
-                || maps.getMapList().get(currentMapIndex).getPlayer().getCell().getItem() instanceof InteractiveObject || maps.getMapList().get(currentMapIndex).getPlayer().getCell().getItem() instanceof EnvironmentalDamage) {
-            pickUpButton.setDisable(true);
-        } else {
-            pickUpButton.setDisable(maps.getMapList().get(currentMapIndex).getPlayer().getCell().getItem() == null);
-        }
         /*if (map.getBoss1() == null) {
             Sounds.playSound("Odead");
             gameOver.setVictory();
             stage.setScene(gameOver.getGameOverScene());
         }*/
-        /*int soundChance = RandomGenerator.nextInt(100);
-        if (soundChance < 1) {
-            Sounds.playSound("Skeleton Move");
-        } else if (soundChance < 2) {
-            Sounds.playSound("Griffon1");
-        } else if (soundChance < 3) {
-            Sounds.playSound("Drready");
-        }*/
-
     }
 
     private void refresh() {
@@ -587,34 +478,7 @@ public class Main extends Application {
             }
         }
         // Tiles.drawTile(context, map.getPlayer().getCell().getActor(), map.getPlayer().getX() + dx, map.getPlayer().getY() + dy);
-        managePlayerStatistics();
-    }
-
-    private void managePlayerStatistics() {
-        manageAttackPw();
-        healthLabel.setText("" + maps.getMapList().get(currentMapIndex).getPlayer().getHealth() + "/" +
-                maps.getMapList().get(currentMapIndex).getPlayer().getMaxHealth());
-        armorLabel.setText("" + maps.getMapList().get(currentMapIndex).getPlayer().getArmor());
-        moneyLabel.setText("" + maps.getMapList().get(currentMapIndex).getPlayer().getMoneyAmount());
-        manageCombatLog();
-    }
-
-    private void manageAttackPw() {
-        if (InventoryManager.inventory.keySet().stream().anyMatch(item -> item instanceof Weapon)) {
-            attackPwLabel.setText((maps.getMapList().get(currentMapIndex).getPlayer().getAttackPower()
-                    - inventoryManager.getCurrentWeapon().getAttackpowerIncrease()) + "+"
-                    + inventoryManager.getCurrentWeapon().getAttackpowerIncrease());
-        } else {
-            attackPwLabel.setText(String.valueOf(maps.getMapList().get(currentMapIndex).getPlayer().getAttackPower()));
-        }
-    }
-
-    private void manageCombatLog() {
-        for (CombatEvent combatEvent : combatEvents) {
-            combatLog.setText(combatLog.getText() + combatEvent.getLog().toString());
-            combatLog.positionCaret(combatLog.getText().length());
-        }
-        combatEvents.clear();
+        UI.managePlayerStatistics();
     }
 
 /*    private boolean isThereAnInteractiveObjectAroundThePlayer() {
@@ -640,10 +504,6 @@ public class Main extends Application {
         }
     }*/
 
-    /*private boolean isThereAPickupableItemUnderThePlayer() {
-        return map.getPlayer().getCell().getItem() instanceof PickupableItem;
-    }*/
-
     private void playerSuffersEnvironmentalDamage() {
 //        Player.playHurtSound();
         maps.getMapList().get(currentMapIndex).getPlayer().playerHit();
@@ -658,7 +518,7 @@ public class Main extends Application {
         return maps.getMapList().get(currentMapIndex).getPlayer().getCell().getItem() instanceof EnvironmentalDamage && maps.getMapList().get(currentMapIndex).getPlayer().getCell().getItem().getAttackPower() > 0;
     }
 
-    public static GameMap cheatingMapGetter() {
+    public static GameMap cheatingMapGetter() { //getMap?
         return maps.getMapList().get(currentMapIndex);
     }
 
