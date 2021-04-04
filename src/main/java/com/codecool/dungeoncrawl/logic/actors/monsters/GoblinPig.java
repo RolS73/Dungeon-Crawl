@@ -4,13 +4,15 @@ import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.actors.Sounds;
-import com.codecool.dungeoncrawl.logic.actors.items.looting.lootTable.LootTableCalculator;
+import com.codecool.dungeoncrawl.logic.actors.items.looting.lootTable.AllMonsterLootList;
+import com.codecool.dungeoncrawl.logic.actors.items.looting.lootTable.LootChanceCalculator;
 import com.codecool.dungeoncrawl.logic.actors.items.looting.lootTable.MonsterLootList;
 
 public class GoblinPig extends Monster {
 
     private String name = "goblinPigD";
-    private MonsterLootList = new MonsterLootList();
+    private String lootListName = "goblinPig";
+    private MonsterLootList lootList = AllMonsterLootList.getIndividualLootListBasedOnName(lootListName);
 
     public GoblinPig(Cell cell) {
         super(cell);
@@ -93,7 +95,9 @@ public class GoblinPig extends Monster {
             }
         }*/
 
-        LootTableCalculator.calculateLootRarity(0, 8, 29, 70);
+        if (LootChanceCalculator.isLootDropped(40) && this.getCell().getItem() == null) {
+            this.getCell().setItem(lootList.getRandomItemFromLootListByRarity(LootChanceCalculator.calculateLootRarityFourRarities(0, 8, 29)));
+        }
     }
 
 }

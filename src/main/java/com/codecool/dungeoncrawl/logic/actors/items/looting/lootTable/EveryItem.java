@@ -1,6 +1,5 @@
 package com.codecool.dungeoncrawl.logic.actors.items.looting.lootTable;
 
-import com.codecool.dungeoncrawl.logic.RandomGenerator;
 import com.codecool.dungeoncrawl.logic.actors.items.Weapon;
 import com.codecool.dungeoncrawl.logic.actors.items.looting.*;
 
@@ -8,6 +7,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EveryItem {
+
+    private static EveryItem single_instance = null;
+
+    public static EveryItem getInstance() {
+        if (single_instance == null) {
+            single_instance = new EveryItem();
+        }
+        return single_instance;
+    }
 
     protected static List<Item> itemCommonLoot = new ArrayList<>();
     {
@@ -101,7 +109,10 @@ public class EveryItem {
 
     protected static List<Item> monsterCommonLoot = new ArrayList<>();
     {
-        monsterCommonLoot.add(new Money("Money Pouch", RandomGenerator.nextInt(5, 8)));
+        monsterCommonLoot.add(new Money("Money Pouch1", 5));
+        monsterCommonLoot.add(new Money("Money Pouch2", 6));
+        monsterCommonLoot.add(new Money("Money Pouch2", 7));
+        monsterCommonLoot.add(new Money("Money Pouch2", 8));
     }
 
     protected static List<Item> monsterUniqueLoot = new ArrayList<>();
@@ -117,7 +128,6 @@ public class EveryItem {
 
         uniqueLoot.get(0).setTileName("lifeUpgrade4");
     }
-
 
 
     public List<Item> getItemCommonLoot() {

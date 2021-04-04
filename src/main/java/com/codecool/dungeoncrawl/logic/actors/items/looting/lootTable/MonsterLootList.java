@@ -7,22 +7,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MonsterLootList {
+
+    private String monsterName;
     private List<Item> commonLootList = new ArrayList<>();
     private List<Item> rareLootList = new ArrayList<>();
     private List<Item> legendaryLootList = new ArrayList<>();
     private List<Item> mythicalLootList = new ArrayList<>();
-    private List<Item> uniqueLootList = new ArrayList<>();
 
-    public MonsterLootList() {
-
+    public MonsterLootList(String monsterName) {
+        this.monsterName = monsterName;
     }
 
     public Item getItemFromLootList(List<Item> lootList, int itemIndex) {
         return lootList.get(itemIndex);
-    }
-
-    public Item getRandomItemFromLootList(List<Item> lootList) {
-        return lootList.get(RandomGenerator.nextInt(lootList.size()));
     }
 
     public Item getRandomItemFromLootListByRarity(lootRarityLevel lootRarity) {
@@ -39,6 +36,10 @@ public class MonsterLootList {
         }
     }
 
+    public String getMonsterName() {
+        return monsterName;
+    }
+
     public List<Item> getCommonLootList() {
         return commonLootList;
     }
@@ -53,9 +54,5 @@ public class MonsterLootList {
 
     public List<Item> getMythicalLootList() {
         return mythicalLootList;
-    }
-
-    public List<Item> getUniqueLootList() {
-        return uniqueLootList;
     }
 }

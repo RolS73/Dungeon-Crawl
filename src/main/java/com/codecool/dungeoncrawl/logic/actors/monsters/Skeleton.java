@@ -1,16 +1,19 @@
 package com.codecool.dungeoncrawl.logic.actors.monsters;
 
-import com.codecool.dungeoncrawl.Main;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.RandomGenerator;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.actors.Sounds;
-import com.codecool.dungeoncrawl.logic.actors.items.looting.lootTable.LootTable;
+import com.codecool.dungeoncrawl.logic.actors.items.looting.lootTable.AllMonsterLootList;
+import com.codecool.dungeoncrawl.logic.actors.items.looting.lootTable.LootChanceCalculator;
+import com.codecool.dungeoncrawl.logic.actors.items.looting.lootTable.MonsterLootList;
 
 public class Skeleton extends Monster {
 
     private String name = "skeletonD";
+    private String lootListName = "skeleton";
+    private MonsterLootList lootList = AllMonsterLootList.getIndividualLootListBasedOnName(lootListName);
 
     public Skeleton(Cell cell) {
         super(cell);
@@ -76,7 +79,7 @@ public class Skeleton extends Monster {
 
     @Override
     public void rollForMonsterLoot() {
-        int tableRoll = RandomGenerator.nextInt(100);
+        /*int tableRoll = RandomGenerator.nextInt(100);
         if (tableRoll > 37) {
         } else if (tableRoll > 2 && tableRoll < 37) {
             if (this.getCell().getItem() == null) {
@@ -91,6 +94,10 @@ public class Skeleton extends Monster {
             } else {
                 Main.cheatingMapGetter().getPlayer().getCell().setItem(new LootTable().getMonsterUniqueLoot().get(0));
             }
+        }*/
+
+        if (LootChanceCalculator.isLootDropped(40) && this.getCell().getItem() == null) {
+            this.getCell().setItem(lootList.getRandomItemFromLootListByRarity(LootChanceCalculator.calculateLootRarityFourRarities(0, 8, 29)));
         }
     }
 }
