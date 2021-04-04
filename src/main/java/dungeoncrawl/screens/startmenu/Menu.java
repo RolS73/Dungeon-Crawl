@@ -1,4 +1,4 @@
-package dungeoncrawl.screens;
+package dungeoncrawl.screens.startmenu;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -34,29 +34,22 @@ public class Menu {
     }
 
     {
-        BackgroundSize bSize = new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, false);
-        Image gameOver = new Image("/tunnel.jpg");
+        BackgroundSize bSize = new BackgroundSize(1.0, 1.0, true, true, false, false);
+        Image gameOver = new Image("/title.jpg");
         menuLayout.setBackground(new Background(new BackgroundImage(gameOver,
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundPosition.CENTER,
                 bSize)));
         menuLayout.getStylesheets().add("menu.css");
-//        menuLayout.getStylesheets().add(getClass().getResource("/fontstyle.css").toExternalForm());
 
-//        Font font = Font.loadFont(getClass().getResource("/blackjack.otf").toExternalForm(), 10);
-//        Main.installFont("/blackjack.otf");
         Label title = new Label("Dungeon Crawl");
         HBox titledPane = new HBox();
         titledPane.setAlignment(Pos.CENTER);
         titledPane.getChildren().add(title);
         menuLayout.setTop(titledPane);
         menuLayout.setPadding(new Insets(10, 10, 20, 10));
-//        title.setStyle("-fx-font-weight: bold; -fx-text-fill: #FFFFFF; -fx-font-size: 30pt");
-//        title.setFont(font);
         title.setStyle("-fx-font-weight: bold; -fx-text-fill: #FFFFFF; -fx-font-size: 30pt; -fx-font-family: 'Brush Script MT', Brush Script Std, cursive");
-//        title.setStyle("-fx-font-weight: bold; -fx-text-fill: #FFFFFF; -fx-font-size: 20pt; -fx-font-family: 'BlackJack'");
-//        title.setStyle("-fx-font-weight: bold; -fx-text-fill: #FFFFFF; -fx-font-size: 20pt; -fx-font-family: 'BlackJack'");
 
         VBox menu = new VBox();
         menu.setAlignment(Pos.BOTTOM_CENTER);
@@ -68,13 +61,10 @@ public class Menu {
 
         playButton.setDisable(true);
 
-        playerName.textProperty().addListener((observable, oldValue, newValue) -> {
-            playButton.setDisable(newValue.isEmpty());
-        });
+        playerName.textProperty().addListener((observable, oldValue, newValue)
+                -> playButton.setDisable(newValue.isEmpty()));
 
         menu.getChildren().addAll(askForName, playerName, playButton, importButton);
         menuLayout.setCenter(menu);
     }
-
-
 }
