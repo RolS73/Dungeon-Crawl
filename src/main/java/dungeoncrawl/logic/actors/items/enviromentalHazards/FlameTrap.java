@@ -58,7 +58,7 @@ public class FlameTrap extends Item implements EnvironmentalDamage, TrapCycle {
             //System.out.println("Shooting");
             if (!(projectileStartCell.getCellType().equals(CellType.WALL)) && !(projectileStartCell.getCellType().equals(CellType.OBJECT))) {
                 FlameTrapProjectile flames = new FlameTrapProjectile(projectileStartCell, "Flame", range, projectileDamage, projectileDirection);
-                Main.cheatingMapGetter().getProjectilesCollection().add(flames);
+                Main.getCurrentMap().getProjectilesCollection().add(flames);
             }
             currentCooldownCount = cooldownMax;
         }

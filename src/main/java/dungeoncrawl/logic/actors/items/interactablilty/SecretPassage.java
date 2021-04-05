@@ -71,7 +71,7 @@ public class SecretPassage extends Item implements InteractiveObject, StepOnActi
     @Override
     public void activate() {
         Sounds.playSound("Move5");
-        Main.cheatingMapGetter().getPlayer().teleport(destinationX, destinationY);
+        Main.getCurrentMap().getPlayer().teleport(destinationX, destinationY);
 
     }
 }

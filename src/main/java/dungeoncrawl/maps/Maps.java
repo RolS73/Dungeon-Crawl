@@ -13,6 +13,9 @@ public class Maps {
     private static final int NUMBER_OF_MAPS = 3;
 
     @Getter
+    private int currentMapIndex = 0;
+
+    @Getter
     private final List<GameMap> mapList = new ArrayList<>();
 
     @Getter
@@ -29,6 +32,26 @@ public class Maps {
         mapList.addAll(maps);
         for (GameMap map : maps) {
             aiList.add(new AiMovement(map));
+        }
+    }
+
+    public GameMap getCurrentMap() {
+        return mapList.get(currentMapIndex);
+    }
+
+    public AiMovement getCurrentAi() {
+        return aiList.get(currentMapIndex);
+    }
+
+    public void incrementCurrentMapIndex() {
+        if (currentMapIndex < mapList.size() - 1) {
+            currentMapIndex++;
+        }
+    }
+
+    public void decrementCurrentMapIndex() {
+        if (currentMapIndex > 0) {
+            currentMapIndex--;
         }
     }
 }

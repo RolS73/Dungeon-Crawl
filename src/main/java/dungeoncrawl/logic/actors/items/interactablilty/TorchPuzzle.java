@@ -30,7 +30,7 @@ public class TorchPuzzle extends Item implements InteractiveObject, Switch {
             System.out.println(totalTorchesActivated);
             isAlreadyActivated = true;
             if (isConditionForSecretMet()) {
-                Main.cheatingMapGetter().getSwitchablesCollection()
+                Main.getCurrentMap().getSwitchablesCollection()
                         .stream()
                         .filter(x -> x.getGroupName() != null)
                         .filter(x -> x.isThisFromTheSameGroup("hiddenRoomGroup"))

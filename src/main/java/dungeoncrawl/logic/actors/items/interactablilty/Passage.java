@@ -28,7 +28,7 @@ public class Passage extends Item implements InteractiveObject, StepOnActivatabl
 
     @Override
     public void interact() {
-        Main.cheatingMapGetter().getPlayer().teleport(destinationX, destinationY);
+        Main.getCurrentMap().getPlayer().teleport(destinationX, destinationY);
     }
 
     @Override
@@ -86,6 +86,6 @@ public class Passage extends Item implements InteractiveObject, StepOnActivatabl
 
     @Override
     public void activate() {
-        Main.cheatingMapGetter().getPlayer().teleport(destinationX, destinationY);
+        Main.getCurrentMap().getPlayer().teleport(destinationX, destinationY);
     }
 }

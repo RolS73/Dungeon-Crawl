@@ -8,7 +8,7 @@ import dungeoncrawl.logic.actors.items.looting.Item;
 
 public class MapChangePassage extends Item implements InteractiveObject, StepOnActivatable {
 
-    private String anotherTileName = "stairwayUp";
+    private String tileName = "stairwayUp";
     private Direction traversalDirection;
     private String groupName;
 
@@ -25,50 +25,50 @@ public class MapChangePassage extends Item implements InteractiveObject, StepOnA
         super(cell, name);
         this.traversalDirection = direction;
         if (this.traversalDirection.equals(Direction.DOWN)) {
-            setAnotherTileName("stairwayDown");
+            setTileName("stairwayDown");
         } else {
-            setAnotherTileName("stairwayUp");
+            setTileName("stairwayUp");
         }
     }
 
     @Override
     public void interact() {
-        if (Main.getCurrentMapIndex() < 2 && this.anotherTileName.equals("stairwayUp")
-                || Main.getCurrentMapIndex() < 2 && this.anotherTileName.equals("stairwayUpMap2")) {
-            Main.cheatingMapGetter().getPlayer().saveStats();
-            Main.setCurrentMapIndex(Main.getCurrentMapIndex() + 1);
-            MapLoader.loadMap(Main.getCurrentMapIndex());
-            Main.cheatingMapGetter().getPlayer().loadStats();
-        } else if (Main.getCurrentMapIndex() > 0 && this.anotherTileName.equals("stairwayDown")) {
-            Main.cheatingMapGetter().getPlayer().saveStats();
-            Main.setCurrentMapIndex(Main.getCurrentMapIndex() - 1);
-            MapLoader.loadMap(Main.getCurrentMapIndex());
-            Main.cheatingMapGetter().getPlayer().loadStats();
+        if (Main.getMaps().getCurrentMapIndex() < 2 && this.tileName.equals("stairwayUp")
+                || Main.getMaps().getCurrentMapIndex() < 2 && this.tileName.equals("stairwayUpMap2")) {
+            Main.getCurrentMap().getPlayer().saveStats();
+            Main.getMaps().incrementCurrentMapIndex();
+            MapLoader.loadMap(Main.getMaps().getCurrentMapIndex());
+            Main.getCurrentMap().getPlayer().loadStats();
+        } else if (Main.getMaps().getCurrentMapIndex() > 0 && this.tileName.equals("stairwayDown")) {
+            Main.getCurrentMap().getPlayer().saveStats();
+            Main.getMaps().decrementCurrentMapIndex();
+            MapLoader.loadMap(Main.getMaps().getCurrentMapIndex());
+            Main.getCurrentMap().getPlayer().loadStats();
         }
     }
 
     @Override
     public void activate() {
-        if (Main.getCurrentMapIndex() < 2 && this.anotherTileName.equals("stairwayUp")) {
-            Main.cheatingMapGetter().getPlayer().saveStats();
-            Main.setCurrentMapIndex(Main.getCurrentMapIndex() + 1);
-            MapLoader.loadMap(Main.getCurrentMapIndex());
-            Main.cheatingMapGetter().getPlayer().loadStats();
-        } else if (Main.getCurrentMapIndex() > 0 && this.anotherTileName.equals("stairwayDown")) {
-            Main.cheatingMapGetter().getPlayer().saveStats();
-            Main.setCurrentMapIndex(Main.getCurrentMapIndex() - 1);
-            MapLoader.loadMap(Main.getCurrentMapIndex());
-            Main.cheatingMapGetter().getPlayer().loadStats();
+        if (Main.getMaps().getCurrentMapIndex() < 2 && this.tileName.equals("stairwayUp")) {
+            Main.getCurrentMap().getPlayer().saveStats();
+            Main.getMaps().incrementCurrentMapIndex();
+            MapLoader.loadMap(Main.getMaps().getCurrentMapIndex());
+            Main.getCurrentMap().getPlayer().loadStats();
+        } else if (Main.getMaps().getCurrentMapIndex() > 0 && this.tileName.equals("stairwayDown")) {
+            Main.getCurrentMap().getPlayer().saveStats();
+            Main.getMaps().decrementCurrentMapIndex();
+            MapLoader.loadMap(Main.getMaps().getCurrentMapIndex());
+            Main.getCurrentMap().getPlayer().loadStats();
         }
     }
 
     @Override
     public String getTileName() {
-        return this.anotherTileName;
+        return this.tileName;
     }
 
-    public void setAnotherTileName(String anotherTileName) {
-        this.anotherTileName = anotherTileName;
+    public void setTileName(String tileName) {
+        this.tileName = tileName;
     }
 
     @Override

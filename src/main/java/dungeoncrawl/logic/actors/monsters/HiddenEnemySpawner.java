@@ -31,14 +31,14 @@ public class HiddenEnemySpawner extends Item implements InteractiveObject, Switc
     public void interact() {
         if (enemyType == null || enemyType.equals("skeleton")) {
             Sounds.playSound("skeletonSummoned");
-            Main.cheatingMapGetter().getMonsters().add(new Skeleton(this.getCell()));
+            Main.getCurrentMap().getMonsters().add(new Skeleton(this.getCell()));
         } else if (enemyType.equals("soulStealer")) {
-            Main.cheatingMapGetter().getMonsters().add(new SoulStealer(this.getCell()));
+            Main.getCurrentMap().getMonsters().add(new SoulStealer(this.getCell()));
         }
     }
 
     public void interact(Monster monster) {
-        Main.cheatingMapGetter().getMonsters().add(monster);
+        Main.getCurrentMap().getMonsters().add(monster);
     }
 
     public void setGroupName(String groupName) {

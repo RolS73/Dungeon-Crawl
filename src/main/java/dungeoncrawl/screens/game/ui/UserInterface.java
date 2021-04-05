@@ -56,20 +56,20 @@ public class UserInterface {
 
     public void managePlayerStatistics() {
         manageAttackPw();
-        healthLabel.setText("" + Main.getMaps().getMapList().get(Main.getCurrentMapIndex()).getPlayer().getHealth() + "/" +
-                Main.getMaps().getMapList().get(Main.getCurrentMapIndex()).getPlayer().getMaxHealth());
-        armorLabel.setText("" + Main.getMaps().getMapList().get(Main.getCurrentMapIndex()).getPlayer().getArmor());
-        moneyLabel.setText("" + Main.getMaps().getMapList().get(Main.getCurrentMapIndex()).getPlayer().getMoneyAmount());
+        healthLabel.setText("" + Main.getCurrentMap().getPlayer().getHealth() + "/" +
+                Main.getCurrentMap().getPlayer().getMaxHealth());
+        armorLabel.setText("" + Main.getCurrentMap().getPlayer().getArmor());
+        moneyLabel.setText("" + Main.getCurrentMap().getPlayer().getMoneyAmount());
         manageCombatLog();
     }
 
     private void manageAttackPw() {
         if (InventoryManager.inventory.keySet().stream().anyMatch(item -> item instanceof Weapon)) {
-            attackPwLabel.setText((Main.getMaps().getMapList().get(Main.getCurrentMapIndex()).getPlayer().getAttackPower()
+            attackPwLabel.setText((Main.getCurrentMap().getPlayer().getAttackPower()
                     - Main.getINVENTORY_MANAGER().getCurrentWeapon().getAttackpowerIncrease()) + "+"
                     + Main.getINVENTORY_MANAGER().getCurrentWeapon().getAttackpowerIncrease());
         } else {
-            attackPwLabel.setText(String.valueOf(Main.getMaps().getMapList().get(Main.getCurrentMapIndex()).getPlayer().getAttackPower()));
+            attackPwLabel.setText(String.valueOf(Main.getCurrentMap().getPlayer().getAttackPower()));
         }
     }
 

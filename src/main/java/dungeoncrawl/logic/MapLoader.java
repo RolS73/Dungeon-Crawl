@@ -121,7 +121,7 @@ public class MapLoader {
                             cell.setCellType(CellType.FLOOR);
                             MapChangePassage mapPassageUP = new MapChangePassage(cell, "MapTraversalPassage", Direction.UP);
                             if (mapNumber == 1) {
-                                mapPassageUP.setAnotherTileName("stairwayUpMap2");
+                                mapPassageUP.setTileName("stairwayUpMap2");
                             }
                             map.interactablesCollection.add(mapPassageUP);
                             break;

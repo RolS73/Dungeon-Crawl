@@ -53,7 +53,7 @@ public class DartTurret extends Item implements TrapCycle {
         } else if (currentCooldownCount == 0) {
             //System.out.println("Shooting");
             DartTurretProjectile dartShot = new DartTurretProjectile(projectileSpawnCell, "DartShot", projectileDamage, projectileDirection);
-            Main.cheatingMapGetter().getProjectilesCollection().add(dartShot);
+            Main.getCurrentMap().getProjectilesCollection().add(dartShot);
             currentCooldownCount = cooldownMax;
         }
     }

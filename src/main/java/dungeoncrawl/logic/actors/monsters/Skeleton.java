@@ -82,14 +82,14 @@ public class Skeleton extends Monster {
             if (this.getCell().getItem() == null) {
                 this.getCell().setItem(new LootTable().getMonsterCommonLoot().get(0));
             } else {
-                Main.cheatingMapGetter().getPlayer().getCell().setItem(new LootTable().getMonsterCommonLoot().get(0));
+                Main.getCurrentMap().getPlayer().getCell().setItem(new LootTable().getMonsterCommonLoot().get(0));
             }
 
         } else {
             if (this.getCell().getItem() == null) {
                 this.getCell().setItem(new LootTable().getMonsterUniqueLoot().get(0));
             } else {
-                Main.cheatingMapGetter().getPlayer().getCell().setItem(new LootTable().getMonsterUniqueLoot().get(0));
+                Main.getCurrentMap().getPlayer().getCell().setItem(new LootTable().getMonsterUniqueLoot().get(0));
             }
         }
     }
