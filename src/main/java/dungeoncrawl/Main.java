@@ -14,6 +14,7 @@ import dungeoncrawl.maps.Maps;
 import dungeoncrawl.screens.game.ui.UserInterface;
 import dungeoncrawl.screens.gameover.GameOver;
 import dungeoncrawl.screens.startmenu.Menu;
+import dungeoncrawl.serializer.Serializer;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -60,6 +61,8 @@ public class Main extends Application {
 
     GameDatabaseManager dbManager; //Sprint 2-ből
 
+    Serializer serializer = new Serializer(stage);
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -82,8 +85,9 @@ public class Main extends Application {
         primaryStage.setScene(menu.getMenuScreen());
 
         menu.getImportButton().setOnAction(i -> {
-            importMap();
+            maps = serializer.importMap();
             primaryStage.setScene(scene);
+            refresh();
         });
 
         menu.getPlayButton().setOnAction(play -> {
@@ -278,10 +282,11 @@ public class Main extends Application {
                 refresh();
                 break;
             case NUMPAD0:
-                exportMap();
+                serializer.exportMap();
                 break;
             case NUMPAD1:
-                importMap();
+                maps = serializer.importMap();
+                refresh();
                 break;
             case F4:
                 getCurrentMap().getPlayer().teleport(94, 20);
@@ -564,82 +569,5 @@ public class Main extends Application {
                 i.printStackTrace();
             }
         }
-    }
-
-    public void importMap() {
-        System.out.println("import game");
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Import game");
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Saved game file (*.sre)", "*.sre"));
-        File file = fileChooser.showOpenDialog(stage);
-        if (file != null) {
-            String fileName = file.getAbsolutePath();
-            System.out.println(fileName);
-            try {
-                FileInputStream fileIn = new FileInputStream(fileName);
-                ObjectInputStream in = new ObjectInputStream(fileIn);
-                maps = new Maps((List<GameMap>) in.readObject());
-                in.close();
-                fileIn.close();
-            } catch (IOException | ClassNotFoundException i) {
-                i.printStackTrace();
-            }
-        }
-
-        // fix actors,items
-        for (GameMap map : maps.getMapList()) {
-            for (int y = 0; y < map.getHeight(); y++) {
-                for (int x = 0; x < map.getWidth(); x++) {
-                    if (map.getCell(x, y).getActor() != null) {
-                        map.getCell(x, y).getActor().setCell(map.getCell(x, y));
-                    }
-                    if (map.getCell(x, y).getItem() != null) {
-                        map.getCell(x, y).getItem().setCell(map.getCell(x, y));
-                    }
-                }
-            }
-        }
-        // fix cells
-        for (GameMap map : maps.getMapList()) {
-            for (int y = 0; y < map.getHeight(); y++) {
-                for (int x = 0; x < map.getWidth(); x++) {
-                    map.getCell(x, y).setMap(map);
-                }
-            }
-        }
-        // fix AI
-        /* This is done in Maps' constructor
-        }*/
-        refresh();
-    }
-
-    public String maptoString(GameMap[] maps) {
-        System.out.println("map2string");
-        try {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ObjectOutputStream oos = new ObjectOutputStream( baos );
-            oos.writeObject(maps);
-            oos.close();
-            return Base64.getEncoder().encodeToString(baos.toByteArray());
-        } catch (IOException i) {
-            i.printStackTrace();
-        }
-        return null;
-    }
-
-    public GameMap[] stringtoMap(String mapString) {
-        System.out.println("string2str");
-        try {
-            byte [] mapData = Base64.getDecoder().decode( mapString );
-            ObjectInputStream ois = new ObjectInputStream( new ByteArrayInputStream(  mapData ) );
-            GameMap[] maps  = (GameMap[]) ois.readObject();
-            ois.close();
-            return maps;
-        } catch (IOException i) {
-            i.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 }
