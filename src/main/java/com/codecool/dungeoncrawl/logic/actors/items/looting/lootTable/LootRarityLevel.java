@@ -1,6 +1,6 @@
 package com.codecool.dungeoncrawl.logic.actors.items.looting.lootTable;
 
-public enum lootRarityLevel {
+public enum LootRarityLevel {
     COMMON,
     RARE,
     LEGENDARY,

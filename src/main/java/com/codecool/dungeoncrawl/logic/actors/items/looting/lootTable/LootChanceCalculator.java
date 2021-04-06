@@ -13,39 +13,43 @@ public class LootChanceCalculator {
         return calculatedChance <= lootDropChance;
     }
 
-    public static lootRarityLevel calculateLootRarityFourRarities(int mythicalOrUniqueChance, int legendaryChance, int rareChance) {
+    public static LootRarityLevel calculateLootRarityFourRarities(int mythicalOrUniqueChance, int legendaryChance, int rareChance) {
         int calculatedChance = RandomGenerator.nextInt(100);
 
         if (calculatedChance <= mythicalOrUniqueChance) {
-            return lootRarityLevel.MYTHICAL;
+            System.out.println("mythic");
+            return LootRarityLevel.MYTHICAL;
         } else if (calculatedChance <= legendaryChance) {
-            return lootRarityLevel.LEGENDARY;
+            System.out.println("legendary");
+            return LootRarityLevel.LEGENDARY;
         } else if (calculatedChance <= rareChance) {
-            return lootRarityLevel.RARE;
+            System.out.println("Rare");
+            return LootRarityLevel.RARE;
         } else {
-            return lootRarityLevel.COMMON;
+            System.out.println("Common");
+            return LootRarityLevel.COMMON;
         }
     }
 
-    public static lootRarityLevel calculateLootRarityRarestIsLegendary(int legendaryChance, int rareChance) {
+    public static LootRarityLevel calculateLootRarityRarestIsLegendary(int legendaryChance, int rareChance) {
         int calculatedChance = RandomGenerator.nextInt(100);
 
         if (calculatedChance <= legendaryChance) {
-            return lootRarityLevel.LEGENDARY;
+            return LootRarityLevel.LEGENDARY;
         } else if (calculatedChance <= rareChance) {
-            return lootRarityLevel.RARE;
+            return LootRarityLevel.RARE;
         } else {
-            return lootRarityLevel.COMMON;
+            return LootRarityLevel.COMMON;
         }
     }
 
-    public static lootRarityLevel calculateLootRarityRarestIsRare(int rareChance) {
+    public static LootRarityLevel calculateLootRarityRarestIsRare(int rareChance) {
         int calculatedChance = RandomGenerator.nextInt(100);
 
         if (calculatedChance <= rareChance) {
-            return lootRarityLevel.RARE;
+            return LootRarityLevel.RARE;
         } else {
-            return lootRarityLevel.COMMON;
+            return LootRarityLevel.COMMON;
         }
     }
 

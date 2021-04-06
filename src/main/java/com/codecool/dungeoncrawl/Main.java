@@ -12,7 +12,6 @@ import com.codecool.dungeoncrawl.logic.actors.items.looting.Item;
 import com.codecool.dungeoncrawl.logic.actors.items.looting.PickupableItem;
 import com.codecool.dungeoncrawl.logic.actors.items.looting.lootTable.AllMonsterLootList;
 import com.codecool.dungeoncrawl.logic.actors.items.looting.lootTable.EveryItem;
-import com.codecool.dungeoncrawl.logic.actors.items.looting.lootTable.InitMonsterLootLists;
 import com.codecool.dungeoncrawl.logic.actors.items.looting.lootTable.LootTable;
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
@@ -162,10 +161,8 @@ public class Main extends Application {
             SetInteractableItems.setStuff(0); //Map1 interactables
         }
 
-        AllMonsterLootList.getInstance();
         EveryItem.getInstance();
-        InitMonsterLootLists.getInstance();
-        InitMonsterLootLists.initAllLists();
+        AllMonsterLootList.getInstance();
 
         pickUpButton.setMaxWidth(90);
         pickUpButton.setDisable(true);

@@ -12,8 +12,8 @@ import com.codecool.dungeoncrawl.logic.actors.items.looting.lootTable.MonsterLoo
 public class Skeleton extends Monster {
 
     private String name = "skeletonD";
-    private String lootListName = "skeleton";
-    private MonsterLootList lootList = AllMonsterLootList.getIndividualLootListBasedOnName(lootListName);
+    private final String lootListName = "skeleton";
+    private final MonsterLootList lootList = AllMonsterLootList.getInstance().getIndividualLootListBasedOnName(lootListName);
 
     public Skeleton(Cell cell) {
         super(cell);
@@ -97,7 +97,7 @@ public class Skeleton extends Monster {
         }*/
 
         if (LootChanceCalculator.isLootDropped(40) && this.getCell().getItem() == null) {
-            this.getCell().setItem(lootList.getRandomItemFromLootListByRarity(LootChanceCalculator.calculateLootRarityFourRarities(0, 8, 29)));
+            this.getCell().setItem(lootList.getRandomItemFromLootListByRarity(LootChanceCalculator.calculateLootRarityFourRarities(3, 11, 26)));
         }
     }
 }

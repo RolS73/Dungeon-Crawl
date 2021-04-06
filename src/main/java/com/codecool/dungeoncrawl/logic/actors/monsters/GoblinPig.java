@@ -12,7 +12,7 @@ public class GoblinPig extends Monster {
 
     private String name = "goblinPigD";
     private String lootListName = "goblinPig";
-    private MonsterLootList lootList = AllMonsterLootList.getIndividualLootListBasedOnName(lootListName);
+    private MonsterLootList lootList = AllMonsterLootList.getInstance().getIndividualLootListBasedOnName(lootListName);
 
     public GoblinPig(Cell cell) {
         super(cell);
