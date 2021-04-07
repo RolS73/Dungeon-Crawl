@@ -79,17 +79,11 @@ public class AllMonsterLootList {
                 break;
 
             case "guardian":
-                lootList.getCommonLootList().add(EveryItem.getInstance().monsterCommonLoot.get(0));
-                lootList.getCommonLootList().add(EveryItem.getInstance().monsterCommonLoot.get(1));
-                lootList.getCommonLootList().add(EveryItem.getInstance().monsterCommonLoot.get(2));
-                lootList.getCommonLootList().add(EveryItem.getInstance().monsterCommonLoot.get(3));
+                lootList.getLegendaryLootList().add(EveryItem.getInstance().monsterUniqueLoot.get(0));
                 break;
 
             case "theThing":
-                lootList.getCommonLootList().add(EveryItem.getInstance().monsterCommonLoot.get(0));
-                lootList.getCommonLootList().add(EveryItem.getInstance().monsterCommonLoot.get(1));
-                lootList.getCommonLootList().add(EveryItem.getInstance().monsterCommonLoot.get(2));
-                lootList.getCommonLootList().add(EveryItem.getInstance().monsterCommonLoot.get(3));
+                lootList.getLegendaryLootList().add(EveryItem.getInstance().monsterUniqueLoot.get(0));
                 break;
 
             case "duck":

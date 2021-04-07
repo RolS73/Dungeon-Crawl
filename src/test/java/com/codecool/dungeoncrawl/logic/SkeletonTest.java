@@ -1,11 +1,10 @@
 package com.codecool.dungeoncrawl.logic;
 
-import com.codecool.dungeoncrawl.logic.CellType;
-import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.actors.Player;
-import com.codecool.dungeoncrawl.logic.actors.monsters.Monster;
+import com.codecool.dungeoncrawl.logic.actors.items.looting.lootTable.LootChanceCalculator;
 import com.codecool.dungeoncrawl.logic.actors.monsters.Skeleton;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -52,5 +51,12 @@ public class SkeletonTest {
     void randomLoot() {
         skeleton.rollForMonsterLoot();
         assertNotNull(gameMap.getCell(1, 1).getItem());
+    }
+
+    @Test
+    void skeletonCommonLootDropTest() {
+        Mockito.when(LootChanceCalculator.isLootDropped(2)).getMock();
+    skeleton.rollForMonsterLoot();
+
     }
 }

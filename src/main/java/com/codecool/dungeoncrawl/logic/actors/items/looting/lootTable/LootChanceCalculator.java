@@ -13,21 +13,49 @@ public class LootChanceCalculator {
         return calculatedChance <= lootDropChance;
     }
 
+    public static lootType itemOrWeapon(int weaponChance) {
+        int calculatedChance = RandomGenerator.nextInt(100);
+
+        if (calculatedChance <= weaponChance) {
+            return lootType.WEAPON;
+        } else {
+            return lootType.ITEM;
+        }
+    }
+
     public static LootRarityLevel calculateLootRarityFourRarities(int mythicalOrUniqueChance, int legendaryChance, int rareChance) {
         int calculatedChance = RandomGenerator.nextInt(100);
 
         if (calculatedChance <= mythicalOrUniqueChance) {
-            System.out.println("mythic");
             return LootRarityLevel.MYTHICAL;
         } else if (calculatedChance <= legendaryChance) {
-            System.out.println("legendary");
             return LootRarityLevel.LEGENDARY;
         } else if (calculatedChance <= rareChance) {
-            System.out.println("Rare");
             return LootRarityLevel.RARE;
         } else {
-            System.out.println("Common");
             return LootRarityLevel.COMMON;
+        }
+    }
+
+    public static LootRarityLevel calculateLootRarityAtleastRare(int mythicalOrUniqueChance, int legendaryChance) {
+        int calculatedChance = RandomGenerator.nextInt(100);
+
+        if (calculatedChance <= mythicalOrUniqueChance) {
+            return LootRarityLevel.MYTHICAL;
+        } else if (calculatedChance <= legendaryChance) {
+            return LootRarityLevel.LEGENDARY;
+        } else {
+            return LootRarityLevel.RARE;
+        }
+    }
+
+    public static LootRarityLevel calculateLootRarityAtleastLegendary(int mythicalOrUniqueChance) {
+        int calculatedChance = RandomGenerator.nextInt(100);
+
+        if (calculatedChance <= mythicalOrUniqueChance) {
+            return LootRarityLevel.MYTHICAL;
+        } else {
+            return LootRarityLevel.LEGENDARY;
         }
     }
 

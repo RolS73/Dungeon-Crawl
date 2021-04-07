@@ -65,7 +65,7 @@ public class Duck extends Monster {
 
     @Override
     public void rollForMonsterLoot() {
-        if (LootChanceCalculator.isLootDropped(7) && this.getCell().getItem() == null) {
+        if (LootChanceCalculator.isLootDropped(1) && this.getCell().getItem() == null) {
             this.getCell().setItem(lootList.getRandomItemFromLootListByRarity(LootRarityLevel.LEGENDARY));
         }
     }

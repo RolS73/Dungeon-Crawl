@@ -1,5 +1,6 @@
 package com.codecool.dungeoncrawl.logic.actors.items.looting.lootTable;
 
+import com.codecool.dungeoncrawl.logic.RandomGenerator;
 import com.codecool.dungeoncrawl.logic.actors.items.Weapon;
 import com.codecool.dungeoncrawl.logic.actors.items.looting.*;
 
@@ -18,6 +19,7 @@ public class EveryItem {
     }
 
     protected List<Item> itemCommonLoot = new ArrayList<>();
+
     {
         itemCommonLoot.add(new Life("Dusty Apple", 2));
         itemCommonLoot.add(new Life("Stale Bread", 3));
@@ -29,7 +31,9 @@ public class EveryItem {
         itemCommonLoot.get(2).setTileName("lifeUpgrade1");
         itemCommonLoot.get(3).setTileName("armorUpgrade0");
     }
+
     protected List<Item> itemRareLoot = new ArrayList<>();
+
     {
         itemRareLoot.add(new Life("Fresh Fish", 4));
         itemRareLoot.add(new Life("Hearty Cheese", 5));
@@ -43,7 +47,9 @@ public class EveryItem {
         itemRareLoot.get(3).setTileName("armorUpgrade1");
         itemRareLoot.get(4).setTileName("healthPoti");
     }
+
     protected List<Item> itemLegendaryLoot = new ArrayList<>();
+
     {
         itemLegendaryLoot.add(new Life("Juicy Steak", 10));
         itemLegendaryLoot.add(new Life("Hunk of Ham", 12));
@@ -56,7 +62,17 @@ public class EveryItem {
         itemLegendaryLoot.get(3).setTileName("armorUpgrade2");
     }
 
+
+    protected List<Item> itemMythicalLoot = new ArrayList<>();
+
+    {
+        itemMythicalLoot.add(new LifeUpgrade("Radiant Heart", 5));
+
+        itemMythicalLoot.get(0).setTileName("lifeUpgrade4");
+    }
+
     protected List<Item> weaponCommonLoot = new ArrayList<>();
+
     {
         weaponCommonLoot.add(new Weapon("Stick of Truth", 3));
         weaponCommonLoot.add(new Weapon("Rustbringer", 4));
@@ -68,7 +84,9 @@ public class EveryItem {
         weaponCommonLoot.get(2).setTileName("axe1");
         weaponCommonLoot.get(3).setTileName("hammer1");
     }
+
     protected List<Item> weaponRareLoot = new ArrayList<>();
+
     {
         weaponRareLoot.add(new Weapon("Scepter of Silverport", 7));
         weaponRareLoot.add(new Weapon("Shining Sword", 8));
@@ -80,7 +98,9 @@ public class EveryItem {
         weaponRareLoot.get(2).setTileName("axe2");
         weaponRareLoot.get(3).setTileName("hammer2");
     }
+
     protected List<Item> weaponLegendaryLoot = new ArrayList<>();
+
     {
         weaponLegendaryLoot.add(new Weapon("Solarsong", 15));
         weaponLegendaryLoot.add(new Weapon("Reckoning", 17));
@@ -94,6 +114,7 @@ public class EveryItem {
     }
 
     protected List<Item> weaponMythicalLoot = new ArrayList<>();
+
     {
         weaponMythicalLoot.add(new Weapon("Arhat's Legacy", 25));
         weaponMythicalLoot.add(new Weapon("Claíomh Solais", 27));
@@ -108,6 +129,7 @@ public class EveryItem {
     }
 
     protected List<Item> monsterCommonLoot = new ArrayList<>();
+
     {
         monsterCommonLoot.add(new Money("Money Pouch1", 5));
         monsterCommonLoot.add(new Money("Money Pouch2", 6));
@@ -116,6 +138,7 @@ public class EveryItem {
     }
 
     protected List<Item> monsterUniqueLoot = new ArrayList<>();
+
     {
         monsterUniqueLoot.add(new Weapon("Skelie Choppa", 15));
         //monsterUniqueLoot.add(new Material("Clunky Bone"));
@@ -124,50 +147,86 @@ public class EveryItem {
     }
 
     protected List<Item> uniqueLoot = new ArrayList<>();
+
     {
         uniqueLoot.add(new LifeUpgrade("Radiant Heart", 5));
 
         uniqueLoot.get(0).setTileName("lifeUpgrade4");
     }
 
-
-    public List<Item> getItemCommonLoot() {
-        return itemCommonLoot;
+    public Item getRandomItemFromListBasedOnRarity(LootRarityLevel lootRarity) {
+        if (lootRarity == LootRarityLevel.COMMON) {
+            return itemCommonLoot.get(RandomGenerator.nextInt(itemCommonLoot.size()));
+        } else if (lootRarity == LootRarityLevel.RARE) {
+            return itemRareLoot.get(RandomGenerator.nextInt(itemRareLoot.size()));
+        } else if (lootRarity == LootRarityLevel.LEGENDARY) {
+            return itemLegendaryLoot.get(RandomGenerator.nextInt(itemLegendaryLoot.size()));
+        } else if (lootRarity == LootRarityLevel.MYTHICAL) {
+            return itemMythicalLoot.get(RandomGenerator.nextInt(itemMythicalLoot.size()));
+        } else {
+            throw new IllegalArgumentException("Invalid rarity input");
+        }
     }
 
-    public List<Item> getItemRareLoot() {
-        return itemRareLoot;
+    public Item getRandomWeaponFromListBasedOnRarity(LootRarityLevel lootRarity) {
+        if (lootRarity == LootRarityLevel.COMMON) {
+            return weaponCommonLoot.get(RandomGenerator.nextInt(weaponCommonLoot.size()));
+        } else if (lootRarity == LootRarityLevel.RARE) {
+            return weaponRareLoot.get(RandomGenerator.nextInt(weaponRareLoot.size()));
+        } else if (lootRarity == LootRarityLevel.LEGENDARY) {
+            return weaponLegendaryLoot.get(RandomGenerator.nextInt(weaponLegendaryLoot.size()));
+        } else if (lootRarity == LootRarityLevel.MYTHICAL) {
+            return weaponMythicalLoot.get(RandomGenerator.nextInt(weaponMythicalLoot.size()));
+        } else {
+            throw new IllegalArgumentException("Invalid rarity input");
+        }
     }
 
-    public List<Item> getItemLegendaryLoot() {
-        return itemLegendaryLoot;
+    public Item getRandomWeaponOrItemFromListBasedOnRarity(lootType lootType, LootRarityLevel lootRarity) {
+        if (lootType == com.codecool.dungeoncrawl.logic.actors.items.looting.lootTable.lootType.ITEM) {
+            return getRandomItemFromListBasedOnRarity(lootRarity);
+        } else {
+            return getRandomWeaponFromListBasedOnRarity(lootRarity);
+        }
     }
 
-    public List<Item> getWeaponCommonLoot() {
-        return weaponCommonLoot;
-    }
+        public List<Item> getItemCommonLoot () {
+            return itemCommonLoot;
+        }
 
-    public List<Item> getWeaponRareLoot() {
-        return weaponRareLoot;
-    }
+        public List<Item> getItemRareLoot () {
+            return itemRareLoot;
+        }
 
-    public List<Item> getWeaponLegendaryLoot() {
-        return weaponLegendaryLoot;
-    }
+        public List<Item> getItemLegendaryLoot () {
+            return itemLegendaryLoot;
+        }
 
-    public List<Item> getWeaponMythicalLoot() {
-        return weaponMythicalLoot;
-    }
+        public List<Item> getWeaponCommonLoot () {
+            return weaponCommonLoot;
+        }
 
-    public List<Item> getMonsterCommonLoot() {
-        return monsterCommonLoot;
-    }
+        public List<Item> getWeaponRareLoot () {
+            return weaponRareLoot;
+        }
 
-    public List<Item> getMonsterUniqueLoot() {
-        return monsterUniqueLoot;
-    }
+        public List<Item> getWeaponLegendaryLoot () {
+            return weaponLegendaryLoot;
+        }
 
-    public List<Item> getUniqueLoot() {
-        return uniqueLoot;
+        public List<Item> getWeaponMythicalLoot () {
+            return weaponMythicalLoot;
+        }
+
+        public List<Item> getMonsterCommonLoot () {
+            return monsterCommonLoot;
+        }
+
+        public List<Item> getMonsterUniqueLoot () {
+            return monsterUniqueLoot;
+        }
+
+        public List<Item> getUniqueLoot () {
+            return uniqueLoot;
+        }
     }
-}
