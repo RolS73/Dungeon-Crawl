@@ -3,7 +3,9 @@ package dungeoncrawl.logic;
 import dungeoncrawl.logic.actors.Player;
 import dungeoncrawl.logic.actors.monsters.Skeleton;
 import org.junit.jupiter.api.Assertions;
+import dungeoncrawl.logic.actors.items.looting.loottable.LootChanceCalculator;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -50,5 +52,12 @@ public class SkeletonTest {
     void randomLoot() {
         skeleton.rollForMonsterLoot();
         assertNotNull(gameMap.getCell(1, 1).getItem());
+    }
+
+    @Test
+    void skeletonCommonLootDropTest() {
+        Mockito.when(LootChanceCalculator.isLootDropped(2)).getMock();
+    skeleton.rollForMonsterLoot();
+
     }
 }

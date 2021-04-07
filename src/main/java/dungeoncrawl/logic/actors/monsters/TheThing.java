@@ -5,10 +5,16 @@ import dungeoncrawl.logic.CellType;
 import dungeoncrawl.logic.RandomGenerator;
 import dungeoncrawl.logic.actors.Player;
 import dungeoncrawl.logic.actors.Sounds;
+import dungeoncrawl.logic.actors.items.looting.loottable.AllMonsterLootList;
+import dungeoncrawl.logic.actors.items.looting.loottable.LootChanceCalculator;
+import dungeoncrawl.logic.actors.items.looting.loottable.LootRarityLevel;
+import dungeoncrawl.logic.actors.items.looting.loottable.MonsterLootList;
 
 public class TheThing  extends Monster {
 
     private String name = "thethingD";
+    private final String lootListName = "theThing";
+    private final MonsterLootList lootList = AllMonsterLootList.getInstance().getIndividualLootListBasedOnName(lootListName);
 
     public TheThing(Cell cell) {
         super(cell);
@@ -75,6 +81,13 @@ public class TheThing  extends Monster {
             Sounds.playSound("theThingAttack1");
         } else {
             Sounds.playSound("theThingAttack2");
+        }
+    }
+
+    @Override
+    public void rollForMonsterLoot() {
+        if (LootChanceCalculator.isLootDropped(1) && this.getCell().getItem() == null) {
+            this.getCell().setItem(lootList.getRandomItemFromLootListByRarity(LootRarityLevel.LEGENDARY));
         }
     }
 

@@ -4,10 +4,16 @@ import dungeoncrawl.logic.Cell;
 import dungeoncrawl.logic.RandomGenerator;
 import dungeoncrawl.logic.actors.Player;
 import dungeoncrawl.logic.actors.Sounds;
+import dungeoncrawl.logic.actors.items.looting.loottable.AllMonsterLootList;
+import dungeoncrawl.logic.actors.items.looting.loottable.LootChanceCalculator;
+import dungeoncrawl.logic.actors.items.looting.loottable.LootRarityLevel;
+import dungeoncrawl.logic.actors.items.looting.loottable.MonsterLootList;
 
 public class Guardian extends Monster {
 
     private String name = "guardianD";
+    private final String lootListName = "guardian";
+    private final MonsterLootList lootList = AllMonsterLootList.getInstance().getIndividualLootListBasedOnName(lootListName);
 
     private int count = 0;
 
@@ -70,12 +76,6 @@ public class Guardian extends Monster {
 //        System.out.println(count);
     }
 
-    @Override
-    public void playDeathSound() {
-        Sounds.playSound("guardianDeath");
-    }
-
-
     public int getCount() {
         return count;
     }
@@ -86,6 +86,18 @@ public class Guardian extends Monster {
             Sounds.playSound("guardianAttack1");
         } else {
             Sounds.playSound("guardianAttack2");
+        }
+    }
+
+    @Override
+    public void playDeathSound() {
+        Sounds.playSound("guardianDeath");
+    }
+
+    @Override
+    public void rollForMonsterLoot() {
+        if (LootChanceCalculator.isLootDropped(1) && this.getCell().getItem() == null) {
+            this.getCell().setItem(lootList.getRandomItemFromLootListByRarity(LootRarityLevel.LEGENDARY));
         }
     }
 }

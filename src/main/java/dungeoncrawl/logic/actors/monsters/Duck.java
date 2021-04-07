@@ -4,16 +4,23 @@ import dungeoncrawl.logic.Cell;
 import dungeoncrawl.logic.CellType;
 import dungeoncrawl.logic.actors.Player;
 import dungeoncrawl.logic.actors.Sounds;
+import dungeoncrawl.logic.actors.items.looting.loottable.AllMonsterLootList;
+import dungeoncrawl.logic.actors.items.looting.loottable.LootChanceCalculator;
+import dungeoncrawl.logic.actors.items.looting.loottable.LootRarityLevel;
+import dungeoncrawl.logic.actors.items.looting.loottable.MonsterLootList;
 
 public class Duck extends Monster {
 
     private String name = "duckD";
+    private final String lootListName = "duck";
+    private final MonsterLootList lootList = AllMonsterLootList.getInstance().getIndividualLootListBasedOnName(lootListName);
 
     public Duck(Cell cell) {
         super(cell);
         this.setAttackPower(1);
         this.setHealth(1);
-        this.setAttackSoundFiles(new String[] {"duck1", "duck2", "duck1", "duck2", "duck1", "duck2", "duck1", "duck2", "duck1", "duck2", "duck1", "duck2", "Drready"});
+        this.setAttackSoundFiles(new String[] {"duck1", "duck2", "duck1", "duck2", "duck1", "duck2", "duck1", "duck2",
+                "duck1", "duck2", "duck1", "duck2", "Drready"});
     }
 
     @Override
@@ -39,11 +46,7 @@ public class Duck extends Monster {
 
         if(nextCell.getCellType() == CellType.FLOOR){
             if(nextCell.getActor() instanceof Player){
-//                playAttackSound();
-                //Player.playHurtSound();
                 attack(nextCell);
-//                damageCalculation(nextCell);
-//                nextCell.getActor().setHealth(nextCell.getActor().getHealth()- this.getAttackPower());
                 if(this.getHealth()<1){
                     this.getCell().setActor(null);
                 }
@@ -58,19 +61,14 @@ public class Duck extends Monster {
     }
 
     @Override
+    public void rollForMonsterLoot() {
+        if (LootChanceCalculator.isLootDropped(1) && this.getCell().getItem() == null) {
+            this.getCell().setItem(lootList.getRandomItemFromLootListByRarity(LootRarityLevel.LEGENDARY));
+        }
+    }
+
+    @Override
     public void playDeathSound() {
         Sounds.playSound("genericBloodSplashDeath2");
     }
-
-
-    /*public void playAttackSound() {
-        int randomNum = RandomGenerator.nextInt(11);
-        if (randomNum < 5) {
-            Sounds.playSound("littleGizmoAttack1");
-        } else if (randomNum > 5 && randomNum < 11) {
-            Sounds.playSound("littleGizmoAttack2");
-        } else {
-            Sounds.playSound("Drready");
-        }
-    }*/
 }

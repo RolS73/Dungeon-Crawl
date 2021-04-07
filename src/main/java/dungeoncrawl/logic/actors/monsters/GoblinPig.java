@@ -1,16 +1,18 @@
 package dungeoncrawl.logic.actors.monsters;
 
-import dungeoncrawl.Main;
 import dungeoncrawl.logic.Cell;
 import dungeoncrawl.logic.CellType;
-import dungeoncrawl.logic.RandomGenerator;
 import dungeoncrawl.logic.actors.Player;
 import dungeoncrawl.logic.actors.Sounds;
-import dungeoncrawl.logic.actors.items.looting.LootTable;
+import dungeoncrawl.logic.actors.items.looting.loottable.AllMonsterLootList;
+import dungeoncrawl.logic.actors.items.looting.loottable.LootChanceCalculator;
+import dungeoncrawl.logic.actors.items.looting.loottable.MonsterLootList;
 
 public class GoblinPig extends Monster {
 
     private String name = "goblinPigD";
+    private String lootListName = "goblinPig";
+    private MonsterLootList lootList = AllMonsterLootList.getInstance().getIndividualLootListBasedOnName(lootListName);
 
     public GoblinPig(Cell cell) {
         super(cell);
@@ -56,13 +58,7 @@ public class GoblinPig extends Monster {
 
         if (nextCell.getCellType() == CellType.FLOOR && nextCell.getCellType() != CellType.OBJECT) {
             if (nextCell.getActor() instanceof Player) {
-//                damageCalculation(nextCell);
                 attack(nextCell);
-//                playAttackSound();
-//                nextCell.getActor().setHealth(nextCell.getActor().getHealth() - this.getAttackPower());
-//                if (this.getHealth() < 1) {
-//                    this.getCell().setActor(null);
-//                }
             } else if (nextCell.getActor() != null) {
             } else {
                 nextCell.setActor(this);
@@ -76,21 +72,8 @@ public class GoblinPig extends Monster {
 
     @Override
     public void rollForMonsterLoot() {
-        int tableRoll = RandomGenerator.nextInt(100);
-        if (tableRoll > 37) {
-        } else if (tableRoll > 2 && tableRoll < 37) {
-            if (this.getCell().getItem() == null) {
-                this.getCell().setItem(new LootTable().getMonsterCommonLoot().get(0));
-            } else {
-                Main.getCurrentMap().getPlayer().getCell().setItem(new LootTable().getMonsterCommonLoot().get(0));
-            }
-
-        } else {
-            if (this.getCell().getItem() == null) {
-                this.getCell().setItem(new LootTable().getMonsterUniqueLoot().get(0));
-            } else {
-                Main.getCurrentMap().getPlayer().getCell().setItem(new LootTable().getMonsterUniqueLoot().get(0));
-            }
+        if (LootChanceCalculator.isLootDropped(40) && this.getCell().getItem() == null) {
+            this.getCell().setItem(lootList.getRandomItemFromLootListByRarity(LootChanceCalculator.calculateLootRarityFourRarities(0, 8, 29)));
         }
     }
 

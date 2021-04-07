@@ -34,7 +34,6 @@ public class InventoryManager {
         } else if (item instanceof Money) {
             map.getPlayer().raiseMoneyAmount(((Money) item).getMoneyAmount());
             Sounds.playSound("Coins");
-            System.out.println(map.getPlayer().getMoneyAmount());
             removeItemFromGround(map);
         }
         else if (item instanceof LifeUpgrade) {

@@ -1,9 +1,11 @@
 package dungeoncrawl.logic.actors.items.looting;
+
 import dungeoncrawl.logic.Cell;
 import dungeoncrawl.logic.CellType;
 import dungeoncrawl.logic.actors.items.interactablilty.InteractiveObject;
 import dungeoncrawl.logic.actors.items.interactablilty.Switch;
-
+import dungeoncrawl.logic.actors.items.looting.loottable.EveryItem;
+import dungeoncrawl.logic.actors.items.looting.loottable.LootChanceCalculator;
 
 public class HiddenItem extends Item implements InteractiveObject, Switch {
 
@@ -18,7 +20,11 @@ public class HiddenItem extends Item implements InteractiveObject, Switch {
         public void interact() {
             this.anotherTileName = "floor";
             this.getCell().setCellType(CellType.FLOOR);
-            this.getCell().setItem(new LootTable(LootTable.lootRarityLevel.RARE).getItemFromTable());
+            this.getCell()
+                    .setItem(EveryItem.getInstance().getRandomWeaponOrItemFromListBasedOnRarity(
+                            LootChanceCalculator.itemOrWeapon(10),
+                            LootChanceCalculator.calculateLootRarityRarestIsLegendary(5, 45)
+                    ));
             this.setGroupName("activated");
         }
 

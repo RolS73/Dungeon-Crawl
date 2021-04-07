@@ -11,7 +11,6 @@ public abstract class Monster extends Actor {
 
     public abstract void monsterMove(int x, int y);
 
-
     public void playAttackSound() {}
 
     public void playDeathSound() {}
