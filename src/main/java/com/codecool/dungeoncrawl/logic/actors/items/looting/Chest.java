@@ -30,7 +30,7 @@ public class Chest extends Item implements InteractiveObject {
                 case "chest1":
                     this.getCell()
                             .setItem(EveryItem.getInstance().getRandomWeaponOrItemFromListBasedOnRarity(
-                                    LootChanceCalculator.itemOrWeapon(30),
+                                    LootChanceCalculator.itemOrWeapon(100),
                                     LootChanceCalculator.calculateLootRarityFourRarities(0, 8, 29)
                             ));
                     this.anotherTilename = "chest1Opened";
@@ -39,7 +39,7 @@ public class Chest extends Item implements InteractiveObject {
                 case "chest2":
                     this.getCell()
                             .setItem(EveryItem.getInstance().getRandomWeaponOrItemFromListBasedOnRarity(
-                                    LootChanceCalculator.itemOrWeapon(30),
+                                    LootChanceCalculator.itemOrWeapon(60),
                                     LootChanceCalculator.calculateLootRarityAtleastRare(0, 8)
                             ));
                     this.anotherTilename = "chest2Opened";
@@ -48,7 +48,7 @@ public class Chest extends Item implements InteractiveObject {
                 case "chest3":
                     this.getCell()
                             .setItem(EveryItem.getInstance().getRandomWeaponOrItemFromListBasedOnRarity(
-                                    LootChanceCalculator.itemOrWeapon(30),
+                                    LootChanceCalculator.itemOrWeapon(60),
                                     LootChanceCalculator.calculateLootRarityAtleastLegendary(0)
                             ));
                     this.anotherTilename = "chest3Opened";

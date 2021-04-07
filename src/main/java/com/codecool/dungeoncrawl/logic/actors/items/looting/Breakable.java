@@ -4,7 +4,8 @@ import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.actors.Sounds;
 import com.codecool.dungeoncrawl.logic.actors.items.interactablilty.InteractiveObject;
-import com.codecool.dungeoncrawl.logic.actors.items.looting.lootTable.LootTable;
+import com.codecool.dungeoncrawl.logic.actors.items.looting.lootTable.EveryItem;
+import com.codecool.dungeoncrawl.logic.actors.items.looting.lootTable.LootChanceCalculator;
 
 public class Breakable extends Item implements InteractiveObject {
     private String tileName = "breakable";
@@ -30,7 +31,10 @@ public class Breakable extends Item implements InteractiveObject {
     @Override
     public void interact() {
         if (isThisObjectInteractive()) {
-            this.getCell().setItem(new LootTable().getItemFromTable());
+            this.getCell().setItem(EveryItem.getInstance().getRandomWeaponOrItemFromListBasedOnRarity(
+                    LootChanceCalculator.itemOrWeapon(28),
+                    LootChanceCalculator.calculateLootRarityFourRarities(0, 8, 29)
+            ));
             this.getCell().setCellType(CellType.FLOOR);
             if (tileName.equals("barrel")) {
                 Sounds.playSound("lightBreak");
