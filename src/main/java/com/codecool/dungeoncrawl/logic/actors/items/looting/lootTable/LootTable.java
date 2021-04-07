@@ -1,8 +1,10 @@
+/*
 
-package com.codecool.dungeoncrawl.logic.actors.items.looting;
+package com.codecool.dungeoncrawl.logic.actors.items.looting.lootTable;
 
 import com.codecool.dungeoncrawl.logic.RandomGenerator;
 import com.codecool.dungeoncrawl.logic.actors.items.Weapon;
+import com.codecool.dungeoncrawl.logic.actors.items.looting.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -224,19 +226,23 @@ public class LootTable {
     }
 
     private List<Item> calculateRollForItemLootTableAtleastLegendary() {
+*/
 /*        int randomNumber = RandomGenerator.RANDOM.nextInt(100);
         if (randomNumber < 3) {
             return itemMythicalLoot;
-        } else {*/
+        } else {*//*
+
             return itemLegendaryLoot;
         //}
     }
 
     private List<Item> calculateRollForWeaponLootTableAtleastLegendary() {
-        /*int randomNumber = RandomGenerator.RANDOM.nextInt(100);
+        */
+/*int randomNumber = RandomGenerator.RANDOM.nextInt(100);
         if (randomNumber < 1) {
             return weaponMythicalLoot;
-        } else {*/
+        } else {*//*
+
             return weaponLegendaryLoot;
         //}
     }
@@ -299,3 +305,4 @@ public class LootTable {
 
 }
 
+*/

@@ -9,8 +9,9 @@ import com.codecool.dungeoncrawl.logic.actors.items.enviromentalHazards.Projecti
 import com.codecool.dungeoncrawl.logic.actors.items.enviromentalHazards.TrapCycle;
 import com.codecool.dungeoncrawl.logic.actors.items.interactablilty.*;
 import com.codecool.dungeoncrawl.logic.actors.items.looting.Item;
-import com.codecool.dungeoncrawl.logic.actors.items.looting.LootTable;
 import com.codecool.dungeoncrawl.logic.actors.items.looting.PickupableItem;
+import com.codecool.dungeoncrawl.logic.actors.items.looting.lootTable.AllMonsterLootList;
+import com.codecool.dungeoncrawl.logic.actors.items.looting.lootTable.EveryItem;
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
@@ -159,6 +160,8 @@ public class Main extends Application {
             SetInteractableItems.setStuff(0); //Map1 interactables
         }
 
+        EveryItem.getInstance();
+        AllMonsterLootList.getInstance();
 
         pickUpButton.setMaxWidth(90);
         pickUpButton.setDisable(true);
@@ -470,15 +473,15 @@ public class Main extends Application {
                 }
                 break;
             case N:
-                mapsArray[currentMapIndex].getPlayer().getCellInFrontOfActor().setItem(new LootTable().getItemRareLoot().get(4));/*getMonsterCommonLoot().get(0));*/
+                mapsArray[currentMapIndex].getPlayer().getCellInFrontOfActor().setItem(EveryItem.getInstance().getItemRareLoot().get(4));/*getMonsterCommonLoot().get(0));*/
                 refresh();
                 break;
             case F5:
                 if (!isDeveloperStartingGearEnabled) {
                     mapsArray[currentMapIndex].getPlayer().raiseMaxHealth(17);
                     mapsArray[currentMapIndex].getPlayer().setHealth(mapsArray[currentMapIndex].getPlayer().getMaxHealth());
-                    inventoryManager.pickUpItem(new LootTable().getWeaponRareLoot().get(1), mapsArray[currentMapIndex]);
-                    inventoryManager.pickUpItem(new LootTable().getItemRareLoot().get(3), mapsArray[currentMapIndex]);
+                    inventoryManager.pickUpItem(EveryItem.getInstance().getWeaponRareLoot().get(1), mapsArray[currentMapIndex]);
+                    inventoryManager.pickUpItem(EveryItem.getInstance().getItemRareLoot().get(3), mapsArray[currentMapIndex]);
                     isDeveloperStartingGearEnabled = true;
                     refresh();
                     break;
@@ -487,8 +490,8 @@ public class Main extends Application {
                 if (!isDeveloperStartingGearEnabled) {
                     mapsArray[currentMapIndex].getPlayer().raiseMaxHealth(35);
                     mapsArray[currentMapIndex].getPlayer().setHealth(mapsArray[currentMapIndex].getPlayer().getMaxHealth());
-                    inventoryManager.pickUpItem(new LootTable().getItemLegendaryLoot().get(3), mapsArray[currentMapIndex]);
-                    inventoryManager.pickUpItem(new LootTable().getWeaponLegendaryLoot().get(1), mapsArray[currentMapIndex]);
+                    inventoryManager.pickUpItem(EveryItem.getInstance().getItemLegendaryLoot().get(3), mapsArray[currentMapIndex]);
+                    inventoryManager.pickUpItem(EveryItem.getInstance().getWeaponLegendaryLoot().get(1), mapsArray[currentMapIndex]);
                     isDeveloperStartingGearEnabled = true;
                     refresh();
                     break;

@@ -4,10 +4,16 @@ import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.actors.Sounds;
+import com.codecool.dungeoncrawl.logic.actors.items.looting.lootTable.AllMonsterLootList;
+import com.codecool.dungeoncrawl.logic.actors.items.looting.lootTable.LootChanceCalculator;
+import com.codecool.dungeoncrawl.logic.actors.items.looting.lootTable.LootRarityLevel;
+import com.codecool.dungeoncrawl.logic.actors.items.looting.lootTable.MonsterLootList;
 
 public class Duck extends Monster {
 
     private String name = "duckD";
+    private final String lootListName = "duck";
+    private final MonsterLootList lootList = AllMonsterLootList.getInstance().getIndividualLootListBasedOnName(lootListName);
 
     public Duck(Cell cell) {
         super(cell);
@@ -54,6 +60,13 @@ public class Duck extends Monster {
                 this.setCell(nextCell);
             }
 
+        }
+    }
+
+    @Override
+    public void rollForMonsterLoot() {
+        if (LootChanceCalculator.isLootDropped(1) && this.getCell().getItem() == null) {
+            this.getCell().setItem(lootList.getRandomItemFromLootListByRarity(LootRarityLevel.LEGENDARY));
         }
     }
 

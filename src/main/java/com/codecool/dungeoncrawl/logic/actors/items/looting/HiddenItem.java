@@ -1,8 +1,11 @@
 package com.codecool.dungeoncrawl.logic.actors.items.looting;
+
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.actors.items.interactablilty.InteractiveObject;
 import com.codecool.dungeoncrawl.logic.actors.items.interactablilty.Switch;
+import com.codecool.dungeoncrawl.logic.actors.items.looting.lootTable.EveryItem;
+import com.codecool.dungeoncrawl.logic.actors.items.looting.lootTable.LootChanceCalculator;
 
 
 public class HiddenItem extends Item implements InteractiveObject, Switch {
@@ -18,7 +21,11 @@ public class HiddenItem extends Item implements InteractiveObject, Switch {
         public void interact() {
             this.anotherTileName = "floor";
             this.getCell().setCellType(CellType.FLOOR);
-            this.getCell().setItem(new LootTable(LootTable.lootRarityLevel.RARE).getItemFromTable());
+            this.getCell()
+                    .setItem(EveryItem.getInstance().getRandomWeaponOrItemFromListBasedOnRarity(
+                            LootChanceCalculator.itemOrWeapon(10),
+                            LootChanceCalculator.calculateLootRarityRarestIsLegendary(5, 45)
+                    ));
             this.setGroupName("activated");
         }
 

@@ -1,16 +1,16 @@
 package com.codecool.dungeoncrawl.logic;
 
 import com.codecool.dungeoncrawl.Main;
-import com.codecool.dungeoncrawl.logic.actors.items.looting.LootTable;
+import com.codecool.dungeoncrawl.logic.actors.items.looting.lootTable.EveryItem;
 
 public class SetInteractableItems {
 
     public static void setStuff(int mapNumber) {
         if (mapNumber == 0) {
-            Main.cheatingMapGetter().getPlacedItemsCollection().get(0).getCell().setItem(new LootTable().getItemRareLoot().get(2));
-            Main.cheatingMapGetter().getPlacedItemsCollection().get(1).getCell().setItem(new LootTable().getItemRareLoot().get(3));
-            Main.cheatingMapGetter().getPlacedItemsCollection().get(2).getCell().setItem(new LootTable().getItemRareLoot().get(2));
-            Main.cheatingMapGetter().getPlacedItemsCollection().get(3).getCell().setItem(new LootTable().getItemRareLoot().get(2));
+            Main.cheatingMapGetter().getPlacedItemsCollection().get(0).getCell().setItem(EveryItem.getInstance().getItemRareLoot().get(2));
+            Main.cheatingMapGetter().getPlacedItemsCollection().get(1).getCell().setItem(EveryItem.getInstance().getItemRareLoot().get(3));
+            Main.cheatingMapGetter().getPlacedItemsCollection().get(2).getCell().setItem(EveryItem.getInstance().getItemRareLoot().get(2));
+            Main.cheatingMapGetter().getPlacedItemsCollection().get(3).getCell().setItem(EveryItem.getInstance().getItemRareLoot().get(2));
 
             Main.cheatingMapGetter().getDoorsSealedFromOtherSideArray().get(0).setOpenableFromWhatDirection("Up");
             Main.cheatingMapGetter().getDoorsSealedFromOtherSideArray().get(1).setOpenableFromWhatDirection("Left");
