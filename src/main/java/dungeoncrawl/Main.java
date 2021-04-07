@@ -7,7 +7,8 @@ import dungeoncrawl.logic.actors.items.enviromentalHazards.ProjectileCycle;
 import dungeoncrawl.logic.actors.items.enviromentalHazards.TrapCycle;
 import dungeoncrawl.logic.actors.items.interactablilty.*;
 import dungeoncrawl.logic.actors.items.looting.Item;
-import dungeoncrawl.logic.actors.items.looting.LootTable;
+import dungeoncrawl.logic.actors.items.looting.loottable.EveryItem;
+import dungeoncrawl.logic.actors.items.looting.loottable.AllMonsterLootList;
 import dungeoncrawl.logic.actors.items.looting.PickupableItem;
 import dungeoncrawl.logic.*;
 import dungeoncrawl.maps.Maps;
@@ -349,15 +350,15 @@ public class Main extends Application {
                 }
                 break;
             case N:
-                getCurrentMap().getPlayer().getCellInFrontOfActor().setItem(new LootTable().getItemRareLoot().get(4));/*getMonsterCommonLoot().get(0));*/
+                getCurrentMap().getPlayer().getCellInFrontOfActor().setItem(EveryItem.getInstance().getItemRareLoot().get(4));
                 refresh();
                 break;
             case F5:
                 if (!isDeveloperStartingGearEnabled) {
                     getCurrentMap().getPlayer().raiseMaxHealth(17);
                     getCurrentMap().getPlayer().setHealth(getCurrentMap().getPlayer().getMaxHealth());
-                    INVENTORY_MANAGER.pickUpItem(new LootTable().getWeaponRareLoot().get(1), getCurrentMap());
-                    INVENTORY_MANAGER.pickUpItem(new LootTable().getItemRareLoot().get(3), getCurrentMap());
+                    INVENTORY_MANAGER.pickUpItem(EveryItem.getInstance().getWeaponRareLoot().get(1), getCurrentMap());
+                    INVENTORY_MANAGER.pickUpItem(EveryItem.getInstance().getItemRareLoot().get(3), getCurrentMap());
                     isDeveloperStartingGearEnabled = true;
                     refresh();
                     break;
@@ -366,8 +367,8 @@ public class Main extends Application {
                 if (!isDeveloperStartingGearEnabled) {
                     getCurrentMap().getPlayer().raiseMaxHealth(35);
                     getCurrentMap().getPlayer().setHealth(getCurrentMap().getPlayer().getMaxHealth());
-                    INVENTORY_MANAGER.pickUpItem(new LootTable().getItemLegendaryLoot().get(3), getCurrentMap());
-                    INVENTORY_MANAGER.pickUpItem(new LootTable().getWeaponLegendaryLoot().get(1), getCurrentMap());
+                    INVENTORY_MANAGER.pickUpItem(EveryItem.getInstance().getItemLegendaryLoot().get(3), getCurrentMap());
+                    INVENTORY_MANAGER.pickUpItem(EveryItem.getInstance().getWeaponLegendaryLoot().get(1), getCurrentMap());
                     isDeveloperStartingGearEnabled = true;
                     refresh();
                     break;

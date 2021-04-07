@@ -1,4 +1,4 @@
-package com.codecool.dungeoncrawl.logic.actors.items.looting.lootTable;
+package dungeoncrawl.logic.actors.items.looting.loottable;
 
 public enum LootRarityLevel {
     COMMON,

@@ -1,12 +1,13 @@
-package com.codecool.dungeoncrawl.logic.actors.items.looting.lootTable;
+package dungeoncrawl.logic.actors.items.looting.loottable;
 
-import com.codecool.dungeoncrawl.logic.RandomGenerator;
-import com.codecool.dungeoncrawl.logic.actors.items.looting.Item;
+import dungeoncrawl.logic.RandomGenerator;
+import dungeoncrawl.logic.actors.items.looting.Item;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MonsterLootList {
+public class MonsterLootList implements Serializable {
 
     private String monsterName;
     private List<Item> commonLootList = new ArrayList<>();

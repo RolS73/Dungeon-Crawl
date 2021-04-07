@@ -1,8 +1,13 @@
-package com.codecool.dungeoncrawl.logic.actors.items.looting.lootTable;
+package dungeoncrawl.logic.actors.items.looting.loottable;
 
-import com.codecool.dungeoncrawl.logic.RandomGenerator;
-import com.codecool.dungeoncrawl.logic.actors.items.Weapon;
-import com.codecool.dungeoncrawl.logic.actors.items.looting.*;
+import dungeoncrawl.logic.RandomGenerator;
+import dungeoncrawl.logic.actors.items.Weapon;
+import dungeoncrawl.logic.actors.items.looting.ArmorUpgrade;
+import dungeoncrawl.logic.actors.items.looting.HealthPotion;
+import dungeoncrawl.logic.actors.items.looting.Item;
+import dungeoncrawl.logic.actors.items.looting.Life;
+import dungeoncrawl.logic.actors.items.looting.LifeUpgrade;
+import dungeoncrawl.logic.actors.items.looting.Money;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -183,7 +188,7 @@ public class EveryItem {
     }
 
     public Item getRandomWeaponOrItemFromListBasedOnRarity(lootType lootType, LootRarityLevel lootRarity) {
-        if (lootType == com.codecool.dungeoncrawl.logic.actors.items.looting.lootTable.lootType.ITEM) {
+        if (lootType == dungeoncrawl.logic.actors.items.looting.loottable.lootType.ITEM) {
             return getRandomItemFromListBasedOnRarity(lootRarity);
         } else {
             return getRandomWeaponFromListBasedOnRarity(lootRarity);

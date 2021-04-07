@@ -1,4 +1,4 @@
-package com.codecool.dungeoncrawl.logic.actors.items.looting.lootTable;
+package dungeoncrawl.logic.actors.items.looting.loottable;
 
 import java.util.ArrayList;
 import java.util.List;

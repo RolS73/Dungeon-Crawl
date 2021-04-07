@@ -1,6 +1,6 @@
-package com.codecool.dungeoncrawl.logic.actors.items.looting.lootTable;
+package dungeoncrawl.logic.actors.items.looting.loottable;
 
-import com.codecool.dungeoncrawl.logic.RandomGenerator;
+import dungeoncrawl.logic.RandomGenerator;
 
 public class LootChanceCalculator {
 
