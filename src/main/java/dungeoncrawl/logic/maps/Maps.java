@@ -1,4 +1,4 @@
-package dungeoncrawl.maps;
+package dungeoncrawl.logic.maps;
 
 import dungeoncrawl.logic.AiMovement;
 import dungeoncrawl.logic.GameMap;

@@ -8,10 +8,9 @@ import dungeoncrawl.logic.actors.items.enviromentalHazards.TrapCycle;
 import dungeoncrawl.logic.actors.items.interactablilty.*;
 import dungeoncrawl.logic.actors.items.looting.Item;
 import dungeoncrawl.logic.actors.items.looting.loottable.EveryItem;
-import dungeoncrawl.logic.actors.items.looting.loottable.AllMonsterLootList;
 import dungeoncrawl.logic.actors.items.looting.PickupableItem;
 import dungeoncrawl.logic.*;
-import dungeoncrawl.maps.Maps;
+import dungeoncrawl.logic.maps.Maps;
 import dungeoncrawl.screens.game.ui.UserInterface;
 import dungeoncrawl.screens.gameover.GameOver;
 import dungeoncrawl.screens.startmenu.Menu;
@@ -28,13 +27,10 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import lombok.Getter;
-
-import java.io.*;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.List;
@@ -69,7 +65,7 @@ public class Main extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         stage = primaryStage;
         
         setupDbManager(); //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< THIS IS NEW!
@@ -550,25 +546,4 @@ public class Main extends Application {
         }
         System.exit(0);
     }NEW STUFF!!!!!!!!!!!!!*/
-
-    public void exportMap() {
-        System.out.println("export game");
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Export game");
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Saved game file (*.sre)", "*.sre"));
-        File file = fileChooser.showSaveDialog(stage);
-        if (file != null) {
-            String fileName = file.getAbsolutePath();
-            System.out.println(fileName);
-            try {
-                FileOutputStream fileOut = new FileOutputStream(fileName);
-                ObjectOutputStream out = new ObjectOutputStream(fileOut);
-                out.writeObject(maps.getMapList());
-                out.close();
-                fileOut.close();
-            } catch (IOException i) {
-                i.printStackTrace();
-            }
-        }
-    }
 }

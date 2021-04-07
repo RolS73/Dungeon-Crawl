@@ -1,5 +1,6 @@
 package dungeoncrawl.screens.startmenu;
 
+import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -8,7 +9,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
+import lombok.Getter;
 
+@Getter
 public class Menu {
 
     private final BorderPane menuLayout = new BorderPane();
@@ -16,22 +19,6 @@ public class Menu {
     private final Button playButton = new Button("Play!");
     private  final TextField playerName = new TextField();
     private final Button importButton = new Button("Import game");
-
-    public Scene getMenuScreen() {
-        return menuScreen;
-    }
-
-    public Button getPlayButton() {
-        return playButton;
-    }
-
-    public TextField getPlayerName() {
-        return playerName;
-    }
-
-    public Button getImportButton() {
-        return importButton;
-    }
 
     {
         BackgroundSize bSize = new BackgroundSize(1.0, 1.0, true, true, false, false);
@@ -61,8 +48,8 @@ public class Menu {
 
         playButton.setDisable(true);
 
-        playerName.textProperty().addListener((observable, oldValue, newValue)
-                -> playButton.setDisable(newValue.isEmpty()));
+        playButton.disableProperty().bind((Bindings.createBooleanBinding(() ->
+                playerName.getText().trim().isEmpty(), playerName.textProperty())));
 
         menu.getChildren().addAll(askForName, playerName, playButton, importButton);
         menuLayout.setCenter(menu);

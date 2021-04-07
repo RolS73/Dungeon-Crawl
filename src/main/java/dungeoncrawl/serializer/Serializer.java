@@ -2,7 +2,7 @@ package dungeoncrawl.serializer;
 
 import dungeoncrawl.Main;
 import dungeoncrawl.logic.GameMap;
-import dungeoncrawl.maps.Maps;
+import dungeoncrawl.logic.maps.Maps;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
