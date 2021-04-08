@@ -32,8 +32,9 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import lombok.Getter;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class Main extends Application {
 
@@ -41,11 +42,10 @@ public class Main extends Application {
 
     @Getter private static Maps maps = new Maps();
     @Getter private static final InventoryManager INVENTORY_MANAGER = new InventoryManager();
+    @Getter private static final UserInterface UI = new UserInterface();
 
     private final Menu menu = new Menu();
     private final GameOver gameOver = new GameOver();
-
-    @Getter private static final UserInterface UI = new UserInterface();
 
     Canvas canvas = new Canvas(
             15 * Tiles.TILE_WIDTH,
@@ -107,38 +107,12 @@ public class Main extends Application {
         switch (keyEvent.getCode()) {
             case UP:
             case W:
-                getCurrentMap().getPlayer().setTileName("playerU");
-                getCurrentMap().getPlayer().move(0, -1);
-                getCurrentMap().getPlayer().updateActorOrientation();
-                maps.getCurrentAi().monsterMover();
-                getCurrentMap().getEndlessCycleTraps().forEach(TrapCycle::trapCycle);
-                getCurrentMap().getProjectilesCollection().forEach(ProjectileCycle::projectileCycle);
-                getCurrentMap().getProjectilesCollection().removeIf(ProjectileCycle::isHit);
-                if (isPlayerBeingAffectedByAnEnvironmentalDamageSource()) {
-                    playerSuffersEnvironmentalDamage();
-                }
-                if (getCurrentMap().getPlayer().getCell().getItem() instanceof StepOnActivatable) {
-                    ((StepOnActivatable) getCurrentMap().getPlayer().getCell().getItem()).activate();
-                }
-                refresh();
+                movePlayer(Direction.UP);
                 break;
             case DOWN:
             case S:
                 if (!keyEvent.isControlDown()) {
-                    getCurrentMap().getPlayer().setTileName("playerD");
-                    getCurrentMap().getPlayer().move(0, 1);
-                    getCurrentMap().getPlayer().updateActorOrientation();
-                    maps.getCurrentAi().monsterMover();
-                    getCurrentMap().getEndlessCycleTraps().forEach(TrapCycle::trapCycle);
-                    getCurrentMap().getProjectilesCollection().forEach(ProjectileCycle::projectileCycle);
-                    getCurrentMap().getProjectilesCollection().removeIf(ProjectileCycle::isHit);
-                    if (isPlayerBeingAffectedByAnEnvironmentalDamageSource()) {
-                        playerSuffersEnvironmentalDamage();
-                    }
-                    if (getCurrentMap().getPlayer().getCell().getItem() instanceof StepOnActivatable) {
-                        ((StepOnActivatable) getCurrentMap().getPlayer().getCell().getItem()).activate();
-                    }
-                    refresh();
+                    movePlayer(Direction.DOWN);
                 } else {
                     stage.setOpacity(0.5);
                     BorderPane root = new BorderPane();
@@ -216,49 +190,14 @@ public class Main extends Application {
                 break;
             case LEFT:
             case A:
-                getCurrentMap().getPlayer().setTileName("playerL");
-                getCurrentMap().getPlayer().move(-1, 0);
-                getCurrentMap().getPlayer().updateActorOrientation();
-                maps.getCurrentAi().monsterMover();
-                getCurrentMap().getEndlessCycleTraps().forEach(TrapCycle::trapCycle);
-                getCurrentMap().getProjectilesCollection().forEach(ProjectileCycle::projectileCycle);
-                getCurrentMap().getProjectilesCollection().removeIf(ProjectileCycle::isHit);
-                if (isPlayerBeingAffectedByAnEnvironmentalDamageSource()) {
-                    playerSuffersEnvironmentalDamage();
-                }
-                if (getCurrentMap().getPlayer().getCell().getItem() instanceof StepOnActivatable) {
-                    ((StepOnActivatable) getCurrentMap().getPlayer().getCell().getItem()).activate();
-                }
-                refresh();
+                movePlayer(Direction.LEFT);
                 break;
             case RIGHT:
             case D:
-                getCurrentMap().getPlayer().setTileName("playerR");
-                getCurrentMap().getPlayer().move(1, 0);
-                getCurrentMap().getPlayer().updateActorOrientation();
-                maps.getCurrentAi().monsterMover();
-                getCurrentMap().getEndlessCycleTraps().forEach(TrapCycle::trapCycle);
-                getCurrentMap().getProjectilesCollection().forEach(ProjectileCycle::projectileCycle);
-                getCurrentMap().getProjectilesCollection().removeIf(ProjectileCycle::isHit);
-                if (isPlayerBeingAffectedByAnEnvironmentalDamageSource()) {
-                    playerSuffersEnvironmentalDamage();
-                }
-                if (getCurrentMap().getPlayer().getCell().getItem() instanceof StepOnActivatable) {
-                    ((StepOnActivatable) getCurrentMap().getPlayer().getCell().getItem()).activate();
-                }
-                refresh();
+                movePlayer(Direction.RIGHT);
                 break;
             case SPACE:
-                maps.getCurrentAi().monsterMover();
-                getCurrentMap().getEndlessCycleTraps().forEach(TrapCycle::trapCycle);
-                getCurrentMap().getProjectilesCollection().forEach(ProjectileCycle::projectileCycle);
-                getCurrentMap().getProjectilesCollection().removeIf(ProjectileCycle::isHit);
-                if (isPlayerBeingAffectedByAnEnvironmentalDamageSource()) {
-                    playerSuffersEnvironmentalDamage();
-                }
-                if (getCurrentMap().getPlayer().getCell().getItem() instanceof StepOnActivatable) {
-                    ((StepOnActivatable) getCurrentMap().getPlayer().getCell().getItem()).activate();
-                }
+                operateHostiles();
                 refresh();
                 //System.out.println("Player X Coordinate: " + getCurrentMap().getPlayer().getX() + "\n" + "Player Y Coordinate: " + getCurrentMap().getPlayer().getY());
                 break;
@@ -402,6 +341,51 @@ public class Main extends Application {
 
         if (getCurrentMap().getPlayer().getHealth() <= 0) {
             stage.setScene(gameOver.getGameOverScene());
+        }
+    }
+
+    private void movePlayer(Direction direction) {
+        move(direction);
+        executeOnPlayerMovement();
+    }
+
+    private void executeOnPlayerMovement() {
+        getCurrentMap().getPlayer().updateActorOrientation();
+        operateHostiles();
+        refresh();
+    }
+
+    private void operateHostiles() {
+        maps.getCurrentAi().monsterMover();
+        getCurrentMap().getEndlessCycleTraps().forEach(TrapCycle::trapCycle);
+        getCurrentMap().getProjectilesCollection().forEach(ProjectileCycle::projectileCycle);
+        getCurrentMap().getProjectilesCollection().removeIf(ProjectileCycle::isHit);
+        if (isPlayerBeingAffectedByAnEnvironmentalDamageSource()) {
+            playerSuffersEnvironmentalDamage();
+        }
+        if (getCurrentMap().getPlayer().getCell().getItem() instanceof StepOnActivatable) {
+            ((StepOnActivatable) getCurrentMap().getPlayer().getCell().getItem()).activate();
+        }
+    }
+
+    private void move(Direction direction) {
+        switch (direction) {
+            case UP:
+                getCurrentMap().getPlayer().setTileName("playerU");
+                getCurrentMap().getPlayer().move(0, -1);
+                break;
+            case DOWN:
+                getCurrentMap().getPlayer().setTileName("playerD");
+                getCurrentMap().getPlayer().move(0, 1);
+                break;
+            case LEFT:
+                getCurrentMap().getPlayer().setTileName("playerL");
+                getCurrentMap().getPlayer().move(-1, 0);
+                break;
+            case RIGHT:
+                getCurrentMap().getPlayer().setTileName("playerR");
+                getCurrentMap().getPlayer().move(1, 0);
+                break;
         }
     }
 
