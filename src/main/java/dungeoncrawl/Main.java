@@ -13,6 +13,9 @@ import dungeoncrawl.logic.*;
 import dungeoncrawl.logic.maps.Maps;
 import dungeoncrawl.screens.game.ui.UserInterface;
 import dungeoncrawl.screens.gameover.GameOver;
+import dungeoncrawl.screens.saving.LoadDialog;
+import dungeoncrawl.screens.saving.SaveDialog;
+import dungeoncrawl.screens.saving.SavingInterface;
 import dungeoncrawl.screens.startmenu.Menu;
 import dungeoncrawl.serializer.Serializer;
 import javafx.application.Application;
@@ -56,6 +59,9 @@ public class Main extends Application {
 
     private final List<String> wallCheat = Arrays.asList("Laci", "Ricsi", "Roland", "Szabolcs", "George");
 
+    private final SavingInterface saving = new SaveDialog();
+    private final SavingInterface loading = new LoadDialog();
+
     GameDatabaseManager dbManager; //Sprint 2-ből
 
     Serializer serializer = new Serializer(stage);
@@ -67,7 +73,9 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         stage = primaryStage;
-        
+        saving.setPrimary(primaryStage);
+        loading.setPrimary(primaryStage);
+
         setupDbManager(); //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< THIS IS NEW!
         
         if (maps.getCurrentMapIndex() == 0) {
@@ -114,78 +122,12 @@ public class Main extends Application {
                 if (!keyEvent.isControlDown()) {
                     movePlayer(Direction.DOWN);
                 } else {
-                    stage.setOpacity(0.5);
-                    BorderPane root = new BorderPane();
-                    Stage saveDialog = new Stage();
-                    saveDialog.setTitle("Save game");
-                    saveDialog.setAlwaysOnTop(true);
-                    saveDialog.initStyle(StageStyle.UNDECORATED);
-                    saveDialog.setResizable(false);
-
-                    TableView<String> saveTable = new TableView<>();
-                    TableColumn<String, String> col = new TableColumn<>("Saved games");
-                    col.setMinWidth(320);
-                    saveTable.getColumns().add(col);
-                    saveTable.setPlaceholder(new Label("No saved game"));
-                    root.setCenter(saveTable);
-
-                    Button saveOkButton = new Button("Save");
-                    saveOkButton.setMinWidth(160);
-                    Button saveCancelButton = new Button("Cancel");
-                    saveCancelButton.setOnAction((e) -> {
-                        stage.setOpacity(1);
-                        saveDialog.close();
-                    });
-                    saveCancelButton.setMinWidth(160);
-
-                    HBox saveButtons = new HBox();
-                    saveButtons.getChildren().addAll(saveOkButton, saveCancelButton);
-                    VBox inputField = new VBox();
-                    TextField saveInput = new TextField();
-                    inputField.getChildren().addAll(saveInput, saveButtons);
-                    root.setBottom(inputField);
-
-                    Scene saveScene = new Scene(root, 320, 640);
-                    saveDialog.setScene(saveScene);
-                    saveDialog.initModality(Modality.APPLICATION_MODAL);
-                    saveDialog.initOwner(stage);
-                    saveDialog.show();
+                    saving.openDialog();
                 }
                 break;
             case L:
                 if (keyEvent.isControlDown()) {
-                    stage.setOpacity(0.5);
-                    BorderPane root = new BorderPane();
-                    Stage loadDialog = new Stage();
-                    loadDialog.setTitle("Load game");
-                    loadDialog.setAlwaysOnTop(true);
-                    loadDialog.setResizable(false);
-                    loadDialog.initStyle(StageStyle.UNDECORATED);
-
-                    TableView<List<String>> loadTable = new TableView<>();
-                    TableColumn<List<String>, String> col = new TableColumn<>("Saved games");
-                    col.setMinWidth(320);
-                    loadTable.getColumns().add(col);
-                    loadTable.setPlaceholder(new Label("No saved game"));
-                    root.setCenter(loadTable);
-
-                    Button loadOkButton = new Button("Load");
-                    loadOkButton.setMinWidth(160);
-                    Button loadCancelButton = new Button("Cancel");
-                    loadCancelButton.setOnAction((e) -> {
-                        stage.setOpacity(1);
-                        loadDialog.close();
-                    });
-                    loadCancelButton.setMinWidth(160);
-                    HBox loadButtons = new HBox();
-                    loadButtons.getChildren().addAll(loadOkButton, loadCancelButton);
-                    root.setBottom(loadButtons);
-
-                    Scene loadScene = new Scene(root, 320, 640);
-                    loadDialog.setScene(loadScene);
-                    loadDialog.initModality(Modality.APPLICATION_MODAL);
-                    loadDialog.initOwner(stage);
-                    loadDialog.show();
+                    loading.openDialog();
                 }
                 break;
             case LEFT:
@@ -202,20 +144,7 @@ public class Main extends Application {
                 //System.out.println("Player X Coordinate: " + getCurrentMap().getPlayer().getX() + "\n" + "Player Y Coordinate: " + getCurrentMap().getPlayer().getY());
                 break;
             case Q:
-                try {
-                    if (InventoryManager.inventory.containsKey(INVENTORY_MANAGER.getPotion()) &&
-                            !(getCurrentMap().getPlayer().getHealth() == getCurrentMap().getPlayer().getMaxHealth())) {
-                        getCurrentMap().getPlayer().setHealth(getCurrentMap().getPlayer().getHealth() +
-                                (getCurrentMap().getPlayer().getMaxHealth() / 2));
-                        if (getCurrentMap().getPlayer().getHealth() > getCurrentMap().getPlayer().getMaxHealth()) {
-                            getCurrentMap().getPlayer().setHealth(getCurrentMap().getPlayer().getMaxHealth());
-                        }
-                        INVENTORY_MANAGER.removeItemFromInventory(INVENTORY_MANAGER.getPotion());
-                    }
-                } catch (NoSuchElementException e) {
-                    System.out.println("You have no potion!");
-                }
-                refresh();
+                drinkPotion();
                 break;
             case NUMPAD0:
                 serializer.exportMap();
@@ -342,6 +271,23 @@ public class Main extends Application {
         if (getCurrentMap().getPlayer().getHealth() <= 0) {
             stage.setScene(gameOver.getGameOverScene());
         }
+    }
+
+    private void drinkPotion() {
+        try {
+            if (InventoryManager.inventory.containsKey(INVENTORY_MANAGER.getPotion()) &&
+                    !(getCurrentMap().getPlayer().getHealth() == getCurrentMap().getPlayer().getMaxHealth())) {
+                getCurrentMap().getPlayer().setHealth(getCurrentMap().getPlayer().getHealth() +
+                        (getCurrentMap().getPlayer().getMaxHealth() / 2));
+                if (getCurrentMap().getPlayer().getHealth() > getCurrentMap().getPlayer().getMaxHealth()) {
+                    getCurrentMap().getPlayer().setHealth(getCurrentMap().getPlayer().getMaxHealth());
+                }
+                INVENTORY_MANAGER.removeItemFromInventory(INVENTORY_MANAGER.getPotion());
+            }
+        } catch (NoSuchElementException e) {
+            System.out.println("You have no potion!");
+        }
+        refresh();
     }
 
     private void movePlayer(Direction direction) {
