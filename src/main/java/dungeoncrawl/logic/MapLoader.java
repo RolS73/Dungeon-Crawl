@@ -7,14 +7,16 @@ import dungeoncrawl.logic.actors.items.enviromentalHazards.DartTurret;
 import dungeoncrawl.logic.actors.items.enviromentalHazards.FlameTrap;
 import dungeoncrawl.logic.actors.items.enviromentalHazards.TrapBloody;
 import dungeoncrawl.logic.actors.items.enviromentalHazards.TrapPlain;
-import dungeoncrawl.logic.actors.items.mapdecoration.Firestand;
-import dungeoncrawl.logic.actors.npcs.FriendlyWhiteWizard;
-import dungeoncrawl.logic.actors.npcs.NonPlayerCharacter;
 import dungeoncrawl.logic.actors.items.interactablilty.*;
 import dungeoncrawl.logic.actors.items.looting.*;
+import dungeoncrawl.logic.actors.items.mapdecoration.Firestand;
 import dungeoncrawl.logic.actors.monsters.*;
+import dungeoncrawl.logic.actors.npcs.FriendlyWhiteWizard;
+import dungeoncrawl.logic.actors.npcs.NonPlayerCharacter;
 
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 
@@ -23,25 +25,33 @@ public class MapLoader {
     public static GameMap loadMap(int mapNumber) {
 
         InputStream is = null;
+        InputStream is2 = null;
 
         if (mapNumber == 0) {
             is = MapLoader.class.getResourceAsStream("/map.txt");
+            is2 = MapLoader.class.getResourceAsStream("/mapSetup.txt");
         } else if (mapNumber == 1) {
             is = MapLoader.class.getResourceAsStream("/map2.txt");
+            is2 = MapLoader.class.getResourceAsStream("/map2Setup.txt");
         } else if (mapNumber == 2) {
             is = MapLoader.class.getResourceAsStream("/map3.txt");
+            is2 = MapLoader.class.getResourceAsStream("/map3Setup.txt");
         }
 
         Scanner scanner = new Scanner(is);
         int width = scanner.nextInt();
         int height = scanner.nextInt();
 
+        Scanner scannerForSetup = new Scanner(is2);
+
         scanner.nextLine(); // empty line
+        scannerForSetup.nextLine();
 
         GameMap map = new GameMap(width, height, CellType.EMPTY);
         map.setMapNumber(mapNumber);
         for (int y = 0; y < height; y++) {
             String line = scanner.nextLine();
+            String lineForSetup = scannerForSetup.nextLine();
             for (int x = 0; x < width; x++) {
                 if (x < line.length()) {
                     Cell cell = map.getCell(x, y);
@@ -187,7 +197,8 @@ public class MapLoader {
                             break;
                         case '+':
                             cell.setCellType(CellType.OBJECT);
-                            map.endlessCycleTraps.add(new DartTurret(cell, "DartTurret", 6, 4, Direction.DOWN));
+                            map.endlessCycleTraps.add(new DartTurret(cell, "DartTurret", 6, 4, (Direction) getArgumentForCellFromScannerLine(lineForSetup, x)));
+                            System.out.println(lineForSetup);
                             break;
                         case '!':
                             cell.setCellType(CellType.OBJECT);
@@ -280,6 +291,72 @@ public class MapLoader {
             }
         }
         return map;
+    }
+
+    public static void setUpCellSettings(Cell cell, String lineForSetup, int x) {
+
+
+        switch (lineForSetup.charAt(x + countCharOffsetInMapLine(lineForSetup, x))) {
+            case 'D':
+                if (cell instanceof EntityOrientation) {
+                    cell.getActor().setDirection(Direction.DOWN);
+                }
+                break;
+            case 'U':
+                if (cell instanceof EntityOrientation) {
+                    cell.getActor().setDirection(Direction.UP);
+                }
+                break;
+            case 'L':
+                if (cell instanceof EntityOrientation) {
+                    cell.getActor().setDirection(Direction.LEFT);
+                }
+                break;
+            case 'R':
+                if (cell instanceof EntityOrientation) {
+                    cell.getActor().setDirection(Direction.RIGHT);
+                }
+                break;
+            case 'G':
+                if (cell instanceof Switch) {
+                    cell.getActor().setGroupName("Group" + lineForSetup.charAt(x + 1));
+                }
+            default:
+                //throw new RuntimeException("Unrecognized character: '" + lineForSetup.charAt(x) + "'");
+        }
+    }
+
+    public static Object getArgumentForCellFromScannerLine(String lineForSetup, int x) {
+        switch (lineForSetup.charAt(x)) {
+            case 'd':
+                return Direction.DOWN;
+            case 'u':
+                return Direction.UP;
+            case 'l':
+                return Direction.LEFT;
+            case 'r':
+                return Direction.RIGHT;
+            default:
+                //System.out.println("Unrecognized char for argument, setting default position");
+                return Direction.DOWN;
+        }
+    }
+
+    private static int countCharOffsetInMapLine(String line, int x) {
+        int offset = 0;
+        List<Character> charsThatCauseOffset = new ArrayList<>();
+        charsThatCauseOffset.add('g');
+        charsThatCauseOffset.add('G');
+
+        int lengthFromBeginToX = line.subSequence(0, x).length();
+
+        for (int i = 0; i < lengthFromBeginToX; i++) {
+            if (charsThatCauseOffset.contains(line.charAt(i))) {
+                offset++;
+            }
+        }
+
+        return offset;
     }
 
     /*public void setUpCellType(Cell cell, CellType celltype) {
