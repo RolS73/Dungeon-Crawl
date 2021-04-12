@@ -22,17 +22,9 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import lombok.Getter;
 import java.sql.SQLException;
 import java.util.Arrays;
@@ -139,7 +131,7 @@ public class Main extends Application {
                 movePlayer(Direction.RIGHT);
                 break;
             case SPACE:
-                operateHostiles();
+                operateOtherMapObjects();
                 refresh();
                 //System.out.println("Player X Coordinate: " + getCurrentMap().getPlayer().getX() + "\n" + "Player Y Coordinate: " + getCurrentMap().getPlayer().getY());
                 break;
@@ -162,49 +154,12 @@ public class Main extends Application {
                 refresh();
                 break;
             case E:
-                getCurrentMap().getEndlessCycleTraps().forEach(TrapCycle::trapCycle);
-                getCurrentMap().getProjectilesCollection().forEach(ProjectileCycle::projectileCycle);
-                getCurrentMap().getProjectilesCollection().removeIf(ProjectileCycle::isHit);
-                if (isPlayerBeingAffectedByAnEnvironmentalDamageSource()) {
-                    playerSuffersEnvironmentalDamage();
-                }
+                operateTrapsAndItems();
                 if (getCurrentMap().getPlayer().getCellInFrontOfActor().getItem() instanceof InteractiveObject) {
-                    int interactablesArrayCurrentIndex = 0;
-                    dungeoncrawl.logic.Cell currentlyFocusedCell = getCurrentMap().getPlayer().getCellInFrontOfActor();
-                    while (getCurrentMap().getInteractablesArray().size() > interactablesArrayCurrentIndex) {
-                        InteractiveObject currentlyProcessedInteractable = getCurrentMap().getInteractablesArray().get(interactablesArrayCurrentIndex);
-                        if (currentlyProcessedInteractable.isThisObjectInteractive() &&
-                                currentlyProcessedInteractable.isThisInteractiveObjectCurrentlyBeingFocusedOn(currentlyFocusedCell) &&
-                                currentlyProcessedInteractable.isPlayerInteractingFromLegalDirection(getCurrentMap().getPlayer().getCell())) {
-                            currentlyProcessedInteractable.interact();
-                            if (currentlyProcessedInteractable instanceof Switch && ((Switch) currentlyProcessedInteractable).getGroupName() != null) {
-                                getCurrentMap().getSwitchablesCollection()
-                                        .stream()
-                                        .filter(x -> x.getGroupName() != null)
-                                        .filter(x -> x.isThisFromTheSameGroup(((Switch) currentlyProcessedInteractable).getGroupName()))
-                                        .forEach(InteractiveObject::interact);
-                                //System.out.println(((Switch) currentlyProcessedInteractable).getGroupName());
-                            }
-                            if (currentlyProcessedInteractable.isMoveOnPossibleAfterInteraction() && !(currentlyProcessedInteractable instanceof Switch)) {
-                                currentlyFocusedCell.setCellType(CellType.FLOOR);
-                            }
-                            refresh();
-                            return;
-                        } else {
-                            interactablesArrayCurrentIndex++;
-                        }
-                    }
+                    operateObjectFrontOfActor();
                 } else if (getCurrentMap().getPlayer().getCell().getItem() != null && getCurrentMap().getPlayer().getCell().getItem() instanceof PickupableItem) {
-                    Item item = (Item) getCurrentMap().getPlayer().getCell().getItem();
-                    INVENTORY_MANAGER.pickUpItem(item, getCurrentMap());
-
+                    pickUpItem();
                 }
-                if (getCurrentMap().getPlayer().getCell().getItem() instanceof StepOnActivatable) {
-                    ((StepOnActivatable) getCurrentMap().getPlayer().getCell().getItem()).activate();
-                }
-                /*else if (isThereAPickupableItemUnderThePlayer()) {
-                    map.getPlayer().getCell().getItem().
-                }*/
                 refresh();
                 break;
             case C:
@@ -267,9 +222,40 @@ public class Main extends Application {
                 break;
         }
 
+        endGameIfPlayerDies();
+    }
 
+    private void endGameIfPlayerDies() {
         if (getCurrentMap().getPlayer().getHealth() <= 0) {
             stage.setScene(gameOver.getGameOverScene());
+        }
+    }
+
+    private void pickUpItem() {
+        Item item = (Item) getCurrentMap().getPlayer().getCell().getItem();
+        INVENTORY_MANAGER.pickUpItem(item, getCurrentMap());
+    }
+
+    private void operateObjectFrontOfActor() {
+        Cell currentlyFocusedCell = getCurrentMap().getPlayer().getCellInFrontOfActor();
+        for (int i = 0; i < getCurrentMap().getInteractablesArray().size(); i++) {
+            InteractiveObject currentlyProcessedInteractable = getCurrentMap().getInteractablesArray().get(i);
+            if (currentlyProcessedInteractable.isThisObjectInteractive() &&
+                    currentlyProcessedInteractable.isThisInteractiveObjectCurrentlyBeingFocusedOn(currentlyFocusedCell) &&
+                    currentlyProcessedInteractable.isPlayerInteractingFromLegalDirection(getCurrentMap().getPlayer().getCell())) {
+                currentlyProcessedInteractable.interact();
+                if (currentlyProcessedInteractable instanceof Switch && ((Switch) currentlyProcessedInteractable).getGroupName() != null) {
+                    getCurrentMap().getSwitchablesCollection()
+                            .stream()
+                            .filter(x -> x.getGroupName() != null)
+                            .filter(x -> x.isThisFromTheSameGroup(((Switch) currentlyProcessedInteractable).getGroupName()))
+                            .forEach(InteractiveObject::interact);
+                }
+                if (currentlyProcessedInteractable.isMoveOnPossibleAfterInteraction() && !(currentlyProcessedInteractable instanceof Switch)) {
+                    currentlyFocusedCell.setCellType(CellType.FLOOR);
+                }
+                break;
+            }
         }
     }
 
@@ -297,12 +283,16 @@ public class Main extends Application {
 
     private void executeOnPlayerMovement() {
         getCurrentMap().getPlayer().updateActorOrientation();
-        operateHostiles();
+        operateOtherMapObjects();
         refresh();
     }
 
-    private void operateHostiles() {
+    private void operateOtherMapObjects() {
         maps.getCurrentAi().monsterMover();
+        operateTrapsAndItems();
+    }
+
+    private void operateTrapsAndItems() {
         getCurrentMap().getEndlessCycleTraps().forEach(TrapCycle::trapCycle);
         getCurrentMap().getProjectilesCollection().forEach(ProjectileCycle::projectileCycle);
         getCurrentMap().getProjectilesCollection().removeIf(ProjectileCycle::isHit);
