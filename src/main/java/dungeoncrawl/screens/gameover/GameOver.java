@@ -3,13 +3,13 @@ package dungeoncrawl.screens.gameover;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
-
+import lombok.Getter;
 
 public class GameOver {
 
     private final BorderPane borderPane = new BorderPane();
-    private final Scene gameOverScene = new Scene(borderPane, 280, 210);
-    BackgroundSize bSize = new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, false);
+    @Getter private final Scene gameOverScene = new Scene(borderPane, 280, 210);
+    private final BackgroundSize bSize = new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, false);
 
     {
 //        javafx.scene.control.Label title = new Label("Game Over");
@@ -44,10 +44,6 @@ public class GameOver {
 //        vBox.getChildren().addAll(question);
 //
 //        borderPane.setCenter(vBox);
-    }
-
-    public Scene getGameOverScene() {
-        return gameOverScene;
     }
 
     public void setVictory() {

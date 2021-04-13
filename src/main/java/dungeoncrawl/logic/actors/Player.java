@@ -6,7 +6,7 @@ import dungeoncrawl.logic.RandomGenerator;
 
 public class Player extends Actor {
 
-    public static int[] stats = {15 , 15, 0, 1, 0};
+    private static int[] stats = {15 , 15, 0, 1, 0};
 
     private String name = "playerD";
     private String nameGivenByPlayer;
