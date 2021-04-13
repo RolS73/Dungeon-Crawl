@@ -1,5 +1,6 @@
 package dungeoncrawl;
 
+import dungeoncrawl.cheats.Cheats;
 import dungeoncrawl.dao.GameDatabaseManager;
 import dungeoncrawl.logic.Cell;
 import dungeoncrawl.logic.actors.items.enviromentalHazards.EnvironmentalDamage;
@@ -7,7 +8,6 @@ import dungeoncrawl.logic.actors.items.enviromentalHazards.ProjectileCycle;
 import dungeoncrawl.logic.actors.items.enviromentalHazards.TrapCycle;
 import dungeoncrawl.logic.actors.items.interactablilty.*;
 import dungeoncrawl.logic.actors.items.looting.Item;
-import dungeoncrawl.logic.actors.items.looting.loottable.EveryItem;
 import dungeoncrawl.logic.actors.items.looting.PickupableItem;
 import dungeoncrawl.logic.*;
 import dungeoncrawl.logic.maps.Maps;
@@ -27,13 +27,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import lombok.Getter;
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.List;
 import java.util.NoSuchElementException;
 
 public class Main extends Application {
-
-    boolean isDeveloperStartingGearEnabled;
 
     @Getter private static Maps maps = new Maps();
     @Getter private static final InventoryManager INVENTORY_MANAGER = new InventoryManager();
@@ -42,21 +38,21 @@ public class Main extends Application {
     private final Menu menu = new Menu();
     private final GameOver gameOver = new GameOver();
 
-    Canvas canvas = new Canvas(
+    private final Canvas canvas = new Canvas(
             15 * Tiles.TILE_WIDTH,
             15 * Tiles.TILE_WIDTH);
-    GraphicsContext context = canvas.getGraphicsContext2D();
+    private final GraphicsContext context = canvas.getGraphicsContext2D();
 
     private Stage stage;
-
-    private final List<String> wallCheat = Arrays.asList("Laci", "Ricsi", "Roland", "Szabolcs", "George");
 
     private final SavingInterface saving = new SaveDialog();
     private final SavingInterface loading = new LoadDialog();
 
-    GameDatabaseManager dbManager; //Sprint 2-ből
+    private GameDatabaseManager dbManager; //Sprint 2-ből
 
-    Serializer serializer = new Serializer(stage);
+    private final Serializer serializer = new Serializer(stage);
+
+    private final Cheats cheats = new Cheats(INVENTORY_MANAGER, maps);
 
     public static void main(String[] args) {
         launch(args);
@@ -91,7 +87,7 @@ public class Main extends Application {
             primaryStage.setScene(scene);
             UI.getName().setText(menu.getPlayerName().getText());
             getCurrentMap().getPlayer().setNameGivenByPlayer(menu.getPlayerName().getText());
-            if (wallCheat.contains(UI.getName().getText())) {
+            if (cheats.getWallCheatNameList().contains(UI.getName().getText())) {
                 getCurrentMap().getPlayer().setWallCheatOn(true);
             }
         });
@@ -146,11 +142,11 @@ public class Main extends Application {
                 refresh();
                 break;
             case F4:
-                getCurrentMap().getPlayer().teleport(94, 20);
+                cheats.teleportPlayer(94, 20);
                 refresh();
                 break;
             case F9:
-                getCurrentMap().getPlayer().teleport(62, 38);
+                cheats.teleportPlayer(62, 38);
                 refresh();
                 break;
             case E:
@@ -163,61 +159,35 @@ public class Main extends Application {
                 refresh();
                 break;
             case C:
-                System.out.println(getCurrentMap().getPlayer().getCellInFrontOfActor().getCellType());
-                if (getCurrentMap().getPlayer().getCellInFrontOfActor().getItem() instanceof Switch) {
-                    System.out.println(((Switch) getCurrentMap().getPlayer().getCellInFrontOfActor().getItem()).getGroupName());
-                }
+                cheats.getCellInfoFrontOfPlayer();
                 break;
             case N:
-                getCurrentMap().getPlayer().getCellInFrontOfActor().setItem(EveryItem.getInstance().getItemRareLoot().get(4));
+                cheats.spawnRareLootWithIndexOf(4);
                 refresh();
                 break;
             case F5:
-                if (!isDeveloperStartingGearEnabled) {
-                    getCurrentMap().getPlayer().raiseMaxHealth(17);
-                    getCurrentMap().getPlayer().setHealth(getCurrentMap().getPlayer().getMaxHealth());
-                    INVENTORY_MANAGER.pickUpItem(EveryItem.getInstance().getWeaponRareLoot().get(1), getCurrentMap());
-                    INVENTORY_MANAGER.pickUpItem(EveryItem.getInstance().getItemRareLoot().get(3), getCurrentMap());
-                    isDeveloperStartingGearEnabled = true;
+                if (cheats.getRearGear()) {
                     refresh();
                     break;
                 }
             case F6:
-                if (!isDeveloperStartingGearEnabled) {
-                    getCurrentMap().getPlayer().raiseMaxHealth(35);
-                    getCurrentMap().getPlayer().setHealth(getCurrentMap().getPlayer().getMaxHealth());
-                    INVENTORY_MANAGER.pickUpItem(EveryItem.getInstance().getItemLegendaryLoot().get(3), getCurrentMap());
-                    INVENTORY_MANAGER.pickUpItem(EveryItem.getInstance().getWeaponLegendaryLoot().get(1), getCurrentMap());
-                    isDeveloperStartingGearEnabled = true;
+                if (cheats.getLegendaryGear()) {
                     refresh();
                     break;
                 }
-//            case S: //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<NEW!
-//                Player player = map.getPlayer();
-//                dbManager.savePlayer(player);
-//                break;
-
             case F12:
-                getCurrentMap().getPlayer().setWallCheatOn(!getCurrentMap().getPlayer().isWallCheatOn());
+                cheats.setWallCheat();
                 break;
             case F11:
-                getCurrentMap().getPlayer().saveStats();
-                maps.incrementCurrentMapIndex();
-                MapLoader.loadMap(maps.getCurrentMapIndex());
-                getCurrentMap().getPlayer().loadStats();
-                getCurrentMap().getPlayer().setNameGivenByPlayer(menu.getPlayerName().getText());
+                cheats.getToNextMap();
                 refresh();
                 break;
             case F10:
-                getCurrentMap().getPlayer().saveStats();
-                maps.decrementCurrentMapIndex();
-                MapLoader.loadMap(maps.getCurrentMapIndex());
-                getCurrentMap().getPlayer().loadStats();
-                getCurrentMap().getPlayer().setNameGivenByPlayer(menu.getPlayerName().getText());
+                cheats.getToPreviousMap();
                 refresh();
                 break;
             case F2:
-                getCurrentMap().getMapStateSwitchers().stream().filter(x -> x instanceof TorchPuzzle).forEach(InteractiveObject::interact);
+                cheats.igniteAllTorches();
                 refresh();
                 break;
         }
@@ -324,6 +294,11 @@ public class Main extends Application {
                 break;
         }
     }
+
+    //            case S: //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<NEW!
+//                Player player = map.getPlayer();
+//                dbManager.savePlayer(player);
+//                break;
 
     private void refresh() {
         // context.setFill(Color.BLACK);
