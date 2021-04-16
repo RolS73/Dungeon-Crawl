@@ -21,8 +21,6 @@ public abstract class Actor implements Drawable, Serializable, EntityOrientation
     private String[] attackSoundFiles = new String[]{"genericSwing"};
     private String[] hitSoundFiles = new String[]{"DSdamage1"};
     private Direction directionOfEntity = Direction.DOWN;
-    private String groupName;
-
 
     public Actor() {
     }
@@ -220,10 +218,6 @@ public abstract class Actor implements Drawable, Serializable, EntityOrientation
         Sounds.playSound("kill1");
         playDeathSound();
         this.getCell().setActor(null);
-    }
-
-    public void setGroupName(String groupName) {
-        this.groupName = groupName;
     }
 
     public void setDirection(Direction direction) {

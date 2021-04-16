@@ -53,11 +53,11 @@ public class SetInteractableItems {
             Main.getCurrentMap().getHiddenEnemySpawnersCollection().get(16).setGroupName("SuspiciousWallGroup4");
             Main.getCurrentMap().getHiddenEnemySpawnersCollection().get(15).setGroupName("SuspiciousWallGroup4");
 
-            Main.getCurrentMap().getSuspiciousWallsCollection().get(4).setGroupName("SuspiciousWallGroup5");  // Hidden passage between gates
-            Main.getCurrentMap().getSuspiciousWallsCollection().get(5).setGroupName("SuspiciousWallGroup5");
-            for (int i = 3; i < 14; i++) {
+            /*Main.getCurrentMap().getSuspiciousWallsCollection().get(4).setGroupName("SuspiciousWallGroup5");  // Hidden passage between gates
+            Main.getCurrentMap().getSuspiciousWallsCollection().get(5).setGroupName("SuspiciousWallGroup5");*/
+            /*for (int i = 3; i < 14; i++) {
                 Main.getCurrentMap().getHiddenPassagesCollection().get(i).setGroupName("SuspiciousWallGroup5");
-            }
+            }*/
 
             Main.getCurrentMap().getSuspiciousWallsCollection().get(6).setGroupName("SuspiciousWallGroup6");  // Left optional room
             Main.getCurrentMap().getHiddenItemsCollection().get(4).setGroupName("SuspiciousWallGroup6");

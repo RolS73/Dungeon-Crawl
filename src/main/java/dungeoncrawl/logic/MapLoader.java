@@ -15,8 +15,6 @@ import dungeoncrawl.logic.actors.npcs.FriendlyWhiteWizard;
 import dungeoncrawl.logic.actors.npcs.NonPlayerCharacter;
 
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 
@@ -26,16 +24,20 @@ public class MapLoader {
 
         InputStream is = null;
         InputStream is2 = null;
+        InputStream is3 = null;
 
         if (mapNumber == 0) {
             is = MapLoader.class.getResourceAsStream("/map.txt");
             is2 = MapLoader.class.getResourceAsStream("/mapSetup.txt");
+            is3 = MapLoader.class.getResourceAsStream("/mapSetupArguments.txt");
         } else if (mapNumber == 1) {
             is = MapLoader.class.getResourceAsStream("/map2.txt");
             is2 = MapLoader.class.getResourceAsStream("/map2Setup.txt");
+            is3 = MapLoader.class.getResourceAsStream("/map2SetupArguments.txt");
         } else if (mapNumber == 2) {
             is = MapLoader.class.getResourceAsStream("/map3.txt");
             is2 = MapLoader.class.getResourceAsStream("/map3Setup.txt");
+            is3 = MapLoader.class.getResourceAsStream("/map3SetupArguments.txt");
         }
 
         Scanner scanner = new Scanner(is);
@@ -43,15 +45,18 @@ public class MapLoader {
         int height = scanner.nextInt();
 
         Scanner scannerForSetup = new Scanner(is2);
+        Scanner scannerForSetupArguments = new Scanner(is3);
 
         scanner.nextLine(); // empty line
         scannerForSetup.nextLine();
+        scannerForSetupArguments.nextLine();
 
         GameMap map = new GameMap(width, height, CellType.EMPTY);
         map.setMapNumber(mapNumber);
         for (int y = 0; y < height; y++) {
             String line = scanner.nextLine();
             String lineForSetup = scannerForSetup.nextLine();
+            String lineForSetupArguments = scannerForSetupArguments.nextLine();
             for (int x = 0; x < width; x++) {
                 if (x < line.length()) {
                     Cell cell = map.getCell(x, y);
@@ -197,8 +202,7 @@ public class MapLoader {
                             break;
                         case '+':
                             cell.setCellType(CellType.OBJECT);
-                            map.endlessCycleTraps.add(new DartTurret(cell, "DartTurret", 6, 4, (Direction) getArgumentForCellFromScannerLine(lineForSetup, x)));
-                            System.out.println(lineForSetup);
+                            map.endlessCycleTraps.add(new DartTurret(cell, "DartTurret", 6, 4, (Direction) getArgumentForCellFromScannerLine(lineForSetupArguments, x)));
                             break;
                         case '!':
                             cell.setCellType(CellType.OBJECT);
@@ -255,10 +259,12 @@ public class MapLoader {
                             map.interactablesCollection.add(suspiciousWall);
                             map.suspiciousWallsCollection.add(suspiciousWall);
                             map.switchablesCollection.add(suspiciousWall);
+                            setUpCellSettings(cell, lineForSetup, lineForSetupArguments, x);
                             break;
                         case 'w':
                             cell.setCellType(CellType.WALL);
                             DoorOpenableByASwitch verySuspiciousWall = new DoorOpenableByASwitch(cell, "sealedWall");
+                            //setUpCellSettings(cell, lineForSetup, x);
                             map.interactablesCollection.add(verySuspiciousWall);
                             map.doorsOpenableBySwitches.add(verySuspiciousWall);
                             map.switchablesCollection.add(verySuspiciousWall);
@@ -269,6 +275,7 @@ public class MapLoader {
                             map.interactablesCollection.add(hiddenPassage);
                             map.hiddenPassagesCollection.add(hiddenPassage);
                             map.switchablesCollection.add(hiddenPassage);
+                            setUpCellSettings(cell, lineForSetup, lineForSetupArguments, x);
                             break;
                         case 'H':
                             cell.setCellType(CellType.EMPTY);
@@ -293,41 +300,31 @@ public class MapLoader {
         return map;
     }
 
-    public static void setUpCellSettings(Cell cell, String lineForSetup, int x) {
-
-
-        switch (lineForSetup.charAt(x + countCharOffsetInMapLine(lineForSetup, x))) {
+    public static void setUpCellSettings(Cell cell, String lineForSetup, String lineForSetupArguments, int x) {
+        char targetChar = lineForSetup.charAt(x);
+        switch (targetChar) {
             case 'D':
-                if (cell instanceof EntityOrientation) {
-                    cell.getActor().setDirection(Direction.DOWN);
+                if (cell.getActor() != null) {
+                    cell.getActor().setDirection((Direction) getArgumentForCellFromScannerLine(lineForSetupArguments, x));
                 }
                 break;
-            case 'U':
-                if (cell instanceof EntityOrientation) {
-                    cell.getActor().setDirection(Direction.UP);
-                }
-                break;
-            case 'L':
-                if (cell instanceof EntityOrientation) {
-                    cell.getActor().setDirection(Direction.LEFT);
-                }
-                break;
-            case 'R':
-                if (cell instanceof EntityOrientation) {
-                    cell.getActor().setDirection(Direction.RIGHT);
+            case 'g':
+                if (cell.getItem() instanceof Switch) {
+                    ((Switch) cell.getItem()).setGroupName("Group0" + lineForSetupArguments.charAt(x));
                 }
                 break;
             case 'G':
-                if (cell instanceof Switch) {
-                    cell.getActor().setGroupName("Group" + lineForSetup.charAt(x + 1));
+                if (cell.getItem() instanceof Switch) {
+                    ((Switch) cell.getItem()).setGroupName("Group1" + lineForSetupArguments.charAt(x));
                 }
+                break;
             default:
                 //throw new RuntimeException("Unrecognized character: '" + lineForSetup.charAt(x) + "'");
         }
     }
 
-    public static Object getArgumentForCellFromScannerLine(String lineForSetup, int x) {
-        switch (lineForSetup.charAt(x)) {
+    public static Object getArgumentForCellFromScannerLine(String lineForSetupArguments, int x) {
+        switch (lineForSetupArguments.charAt(x)) {
             case 'd':
                 return Direction.DOWN;
             case 'u':
@@ -341,23 +338,7 @@ public class MapLoader {
                 return Direction.DOWN;
         }
     }
-
-    private static int countCharOffsetInMapLine(String line, int x) {
-        int offset = 0;
-        List<Character> charsThatCauseOffset = new ArrayList<>();
-        charsThatCauseOffset.add('g');
-        charsThatCauseOffset.add('G');
-
-        int lengthFromBeginToX = line.subSequence(0, x).length();
-
-        for (int i = 0; i < lengthFromBeginToX; i++) {
-            if (charsThatCauseOffset.contains(line.charAt(i))) {
-                offset++;
-            }
-        }
-
-        return offset;
-    }
+}
 
     /*public void setUpCellType(Cell cell, CellType celltype) {
         cell.setCellType(celltype);
@@ -366,4 +347,3 @@ public class MapLoader {
         }
     }*/
 
-}

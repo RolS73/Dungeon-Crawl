@@ -15,8 +15,6 @@ public class SuspiciousWall extends Item implements InteractiveObject, Switch {
 
     public SuspiciousWall(Cell cell) {
         super(cell, "Door to Secrets");
-
-
     }
 
     @Override

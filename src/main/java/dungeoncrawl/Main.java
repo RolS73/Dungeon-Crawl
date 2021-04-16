@@ -340,9 +340,9 @@ public class Main extends Application {
                 refresh();
                 break;
             case C:
-                System.out.println(getCurrentMap().getPlayer().getCellInFrontOfActor().getCellType());
+                System.out.println("CellType: " + getCurrentMap().getPlayer().getCellInFrontOfActor().getCellType());
                 if (getCurrentMap().getPlayer().getCellInFrontOfActor().getItem() instanceof Switch) {
-                    System.out.println(((Switch) getCurrentMap().getPlayer().getCellInFrontOfActor().getItem()).getGroupName());
+                    System.out.println("InterfaceGroupName: " + ((Switch) getCurrentMap().getPlayer().getCellInFrontOfActor().getItem()).getGroupName());
                 }
                 break;
             case N:
