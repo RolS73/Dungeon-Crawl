@@ -178,6 +178,12 @@ public abstract class Actor implements Drawable, Serializable, EntityOrientation
         this.setCell(nextCell);
     }
 
+    public void teleportActorToCell(Cell nextCell) {
+        nextCell.setActor(this);
+        this.getCell().setActor(null);
+        this.setCell(nextCell);
+    }
+
     public void playDeathSound() {
     }
 

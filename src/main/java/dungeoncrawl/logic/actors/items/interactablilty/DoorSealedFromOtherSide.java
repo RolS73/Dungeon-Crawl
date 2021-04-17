@@ -1,5 +1,6 @@
 package dungeoncrawl.logic.actors.items.interactablilty;
 import dungeoncrawl.logic.Cell;
+import dungeoncrawl.logic.Direction;
 import dungeoncrawl.logic.actors.Sounds;
 import dungeoncrawl.logic.actors.items.looting.Item;
 
@@ -18,22 +19,18 @@ public class DoorSealedFromOtherSide extends Item implements InteractiveObject {
 
             }
 
-        public void setOpenableFromWhatDirection(String openableFromWhatDirection) {
+        public void setOpenableFromWhatDirection(Direction openableFromWhatDirection) {
             switch (openableFromWhatDirection) {
-                case "Up":
-                case "up":
+                case UP:
                     this.openableFromWhatSide = this.getCell().getNeighbor(0, -1);
                     break;
-                case "Right":
-                case "right":
+                case RIGHT:
                     this.openableFromWhatSide = this.getCell().getNeighbor(1, 0);
                     break;
-                case "Down":
-                case "down":
+                case DOWN:
                     this.openableFromWhatSide = this.getCell().getNeighbor(0, 1);
                     break;
-                case "Left":
-                case "left":
+                case LEFT:
                     this.openableFromWhatSide = this.getCell().getNeighbor(-1, 0);
                     break;
             }

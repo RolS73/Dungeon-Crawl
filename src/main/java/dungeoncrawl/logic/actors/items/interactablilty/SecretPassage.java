@@ -7,12 +7,14 @@ import dungeoncrawl.logic.CellType;
 import dungeoncrawl.logic.actors.Sounds;
 import dungeoncrawl.logic.actors.items.looting.Item;
 
-public class SecretPassage extends Item implements InteractiveObject, StepOnActivatable {
+public class SecretPassage extends Item implements InteractiveObject, StepOnActivatable, TeleportOnCurrentMap {
 
     private String anotherTileName = this.getCell().getTileName();
     private boolean isAlreadyOpened;
     private int destinationX;
     private int destinationY;
+    private String pairIdentifier;
+    private boolean paired = false;
 
     public SecretPassage(Cell cell, int destinationX, int destinationY) {
         super(cell, "Path to Secrets");
@@ -73,6 +75,48 @@ public class SecretPassage extends Item implements InteractiveObject, StepOnActi
         Sounds.playSound("Move5");
         Main.getCurrentMap().getPlayer().teleport(destinationX, destinationY);
 
+    }
+
+    public void setDestinationX(int destinationX) {
+        this.destinationX = destinationX;
+    }
+
+    public void setDestinationY(int destinationY) {
+        this.destinationY = destinationY;
+    }
+
+
+
+    @Override
+    public String getPairIdentifier() {
+        return pairIdentifier;
+    }
+
+    @Override
+    public void setPairIdentifier(String pairIdentifier) {
+        this.pairIdentifier = pairIdentifier;
+    }
+
+    @Override
+    public void setDestinationXY(int x, int y) {
+        this.setDestinationX(x);
+        this.setDestinationY(y);
+    }
+
+    @Override
+    public int getDestinationX() {
+        return destinationX;
+    }
+
+    @Override
+    public int getDestinationY() {
+        return destinationY;
+    }
+
+    @Override
+    public void assignDestinationCoordinatesOfInput(TeleportOnCurrentMap destination) {
+        destination.setDestinationXY(super.getX(), super.getY());
+        this.paired = true;
     }
 }
 

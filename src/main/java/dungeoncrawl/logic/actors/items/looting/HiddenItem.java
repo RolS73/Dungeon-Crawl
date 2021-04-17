@@ -25,7 +25,6 @@ public class HiddenItem extends Item implements InteractiveObject, Switch {
                             LootChanceCalculator.itemOrWeapon(10),
                             LootChanceCalculator.calculateLootRarityRarestIsLegendary(5, 45)
                     ));
-            this.setGroupName("activated");
         }
 
         @Override

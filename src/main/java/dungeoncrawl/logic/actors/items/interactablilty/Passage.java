@@ -7,12 +7,13 @@ import dungeoncrawl.Main;
 import dungeoncrawl.logic.Cell;
 import dungeoncrawl.logic.actors.items.looting.Item;
 
-public class Passage extends Item implements InteractiveObject, StepOnActivatable {
+public class Passage extends Item implements InteractiveObject, StepOnActivatable, TeleportOnCurrentMap {
 
     private String anotherTileName = "passage";
-    private String groupName;
+    private String pairIdentifier;
     private int destinationX;
     private int destinationY;
+    private boolean paired = false;
 
     private int coordinateX = this.getCell().getX();
     private int coordinateY = this.getCell().getY();
@@ -28,6 +29,11 @@ public class Passage extends Item implements InteractiveObject, StepOnActivatabl
 
     @Override
     public void interact() {
+        Main.getCurrentMap().getPlayer().teleport(destinationX, destinationY);
+    }
+
+    @Override
+    public void activate() {
         Main.getCurrentMap().getPlayer().teleport(destinationX, destinationY);
     }
 
@@ -56,10 +62,6 @@ public class Passage extends Item implements InteractiveObject, StepOnActivatabl
         return this.getCell() == cell;
     }
 
-    public void setGroupName(String groupName) {
-        this.groupName = groupName;
-    }
-
     public int getCoordinateX() {
         return coordinateX;
     }
@@ -84,8 +86,55 @@ public class Passage extends Item implements InteractiveObject, StepOnActivatabl
         this.destinationY = destinationY;
     }
 
-    @Override
-    public void activate() {
-        Main.getCurrentMap().getPlayer().teleport(destinationX, destinationY);
+    public boolean isPaired() {
+        return paired;
     }
+
+    @Override
+    public String getPairIdentifier() {
+        return pairIdentifier;
+    }
+
+    @Override
+    public void setPairIdentifier(String pairIdentifier) {
+        this.pairIdentifier = pairIdentifier;
+    }
+
+    @Override
+    public void setDestinationXY(int x, int y) {
+        this.setDestinationX(x);
+        this.setDestinationY(y);
+    }
+
+    @Override
+    public void assignDestinationCoordinatesOfInput(TeleportOnCurrentMap teleporter) {
+        teleporter.setDestinationXY(super.getX(), super.getY());
+        this.paired = true;
+    }
+
+    /*@Override
+    public boolean isThisFromTheSamePair(String pairIdentifier) {
+        return this.pairIdentifier.equals(pairIdentifier);
+    }
+
+    @Override
+    public boolean isThisNotTheSameCell(Cell cell) {
+        return this.getY() != cell.getY() && this.getX() != cell.getX();
+    }*/
+
+    /*@Override
+    public Cell getTeleporterCellPair(Cell cell) {
+            for (int y = 0; y < Main.getCurrentMap().getHeight(); y++) {
+                for (int x = 0; x < Main.getCurrentMap().getWidth(); x++) {
+                    if (Main.getCurrentMap().getCell(x, y).getItem() instanceof TeleportOnCurrentMap &&
+                            isThisNotTheSameCell(cell) &&
+                            ((TeleportOnCurrentMap) Main.getCurrentMap()
+                                    .getCell(x, y).getItem())
+                                    .isThisFromTheSamePair(((TeleportOnCurrentMap) cell.getItem()).getPairIdentifier())) {
+                        return Main.getCurrentMap().getCell(x, y);
+                    }
+                }
+            }
+        return null;
+    }*/
 }

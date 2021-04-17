@@ -344,6 +344,9 @@ public class Main extends Application {
                 if (getCurrentMap().getPlayer().getCellInFrontOfActor().getItem() instanceof Switch) {
                     System.out.println("InterfaceGroupName: " + ((Switch) getCurrentMap().getPlayer().getCellInFrontOfActor().getItem()).getGroupName());
                 }
+                if (getCurrentMap().getPlayer().getCellInFrontOfActor().getItem() instanceof TeleportOnCurrentMap) {
+                    System.out.println("Cell Pair Coordinates: " + ((TeleportOnCurrentMap) getCurrentMap().getPlayer().getCellInFrontOfActor().getItem()).getPairIdentifier());
+                }
                 break;
             case N:
                 getCurrentMap().getPlayer().getCellInFrontOfActor().setItem(EveryItem.getInstance().getItemRareLoot().get(4));

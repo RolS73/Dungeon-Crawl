@@ -5,7 +5,7 @@ import dungeoncrawl.logic.actors.items.looting.Item;
 
 import java.io.Serializable;
 
-public class Cell implements Drawable, Serializable {
+public class Cell implements Drawable, Serializable, Coordinates {
     private CellType type;
     private Actor actor;
     private Actor item;
@@ -31,21 +31,21 @@ public class Cell implements Drawable, Serializable {
 
     public void setCellType(CellType type) {
         this.type = type;
-        if ((type.equals(CellType.FLOOR) || type.equals(CellType.FLOORNOMONSTER) || type.equals(CellType.OBJECT)) &&  this.gameMap.getMapNumber() == 1) {
+        if ((type.equals(CellType.FLOOR) || type.equals(CellType.FLOORNOMONSTER) || type.equals(CellType.OBJECT)) && this.gameMap.getMapNumber() == 1) {
             this.setNewTypeTileName("forestPath");
-        } else if (type.equals(CellType.WALL) &&  this.gameMap.getMapNumber() == 1) {
+        } else if (type.equals(CellType.WALL) && this.gameMap.getMapNumber() == 1) {
             this.setNewTypeTileName("bushes");
-        } else if (type.equals(CellType.EMPTY) &&  this.gameMap.getMapNumber() == 1) {
+        } else if (type.equals(CellType.EMPTY) && this.gameMap.getMapNumber() == 1) {
             if (this.getNeighbor(0, -1).getCellType() != CellType.EMPTY || this.y == 0) {
                 this.setNewTypeTileName("treeTop");
             } else {
                 this.setNewTypeTileName("trees");
             }
-        } else if ((type.equals(CellType.FLOOR) || type.equals(CellType.FLOORNOMONSTER) || type.equals(CellType.OBJECT)) &&  this.gameMap.getMapNumber() == 2) {
+        } else if ((type.equals(CellType.FLOOR) || type.equals(CellType.FLOORNOMONSTER) || type.equals(CellType.OBJECT)) && this.gameMap.getMapNumber() == 2) {
             this.setNewTypeTileName("floor");
-        } else if (type.equals(CellType.WALL) &&  this.gameMap.getMapNumber() == 2) {
+        } else if (type.equals(CellType.WALL) && this.gameMap.getMapNumber() == 2) {
             this.setNewTypeTileName("palaceWall");
-        } else if (type.equals(CellType.EMPTY) &&  this.gameMap.getMapNumber() == 2) {
+        } else if (type.equals(CellType.EMPTY) && this.gameMap.getMapNumber() == 2) {
             this.setNewTypeTileName("empty");
         }
     }
@@ -72,13 +72,15 @@ public class Cell implements Drawable, Serializable {
     }
 
     public Cell getNeighbor(int dx, int dy) {
-        if(gameMap.getCell(x + dx, y + dy)==null){
-            return gameMap.getCell(x,y);
+        if (gameMap.getCell(x + dx, y + dy) == null) {
+            return gameMap.getCell(x, y);
         }
         return gameMap.getCell(x + dx, y + dy);
     }
 
-    public Cell getQagbmpoibmCell(int xx, int yy){ return gameMap.getCell(xx,yy);}
+    public Cell getQagbmpoibmCell(int xx, int yy) {
+        return gameMap.getCell(xx, yy);
+    }
 
     @Override
     public String getTileName() {

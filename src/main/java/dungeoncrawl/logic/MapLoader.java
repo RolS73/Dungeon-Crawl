@@ -9,6 +9,7 @@ import dungeoncrawl.logic.actors.items.enviromentalHazards.TrapBloody;
 import dungeoncrawl.logic.actors.items.enviromentalHazards.TrapPlain;
 import dungeoncrawl.logic.actors.items.interactablilty.*;
 import dungeoncrawl.logic.actors.items.looting.*;
+import dungeoncrawl.logic.actors.items.looting.loottable.EveryItem;
 import dungeoncrawl.logic.actors.items.mapdecoration.Firestand;
 import dungeoncrawl.logic.actors.monsters.*;
 import dungeoncrawl.logic.actors.npcs.FriendlyWhiteWizard;
@@ -111,6 +112,7 @@ public class MapLoader {
                             cell.setCellType(CellType.OBJECT);
                             GateOpenableByASwitch gate = new GateOpenableByASwitch(cell, "gateOpenableByASwitch");
                             cell.setItem(gate);
+                            setUpCellSettings(cell, lineForSetup, lineForSetupArguments, x);
                             map.interactablesCollection.add(gate);
                             map.GateOpenableByASwitchCollection.add(gate);
                             map.switchablesCollection.add(gate);
@@ -118,12 +120,14 @@ public class MapLoader {
                         case '%':
                             cell.setCellType(CellType.OBJECT);
                             LeverSwitch leverSwitch = new LeverSwitch(cell);
+                            setUpCellSettings(cell, lineForSetup, lineForSetupArguments, x);
                             map.interactablesCollection.add(leverSwitch);
                             map.leverSwitchCollection.add(leverSwitch);
                             break;
                         case '*':
                             cell.setCellType(CellType.WALL);
                             SecretPassage secretPassage = new SecretPassage(cell, 70, 11);
+                            setUpCellSettings(cell, lineForSetup, lineForSetupArguments, x);
                             map.interactablesCollection.add(secretPassage);
                             map.secretPassagesCollection.add(secretPassage);
                             break;
@@ -143,6 +147,7 @@ public class MapLoader {
                         case 'P':
                             cell.setCellType(CellType.FLOOR);
                             Passage passage = new Passage(cell, "Passage");
+                            setUpCellSettings(cell, lineForSetup, lineForSetupArguments, x);
                             map.interactablesCollection.add(passage);
                             map.mapQuickTravelPassages.add(passage);
                             break;
@@ -157,7 +162,7 @@ public class MapLoader {
                         case 'L':
                             cell.setCellType(CellType.FLOOR);
                             Item placedItem = new Life(cell, 2);
-                            //cell.setItem(placedItem);
+                            setUpCellSettings(cell, lineForSetup, lineForSetupArguments, x);
                             map.placedItemsCollection.add(placedItem);
                             break;
                         /*case 'w':
@@ -173,6 +178,7 @@ public class MapLoader {
                         case 'O':
                             cell.setCellType(CellType.OBJECT);
                             DoorSealedFromOtherSide doorSealedFromOtherSide = new DoorSealedFromOtherSide(cell);
+                            doorSealedFromOtherSide.setOpenableFromWhatDirection((Direction) getArgumentForCellFromScannerLine(lineForSetupArguments, x));
                             map.interactablesCollection.add(doorSealedFromOtherSide);
                             map.doorsSealedFromOtherSideCollection.add(doorSealedFromOtherSide);
                             break;
@@ -189,6 +195,7 @@ public class MapLoader {
                         case 'F':
                             cell.setCellType(CellType.OBJECT);
                             TorchPuzzle torchPuzzle = new TorchPuzzle(cell);
+                            setUpCellSettings(cell, lineForSetup, lineForSetupArguments, x);
                             map.interactablesCollection.add(torchPuzzle);
                             map.mapStateSwitchers.add(torchPuzzle);
                             break;
@@ -256,15 +263,15 @@ public class MapLoader {
                         case 'W':
                             cell.setCellType(CellType.WALL);
                             SuspiciousWall suspiciousWall = new SuspiciousWall(cell);
+                            setUpCellSettings(cell, lineForSetup, lineForSetupArguments, x);
                             map.interactablesCollection.add(suspiciousWall);
                             map.suspiciousWallsCollection.add(suspiciousWall);
                             map.switchablesCollection.add(suspiciousWall);
-                            setUpCellSettings(cell, lineForSetup, lineForSetupArguments, x);
                             break;
                         case 'w':
                             cell.setCellType(CellType.WALL);
                             DoorOpenableByASwitch verySuspiciousWall = new DoorOpenableByASwitch(cell, "sealedWall");
-                            //setUpCellSettings(cell, lineForSetup, x);
+                            setUpCellSettings(cell, lineForSetup, lineForSetupArguments, x);
                             map.interactablesCollection.add(verySuspiciousWall);
                             map.doorsOpenableBySwitches.add(verySuspiciousWall);
                             map.switchablesCollection.add(verySuspiciousWall);
@@ -272,14 +279,15 @@ public class MapLoader {
                         case 'h':
                             cell.setCellType(CellType.EMPTY);
                             HiddenPassage hiddenPassage = new HiddenPassage(cell, "hiddenPassage");
+                            setUpCellSettings(cell, lineForSetup, lineForSetupArguments, x);
                             map.interactablesCollection.add(hiddenPassage);
                             map.hiddenPassagesCollection.add(hiddenPassage);
                             map.switchablesCollection.add(hiddenPassage);
-                            setUpCellSettings(cell, lineForSetup, lineForSetupArguments, x);
                             break;
                         case 'H':
                             cell.setCellType(CellType.EMPTY);
                             HiddenItem hiddenItem = new HiddenItem(cell, "hiddenItem");
+                            setUpCellSettings(cell, lineForSetup, lineForSetupArguments, x);
                             map.interactablesCollection.add(hiddenItem);
                             map.hiddenItemsCollection.add(hiddenItem);
                             map.switchablesCollection.add(hiddenItem);
@@ -287,6 +295,7 @@ public class MapLoader {
                         case 'S':
                             cell.setCellType(CellType.FLOOR);
                             HiddenEnemySpawner enemySpawner = new HiddenEnemySpawner(cell, "Monster");
+                            setUpCellSettings(cell, lineForSetup, lineForSetupArguments, x);
                             map.interactablesCollection.add(enemySpawner);
                             map.hiddenEnemySpawnersCollection.add(enemySpawner);
                             map.switchablesCollection.add(enemySpawner);
@@ -297,7 +306,24 @@ public class MapLoader {
                 }
             }
         }
+        setUpTeleportPairs(map);
         return map;
+    }
+
+    private static void setUpTeleportPairs(GameMap map) {
+        for (int i = 0; i < map.getMapQuickTravelPassages().size(); i++) {
+            for (int j = 0; j < map.getMapQuickTravelPassages().size(); j++) {
+                Passage teleporter1 = map.getMapQuickTravelPassages().get(i);
+                Passage teleporter2 = map.getMapQuickTravelPassages().get(j);
+                if (teleporter1.getPairIdentifier()
+                        .equals(teleporter2.getPairIdentifier())
+                        && teleporter1.getCoordinateX() != teleporter2.getCoordinateX() &&
+                teleporter1.getCoordinateY() != teleporter2.getCoordinateX() && !(teleporter1.isPaired()) && !(teleporter2.isPaired())) {
+                    teleporter1.assignDestinationCoordinatesOfInput(teleporter2);
+                    teleporter2.assignDestinationCoordinatesOfInput(teleporter1);
+                }
+            }
+        }
     }
 
     public static void setUpCellSettings(Cell cell, String lineForSetup, String lineForSetupArguments, int x) {
@@ -316,6 +342,23 @@ public class MapLoader {
             case 'G':
                 if (cell.getItem() instanceof Switch) {
                     ((Switch) cell.getItem()).setGroupName("Group1" + lineForSetupArguments.charAt(x));
+                }
+                break;
+            case 'C':
+                if (cell.getItem() instanceof Chest) {
+                    ((Chest) cell.getItem()).setAnotherTilename("chest" + lineForSetupArguments.charAt(x));
+                }
+                break;
+            case 'i':
+                if (lineForSetupArguments.charAt(x) == '2') {
+                    cell.setItem(EveryItem.getInstance().getItemRareLoot().get(2));
+                } else if (lineForSetupArguments.charAt(x) == '3') {
+                    cell.setItem(EveryItem.getInstance().getItemRareLoot().get(3));
+                }
+                break;
+            case 'p':
+                if (cell.getItem() instanceof TeleportOnCurrentMap) {
+                    ((TeleportOnCurrentMap) cell.getItem()).setPairIdentifier("Passage" + lineForSetupArguments.charAt(x));
                 }
                 break;
             default:
