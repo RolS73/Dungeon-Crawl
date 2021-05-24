@@ -66,9 +66,9 @@ public class Main extends Application {
 
         setupDbManager(); //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< THIS IS NEW!
         
-        if (maps.getCurrentMapIndex() == 0) {
+        /*if (maps.getCurrentMapIndex() == 0) {
             SetInteractableItems.setStuff(0); //Map1 interactables
-        }
+        }*/
 
         BorderPane borderPane = new BorderPane();
         Scene scene = new Scene(borderPane);

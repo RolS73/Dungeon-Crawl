@@ -33,7 +33,7 @@ public class TorchPuzzle extends Item implements InteractiveObject, Switch {
                 Main.getCurrentMap().getSwitchablesCollection()
                         .stream()
                         .filter(x -> x.getGroupName() != null)
-                        .filter(x -> x.isThisFromTheSameGroup("hiddenRoomGroup"))
+                        .filter(x -> x.isThisFromTheSameGroup("Group18"))
                         .forEach(InteractiveObject::interact);
             }
         }

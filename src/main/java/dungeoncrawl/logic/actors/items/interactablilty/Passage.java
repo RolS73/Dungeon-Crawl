@@ -7,27 +7,30 @@ import dungeoncrawl.Main;
 import dungeoncrawl.logic.Cell;
 import dungeoncrawl.logic.actors.items.looting.Item;
 
-public class Passage extends Item implements InteractiveObject, StepOnActivatable {
+public class Passage extends Item implements InteractiveObject, StepOnActivatable, TeleportOnCurrentMap {
 
     private String anotherTileName = "passage";
-    private String groupName;
+    private String pairIdentifier;
     private int destinationX;
     private int destinationY;
+    private boolean paired = false;
 
-    private int coordinateX = this.getCell().getX();
-    private int coordinateY = this.getCell().getY();
-
-
-    public Passage(String name) {
-        super(name);
-    }
+    private int coordinateX;
+    private int coordinateY;
 
     public Passage(Cell cell, String name) {
         super(cell, name);
+        coordinateX = cell.getX();
+        coordinateY = cell.getY();
     }
 
     @Override
     public void interact() {
+        Main.getCurrentMap().getPlayer().teleport(destinationX, destinationY);
+    }
+
+    @Override
+    public void activate() {
         Main.getCurrentMap().getPlayer().teleport(destinationX, destinationY);
     }
 
@@ -56,10 +59,6 @@ public class Passage extends Item implements InteractiveObject, StepOnActivatabl
         return this.getCell() == cell;
     }
 
-    public void setGroupName(String groupName) {
-        this.groupName = groupName;
-    }
-
     public int getCoordinateX() {
         return coordinateX;
     }
@@ -84,8 +83,22 @@ public class Passage extends Item implements InteractiveObject, StepOnActivatabl
         this.destinationY = destinationY;
     }
 
+    public boolean isPaired() {
+        return paired;
+    }
+
+    public String getPairIdentifier() {
+        return this.pairIdentifier;
+    }
+
     @Override
-    public void activate() {
-        Main.getCurrentMap().getPlayer().teleport(destinationX, destinationY);
+    public void setPairIdentifier(String pairIdentifier) {
+        this.pairIdentifier = pairIdentifier;
+    }
+
+    @Override
+    public void setDestinationXY(int x, int y) {
+        this.setDestinationX(x);
+        this.setDestinationY(y);
     }
 }

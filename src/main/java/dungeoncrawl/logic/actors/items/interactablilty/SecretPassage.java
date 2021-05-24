@@ -7,18 +7,22 @@ import dungeoncrawl.logic.CellType;
 import dungeoncrawl.logic.actors.Sounds;
 import dungeoncrawl.logic.actors.items.looting.Item;
 
-public class SecretPassage extends Item implements InteractiveObject, StepOnActivatable {
+public class SecretPassage extends Item implements InteractiveObject, StepOnActivatable, TeleportOnCurrentMap {
 
     private String anotherTileName = this.getCell().getTileName();
     private boolean isAlreadyOpened;
     private int destinationX;
     private int destinationY;
+    private String pairIdentifier;
 
-    public SecretPassage(Cell cell, int destinationX, int destinationY) {
+    private final int coordinateX;
+    private final int coordinateY;
+
+    public SecretPassage(Cell cell) {
         super(cell, "Path to Secrets");
         isAlreadyOpened = false;
-        this.destinationX = destinationX;
-        this.destinationY = destinationY;
+        coordinateX = cell.getX();
+        coordinateY = cell.getY();
     }
 
     @Override
@@ -29,14 +33,6 @@ public class SecretPassage extends Item implements InteractiveObject, StepOnActi
           this.getCell().setCellType(CellType.FLOOR);
           isAlreadyOpened = true;
       }
-    }
-
-    public boolean isAlreadyOpened() {
-        return isAlreadyOpened;
-    }
-
-    public void setAlreadyOpened(boolean alreadyOpened) {
-        isAlreadyOpened = alreadyOpened;
     }
 
     @Override
@@ -73,6 +69,50 @@ public class SecretPassage extends Item implements InteractiveObject, StepOnActi
         Sounds.playSound("Move5");
         Main.getCurrentMap().getPlayer().teleport(destinationX, destinationY);
 
+    }
+
+    public void setDestinationX(int destinationX) {
+        this.destinationX = destinationX;
+    }
+
+    public void setDestinationY(int destinationY) {
+        this.destinationY = destinationY;
+    }
+
+    @Override
+    public String getPairIdentifier() {
+        return pairIdentifier;
+    }
+
+    @Override
+    public void setPairIdentifier(String pairIdentifier) {
+        this.pairIdentifier = pairIdentifier;
+    }
+
+    @Override
+    public void setDestinationXY(int x, int y) {
+        this.setDestinationX(x);
+        this.setDestinationY(y);
+    }
+
+    @Override
+    public int getDestinationX() {
+        return destinationX;
+    }
+
+    @Override
+    public int getDestinationY() {
+        return destinationY;
+    }
+
+    @Override
+    public int getCoordinateX() {
+        return coordinateX;
+    }
+
+    @Override
+    public int getCoordinateY() {
+        return coordinateY;
     }
 }
 

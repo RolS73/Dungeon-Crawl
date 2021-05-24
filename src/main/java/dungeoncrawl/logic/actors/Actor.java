@@ -8,7 +8,7 @@ import dungeoncrawl.logic.actors.npcs.NonPlayerCharacter;
 
 import java.io.Serializable;
 
-public abstract class Actor implements Drawable, Serializable {
+public abstract class Actor implements Drawable, Serializable, EntityOrientation {
     private transient Cell cell;
     private int health = 10;
     private int attackPower = 1;
@@ -20,6 +20,7 @@ public abstract class Actor implements Drawable, Serializable {
     private int armor = 0;
     private String[] attackSoundFiles = new String[]{"genericSwing"};
     private String[] hitSoundFiles = new String[]{"DSdamage1"};
+    private Direction directionOfEntity = Direction.DOWN;
 
     public Actor() {
     }
@@ -177,6 +178,12 @@ public abstract class Actor implements Drawable, Serializable {
         this.setCell(nextCell);
     }
 
+    public void teleportActorToCell(Cell nextCell) {
+        nextCell.setActor(this);
+        this.getCell().setActor(null);
+        this.setCell(nextCell);
+    }
+
     public void playDeathSound() {
     }
 
@@ -217,5 +224,9 @@ public abstract class Actor implements Drawable, Serializable {
         Sounds.playSound("kill1");
         playDeathSound();
         this.getCell().setActor(null);
+    }
+
+    public void setDirection(Direction direction) {
+        directionOfEntity = direction;
     }
 }

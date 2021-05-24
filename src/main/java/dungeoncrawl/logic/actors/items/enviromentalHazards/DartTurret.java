@@ -3,9 +3,10 @@ package dungeoncrawl.logic.actors.items.enviromentalHazards;
 import dungeoncrawl.Main;
 import dungeoncrawl.logic.Cell;
 import dungeoncrawl.logic.Direction;
+import dungeoncrawl.logic.EntityOrientation;
 import dungeoncrawl.logic.actors.items.looting.Item;
 
-public class DartTurret extends Item implements TrapCycle {
+public class DartTurret extends Item implements TrapCycle, EntityOrientation {
 
     private int currentCooldownCount;
     private final int cooldownMax;
