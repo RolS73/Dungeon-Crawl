@@ -70,9 +70,9 @@ public class Main extends Application {
         
         setupDbManager(); //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< THIS IS NEW!
         
-        if (maps.getCurrentMapIndex() == 0) {
+        /*if (maps.getCurrentMapIndex() == 0) {
             SetInteractableItems.setStuff(0); //Map1 interactables
-        }
+        }*/
 
         BorderPane borderPane = new BorderPane();
         Scene scene = new Scene(borderPane);
@@ -345,6 +345,7 @@ public class Main extends Application {
                     System.out.println("InterfaceGroupName: " + ((Switch) getCurrentMap().getPlayer().getCellInFrontOfActor().getItem()).getGroupName());
                 }
                 if (getCurrentMap().getPlayer().getCellInFrontOfActor().getItem() instanceof TeleportOnCurrentMap) {
+                    TeleportOnCurrentMap targetEntity = (TeleportOnCurrentMap) getCurrentMap().getPlayer().getCellInFrontOfActor().getItem();
                     System.out.println("Cell Pair Coordinates: " + ((TeleportOnCurrentMap) getCurrentMap().getPlayer().getCellInFrontOfActor().getItem()).getPairIdentifier());
                 }
                 break;

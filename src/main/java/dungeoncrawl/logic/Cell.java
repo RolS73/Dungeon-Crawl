@@ -5,7 +5,7 @@ import dungeoncrawl.logic.actors.items.looting.Item;
 
 import java.io.Serializable;
 
-public class Cell implements Drawable, Serializable, Coordinates {
+public class Cell implements Drawable, Serializable {
     private CellType type;
     private Actor actor;
     private Actor item;

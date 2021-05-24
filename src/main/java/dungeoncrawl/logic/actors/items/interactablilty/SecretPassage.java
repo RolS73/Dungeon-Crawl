@@ -14,13 +14,15 @@ public class SecretPassage extends Item implements InteractiveObject, StepOnActi
     private int destinationX;
     private int destinationY;
     private String pairIdentifier;
-    private boolean paired = false;
 
-    public SecretPassage(Cell cell, int destinationX, int destinationY) {
+    private final int coordinateX;
+    private final int coordinateY;
+
+    public SecretPassage(Cell cell) {
         super(cell, "Path to Secrets");
         isAlreadyOpened = false;
-        this.destinationX = destinationX;
-        this.destinationY = destinationY;
+        coordinateX = cell.getX();
+        coordinateY = cell.getY();
     }
 
     @Override
@@ -31,14 +33,6 @@ public class SecretPassage extends Item implements InteractiveObject, StepOnActi
           this.getCell().setCellType(CellType.FLOOR);
           isAlreadyOpened = true;
       }
-    }
-
-    public boolean isAlreadyOpened() {
-        return isAlreadyOpened;
-    }
-
-    public void setAlreadyOpened(boolean alreadyOpened) {
-        isAlreadyOpened = alreadyOpened;
     }
 
     @Override
@@ -85,8 +79,6 @@ public class SecretPassage extends Item implements InteractiveObject, StepOnActi
         this.destinationY = destinationY;
     }
 
-
-
     @Override
     public String getPairIdentifier() {
         return pairIdentifier;
@@ -114,9 +106,13 @@ public class SecretPassage extends Item implements InteractiveObject, StepOnActi
     }
 
     @Override
-    public void assignDestinationCoordinatesOfInput(TeleportOnCurrentMap destination) {
-        destination.setDestinationXY(super.getX(), super.getY());
-        this.paired = true;
+    public int getCoordinateX() {
+        return coordinateX;
+    }
+
+    @Override
+    public int getCoordinateY() {
+        return coordinateY;
     }
 }
 

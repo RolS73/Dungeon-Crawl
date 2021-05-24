@@ -47,7 +47,7 @@ public class GameMap implements Serializable {
     List<HiddenEnemySpawner> hiddenEnemySpawnersCollection = new ArrayList<>();
     List<Item> placedItemsCollection = new ArrayList<>();
     List<Switch> mapStateSwitchers = new ArrayList<>();
-    List<Passage> mapQuickTravelPassages = new ArrayList<>();
+    List<TeleportOnCurrentMap> mapQuickTravelPassages = new ArrayList<>();
     List<SecretPassage> secretPassagesCollection = new ArrayList<>();
     List<NonPlayerCharacter> actorsCollection = new ArrayList<>();
     List<LockedDoor> lockedDoorsCollection = new ArrayList<>();
@@ -98,7 +98,7 @@ public class GameMap implements Serializable {
         return mapStateSwitchers;
     }
 
-    public List<Passage> getMapQuickTravelPassages() {
+    public List<TeleportOnCurrentMap> getMapQuickTravelPassages() {
         return mapQuickTravelPassages;
     }
 

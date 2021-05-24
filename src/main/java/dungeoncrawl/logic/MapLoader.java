@@ -126,10 +126,12 @@ public class MapLoader {
                             break;
                         case '*':
                             cell.setCellType(CellType.WALL);
-                            SecretPassage secretPassage = new SecretPassage(cell, 70, 11);
+                            SecretPassage secretPassage = new SecretPassage(cell);
                             setUpCellSettings(cell, lineForSetup, lineForSetupArguments, x);
                             map.interactablesCollection.add(secretPassage);
-                            map.secretPassagesCollection.add(secretPassage);
+                            //map.secretPassagesCollection.add(secretPassage);
+                            map.mapQuickTravelPassages.add(secretPassage);
+
                             break;
                         case 'j':
                             cell.setCellType(CellType.FLOOR);
@@ -165,10 +167,6 @@ public class MapLoader {
                             setUpCellSettings(cell, lineForSetup, lineForSetupArguments, x);
                             map.placedItemsCollection.add(placedItem);
                             break;
-                        /*case 'w':
-                            cell.setCellType(CellType.FLOOR);
-                            new Weapon(cell, "Skelie Choppa", 5);
-                            break;*/
                         case 'D':
                             cell.setCellType(CellType.OBJECT);
                             LockedDoor lockedDoor = new LockedDoor(cell);
@@ -221,9 +219,6 @@ public class MapLoader {
                             map.actorsCollection.add(friendlyWhiteWizard);
                             map.interactablesCollection.add(friendlyWhiteWizard);
                             break;
-                        /*case '§':
-                            cell.setCellType(CellType.FIRESTAND);
-                            break;*/
                         case 'm':
                             cell.setCellType(CellType.FLOOR);
                             NonPlayerCharacter dwarf = new NonPlayerCharacter(cell);
@@ -313,14 +308,17 @@ public class MapLoader {
     private static void setUpTeleportPairs(GameMap map) {
         for (int i = 0; i < map.getMapQuickTravelPassages().size(); i++) {
             for (int j = 0; j < map.getMapQuickTravelPassages().size(); j++) {
-                Passage teleporter1 = map.getMapQuickTravelPassages().get(i);
-                Passage teleporter2 = map.getMapQuickTravelPassages().get(j);
-                if (teleporter1.getPairIdentifier()
-                        .equals(teleporter2.getPairIdentifier())
-                        && teleporter1.getCoordinateX() != teleporter2.getCoordinateX() &&
-                teleporter1.getCoordinateY() != teleporter2.getCoordinateX() && !(teleporter1.isPaired()) && !(teleporter2.isPaired())) {
-                    teleporter1.assignDestinationCoordinatesOfInput(teleporter2);
-                    teleporter2.assignDestinationCoordinatesOfInput(teleporter1);
+                TeleportOnCurrentMap processedTeleporter1 = map.getMapQuickTravelPassages().get(i);
+                TeleportOnCurrentMap processedTeleporter2 = map.getMapQuickTravelPassages().get(j);
+
+                if (processedTeleporter1 != processedTeleporter2 && processedTeleporter1.getPairIdentifier() != null &&
+                        processedTeleporter2.getPairIdentifier() != null && processedTeleporter1.isPair(processedTeleporter2)
+                        && !(processedTeleporter1.equals(processedTeleporter2))) {
+
+                    processedTeleporter1.setDestinationXY(processedTeleporter2.getCoordinateX(), processedTeleporter2.getCoordinateY());
+                    processedTeleporter2.setDestinationXY(processedTeleporter1.getCoordinateX(), processedTeleporter1.getCoordinateY());
+
+                    break;
                 }
             }
         }

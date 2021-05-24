@@ -15,16 +15,13 @@ public class Passage extends Item implements InteractiveObject, StepOnActivatabl
     private int destinationY;
     private boolean paired = false;
 
-    private int coordinateX = this.getCell().getX();
-    private int coordinateY = this.getCell().getY();
-
-
-    public Passage(String name) {
-        super(name);
-    }
+    private int coordinateX;
+    private int coordinateY;
 
     public Passage(Cell cell, String name) {
         super(cell, name);
+        coordinateX = cell.getX();
+        coordinateY = cell.getY();
     }
 
     @Override
@@ -90,9 +87,8 @@ public class Passage extends Item implements InteractiveObject, StepOnActivatabl
         return paired;
     }
 
-    @Override
     public String getPairIdentifier() {
-        return pairIdentifier;
+        return this.pairIdentifier;
     }
 
     @Override
@@ -105,36 +101,4 @@ public class Passage extends Item implements InteractiveObject, StepOnActivatabl
         this.setDestinationX(x);
         this.setDestinationY(y);
     }
-
-    @Override
-    public void assignDestinationCoordinatesOfInput(TeleportOnCurrentMap teleporter) {
-        teleporter.setDestinationXY(super.getX(), super.getY());
-        this.paired = true;
-    }
-
-    /*@Override
-    public boolean isThisFromTheSamePair(String pairIdentifier) {
-        return this.pairIdentifier.equals(pairIdentifier);
-    }
-
-    @Override
-    public boolean isThisNotTheSameCell(Cell cell) {
-        return this.getY() != cell.getY() && this.getX() != cell.getX();
-    }*/
-
-    /*@Override
-    public Cell getTeleporterCellPair(Cell cell) {
-            for (int y = 0; y < Main.getCurrentMap().getHeight(); y++) {
-                for (int x = 0; x < Main.getCurrentMap().getWidth(); x++) {
-                    if (Main.getCurrentMap().getCell(x, y).getItem() instanceof TeleportOnCurrentMap &&
-                            isThisNotTheSameCell(cell) &&
-                            ((TeleportOnCurrentMap) Main.getCurrentMap()
-                                    .getCell(x, y).getItem())
-                                    .isThisFromTheSamePair(((TeleportOnCurrentMap) cell.getItem()).getPairIdentifier())) {
-                        return Main.getCurrentMap().getCell(x, y);
-                    }
-                }
-            }
-        return null;
-    }*/
 }
