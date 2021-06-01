@@ -7,6 +7,7 @@ import dungeoncrawl.logic.actors.items.looting.Breakable;
 import dungeoncrawl.logic.actors.npcs.NonPlayerCharacter;
 
 import java.io.Serializable;
+import java.util.HashMap;
 
 public abstract class Actor implements Drawable, Serializable, EntityOrientation {
     private transient Cell cell;
@@ -20,7 +21,9 @@ public abstract class Actor implements Drawable, Serializable, EntityOrientation
     private int armor = 0;
     private String[] attackSoundFiles = new String[]{"genericSwing"};
     private String[] hitSoundFiles = new String[]{"DSdamage1"};
+    private String deathSoundFile = "genericBloodSplashDeath2";
     private Direction directionOfEntity = Direction.DOWN;
+    private HashMap<Direction, String> actorDirectionalSprites = new HashMap<>();
 
     public Actor() {
     }
@@ -96,6 +99,21 @@ public abstract class Actor implements Drawable, Serializable, EntityOrientation
         CombatEvent combatEvent = new CombatEvent(this, nextCell.getActor());
         combatEvent.attack();
         Main.getUI().getCombatEvents().add(combatEvent);
+    }
+
+    protected void fillDirectionalSpritesMap(String up, String down, String left, String right) {
+        actorDirectionalSprites.put(Direction.UP, up);
+        actorDirectionalSprites.put(Direction.DOWN, down);
+        actorDirectionalSprites.put(Direction.LEFT, left);
+        actorDirectionalSprites.put(Direction.RIGHT, right);
+    }
+
+    public HashMap<Direction, String> getActorDirectionalSprites() {
+        return actorDirectionalSprites;
+    }
+
+    public String getActorDirectionalSpriteByDirection(Direction direction) {
+        return actorDirectionalSprites.get(direction);
     }
 
     protected void setCellInFrontOfActor(Cell cell) {
@@ -185,6 +203,11 @@ public abstract class Actor implements Drawable, Serializable, EntityOrientation
     }
 
     public void playDeathSound() {
+        Sounds.playSound(deathSoundFile);
+    }
+
+    public void setDeathSoundFile(String fileName) {
+        this.deathSoundFile = fileName;
     }
 
     public int getArmor() {
@@ -198,6 +221,10 @@ public abstract class Actor implements Drawable, Serializable, EntityOrientation
     public String setAttackSoundFile(String[] attackSoundFiles) {
         int i = RandomGenerator.nextInt(attackSoundFiles.length);
         return attackSoundFiles[i];
+    }
+
+    public String getDeathSoundFile() {
+        return deathSoundFile;
     }
 
     public String[] getAttackSoundFiles() {
