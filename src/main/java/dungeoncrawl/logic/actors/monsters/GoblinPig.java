@@ -16,7 +16,7 @@ public class GoblinPig extends Monster {
 
     public GoblinPig(Cell cell) {
         super(cell);
-        super.movementType = MonsterMovementType.PATROL;
+        this.setMovementType(MonsterMovementType.PATROL);
         this.setAttackPower(3);
         this.setHealth(15);
         this.setAttackSoundFiles(new String[] {"goblin1", "goblin2"});

@@ -6,7 +6,7 @@ public enum CellType {
     FLOORNOMONSTER("floor"),
     OBJECT("floor"),
     WALL("wall"),
-    FIRESTAND("firestand"),
+    //FIRESTAND("firestand"),
     BOSSFLOOR("bossfloor"),
     STUNNER("stunner");
 

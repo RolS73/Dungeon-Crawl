@@ -18,7 +18,7 @@ public class Skeleton extends Monster {
 
     public Skeleton(Cell cell) {
         super(cell);
-        super.movementType = MonsterMovementType.PATROL;
+        this.setMovementType(MonsterMovementType.PATROL);
         this.setAttackPower(2);
         this.setHealth(10);
         this.setAttackSoundFiles(new String[] {"ZombieAttack2", "ZombieAttack1"});

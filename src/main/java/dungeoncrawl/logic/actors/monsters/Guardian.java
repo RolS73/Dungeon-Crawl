@@ -17,7 +17,7 @@ public class Guardian extends Monster {
 
     public Guardian(Cell cell) {
         super(cell);
-        super.movementType = MonsterMovementType.GUARD;
+        this.setMovementType(MonsterMovementType.GUARD);
         this.setAttackPower(9);
         this.setHealth(20);
         this.setAttackSoundFiles(new String[] {"guardianAttack1", "guardianAttack2"});

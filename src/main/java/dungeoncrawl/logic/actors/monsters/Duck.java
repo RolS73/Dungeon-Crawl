@@ -17,7 +17,7 @@ public class Duck extends Monster {
 
     public Duck(Cell cell) {
         super(cell);
-        super.movementType = MonsterMovementType.PATROL;
+        this.setMovementType(MonsterMovementType.PATROL);
         this.setAttackPower(1);
         this.setHealth(1);
         this.setAttackSoundFiles(new String[] {"duck1", "duck2", "duck1", "duck2", "duck1", "duck2", "duck1", "duck2",

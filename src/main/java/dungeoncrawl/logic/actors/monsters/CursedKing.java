@@ -12,7 +12,7 @@ public class CursedKing extends Monster {
 
     public CursedKing(Cell cell) {
         super(cell);
-        super.movementType = MonsterMovementType.GUARD;
+        this.setMovementType(MonsterMovementType.GUARD);
         this.setAttackPower(10);
         this.setHealth(999);
         this.setAttackSoundFiles(new String[] {"Sword1"}); //PLACEHOLDER

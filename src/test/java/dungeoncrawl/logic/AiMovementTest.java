@@ -1,7 +1,6 @@
 package dungeoncrawl.logic;
 
 import dungeoncrawl.logic.actors.Player;
-import com.codecool.dungeoncrawl.logic.actors.monsters.*;
 import dungeoncrawl.logic.actors.monsters.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;

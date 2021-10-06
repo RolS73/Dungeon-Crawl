@@ -18,7 +18,7 @@ public class TheThing  extends Monster {
 
     public TheThing(Cell cell) {
         super(cell);
-        super.movementType = MonsterMovementType.PATROL;
+        this.setMovementType(MonsterMovementType.PATROL);
         this.setAttackPower(3);
         this.setHealth(8);
         this.setAttackSoundFiles(new String[] {"spectre1", "spectre2"});

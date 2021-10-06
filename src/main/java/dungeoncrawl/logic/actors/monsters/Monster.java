@@ -106,9 +106,17 @@ public abstract class Monster extends Actor {
         rollForMonsterLoot();
     }
 
-    enum MonsterMovementType {
+    public enum MonsterMovementType {
         PATROL,
         GUARD
+    }
+
+    public MonsterMovementType getMovementType() {
+        return movementType;
+    }
+
+    public void setMovementType(MonsterMovementType movementType) {
+        this.movementType = movementType;
     }
 
     public String getTileName() {

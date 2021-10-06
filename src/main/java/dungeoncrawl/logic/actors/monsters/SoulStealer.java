@@ -9,7 +9,7 @@ public class SoulStealer extends Monster {
 
     public SoulStealer(Cell cell) {
         super(cell);
-        movementType = MonsterMovementType.PATROL;
+        this.setMovementType(MonsterMovementType.PATROL);
         this.setAttackPower(6);
         this.setHealth(6 * 6 + 6);
         this.setAttackSoundFiles(new String[] {"genericSwing"}); //PLACEHOLDER
@@ -17,5 +17,6 @@ public class SoulStealer extends Monster {
         fillDirectionalSpritesMap("soulStealerU", "soulStealerD", "soulStealerL", "soulStealerR");
         super.name = getActorDirectionalSpriteByDirection(Direction.DOWN);
     }
+
 }
 
